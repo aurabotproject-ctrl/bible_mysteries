@@ -60,6 +60,21 @@ investigate/
     └── gridgen.py               crossword grid generator
 ```
 
+## Reading levels
+
+Every case is written once, at **medium** — the Year 7-8 voice. A case may also
+have an **easy** pack: `src/part_caseN.easy.js`, carrying nothing but
+replacement wording keyed by the same ids. Same evidence, same reasoning, same
+lock codes and keywords, shorter sentences — aimed at 10-11 year olds.
+
+A switch in the top bar (and on the case shelf) flips between them. The choice
+is remembered on the device and applies to the printed pack too, so a class can
+run both levels side by side and still be solving one case.
+
+To add one: write `src/part_caseN.easy.js` ending in
+`registerEasy("<id>", EASY_JMxx);`, add it to `EASY_FILES` in `build.py`, and
+rebuild. Cases with no pack simply stay at medium and their switch is hidden.
+
 ## Deploying to GitHub Pages
 
 **The repo root must contain an `index.html`.** That is the whole trick — GitHub

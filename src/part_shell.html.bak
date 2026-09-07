@@ -10,11 +10,6 @@
     <button class="tbtn" id="btnBible">📖 Bible</button>
     <button class="tbtn" id="btnSheet">🖨 Sheet</button>
     <button class="tbtn" id="btnNotes">📝 Notes</button>
-    <div class="lvl" id="lvlBar" title="Reading level — the same case, in plainer words">
-      <span class="lvl-cap">Reading</span>
-      <button class="lvl-b" data-lvl="easy">Easy</button>
-      <button class="lvl-b" data-lvl="medium">Medium</button>
-    </div>
     <button class="tbtn" id="btnMenu">☰</button>
   </div>
   <div id="stage">

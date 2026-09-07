@@ -42,10 +42,6 @@ ROOT = os.path.dirname(HERE)                 # the /investigate folder
 PARTS   = ['part_style.html', 'part_css_extra.css', 'part_shell.html']
 SCRIPTS = ['part_assets.js', 'part_registry.js', 'part_bible.js',
            'part_print.js', 'part_engine.js']
-# Easy-level wording packs. One per case that has one; a case with no entry
-# here simply stays at the medium reading level.
-EASY_FILES = {'jm20': 'part_case20.easy.js'}
-
 CASE_FILES = ['part_case1.js', 'part_case2.js', 'part_case3.js', 'part_case4.js',
               'part_case5.js', 'part_case6.js', 'part_case7.js',
               'part_case8.js', 'part_case9.js', 'part_case10.js',
@@ -171,33 +167,6 @@ def main():
             sys.exit('%s: must end with registerCase(CASE_JMxx);' % n)
     stubs = [stub_of(n, s) for n, s in cases]
 
-    # ---- easy-level wording packs -------------------------------------
-    easy = {}
-    for cid, fname in sorted(EASY_FILES.items()):
-        path = os.path.join(HERE, fname)
-        if not os.path.exists(path):
-            sys.exit('%s: listed in EASY_FILES but not on disk' % fname)
-        src = read(fname)
-        if ('registerEasy("%s"' % cid) not in src and ("registerEasy('%s'" % cid) not in src:
-            sys.exit('%s: must end with registerEasy("%s", ...);' % (fname, cid))
-        easy[cid] = src
-    known = {s['id'] for s in stubs}
-    for cid in easy:
-        if cid not in known:
-            sys.exit('EASY_FILES names %s, which is not a case on the shelf' % cid)
-
-    # The shelf draws teasers before any case is fetched, so the couple of
-    # strings it needs travel in the page itself rather than in the pack.
-    easy_stubs = {}
-    for cid, src in easy.items():
-        picked = {}
-        for key in ('teaser', 'introSub'):
-            m = re.search(r'\b%s\s*:\s*"((?:[^"\\]|\\.)*)"' % key, src)
-            if m:
-                picked[key] = m.group(1).encode().decode('unicode_escape')
-        if picked:
-            easy_stubs[cid] = picked
-
     ids = [s['id'] for s in stubs]
     if len(set(ids)) != len(ids):
         sys.exit('two cases share an id: ' + ', '.join(ids))
@@ -217,13 +186,9 @@ def main():
         for name in SCRIPTS:
             s = read(name)
             if name == 'part_registry.js':
-                s = (s.replace('__CASE_STUBS__',
-                               json.dumps(shelf if shelf is not None else stubs,
-                                          ensure_ascii=False))
-                      .replace('__EASY_AVAILABLE__',
-                               json.dumps(sorted(easy), ensure_ascii=False))
-                      .replace('__EASY_STUBS__',
-                               json.dumps(easy_stubs, ensure_ascii=False)))
+                s = s.replace('__CASE_STUBS__',
+                              json.dumps(shelf if shelf is not None else stubs,
+                                         ensure_ascii=False))
             tags.append("<script>\n" + s + "\n</script>")
             if name == 'part_registry.js' and case_tags:
                 tags.append(case_tags)
@@ -247,8 +212,7 @@ def main():
                      base64.b64encode(gzip.compress(f.read(), 9)).decode() + '";</script>\n')
 
     # 2. the offline single file — cases, images and the Bible all inlined
-    case_tags = "\n".join(["<script>\n" + s + "\n</script>" for _, s in cases] +
-                          ["<script>\n" + easy[c] + "\n</script>" for c in sorted(easy)])
+    case_tags = "\n".join("<script>\n" + s + "\n</script>" for _, s in cases)
     inline = swap(assemble(case_tags), lambda n: b64[n])
 
     os.makedirs(STANDALONE, exist_ok=True)
@@ -267,10 +231,7 @@ def main():
     os.makedirs(SINGLE, exist_ok=True)
     single_sizes = []
     for stub, (_, src) in zip(stubs, cases):
-        one = "<script>\n" + src + "\n</script>"
-        if stub['id'] in easy:
-            one += "\n<script>\n" + easy[stub['id']] + "\n</script>"
-        body = assemble(one, shelf=[stub])
+        body = assemble("<script>\n" + src + "\n</script>", shelf=[stub])
         # part_assets.js carries every case's poster, so without this each single
         # file would drag in all eighteen of them. Only this case's artwork is
         # inlined; the other slots get a 1x1 placeholder nothing ever draws.
@@ -291,9 +252,6 @@ def main():
         f.write(wrap(swap(main_bundle, lambda n: 'images/%s.jpg' % n)))
     for stub, (_, src) in zip(stubs, cases):
         with open(os.path.join(DIST, 'cases', stub['id'] + '.js'), 'w', encoding='utf-8') as f:
-            f.write(swap(src, lambda n: 'images/%s.jpg' % n))
-    for cid, src in easy.items():
-        with open(os.path.join(DIST, 'cases', cid + '.easy.js'), 'w', encoding='utf-8') as f:
             f.write(swap(src, lambda n: 'images/%s.jpg' % n))
     for n in NAMES:
         shutil.copy(os.path.join(IMAGES, n + '.jpg'), os.path.join(DIST, 'images', n + '.jpg'))
@@ -326,9 +284,6 @@ def main():
           % kb(os.path.join(STANDALONE, 'index.html')))
     print('    -> the whole shelf offline. Too big for the web uploader (25 MB);')
     print('       push it with git, or use single/ instead.')
-    print()
-    print('  reading levels: medium everywhere; easy written for %s'
-          % (', '.join(sorted(easy)) if easy else 'no cases yet'))
     print()
     print('  %d cases on the shelf: %s' % (len(stubs), ', '.join(s['code'] for s in stubs)))
 

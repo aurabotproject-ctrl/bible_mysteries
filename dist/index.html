@@ -838,6 +838,35 @@ tr.ppmxf td{background:#efe9dc}
 .scstone:hover{background:#f6ecd6;border-color:var(--accent)}
 .scstone.in{background:#e6efd9;border-color:#9db183}
 .scstone.in::after{content:" \2715";opacity:.5;font-size:11px}
+
+/* ---------- reading-level switch ---------- */
+.lvl{
+  display:inline-flex;align-items:center;gap:0;
+  background:#2c2119;border:1px solid #55432f;border-radius:8px;
+  padding:3px;overflow:hidden;
+}
+.lvl-cap{
+  font-size:10px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;
+  color:#9c8763;padding:0 8px 0 5px;white-space:nowrap;
+}
+.lvl-b{
+  background:transparent;border:0;color:#c9b894;
+  font:inherit;font-size:12px;font-weight:700;letter-spacing:.02em;
+  padding:5px 11px;border-radius:6px;cursor:pointer;transition:.15s;
+}
+.lvl-b:hover{color:#f0e2c6;background:#3f3125}
+.lvl-b.on{
+  background:var(--brass);color:#241a10;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.35), 0 1px 3px rgba(0,0,0,.35);
+}
+.shelf-lvl{justify-content:center;margin:14px auto 0}
+@media (max-width:760px){
+  .lvl-cap{display:none}
+  .lvl-b{padding:5px 9px}
+}
+/* the paper edition prints at whatever level is on screen; the switch itself
+   is furniture and never prints */
+@media print{ .lvl{display:none!important} }
 </style>
 
 <div id="app" class="hidden">
@@ -852,6 +881,11 @@ tr.ppmxf td{background:#efe9dc}
     <button class="tbtn" id="btnBible">📖 Bible</button>
     <button class="tbtn" id="btnSheet">🖨 Sheet</button>
     <button class="tbtn" id="btnNotes">📝 Notes</button>
+    <div class="lvl" id="lvlBar" title="Reading level — the same case, in plainer words">
+      <span class="lvl-cap">Reading</span>
+      <button class="lvl-b" data-lvl="easy">Easy</button>
+      <button class="lvl-b" data-lvl="medium">Medium</button>
+    </div>
     <button class="tbtn" id="btnMenu">☰</button>
   </div>
   <div id="stage">
@@ -937,15 +971,110 @@ SVG.poster_jm20 = `<svg viewBox="0 0 1536 1024" xmlns="http://www.w3.org/2000/sv
 
 const CASE_STUBS = [{"id": "jm33", "code": "CASE JM-33", "title": "The Empty Tomb", "period": "Jerusalem · c. AD 33", "colour": "#8c2f1f", "poster": "poster_jm33", "teaser": "A sealed tomb, four Roman guards on watch, and no body in the morning. Five explanations have been offered. Only one survives the file.", "nlocks": 2, "ntheories": 5}, {"id": "jm47", "code": "CASE JM-47", "title": "The Leak", "period": "Aram and Israel · c. 850 BC", "colour": "#2f5c7d", "poster": "poster_jm47", "teaser": "Five ambushes laid in secret. Five times the enemy simply did not come. The king of Aram is certain one of his own officers is talking — and he is about to be told something far stranger.", "nlocks": 2, "ntheories": 5}, {"id": "jm19", "code": "CASE JM-19", "title": "The Broken Riddle", "period": "Timnah, Philistia · c. 1100 BC", "colour": "#8a6a24", "poster": "poster_jm19", "teaser": "A riddle only one man on earth could answer — and thirty men answered it, perfectly, an hour before the deadline. Nobody saw. Nobody was told. Somebody is lying.", "nlocks": 2, "ntheories": 5}, {"id": "jm08", "code": "CASE JM-08", "title": "The Stolen Plunder", "period": "Jericho and Ai · c. 1400 BC", "colour": "#6b4a2a", "poster": "poster_jm08", "teaser": "Jericho fell in a week. Days later, a village stopped the same army dead and thirty-six men died running. Something is missing from the treasury, and the shortfall is exactly the size of one pair of hands.", "nlocks": 2, "ntheories": 5}, {"id": "jm02", "code": "CASE JM-02", "title": "The Missing Boy", "period": "Jerusalem · c. AD 8", "colour": "#5c7d8a", "poster": "poster_jm02", "teaser": "A family leaves the festival in a company of a hundred relatives. A full day out, a twelve-year-old is not among them. It takes two exhausted parents three days to find a child who was never hiding.", "nlocks": 2, "ntheories": 5}, {"id": "jm03", "code": "CASE JM-03", "title": "The Bush That Would Not Burn", "period": "Horeb · undated", "colour": "#7d5c2f", "poster": "poster_jm03", "teaser": "A shepherd turns aside to look at a burning bush — not because it is burning, but because it is still there. The site was surveyed afterwards. There is no ash on that hillside at all.", "nlocks": 2, "ntheories": 5}, {"id": "jm04", "code": "CASE JM-04", "title": "The Judgment", "period": "Jerusalem · c. 960 BC", "colour": "#7d6b4a", "poster": "poster_jm04", "teaser": "Two women, one living child, and not a single witness, document or mark to tell them apart. Both tell exactly the same story with the names reversed. The Society regards this as the hardest evidential problem in the archive.", "nlocks": 2, "ntheories": 5}, {"id": "jm05", "code": "CASE JM-05", "title": "The Writing on the Wall", "period": "Babylon · 539 BC", "colour": "#4a2f6b", "poster": "poster_jm05", "teaser": "A thousand nobles at a feast, and a hand that writes four words on the plaster and stops. The finest scholars in the empire can pronounce every word and cannot tell the king what any of it means. By morning he is dead.", "nlocks": 2, "ntheories": 5}, {"id": "jm06", "code": "CASE JM-06", "title": "The Walls", "period": "Jericho · c. 1400 BC", "colour": "#8a6a4a", "poster": "poster_jm06", "teaser": "For six days an army walks once around a walled city in complete silence and goes back to camp. On the seventh it walks round seven times, makes one sound, and the wall falls — outward, all the way round, except for one house.", "nlocks": 2, "ntheories": 5}, {"id": "jm09", "code": "CASE JM-09", "title": "The Mouldy Bread", "period": "Gibeon · c. 1400 BC", "colour": "#7d7a4a", "poster": "poster_jm09", "teaser": "Ambassadors arrive with split wineskins, worn-through sandals and dry crumbling bread as proof of a very long journey. A treaty is sworn. Three days later they turn out to live a day's walk away.", "nlocks": 2, "ntheories": 5}, {"id": "jm10", "code": "CASE JM-10", "title": "The Ten Blows", "period": "Egypt · c. 1450 BC", "colour": "#6b2f2f", "poster": "poster_jm10", "teaser": "Ten disasters strike Egypt inside a year. Pharaoh's own magicians reproduce the first two, fail at the third, and by the fourth something is happening that no chain of natural causes can account for.", "nlocks": 2, "ntheories": 5}, {"id": "jm11", "code": "CASE JM-11", "title": "The Cart That Chose Its Own Road", "period": "Philistia · c. 1100 BC", "colour": "#8a4a2f", "poster": "poster_jm11", "teaser": "Seven months after capturing Israel's ark, the Philistines are sick of it. Their own priests design a test to find out whether the chest is really the cause — and build it so that it could easily say no.", "nlocks": 2, "ntheories": 5}, {"id": "jm13", "code": "CASE JM-13", "title": "The Twelve Reports", "period": "Kadesh · c. 1445 BC", "colour": "#5c6b3a", "poster": "poster_jm13", "teaser": "Twelve men survey one country for forty days and come back with a bunch of grapes that takes two of them to carry — and two reports that cannot both be right. Except that every fact in them is identical.", "nlocks": 2, "ntheories": 5}, {"id": "jm14", "code": "CASE JM-14", "title": "The Crossing", "period": "The Sea of Reeds · c. 1446 BC", "colour": "#2f5c6b", "poster": "poster_jm14", "teaser": "A column of refugees is trapped between deep water and the fastest army in the world. By morning the refugees are across, and the army is not there at all.", "nlocks": 2, "ntheories": 5}, {"id": "jm15", "code": "CASE JM-15", "title": "The Witnesses Who Would Not Agree", "period": "Jerusalem · c. AD 30", "colour": "#5c3a3a", "poster": "poster_jm15", "teaser": "A court needs two witnesses whose accounts agree. It has plenty of witnesses, a whole night, and every advantage — and it cannot get two of them to say the same thing.", "nlocks": 2, "ntheories": 5}, {"id": "jm16", "code": "CASE JM-16", "title": "The Bread on the Ground", "period": "The wilderness of Sin · c. 1446 BC", "colour": "#8a7a4a", "poster": "poster_jm16", "teaser": "A substance appears on the ground each morning and feeds a nation for forty years. Every natural explanation fits — right up until the seventh day.", "nlocks": 2, "ntheories": 5}, {"id": "jm18", "code": "CASE JM-18", "title": "The Contest on Carmel", "period": "Mount Carmel · c. 860 BC", "colour": "#8a4a2f", "poster": "poster_jm18", "teaser": "One prophet against four hundred and fifty, one altar each, and a rule agreed in front of the whole nation. Then the challenger soaks his own altar until the trench around it overflows.", "nlocks": 2, "ntheories": 5}, {"id": "jm20", "code": "CASE JM-20", "title": "The Rock at Meribah", "period": "Kadesh · c. 1407 BC", "colour": "#6b5c4a", "poster": "poster_jm20", "teaser": "Water comes out of a rock in front of the whole nation, and the man who produced it is told he will not enter the country he has spent forty years walking toward. The Society is asked why.", "nlocks": 2, "ntheories": 5}];
 
-const CASE_REG = {};        // id -> the full case, once it is here
+const CASE_REG = {};        // id -> the case as the reader should see it
+const CASE_BASE = {};       // id -> the untouched medium-level case
 const CASE_PENDING = {};    // id -> the promise fetching it
 
+/* ------------------------------------------------------------------
+   READING LEVEL
+
+   Every case is written once, at "medium" — the Year 7-8 voice. An easy
+   pack (cases/<id>.easy.js) carries nothing but replacement wording, keyed
+   by the same ids: same evidence, same logic, same lock codes, shorter
+   sentences. Switching level rebuilds the case from the untouched base and
+   lays the easy wording over the top, so nothing is ever lost by toggling
+   back and forth.
+   ------------------------------------------------------------------ */
+const EASY_REG = {};        // id -> the easy wording pack, once it is here
+const EASY_PENDING = {};
+const LEVEL_KEY = "cs-reading-level";
+
+let LEVEL = "medium";
+try{ if(localStorage.getItem(LEVEL_KEY) === "easy") LEVEL = "easy"; }catch(e){}
+
+function clone(o){ return JSON.parse(JSON.stringify(o)); }
+
+/* Lay an easy pack over a case.
+
+   Objects merge key by key. An array in the case that is addressed by an
+   object in the pack is matched up by id — so items, theories, locks,
+   verdicts and the grid's own rows and columns can all be rewritten by
+   naming the ones you want to change and leaving the rest alone. */
+function mergeEasy(base, easy){
+  for(const k in easy){
+    const e = easy[k], b = base[k];
+    if(Array.isArray(b) && e && typeof e === "object" && !Array.isArray(e)){
+      b.forEach(row => { if(row && row.id && e[row.id]) mergeEasy(row, e[row.id]); });
+    } else if(Array.isArray(e)){
+      base[k] = clone(e);
+    } else if(e && typeof e === "object" && b && typeof b === "object"){
+      mergeEasy(b, e);
+    } else {
+      base[k] = e;
+    }
+  }
+  return base;
+}
+
+function buildCase(id){
+  const base = CASE_BASE[id];
+  if(!base) return null;
+  if(LEVEL !== "easy" || !EASY_REG[id]) return base;
+  return mergeEasy(clone(base), EASY_REG[id]);
+}
+
 /* Called at the foot of every case file. */
-function registerCase(c){ CASE_REG[c.id] = c; }
+function registerCase(c){
+  CASE_BASE[c.id] = c;
+  CASE_REG[c.id]  = buildCase(c.id);
+}
+
+/* Called at the foot of every easy pack. */
+function registerEasy(id, pack){
+  EASY_REG[id] = pack;
+  if(CASE_BASE[id]) CASE_REG[id] = buildCase(id);
+}
+
+function hasEasy(id){ return !!EASY_REG[id] || (EASY_AVAILABLE.indexOf(id) >= 0); }
+
+/* Which cases have an easy pack written, and the handful of strings the shelf
+   needs before any case has been fetched. Both filled in by the build. */
+const EASY_AVAILABLE = ["jm20"];
+const EASY_STUBS     = {"jm20": {"teaser": "Water pours out of a rock in front of the whole nation. Then the man who did it is told he will never enter the land he has been walking towards for forty years.", "introSub": "Two orders, thirty-eight years apart. One word is different."}};
+
+/* A shelf stub at the level in force. */
+function stubAtLevel(cdef){
+  if(LEVEL !== "easy" || !EASY_STUBS[cdef.id]) return cdef;
+  return Object.assign({}, cdef, EASY_STUBS[cdef.id]);
+}
+
+function loadEasy(id){
+  if(EASY_REG[id]) return Promise.resolve(EASY_REG[id]);
+  if(EASY_AVAILABLE.indexOf(id) < 0) return Promise.resolve(null);
+  if(EASY_PENDING[id]) return EASY_PENDING[id];
+  EASY_PENDING[id] = new Promise(resolve=>{
+    const s = document.createElement("script");
+    s.src = "cases/" + id + ".easy.js";
+    s.async = true;
+    s.onload  = ()=> resolve(EASY_REG[id] || null);
+    s.onerror = ()=> resolve(null);          // fall back to the medium wording
+    document.head.appendChild(s);
+  });
+  return EASY_PENDING[id];
+}
+
+/* Set the level, refit every case already in memory, and report whether the
+   caller needs to redraw. */
+function setLevel(lvl){
+  LEVEL = (lvl === "easy") ? "easy" : "medium";
+  try{ localStorage.setItem(LEVEL_KEY, LEVEL); }catch(e){}
+  Object.keys(CASE_BASE).forEach(id => { CASE_REG[id] = buildCase(id); });
+}
 
 function caseLoaded(id){ return !!CASE_REG[id]; }
 
-function loadCase(id){
+/* Fetch the case itself. */
+function fetchCase(id){
   if(CASE_REG[id]) return Promise.resolve(CASE_REG[id]);
   if(CASE_PENDING[id]) return CASE_PENDING[id];
   CASE_PENDING[id] = new Promise((resolve, reject)=>{
@@ -960,6 +1089,15 @@ function loadCase(id){
   });
   CASE_PENDING[id].catch(()=>{ delete CASE_PENDING[id]; });   // let them try again
   return CASE_PENDING[id];
+}
+
+/* What the rest of the app calls: the case, at the reading level in force. A
+   missing easy pack is not an error — the case simply stays at medium. */
+function loadCase(id){
+  return fetchCase(id).then(()=>{
+    if(LEVEL !== "easy" || EASY_REG[id]) return CASE_REG[id];
+    return loadEasy(id).then(()=>{ CASE_REG[id] = buildCase(id); return CASE_REG[id]; });
+  });
 }
 
 /* Shown when a case file cannot be fetched — nearly always because the page was
@@ -1799,6 +1937,7 @@ function showShelf(){
   $("#app").classList.add("hidden");
   shelf.classList.remove("hidden");
   renderShelf();
+  paintLevel();
 }
 function posterArt(cdef){
   if(cdef.poster && SVG[cdef.poster]) return SVG[cdef.poster];
@@ -1815,7 +1954,8 @@ function posterArt(cdef){
 
 function renderShelf(){
   const tilt = [-1.6, 1.3, -0.9, 1.8, -1.2];
-  const posters = CASES.map((cdef,i)=>{
+  const posters = CASES.map((stub,i)=>{
+    const cdef = stubAtLevel(stub);
     const st = stateFor(cdef.id), p = progressLabel(cdef);
     const cls = p.cls || "new";
     return `<div class="poster" style="--fc:${cdef.colour};--r:${tilt[i%tilt.length]}deg">
@@ -1842,6 +1982,11 @@ function renderShelf(){
       <div class="kicker">The Chronicle Society</div>
       <h1>Department of Unsolved Antiquities</h1>
       <p>Take down a case and work it. Read everything, break the locks, and throw out every explanation the evidence will not carry — then file what is left.</p>
+      <div class="lvl shelf-lvl" id="lvlShelf" title="Reading level — the same cases, in plainer words">
+        <span class="lvl-cap">Reading level</span>
+        <button class="lvl-b" data-lvl="easy">Easy</button>
+        <button class="lvl-b" data-lvl="medium">Medium</button>
+      </div>
     </div>
     <div class="cases">${posters}
       <div class="poster soon" style="--fc:#5c5346;--r:1.1deg">
@@ -1923,6 +2068,7 @@ function openCase(cdef){
   lockPip();
   if(CS.opened){ renderDesk(); }
   else { runIntro(); }
+  paintLevel();
 }
 
 function runIntro(){
@@ -2840,6 +2986,52 @@ function teacherNotes(){
 }
 
 /* ============================================================
+   READING LEVEL
+
+   The same case in plainer words. Nothing about the investigation changes —
+   same evidence, same reasoning, same lock codes — so a class can run both
+   levels side by side and still be solving one case.
+   ============================================================ */
+function paintLevel(){
+  document.querySelectorAll(".lvl").forEach(bar=>{
+    bar.querySelectorAll(".lvl-b").forEach(b=>
+      b.classList.toggle("on", b.dataset.lvl === LEVEL));
+  });
+  // In the top bar the switch only means something if this case has an easy
+  // pack; on the shelf it always shows.
+  const bar = $("#lvlBar");
+  if(bar) bar.classList.toggle("hidden", !!C && !hasEasy(C.id));
+}
+
+function setReadingLevel(lvl){
+  if(lvl === LEVEL) return;
+  const openId = C && C.id;
+  const finish = ()=>{
+    setLevel(lvl);
+    document.querySelectorAll(".overlay").forEach(o=>o.remove());
+    if(openId && CASE_REG[openId]){
+      const wasBoard = !board.classList.contains("hidden");
+      openCase(CASE_REG[openId]);
+      if(wasBoard) showBoard(true);
+    } else {
+      renderShelf();
+    }
+    paintLevel();
+  };
+  if(lvl === "easy"){
+    const need = openId ? [openId] : Object.keys(CASE_BASE);
+    Promise.all(need.map(loadEasy)).then(finish).catch(finish);
+  } else {
+    finish();
+  }
+}
+
+document.addEventListener("click", e=>{
+  const b = e.target.closest(".lvl-b");
+  if(b) setReadingLevel(b.dataset.lvl);
+});
+
+/* ============================================================
    BOOT
    ============================================================ */
 load();
@@ -2857,6 +3049,7 @@ $("#btnBoard").addEventListener("click", ()=>showBoard(board.classList.contains(
 $("#btnDesk").addEventListener("click", ()=>showBoard(false));
 $("#btnHome").addEventListener("click", showShelf);
 showShelf();
+paintLevel();
 
 </script>
 </body>
