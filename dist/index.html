@@ -1,0 +1,2863 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Bible mystery-box investigations for Years 7-8: read the evidence, break the codes, eliminate every explanation the file will not support.">
+<title>Chronicle Society Case Files</title>
+<style>*{box-sizing:border-box}html,body{height:100%;margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+</head>
+<body>
+<style>
+:root{
+  --wood-1:#5a3d28; --wood-2:#3f2a1b; --wood-3:#6b4a30;
+  --paper:#efe3cb; --paper-2:#e4d5b7; --ink:#2e2419; --ink-soft:#5b4a35;
+  --accent:#8c2f1f; --accent-2:#b4552f;
+  --cork:#b98a52; --brass:#c9a227;
+  --ui:#1b1410; --ui-2:#2a201a; --ui-line:#4a3a2c;
+  --ok:#3f7d4e; --no:#9d3226;
+  --serif:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif;
+  --hand:"Bradley Hand","Segoe Print","Comic Sans MS",cursive;
+  --ui-font:"Avenir Next",Avenir,"Segoe UI",system-ui,sans-serif;
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0;font-family:var(--ui-font);color:#f0e6d6;
+  background:var(--ui);overflow:hidden;
+  -webkit-font-smoothing:antialiased;
+  overscroll-behavior:none;
+}
+button{font-family:inherit;cursor:pointer}
+.hidden{display:none!important}
+
+/* ---------- app shell ---------- */
+#app{position:fixed;inset:0;display:flex;flex-direction:column}
+
+#topbar{
+  flex:0 0 auto;display:flex;align-items:center;gap:10px;
+  padding:8px 14px;background:linear-gradient(#2a201a,#1b1410);
+  border-bottom:1px solid var(--ui-line);z-index:40;
+}
+#caseTitle{font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:#c8b491}
+#caseTitle b{display:block;font-size:16px;letter-spacing:.04em;color:#f3e8d4;text-transform:none}
+.spacer{flex:1}
+.tbtn{
+  background:#3a2d23;border:1px solid #55432f;color:#e9dcc4;
+  padding:8px 13px;border-radius:8px;font-size:13px;font-weight:600;
+  display:inline-flex;align-items:center;gap:7px;transition:.15s;
+}
+.tbtn:hover{background:#4a392c;border-color:#7a5f42}
+.tbtn.on{background:var(--accent);border-color:#c26a4a;color:#fff}
+.tbtn .pip{background:var(--brass);color:#241a10;border-radius:999px;font-size:11px;padding:1px 6px;font-weight:800}
+
+/* ---------- desk ---------- */
+#stage{position:relative;flex:1;overflow:hidden}
+#desk{
+  position:absolute;inset:0;
+  background:
+    radial-gradient(ellipse at 50% 35%, rgba(255,220,160,.18), transparent 62%),
+    repeating-linear-gradient(96deg, rgba(0,0,0,.05) 0 2px, transparent 2px 7px),
+    linear-gradient(160deg,var(--wood-3),var(--wood-1) 45%,var(--wood-2));
+  touch-action:none;
+}
+#desk::after{
+  content:"";position:absolute;inset:0;pointer-events:none;
+  box-shadow:inset 0 0 200px rgba(0,0,0,.55);
+}
+
+.item{
+  position:absolute;width:196px;transform-origin:50% 50%;
+  cursor:grab;user-select:none;touch-action:none;
+  filter:drop-shadow(0 10px 14px rgba(0,0,0,.45));
+  transition:filter .15s;
+}
+.item:active{cursor:grabbing}
+.item.dragging{filter:drop-shadow(0 26px 30px rgba(0,0,0,.55));z-index:999!important}
+.item.new{animation:drop .5s cubic-bezier(.2,1.3,.5,1) both}
+@keyframes drop{from{transform:translate(-50%,-50%) scale(.5) rotate(0deg);opacity:0}}
+.item .card{
+  background:var(--paper);border-radius:3px;padding:12px 13px 32px;
+  color:var(--ink);position:relative;overflow:hidden;
+  background-image:
+    radial-gradient(circle at 12% 8%, rgba(139,105,60,.16), transparent 38%),
+    radial-gradient(circle at 88% 92%, rgba(120,90,50,.14), transparent 40%);
+  border:1px solid rgba(90,65,35,.35);
+}
+.item .card::after{
+  content:"";position:absolute;inset:0;pointer-events:none;
+  background:linear-gradient(180deg,transparent 60%,rgba(90,64,30,.16));
+}
+.item .kind{font-size:8.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--accent);font-weight:800}
+.item .ttl{font-family:var(--serif);font-size:14px;line-height:1.2;margin-top:4px;font-weight:700}
+.item .prev{font-size:9.5px;line-height:1.45;color:var(--ink-soft);margin-top:6px;max-height:52px;overflow:hidden}
+.item .thumb{margin-top:6px;background:#e9dcc0;border:1px solid rgba(90,65,35,.3);border-radius:2px}
+.item .thumb svg,.item .thumb img{display:block;width:100%;height:auto}
+.item .open{
+  position:absolute;left:0;right:0;bottom:0;background:rgba(46,36,25,.9);color:#f0e2c6;
+  font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;text-align:center;padding:5px 0;font-weight:700;
+}
+.item.pinnedOut{opacity:.35;filter:grayscale(.6) drop-shadow(0 6px 8px rgba(0,0,0,.4))}
+
+.tape{
+  position:absolute;width:66px;height:19px;background:rgba(240,230,200,.5);
+  border-left:1px dashed rgba(255,255,255,.4);border-right:1px dashed rgba(255,255,255,.4);
+  top:-9px;left:50%;transform:translateX(-50%) rotate(-2.5deg);
+}
+
+#deskHint{
+  position:absolute;left:50%;bottom:14px;transform:translateX(-50%);
+  background:rgba(20,14,10,.75);border:1px solid var(--ui-line);border-radius:999px;
+  padding:7px 16px;font-size:12px;color:#d8c8a8;pointer-events:none;
+}
+
+/* ---------- reader modal ---------- */
+.overlay{
+  position:fixed;inset:0;z-index:9000;background:rgba(10,7,5,.82);
+  display:flex;align-items:center;justify-content:center;padding:20px;
+  backdrop-filter:blur(3px);animation:fade .18s both;
+}
+@keyframes fade{from{opacity:0}}
+.sheet{
+  background:var(--paper);color:var(--ink);border-radius:5px;
+  max-width:720px;width:100%;max-height:92vh;overflow:auto;position:relative;
+  box-shadow:0 30px 70px rgba(0,0,0,.7);
+  background-image:
+    radial-gradient(circle at 10% 4%, rgba(139,105,60,.13), transparent 35%),
+    radial-gradient(circle at 92% 96%, rgba(120,90,50,.13), transparent 35%);
+  animation:pop .22s cubic-bezier(.2,1.2,.4,1) both;
+}
+@keyframes pop{from{transform:scale(.94) translateY(10px);opacity:0}}
+.sheet.wide{max-width:1000px}
+.sheet .x{
+  position:absolute;top:10px;right:10px;background:#2e2419;color:#f0e2c6;border:0;
+  width:32px;height:32px;border-radius:50%;font-size:17px;line-height:1;z-index:5;
+}
+.sheet .body{padding:32px 38px 34px}
+.doc-kind{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--accent);font-weight:800}
+.doc-title{font-family:var(--serif);font-size:27px;margin:6px 0 4px;line-height:1.15}
+.doc-sub{font-size:12px;color:var(--ink-soft);font-style:italic;margin-bottom:16px}
+.rule{height:1px;background:linear-gradient(90deg,rgba(90,65,35,.5),transparent);margin:14px 0}
+.doc-body{font-family:var(--serif);font-size:15.5px;line-height:1.72}
+.doc-body p{margin:0 0 13px}
+.doc-body h4{font-family:var(--ui-font);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--accent);margin:22px 0 8px}
+.doc-body ul{margin:0 0 13px;padding-left:20px}
+.doc-body li{margin-bottom:5px}
+.doc-body .sig{font-family:var(--hand);font-size:21px;color:#3a2c1c;margin-top:8px}
+.doc-body .stamp{
+  display:inline-block;border:2.5px solid rgba(140,47,31,.62);color:rgba(140,47,31,.8);
+  padding:6px 14px;font-weight:800;letter-spacing:.18em;font-size:12px;
+  transform:rotate(-6deg);border-radius:3px;margin:10px 0;font-family:var(--ui-font);
+}
+.ledger{width:100%;border-collapse:collapse;font-family:var(--ui-font);font-size:13.5px;margin:8px 0 14px}
+.ledger td,.ledger th{border-bottom:1px solid rgba(90,65,35,.3);padding:7px 6px;text-align:left}
+.ledger th{font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--accent)}
+.ledger td.n{text-align:right;font-variant-numeric:tabular-nums}
+.ref{font-size:11.5px;color:var(--ink-soft);font-style:italic;border-top:1px dashed rgba(90,65,35,.4);padding-top:10px;margin-top:18px;font-family:var(--ui-font)}
+.margin-note{font-family:var(--hand);color:#7a2318;font-size:16px;transform:rotate(-1.4deg);display:inline-block;margin:4px 0}
+.plate{background:#e6d8ba;border:1px solid rgba(90,65,35,.35);border-radius:3px;padding:10px;margin:10px 0}
+.plate svg,.plate img{display:block;width:100%;height:auto;border-radius:2px}
+.plate .cap{font-size:11px;color:var(--ink-soft);font-style:italic;margin-top:8px;text-align:center;font-family:var(--ui-font)}
+.zoomable{cursor:zoom-in}
+
+/* ---------- lock panel ---------- */
+.lockcard{background:var(--ui-2);border:1px solid var(--ui-line);border-radius:12px;padding:18px;margin-bottom:14px}
+.lockcard.done{border-color:#3f7d4e;background:#1e2a1f}
+.lockcard h3{margin:0 0 4px;font-size:16px;color:#f3e8d4}
+.lockcard .st{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#a8946f;font-weight:700}
+.lockcard.done .st{color:#7fc08f}
+.lockcard p{font-size:13.5px;line-height:1.6;color:#cfbf9f;margin:9px 0}
+.qs{margin:10px 0;padding-left:0;list-style:none}
+.qs li{font-size:13px;color:#e0d2b4;padding:5px 0 5px 24px;position:relative;line-height:1.5}
+.qs li::before{content:counter(qi);counter-increment:qi;position:absolute;left:0;top:4px;
+  background:var(--brass);color:#241a10;width:17px;height:17px;border-radius:50%;
+  font-size:10px;font-weight:800;display:grid;place-items:center}
+.qs{counter-reset:qi}
+.codebox{display:flex;gap:8px;align-items:center;margin-top:12px;flex-wrap:wrap}
+.codebox input{
+  background:#120d09;border:1px solid #5b4732;color:#f7e9c9;border-radius:8px;
+  padding:11px 14px;font-size:19px;letter-spacing:.4em;width:180px;text-align:center;
+  font-family:ui-monospace,monospace;text-transform:uppercase;
+}
+.codebox input:focus{outline:2px solid var(--brass);outline-offset:1px}
+.btn{background:var(--accent);color:#fff;border:0;border-radius:8px;padding:11px 20px;font-size:14px;font-weight:700}
+.btn:hover{background:#a53a26}
+.btn.ghost{background:transparent;border:1px solid var(--ui-line);color:#cbb894}
+.btn.ghost:hover{border-color:#7a5f42;color:#f0e2c6}
+.btn:disabled{opacity:.4;cursor:not-allowed}
+.msg{font-size:13px;margin-top:9px;min-height:18px}
+.msg.bad{color:#e58b78}
+.msg.good{color:#8fd3a3}
+.hintwrap{margin-top:12px}
+.hint{background:#241c15;border-left:3px solid var(--brass);padding:9px 12px;font-size:13px;color:#d9c9a7;margin-top:8px;border-radius:0 6px 6px 0;line-height:1.55}
+
+/* ---------- pinboard ---------- */
+#board{
+  position:absolute;inset:0;z-index:500;overflow:auto;
+  background:
+    radial-gradient(ellipse at 50% 0%, rgba(255,230,180,.16), transparent 60%),
+    repeating-radial-gradient(circle at 20% 30%, rgba(0,0,0,.045) 0 2px, transparent 2px 5px),
+    linear-gradient(160deg,#c69a63,#a9773f 60%,#8d5f2f);
+}
+#board .inner{padding:18px 20px 40px;max-width:1500px;margin:0 auto}
+.boardhead{display:flex;align-items:flex-start;gap:16px;flex-wrap:wrap;margin-bottom:14px}
+.boardhead h2{font-family:var(--serif);color:#2e2113;margin:0;font-size:23px}
+.boardhead p{color:#3f2e1a;font-size:13.5px;margin:5px 0 0;max-width:640px;line-height:1.55}
+.theories{display:grid;grid-template-columns:repeat(auto-fill,minmax(272px,1fr));gap:16px}
+.theory{
+  background:var(--paper);border-radius:3px;padding:14px 14px 12px;color:var(--ink);position:relative;
+  box-shadow:0 8px 18px rgba(0,0,0,.35);border:1px solid rgba(90,65,35,.3);
+}
+.theory .pin{
+  position:absolute;top:-9px;left:50%;transform:translateX(-50%);
+  width:19px;height:19px;border-radius:50%;
+  background:radial-gradient(circle at 34% 30%,#ff8a6b,#a32d15);
+  box-shadow:0 3px 5px rgba(0,0,0,.45);
+}
+.theory h4{font-family:var(--serif);font-size:16px;margin:6px 0 4px;line-height:1.25}
+.theory .claim{font-size:12.5px;line-height:1.55;color:var(--ink-soft);margin-bottom:10px}
+.slot{
+  border:2px dashed rgba(90,65,35,.5);border-radius:6px;min-height:62px;
+  display:grid;place-items:center;text-align:center;padding:9px;
+  font-size:11.5px;color:var(--ink-soft);background:rgba(255,255,255,.22);transition:.15s;
+}
+.slot.hot{border-color:var(--accent);background:rgba(180,85,47,.16)}
+.slot.filled{border-style:solid;background:rgba(255,255,255,.5);font-size:12.5px;color:var(--ink);font-weight:600}
+.slot.right{border-color:var(--ok);background:rgba(63,125,78,.16)}
+.slot.wrong{border-color:var(--no);background:rgba(157,50,38,.14)}
+.verdict{font-size:12px;margin-top:9px;line-height:1.55;font-family:var(--serif)}
+.verdict.right{color:#2f6b3d}
+.verdict.wrong{color:#8c2f1f}
+.rail{
+  background:rgba(30,20,12,.86);border-radius:10px;padding:12px;margin-top:20px;
+}
+.rail h5{margin:0 0 4px;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:#c9b189}
+.rail .sub{font-size:12px;color:#a08d6d;margin-bottom:10px}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{
+  background:var(--paper-2);color:var(--ink);border:1px solid rgba(90,65,35,.4);
+  border-radius:6px;padding:8px 11px;font-size:12.5px;cursor:grab;user-select:none;
+  max-width:230px;line-height:1.3;
+}
+.chip:hover{background:#f3e8ce}
+.chip.sel{outline:3px solid var(--brass);background:#fff6e0}
+.chip.used{opacity:.32;cursor:default}
+.boardbar{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px;align-items:center}
+
+/* ---------- accusation / debrief ---------- */
+.choices{display:grid;gap:10px;margin:16px 0}
+.choice{
+  text-align:left;background:#efe3cb;border:2px solid rgba(90,65,35,.3);border-radius:8px;
+  padding:13px 15px;color:var(--ink);font-size:14.5px;line-height:1.45;font-family:var(--serif);
+}
+.choice:hover{border-color:var(--accent)}
+.choice.sel{border-color:var(--accent);background:#fff4de;box-shadow:0 0 0 3px rgba(140,47,31,.16)}
+textarea{
+  width:100%;min-height:120px;background:#f6ecd6;border:1px solid rgba(90,65,35,.4);
+  border-radius:8px;padding:12px;font-family:var(--serif);font-size:15px;color:var(--ink);line-height:1.6;resize:vertical;
+}
+.seal-final{width:78px;height:78px;margin:0 auto 12px;display:block}
+
+/* ---------- case-file intro ---------- */
+#intro{
+  position:fixed;inset:0;z-index:9500;display:grid;place-items:center;
+  background:radial-gradient(ellipse at 50% 42%, #4a3423, #1a120c 72%);
+  text-align:center;padding:22px;
+}
+#intro .kicker{font-size:11px;letter-spacing:.34em;text-transform:uppercase;color:#a58b62}
+#intro h1{font-family:var(--serif);font-size:clamp(28px,5.5vw,50px);margin:8px 0 4px;color:#f5e9d2}
+#intro .sub{color:#bda882;font-size:15px;margin-bottom:26px}
+#intro .tap{margin-top:22px;font-size:13px;color:#8f7a58;letter-spacing:.16em;text-transform:uppercase}
+#intro.leaving{animation:goaway .7s ease-in forwards}
+@keyframes goaway{to{opacity:0;transform:scale(1.14);visibility:hidden}}
+
+.folder{
+  width:min(460px,88vw);aspect-ratio:4/3;margin:0 auto;position:relative;
+  perspective:1600px;cursor:pointer;
+}
+.folder .stack{position:absolute;inset:5% 4% 3% 6%;border-radius:2px 6px 6px 2px;
+  background:#efe4cb;box-shadow:0 20px 34px rgba(0,0,0,.6);overflow:hidden}
+.folder .stack i{position:absolute;left:8%;right:6%;height:2px;background:rgba(90,65,35,.28);display:block}
+.folder .stack i:nth-child(1){top:22%} .folder .stack i:nth-child(2){top:32%;right:22%}
+.folder .stack i:nth-child(3){top:42%} .folder .stack i:nth-child(4){top:52%;right:30%}
+.folder .stack i:nth-child(5){top:62%} .folder .stack i:nth-child(6){top:72%;right:16%}
+.folder .stack::before{content:"";position:absolute;left:8%;top:8%;width:34%;height:8%;background:rgba(140,47,31,.5);border-radius:2px}
+.folder .back{position:absolute;inset:0;border-radius:3px 10px 10px 3px;
+  background:linear-gradient(#c9a86e,#a8854f);box-shadow:inset 0 0 40px rgba(90,60,20,.4)}
+.folder .cover{
+  position:absolute;inset:0;transform-origin:left center;transform-style:preserve-3d;
+  transition:transform 1.05s cubic-bezier(.55,.02,.25,1);
+  background:linear-gradient(160deg,#e0bd83,#c49a5f 55%,#ab8149);
+  border-radius:3px 10px 10px 3px;
+  box-shadow:0 18px 34px rgba(0,0,0,.55), inset 0 1px 0 rgba(255,240,205,.35);
+}
+.folder .cover::before{ /* the tab */
+  content:"";position:absolute;top:-22px;right:14%;width:31%;height:24px;
+  background:linear-gradient(#e0bd83,#cda36a);border-radius:6px 6px 0 0;
+}
+.folder{transition:transform .9s cubic-bezier(.55,.02,.25,1)}
+.folder.open{transform:translateX(20%)}
+.folder.open .cover{transform:rotateY(-152deg)}
+.folder.open .f-label,.folder.open .f-stamp{opacity:0;transition:opacity .3s}
+.f-label{
+  position:absolute;left:9%;top:20%;width:56%;padding:12px 14px;text-align:left;
+  background:#f4ebd6;border:1px solid rgba(90,65,35,.45);border-radius:2px;
+  box-shadow:0 3px 8px rgba(0,0,0,.25);
+}
+.f-label .l1{font-size:9px;letter-spacing:.24em;text-transform:uppercase;color:#8a6f45}
+.f-label .l2{font-family:var(--serif);font-size:19px;font-weight:700;color:#2e2419;line-height:1.15;margin-top:4px}
+.f-label .l3{font-size:10.5px;color:#6b5636;font-style:italic;margin-top:3px}
+.f-stamp{
+  position:absolute;right:7%;bottom:15%;border:3px solid rgba(140,47,31,.66);color:rgba(140,47,31,.82);
+  padding:6px 12px;font-size:12px;font-weight:800;letter-spacing:.16em;border-radius:3px;
+  transform:rotate(-11deg);font-family:var(--ui-font);background:rgba(255,245,225,.28);
+}
+.f-string{position:absolute;left:0;right:0;top:52%;height:3px;background:rgba(90,60,25,.55);
+  box-shadow:0 1px 0 rgba(255,235,200,.35)}
+.f-button{position:absolute;left:50%;top:52%;width:26px;height:26px;margin:-13px 0 0 -13px;border-radius:50%;
+  background:radial-gradient(circle at 34% 30%,#e6cfa0,#8a6a3c 60%,#4d3a1f);box-shadow:0 3px 6px rgba(0,0,0,.5)}
+.folder.open .f-string,.folder.open .f-button{opacity:0;transition:opacity .35s}
+.folder:hover .cover{transform:rotateY(-7deg)}
+.folder.open:hover .cover{transform:rotateY(-152deg)}
+
+/* ---------- notes ---------- */
+#notesPane{
+  position:absolute;top:0;right:0;bottom:0;width:min(400px,88vw);z-index:600;
+  background:#241a12;border-left:1px solid var(--ui-line);padding:16px;display:flex;flex-direction:column;gap:10px;
+  box-shadow:-16px 0 40px rgba(0,0,0,.5);
+}
+#notesPane h3{margin:0;font-size:14px;color:#f0e2c6}
+#notesPane p{margin:0;font-size:12px;color:#a08d6d;line-height:1.5}
+#notesPane textarea{flex:1;background:#f6ecd6}
+
+.small{font-size:12px;color:#a08d6d;line-height:1.55}
+kbd{background:#3a2d23;border:1px solid #55432f;border-radius:4px;padding:1px 6px;font-size:11px}
+
+@media(max-width:760px){
+  .item{width:150px}
+  .sheet .body{padding:24px 20px 26px}
+  .doc-title{font-size:22px}
+  #caseTitle{display:none}
+}
+@media print{
+  body{overflow:visible;background:#fff;color:#000}
+  #topbar,#desk,#board,.x,.btn{display:none!important}
+  .overlay{position:static;background:#fff;padding:0;display:block}
+  .sheet{max-width:none;box-shadow:none;background:#fff}
+}
+</style>
+<style>
+/* ---------- topbar case name ---------- */
+#caseCode{display:block}
+#caseName{display:block;font-size:16px;letter-spacing:.04em;color:#f3e8d4;text-transform:none;font-family:var(--serif)}
+
+/* ---------- the case board (wanted-poster wall) ---------- */
+#shelf{
+  position:fixed;inset:0;z-index:150;overflow:auto;
+  background:
+    radial-gradient(ellipse at 50% -10%, rgba(255,206,140,.20), transparent 55%),
+    repeating-linear-gradient(90deg,
+      rgba(0,0,0,.22) 0 2px, rgba(255,255,255,.03) 2px 5px,
+      rgba(0,0,0,.05) 5px 148px, rgba(0,0,0,.30) 148px 154px),
+    repeating-linear-gradient(88deg, rgba(0,0,0,.05) 0 3px, transparent 3px 11px),
+    linear-gradient(170deg,#5b3f27,#3d2917 55%,#241708);
+}
+#shelf::after{content:"";position:fixed;inset:0;pointer-events:none;box-shadow:inset 0 0 240px rgba(0,0,0,.65)}
+.shelfwrap{max-width:1240px;margin:0 auto;padding:34px 24px 70px;position:relative;z-index:1}
+
+.boardsign{
+  background:linear-gradient(#7a5732,#5e3f22);border:1px solid #3a2612;border-radius:4px;
+  padding:18px 26px 20px;text-align:center;position:relative;
+  box-shadow:0 14px 30px rgba(0,0,0,.55), inset 0 1px 0 rgba(255,225,180,.18);
+  max-width:720px;margin:0 auto 34px;
+}
+.boardsign::before,.boardsign::after{
+  content:"";position:absolute;top:9px;width:11px;height:11px;border-radius:50%;
+  background:radial-gradient(circle at 34% 30%,#e8d9b0,#7a6647 60%,#3b3121);
+  box-shadow:0 1px 2px rgba(0,0,0,.6);
+}
+.boardsign::before{left:12px} .boardsign::after{right:12px}
+.boardsign .kicker{font-size:10.5px;letter-spacing:.34em;text-transform:uppercase;color:#e0c9a0}
+.boardsign h1{font-family:var(--serif);font-size:clamp(22px,3.8vw,34px);color:#fdf1d8;margin:6px 0 8px;font-weight:700;
+  text-shadow:0 2px 0 rgba(0,0,0,.45)}
+.boardsign p{color:#e6d2ae;font-size:13.5px;line-height:1.55;margin:0 auto;max-width:560px}
+
+.cases{display:grid;grid-template-columns:repeat(auto-fill,minmax(268px,1fr));gap:34px 26px;margin-top:6px}
+.poster{
+  position:relative;padding:20px 18px 18px;border-radius:2px;color:var(--ink);
+  transform:rotate(var(--r,0deg));transition:transform .2s, box-shadow .2s;
+  background:
+    radial-gradient(circle at 14% 6%, rgba(150,112,60,.16), transparent 42%),
+    radial-gradient(circle at 86% 94%, rgba(130,96,52,.15), transparent 44%),
+    linear-gradient(#f6ecd4,#e6d6b2);
+  box-shadow:0 16px 30px rgba(0,0,0,.5);
+  border:1px solid rgba(90,65,35,.35);
+  display:flex;flex-direction:column;
+}
+.poster:hover{transform:rotate(0deg) translateY(-5px);box-shadow:0 24px 44px rgba(0,0,0,.6)}
+.poster::before{  /* nail head */
+  content:"";position:absolute;top:-7px;left:50%;transform:translateX(-50%);
+  width:15px;height:15px;border-radius:50%;
+  background:radial-gradient(circle at 34% 30%,#f2e3bd,#8a7452 55%,#40352180);
+  box-shadow:0 3px 5px rgba(0,0,0,.55);
+}
+.poster .p-soc{font-size:8.5px;letter-spacing:.26em;text-transform:uppercase;color:var(--ink-soft);text-align:center}
+.poster .p-code{
+  font-family:var(--serif);font-size:12px;letter-spacing:.22em;text-transform:uppercase;
+  color:var(--fc);font-weight:700;text-align:center;margin-top:3px;
+}
+.p-hr{height:2px;background:var(--ink);opacity:.55;margin:8px 0 10px}
+.p-hr.thin{height:1px;opacity:.3;margin:9px 0}
+.poster .art{
+  border:1px solid rgba(90,65,35,.45);background:#e4d5b4;overflow:hidden;aspect-ratio:3/2;
+  box-shadow:inset 0 0 22px rgba(90,64,30,.28);
+}
+.poster .art svg,.poster .art img{display:block;width:100%;height:100%;object-fit:cover}
+.poster .p-title{font-family:var(--serif);font-size:26px;line-height:1.06;font-weight:700;text-align:center;margin:11px 0 3px}
+.poster .p-where{font-size:11px;color:var(--ink-soft);font-style:italic;text-align:center}
+.poster .p-teaser{font-size:12.5px;line-height:1.5;color:var(--ink-soft);margin:10px 0 0;flex:1}
+.p-stamp{
+  align-self:center;margin:12px 0 2px;border:2.5px solid;border-radius:3px;
+  padding:4px 12px;font-size:10px;letter-spacing:.18em;text-transform:uppercase;font-weight:800;
+  transform:rotate(-4deg);opacity:.82;
+}
+.p-stamp.new{color:#7a6a4d;border-color:#7a6a4d}
+.p-stamp.wip{color:#8a5518;border-color:#8a5518}
+.p-stamp.done{color:#2f6b3d;border-color:#2f6b3d}
+.p-sub{text-align:center;font-size:10.5px;color:var(--ink-soft);font-style:italic;margin-top:5px}
+.p-acts{display:flex;gap:8px;margin-top:12px;align-items:stretch}
+.p-open{
+  flex:1;background:var(--fc);color:#fff;border:0;border-radius:5px;padding:11px 12px;
+  font-size:13.5px;font-weight:700;font-family:var(--ui-font);
+}
+.p-open:hover{filter:brightness(1.12)}
+.p-restart{
+  background:transparent;border:1px solid rgba(90,65,35,.5);color:var(--ink-soft);
+  border-radius:5px;padding:11px 12px;font-size:12.5px;font-weight:600;font-family:var(--ui-font);
+}
+.p-restart:hover{border-color:var(--no);color:var(--no)}
+.poster.soon{opacity:.42;filter:saturate(.45)}
+.poster.soon:hover{transform:rotate(var(--r,0deg));box-shadow:0 16px 30px rgba(0,0,0,.5)}
+.boardfoot{margin-top:38px;display:flex;gap:16px;align-items:center;flex-wrap:wrap;justify-content:center}
+.boardfoot .small{color:#c4a97f}
+
+/* ---------- the crossword / riddle sheet ---------- */
+.cwwrap{display:flex;gap:26px;flex-wrap:wrap;align-items:flex-start}
+.cwgrid{
+  display:grid;gap:0;background:#4a3520;padding:2px;border-radius:2px;
+  grid-template-columns:repeat(var(--n),minmax(0,1fr));
+  width:min(100%,calc(var(--n) * 44px));flex:0 0 auto;
+}
+.cwc{position:relative;aspect-ratio:1/1;background:#efe4cb;border:1px solid rgba(90,65,35,.35)}
+.cwc.block{background:transparent;border-color:transparent}
+.cwc.mark{background:#f6e2b4;box-shadow:inset 0 0 0 2px var(--brass)}
+.cwc input{
+  width:100%;height:100%;border:0;background:transparent;text-align:center;
+  font-family:var(--serif);font-size:clamp(14px,3.4vw,20px);font-weight:700;color:var(--ink);
+  text-transform:uppercase;padding:0;outline:none;
+}
+.cwc input:focus{background:rgba(201,162,39,.22)}
+.cwc.bad input{color:#9d3226}
+.cwc .cn{position:absolute;top:1px;left:2px;font-size:9px;line-height:1;color:var(--ink-soft);font-family:var(--ui-font);font-weight:700}
+.cwc .cm{position:absolute;bottom:1px;right:2px;font-size:9px;line-height:1;color:#8a6a1e;font-family:var(--ui-font);font-weight:800}
+.cwclues{flex:1;min-width:260px;display:flex;gap:26px;flex-wrap:wrap}
+.cwcol{flex:1;min-width:230px}
+.cwcol h5{font-family:var(--ui-font);font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--accent);margin:0 0 8px;font-weight:800}
+.cwcol ol{list-style:none;margin:0;padding:0}
+.cwcol li{font-family:var(--serif);font-size:13.5px;line-height:1.45;margin-bottom:8px;color:var(--ink);cursor:pointer}
+.cwcol li b{color:var(--accent);font-family:var(--ui-font);font-size:11.5px;margin-right:5px}
+.cwcol li.got{opacity:.45;text-decoration:line-through}
+.cwstrip{display:flex;gap:8px;align-items:center;margin-top:18px;flex-wrap:wrap}
+.cwbox{
+  width:38px;height:44px;border:2px solid rgba(90,65,35,.5);border-radius:3px;background:rgba(255,255,255,.5);
+  display:grid;place-items:center;font-family:var(--serif);font-size:22px;font-weight:700;position:relative;
+}
+.cwbox span{position:absolute;top:-9px;left:-6px;background:var(--brass);color:#241a10;border-radius:50%;
+  width:16px;height:16px;font-size:9.5px;font-weight:800;display:grid;place-items:center;font-family:var(--ui-font)}
+.cwbox.full{border-color:var(--brass);background:#fff6e0}
+
+/* ---------- the Bible reader ---------- */
+.bibsheet{max-width:1180px;width:100%}
+.bibhead{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;flex-wrap:wrap}
+.bibhead .doc-title{margin:2px 0 0}
+.bibtools{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.bibsearch{
+  background:rgba(255,255,255,.6);border:1px solid rgba(90,65,35,.45);border-radius:6px;
+  padding:9px 12px;font-family:var(--ui-font);font-size:13.5px;color:var(--ink);min-width:200px;outline:none;
+}
+.bibsearch:focus{border-color:var(--accent);background:#fff}
+.bibtoggle{display:flex;align-items:center;gap:7px;font-size:12px;color:var(--ink-soft);cursor:pointer;user-select:none}
+.bibtoggle input{width:15px;height:15px;accent-color:var(--accent)}
+.bibwrap{display:flex;gap:20px;align-items:flex-start;margin-top:8px}
+.bibrail{flex:0 0 190px;max-height:62vh;overflow:auto;padding-right:6px}
+.bibrail h6{font-family:var(--ui-font);font-size:9.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--accent);margin:10px 0 6px;font-weight:800}
+.bibrail button{
+  display:block;width:100%;text-align:left;background:transparent;border:0;border-radius:4px;
+  padding:4px 7px;font-family:var(--serif);font-size:13.5px;color:var(--ink);line-height:1.25;
+}
+.bibrail button:hover{background:rgba(90,65,35,.12)}
+.bibrail button.on{background:var(--accent);color:#fff;font-weight:700}
+.bibmain{flex:1;min-width:0;max-height:62vh;overflow:auto;padding-right:4px}
+.bibchaps{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:14px}
+.bibchaps button{
+  min-width:31px;background:rgba(255,255,255,.5);border:1px solid rgba(90,65,35,.35);border-radius:4px;
+  padding:4px 6px;font-family:var(--ui-font);font-size:12.5px;color:var(--ink);
+}
+.bibchaps button:hover{border-color:var(--accent)}
+.bibchaps button.on{background:var(--accent);border-color:var(--accent);color:#fff;font-weight:700}
+.bibref{font-family:var(--serif);font-size:22px;font-weight:700;margin:0 0 10px}
+.bibbody{font-family:var(--serif);font-size:16.5px;line-height:1.78;color:var(--ink)}
+.bv{display:block;padding:2px 6px;border-radius:4px;margin:0 -6px}
+.bv sup{color:var(--accent);font-weight:800;font-size:10.5px;font-family:var(--ui-font);margin-right:5px;vertical-align:super}
+.bv.hit{background:rgba(201,162,39,.28);box-shadow:inset 3px 0 0 var(--brass)}
+.bibfoot{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:16px;padding-top:12px;border-top:1px dashed rgba(90,65,35,.4)}
+.bibnote{font-size:11.5px;color:var(--ink-soft);font-style:italic;flex:1;min-width:220px}
+.bibresults{max-height:62vh;overflow:auto}
+.bibresult{display:block;width:100%;text-align:left;background:transparent;border:0;border-bottom:1px solid rgba(90,65,35,.18);
+  padding:9px 6px;font-family:var(--serif);font-size:14px;color:var(--ink);line-height:1.5}
+.bibresult:hover{background:rgba(90,65,35,.1)}
+.bibresult b{color:var(--accent);font-family:var(--ui-font);font-size:11.5px;display:block;margin-bottom:2px}
+.bibresult mark{background:rgba(201,162,39,.4);color:inherit;padding:0 1px}
+a.bref{
+  color:var(--accent);text-decoration:none;border-bottom:1px dotted currentColor;cursor:pointer;font-weight:600;
+}
+a.bref:hover{background:rgba(201,162,39,.22);border-bottom-style:solid}
+.bibloading{padding:40px 10px;text-align:center;color:var(--ink-soft);font-style:italic}
+@media(max-width:760px){
+  .bibwrap{flex-direction:column}
+  .bibrail{flex:1 1 auto;width:100%;max-height:150px;display:flex;flex-wrap:wrap;gap:4px}
+  .bibrail h6{width:100%;margin:6px 0 2px}
+  .bibrail button{width:auto;font-size:12.5px;padding:4px 8px;border:1px solid rgba(90,65,35,.3)}
+  .bibmain{max-height:none}
+}
+
+/* ---------- printable answer sheet ---------- */
+.sheetdoc{color:var(--ink)}
+.sd-head{display:flex;justify-content:space-between;align-items:flex-start;gap:20px;flex-wrap:wrap}
+.sd-names{display:flex;gap:12px;flex-wrap:wrap}
+.fld{margin:0 0 14px}
+.fld.inline{min-width:190px;margin:0}
+.fld label{display:block;font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);font-weight:800;margin-bottom:5px}
+.wl{
+  border:1px solid rgba(90,65,35,.45);border-radius:4px;background:rgba(255,255,255,.55);
+  padding:7px 9px;min-height:30px;font-family:var(--serif);font-size:14px;line-height:1.55;outline:none;
+}
+.wl:focus{border-color:var(--accent);background:#fff;box-shadow:0 0 0 2px rgba(140,47,31,.12)}
+.sd-h{font-family:var(--ui-font);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--accent);margin:22px 0 6px;font-weight:800}
+.sd-table{width:100%;border-collapse:collapse;margin:4px 0 6px}
+.sd-table th{font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);text-align:left;padding:5px 6px;border-bottom:1px solid rgba(90,65,35,.4)}
+.sd-table td{padding:6px;vertical-align:top;border-bottom:1px solid rgba(90,65,35,.18)}
+.sd-table td.th{font-family:var(--serif);font-size:13.5px;font-weight:600;line-height:1.3}
+.sd-foot{margin-top:20px;font-size:10.5px;color:var(--ink-soft);font-style:italic;border-top:1px dashed rgba(90,65,35,.4);padding-top:8px}
+
+/* ---------- the paper edition ---------- */
+.ppdoc{color:var(--ink);font-family:var(--serif)}
+.pp-page,.pp-sec{padding:6px 0 26px;border-bottom:2px dashed rgba(90,65,35,.35);margin-bottom:22px}
+.pp-soc{font-family:var(--ui-font);font-size:9.5px;letter-spacing:.24em;text-transform:uppercase;color:var(--ink-soft);text-align:center}
+.pp-code{font-family:var(--ui-font);font-size:12px;letter-spacing:.22em;text-transform:uppercase;color:var(--accent);font-weight:800;text-align:center;margin-top:4px}
+.pp-cover h1{font-family:var(--serif);font-size:38px;text-align:center;margin:6px 0 2px;line-height:1.08}
+.pp-where{text-align:center;font-style:italic;color:var(--ink-soft);font-size:13px}
+.pp-art{max-width:440px;margin:16px auto;border:1px solid rgba(90,65,35,.45)}
+.pp-art svg,.pp-art img{display:block;width:100%;height:auto}
+.pp-teaser{font-size:14px;line-height:1.6;max-width:620px;margin:12px auto;text-align:center;color:var(--ink-soft)}
+.pp-stamp{display:block;width:fit-content;margin:14px auto;border:2.5px solid rgba(140,47,31,.6);color:rgba(140,47,31,.85);
+  padding:6px 14px;font-family:var(--ui-font);font-size:11px;font-weight:800;letter-spacing:.16em;transform:rotate(-2deg);border-radius:3px}
+.pp-h{font-family:var(--ui-font);font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--accent);font-weight:800;margin:0 0 8px}
+.pp-lead{font-size:14px;line-height:1.6;color:var(--ink-soft);margin:0 0 14px}
+.pp-step{display:flex;gap:12px;margin-bottom:14px;break-inside:avoid}
+.pp-step > b{flex:0 0 30px;height:30px;border-radius:50%;background:var(--accent);color:#fff;display:grid;place-items:center;
+  font-family:var(--ui-font);font-size:14px}
+.pp-step h5{font-family:var(--serif);font-size:17px;margin:2px 0 5px;font-weight:700}
+.pp-step p,.pp-step li{font-size:13.5px;line-height:1.6;margin:0 0 7px}
+.pp-tip{font-style:italic;color:var(--ink-soft)}
+.pp-qs{margin:8px 0;padding-left:20px}
+.pp-qs li{margin-bottom:9px;font-size:13.5px}
+.pp-blank{display:inline-block;width:60px;border-bottom:1px solid rgba(90,65,35,.6);margin-left:8px}
+.pp-note{border:1px solid rgba(90,65,35,.4);border-left:4px solid var(--accent);padding:10px 13px;font-size:13px;margin-top:14px}
+.pp-cards{display:block}
+.pp-card{border:1.5px dashed rgba(90,65,35,.65);border-radius:3px;padding:16px 18px 8px;margin-bottom:18px;break-inside:avoid;position:relative}
+.pp-band{position:absolute;top:0;right:0;background:var(--accent);color:#fff;font-family:var(--ui-font);
+  font-size:9px;letter-spacing:.16em;padding:3px 9px;font-weight:800}
+.pp-ct{font-family:var(--serif);font-size:21px;font-weight:700;line-height:1.15;margin:3px 0 2px}
+.pp-cut{font-family:var(--ui-font);font-size:9px;letter-spacing:.14em;color:var(--ink-soft);text-align:right;margin-top:6px}
+.pp-card .plate{max-width:100%;margin:12px 0}
+.pp-keep{font:600 10px/1.4 var(--ui);letter-spacing:.1em;text-transform:uppercase;
+  color:#8a7551;margin:6px 0 0}
+.pp-labels{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.pp-env{border:1.5px dashed rgba(90,65,35,.65);padding:14px;text-align:center;break-inside:avoid}
+.pp-envk{font-family:var(--ui-font);font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-soft)}
+.pp-envc{font-family:ui-monospace,monospace;font-size:30px;font-weight:700;letter-spacing:.2em;margin:6px 0 4px}
+.pp-envn{font-family:var(--ui-font);font-size:9px;color:var(--ink-soft);letter-spacing:.1em}
+.pp-slips{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+.pp-slip{border:1.5px dashed rgba(90,65,35,.65);padding:10px 12px;font-size:13px;font-weight:700;break-inside:avoid}
+.pp-slip span{display:block;font-weight:400;font-size:12px;color:var(--ink-soft);margin-top:3px}
+.pp-seal{text-align:center;padding-top:40px}
+.pp-sealbig{font-family:ui-monospace,monospace;font-size:52px;font-weight:700;letter-spacing:.14em;color:var(--accent)}
+.pp-sealsub{font-family:var(--serif);font-size:19px;margin:4px 0 14px}
+.pp-board{display:grid;grid-template-columns:1fr;gap:12px}
+.pp-theory{border:1px solid rgba(90,65,35,.5);padding:12px 14px;break-inside:avoid}
+.pp-tt{font-family:var(--serif);font-size:17px;font-weight:700}
+.pp-tc{font-size:12.5px;color:var(--ink-soft);margin:3px 0 9px;line-height:1.5}
+.pp-slot{border:2px dashed rgba(90,65,35,.5);min-height:46px;display:grid;place-items:center;
+  font-family:var(--ui-font);font-size:10.5px;color:var(--ink-soft);letter-spacing:.1em;text-transform:uppercase}
+.pp-tags{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
+.pp-tag{border:1.5px dashed rgba(90,65,35,.6);padding:9px 11px;font-size:13px;font-weight:600;text-align:center;break-inside:avoid}
+.pp-choices{display:grid;gap:8px;margin:10px 0}
+.pp-choice{display:flex;gap:10px;align-items:flex-start;font-size:14px;line-height:1.45;break-inside:avoid}
+.pp-box{flex:0 0 15px;height:15px;border:1.5px solid var(--ink);margin-top:3px}
+.pp-rule{border-bottom:1px solid rgba(90,65,35,.55);height:26px}
+.pp-sign2{display:flex;gap:24px;margin-top:20px}
+.pp-sign2>div{flex:1}
+.pp-sign2 span{font-family:var(--ui-font);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-soft)}
+.pp-key{border:2px solid var(--no);padding:16px}
+.pp-key p{font-size:13px;line-height:1.6;margin:0 0 9px}
+.pp-label{margin-top:24px}
+.pp-labelin{border:2px solid rgba(90,65,35,.7);padding:16px 18px;text-align:center}
+.pp-labeltitle{font-family:var(--serif);font-size:26px;font-weight:700;margin:4px 0 12px}
+.pp-labelline{font-size:12.5px;color:var(--ink-soft);margin-top:8px}
+.pp-fill{display:grid;gap:14px;max-width:420px;margin:20px auto}
+.pp-fill>div span{font-family:var(--ui-font);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft)}
+.pp-index{width:100%;border-collapse:collapse;font-family:var(--ui-font);font-size:11.5px}
+.pp-index th{text-align:left;font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);padding:5px 6px;border-bottom:1.5px solid rgba(90,65,35,.5)}
+.pp-index td{border-bottom:1px solid rgba(90,65,35,.28);padding:6px;height:22px}
+.pp-index td.tick{width:22px;border:1px solid rgba(90,65,35,.45)}
+.pp-spines{display:grid;gap:14px}
+.pp-spine{border:1.5px dashed rgba(90,65,35,.6);padding:10px 14px;text-align:center;break-inside:avoid}
+.pp-spine b{font-family:var(--ui-font);font-size:12px;letter-spacing:.28em}
+.pp-spine span{display:block;font-size:10.5px;color:var(--ink-soft);margin-top:3px}
+
+/* the crossword on paper */
+.ppcw{display:flex;gap:20px;flex-wrap:wrap;align-items:flex-start}
+.ppgrid{display:grid;grid-template-columns:repeat(var(--n),26px);gap:0;background:#4a3520;padding:2px;flex:0 0 auto}
+.ppc{width:26px;height:26px;background:#fff;border:1px solid rgba(90,65,35,.5);position:relative}
+.ppc.bl{background:#4a3520;border-color:#4a3520}
+.ppc.mk{background:#f6e2b4}
+.ppc .n{position:absolute;top:0;left:1px;font-size:8px;font-family:var(--ui-font);font-weight:700}
+.ppc .m{position:absolute;bottom:0;right:1px;font-size:8px;font-family:var(--ui-font);font-weight:800;color:#8a6a1e}
+.ppclues{flex:1;min-width:230px;display:flex;gap:18px;flex-wrap:wrap}
+.ppclues h6{font-family:var(--ui-font);font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--accent);margin:0 0 5px}
+.ppclues ol{list-style:none;margin:0;padding:0}
+.ppclues li{font-size:11.5px;line-height:1.4;margin-bottom:4px}
+.ppclues b{color:var(--accent);font-family:var(--ui-font);font-size:10px;margin-right:3px}
+.pp-keyboxes{display:flex;gap:8px}
+.pp-kb{width:34px;height:40px;border:2px solid rgba(90,65,35,.6);position:relative}
+.pp-kb span{position:absolute;top:-8px;left:-5px;background:var(--brass);color:#241a10;border-radius:50%;width:15px;height:15px;
+  font-size:9px;font-weight:800;display:grid;place-items:center;font-family:var(--ui-font)}
+
+/* the certificate */
+.pp-cert{padding:0;border:0}
+.cert{display:flex;flex-direction:column;justify-content:center}
+.cert-in{width:100%}
+.cert{border:3px double var(--accent);padding:8px}
+.cert-in{border:1px solid rgba(90,65,35,.5);padding:28px 26px 22px;text-align:center}
+.cert-soc{font-family:var(--ui-font);font-size:9.5px;letter-spacing:.24em;text-transform:uppercase;color:var(--ink-soft);margin-top:6px}
+.cert-h{font-family:var(--serif);font-size:34px;font-weight:700;margin:8px 0 4px}
+.cert-sub{font-size:13px;font-style:italic;color:var(--ink-soft)}
+.cert-names{font-family:var(--hand);font-size:30px;color:#3a2c1c;border-bottom:1px solid rgba(90,65,35,.5);
+  max-width:460px;margin:20px auto 4px;min-height:40px;padding-bottom:4px}
+.cert-nl{font-family:var(--ui-font);font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-soft)}
+.cert-case{font-family:var(--ui-font);font-size:11px;letter-spacing:.22em;color:var(--accent);font-weight:800;margin-top:20px}
+.cert-title{font-family:var(--serif);font-size:27px;font-weight:700;margin:2px 0}
+.cert-where{font-size:12px;font-style:italic;color:var(--ink-soft)}
+.cert-verdict{font-size:13px;line-height:1.55;max-width:520px;margin:16px auto 0}
+.cert-sign{display:flex;gap:20px;margin-top:30px}
+.cert-sign>div{flex:1}
+.cert-line{border-bottom:1px solid rgba(90,65,35,.6);height:24px;font-family:var(--hand);font-size:17px;text-align:center}
+.cert-sign span{font-family:var(--ui-font);font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-soft)}
+
+/* ---------- print ---------- */
+@media print{
+  html,body{height:auto;overflow:visible;background:#fff;color:#000}
+  #app,#shelf,#intro{display:none!important}
+  .overlay:not(.printme){display:none!important}
+  .overlay.printme{position:static;inset:auto;background:#fff;padding:0;display:block;backdrop-filter:none;animation:none}
+  .overlay.printme .sheet{max-width:none;width:auto;max-height:none;overflow:visible;box-shadow:none;background:#fff;animation:none}
+  .overlay.printme .sheet .body{padding:0}
+  .x,.noprint,.btn{display:none!important}
+  .wl{background:#fff;border:1px solid #9a8c74;min-height:34px}
+  .sd-table td,.sd-table th{border-color:#b3a68e}
+  .sd-h,.fld label,.sd-table th{color:#000}
+  /* squeeze it onto one A4 page */
+  .doc-title{font-size:20px}
+  .sd-h{margin:12px 0 4px}
+  .fld{margin-bottom:9px}
+  .sd-table td{padding:4px 6px}
+  .sd-table{margin-bottom:2px}
+  .wl{min-height:30px!important}
+  [data-f^="ev"],[data-f^="wh"]{min-height:42px!important}
+  [data-f="why"]{min-height:62px!important}
+  [data-f="hard"]{min-height:48px!important}
+  [data-f="concl"]{min-height:34px!important}
+  .sd-foot{margin-top:12px}
+  /* the paper edition */
+  @page{size:A4;margin:11mm}
+  .ppdoc{color:#000}
+  .pp-page,.pp-sec{break-after:page;page-break-after:always;border-bottom:0;margin-bottom:0;padding-bottom:0}
+  .pp-cards{break-after:page;page-break-after:always}
+  .pp-card,.pp-theory,.pp-env,.pp-slip,.pp-tag,.pp-step,.pp-spine{break-inside:avoid;page-break-inside:avoid}
+  .pp-card{border-color:#8a7a5e}
+  .pp-band{background:#7a2f1f!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .pp-step > b{background:#7a2f1f!important;color:#fff!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .ppc.bl,.ppgrid{background:#3a2a18!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .ppc.mk,.pp-kb span,.cwbox span{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .pp-art{max-width:520px}
+  /* Plates carry typeset labels that have to be readable on paper, so they run
+     the full width of the card rather than sitting at half size. The height cap
+     keeps a card with a long body from overflowing its page. */
+  .pp-card{padding:14px 12px 8px}
+  .pp-card .plate{max-width:100%;margin:12px 0}
+  .pp-card .plate svg,.pp-card .plate img{width:100%;height:auto}
+  .pp-card .cap{font-size:9px}
+  /* A plate document is a sheet, not a cut-out card: it gets its own page so the
+     artwork can run full width, and it is allowed to flow onto a second page. */
+  .pp-card.sheet{break-before:page;page-break-before:always;break-after:page;page-break-after:always;
+    break-inside:auto;page-break-inside:auto;border:0;padding:0;margin:0}
+  .pp-card.sheet .plate{break-inside:avoid;page-break-inside:avoid;margin:14px 0 12px}
+  /* Width, not height, is the lever: these plates are all 3:2, so the width
+     sets the height. A sheet also sets its text a little tighter than a card,
+     which is what buys the plate its size and keeps the sheet to one page. */
+  .pp-card.sheet .plate{margin-left:auto;margin-right:auto}
+  .pp-card.sheet .plate.wideplate{max-width:168mm}
+  .pp-card.sheet .plate.squareplate{max-width:128mm}
+  .pp-card.sheet .plate.tallplate{max-width:96mm}
+  .pp-card.sheet .doc-body{font-size:14.5px;line-height:1.55}
+  .pp-card.sheet .doc-body p,.pp-card.sheet .doc-body ul{margin-bottom:9px}
+  .pp-card.sheet .ledger{margin:6px 0 10px}
+  .pp-card.sheet .ledger td,.pp-card.sheet .ledger th{padding:5px 6px}
+  .pp-card.sheet .doc-body h4{margin-top:14px}
+  .pp-card.sheet .ref{margin-top:10px;padding-top:6px;break-before:avoid;page-break-before:avoid}
+  .pp-card.sheet{position:relative}
+  .pp-cert{break-after:page;page-break-after:always}
+  .pp-cert .cert{min-height:255mm}
+  .cert-in{padding:40px 34px}
+}
+/* ---------- the elimination ladder (the enquiry) ---------- */
+.ldrounds{display:flex;flex-direction:column;gap:14px;margin:14px 0}
+.ldr{border:1px solid #cbb691;border-radius:5px;padding:12px 14px;background:#fbf4e4}
+.ldr.sealed{opacity:.55;background:#efe6d2;border-style:dashed}
+.ldr.done{background:#f2f6ea;border-color:#9db183}
+.ldr.live{background:#fdf8ea;border-color:var(--accent);box-shadow:0 1px 0 #e6d8b8}
+.ldn{font:600 11px/1.2 var(--ui);letter-spacing:.13em;text-transform:uppercase;color:#8a755150}
+.ldr .ldn{color:#8a7551}
+.ldr.live .ldn{color:var(--accent)}
+.ldr h4{margin:3px 0 6px;font:600 17px/1.25 var(--serif);color:#3b2c19}
+.ldr p{margin:6px 0 0;font:400 14.5px/1.5 var(--serif);color:#4a3a26}
+.lddoc{font:400 12.5px/1.4 var(--ui);color:#6d5a3d}
+.ldopts{display:flex;flex-wrap:wrap;gap:7px;margin-top:11px}
+.ldopt{font:600 12.5px/1 var(--ui);letter-spacing:.06em;padding:8px 11px;border:1px solid #b9a179;
+  border-radius:4px;background:#fffdf6;color:#4a3a26;cursor:pointer}
+.ldopt:hover{background:#f6ecd6;border-color:var(--accent)}
+.ldopt.no{background:#f6e2dd;border-color:#b46a58;color:#8a3d2c;text-decoration:line-through;opacity:.7}
+.ldpick{display:inline-block;font:600 19px/1 var(--serif);letter-spacing:.09em;color:#2f4a26;
+  background:#e6efd9;border:1px solid #9db183;border-radius:4px;padding:8px 14px;margin:2px 0 4px}
+.ldkey{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0 4px}
+.ldkey span{width:42px;height:50px;display:grid;place-items:center;border:1.5px solid #8a7551;
+  border-radius:4px;background:#fffdf5;font:600 25px/1 var(--serif);color:#3b2c19}
+.ldkey.blank span{border-style:dashed;background:#f4ecd8}
+.ldfin{font:400 14.5px/1.5 var(--serif);color:#4a3a26;margin:8px 0 0}
+.ldfin.muted{color:#8a7551;font-style:italic}
+
+/* the enquiry on paper */
+.pp-ldr{border:1px solid #b9a179;border-radius:4px;padding:8px 11px;margin:0 0 9px;break-inside:avoid}
+.pp-ldn{font:600 9px/1.2 var(--ui);letter-spacing:.14em;text-transform:uppercase;color:#8a7551}
+.pp-ldr h5{margin:2px 0 3px;font:600 13px/1.2 var(--serif)}
+.pp-lddoc{font:400 10px/1.3 var(--ui);color:#5b4a35}
+.pp-ldr p{margin:4px 0 0;font:400 11px/1.45 var(--serif)}
+.pp-ldopts{display:flex;flex-wrap:wrap;gap:4px 12px;margin-top:6px}
+.pp-ldopt{font:600 10px/1.5 var(--ui);letter-spacing:.05em}
+.pp-ldline{display:flex;align-items:flex-end;gap:8px;margin-top:7px}
+.pp-ldline span{font:600 10px/1.4 var(--ui);white-space:nowrap}
+.pp-ldline i{flex:1;border-bottom:1px solid #6b5c44;height:15px}
+
+
+/* ---------- teacher notes, one case at a time ---------- */
+.tnotes{border-top:1px solid #d9c9a6;padding:2px 0}
+.tnotes summary{cursor:pointer;font:600 15px/1.6 var(--serif);color:#3b2c19;
+  list-style:none;display:flex;flex-wrap:wrap;gap:8px;align-items:baseline;padding:6px 0}
+.tnotes summary::-webkit-details-marker{display:none}
+.tnotes summary::before{content:"▸";color:var(--accent);font-size:13px;width:12px}
+.tnotes[open] summary::before{content:"▾"}
+.tnotes summary span{font:400 12.5px/1.4 var(--ui);color:#8a7551}
+.tnbody{padding:0 0 10px 12px;border-left:2px solid #e3d5b4;margin-left:4px}
+.tnbody p{margin:6px 0;font:400 14.5px/1.55 var(--serif);color:#4a3a26}
+
+
+/* ---------- the matrix (search grid, hypothesis table, pattern chart) ---------- */
+.mxscroll{overflow-x:auto;margin:14px 0 4px;-webkit-overflow-scrolling:touch}
+table.mx{border-collapse:collapse;width:100%;min-width:520px;background:#fdf8ea}
+table.mx th,table.mx td{border:1px solid #cbb691;padding:7px 9px;text-align:center;vertical-align:middle}
+table.mx th{background:#f2e7cd;font:600 12.5px/1.3 var(--ui);color:#3b2c19}
+table.mx th span{display:block}
+table.mx th i{display:block;font:400 10.5px/1.3 var(--ui);color:#8a7551;font-style:italic;margin-top:2px}
+table.mx th.mxrow{text-align:left;font:600 13.5px/1.35 var(--serif);white-space:normal;min-width:150px}
+table.mx th.mxcorner{background:#e8dbbd}
+.mxc{width:100%;min-width:38px;height:34px;border:0;background:transparent;cursor:pointer;
+  font:600 17px/1 var(--ui);color:#2f4a26;border-radius:3px}
+.mxc:hover{background:#f0e5cb}
+.mxc.on{background:#e6efd9}
+.mxc.bad{background:#f6e2dd;color:#8a3d2c}
+.mxc.bad::after{content:"✕"}
+.mxc.gap{outline:2px dashed #b46a58;outline-offset:-3px}
+tr.mxfoot th,tr.mxfoot td{background:#efe6d2}
+.mxf{font:600 12.5px/1.3 var(--ui);color:#7d2b1b}
+.mxnote{font:400 14px/1.55 var(--serif);color:#5b4a35;margin:8px 0 0}
+.mxdone{margin-top:16px;padding:12px 14px;border:1px solid #9db183;border-radius:5px;background:#f2f6ea}
+.mxdone p{margin:0;font:400 14.5px/1.55 var(--serif);color:#3b4a2c}
+.mxkey{display:flex;gap:8px;flex-wrap:wrap;margin:11px 0 2px}
+.mxkey span{width:42px;height:50px;display:grid;place-items:center;border:1.5px solid #8a7551;
+  border-radius:4px;background:#fffdf5;font:600 25px/1 var(--serif);color:#3b2c19}
+.mxcap{margin-top:9px!important;font-style:italic;color:#5b4a35!important}
+
+/* the matrix on paper */
+table.ppmx{border-collapse:collapse;width:100%;margin:8px 0;break-inside:avoid}
+table.ppmx th,table.ppmx td{border:1px solid #6b5c44;padding:6px 5px;text-align:center;
+  font:600 10px/1.25 var(--ui)}
+table.ppmx td{height:26px}
+table.ppmx th:first-child{text-align:left;font:600 10.5px/1.3 var(--serif);width:26%}
+table.ppmx th i{display:block;font:400 8.5px/1.25 var(--ui);font-style:italic}
+tr.ppmxf td{background:#efe9dc}
+/* ---------- the balance scales ---------- */
+.scrounds{display:flex;flex-direction:column;gap:14px;margin:14px 0}
+.scr{border:1px solid #cbb691;border-radius:5px;padding:12px 14px;background:#fbf4e4}
+.scr.sealed{opacity:.55;background:#efe6d2;border-style:dashed}
+.scr.done{background:#f2f6ea;border-color:#9db183}
+.scr.live{background:#fdf8ea;border-color:var(--accent)}
+.scn{font:600 11px/1.2 var(--ui);letter-spacing:.13em;text-transform:uppercase;color:#8a7551}
+.scr.live .scn{color:var(--accent)}
+.scr h4{margin:3px 0 6px;font:600 20px/1.2 var(--serif);letter-spacing:.06em;color:#3b2c19}
+.scr p{margin:5px 0 0;font:400 14.5px/1.5 var(--serif);color:#4a3a26}
+.scsvg{display:block;width:300px;max-width:100%;margin:10px 0 4px}
+.scpan{margin-top:6px}
+.scsum{font:600 14px/1.5 var(--ui);color:#5b4a35}
+.scsum.ok{color:#2f4a26}
+.scput{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px;min-height:36px}
+.scempty{font:400 13px/2.4 var(--serif);font-style:italic;color:#8a7551}
+.sctray{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px;padding-top:10px;border-top:1px dashed #cbb691}
+.scstone{font:600 13px/1 var(--ui);padding:9px 12px;border:1px solid #b9a179;border-radius:4px;
+  background:#fffdf6;color:#4a3a26;cursor:pointer;min-width:44px}
+.scstone:hover{background:#f6ecd6;border-color:var(--accent)}
+.scstone.in{background:#e6efd9;border-color:#9db183}
+.scstone.in::after{content:" \2715";opacity:.5;font-size:11px}
+</style>
+
+<div id="app" class="hidden">
+  <div id="topbar">
+    <button class="tbtn" id="btnHome">← Cases</button>
+    <div id="caseTitle"><span id="caseCode"></span><b id="caseName"></b></div>
+    <div class="spacer"></div>
+    <button class="tbtn" id="btnDesk">🗂 Desk</button>
+    <button class="tbtn" id="btnLocks">🔒 Locks <span class="pip" id="lockPip">0/2</span></button>
+    <button class="tbtn" id="btnBoard">📌 Pinboard</button>
+    <button class="tbtn hidden" id="btnRiddle">🧩 Riddle</button>
+    <button class="tbtn" id="btnBible">📖 Bible</button>
+    <button class="tbtn" id="btnSheet">🖨 Sheet</button>
+    <button class="tbtn" id="btnNotes">📝 Notes</button>
+    <button class="tbtn" id="btnMenu">☰</button>
+  </div>
+  <div id="stage">
+    <div id="desk"></div>
+    <div id="deskHint">Drag items around the desk · click an item to read it</div>
+    <div id="board" class="hidden"></div>
+    <div id="notesPane" class="hidden">
+      <h3>Case Notes</h3>
+      <p>Anything you type is saved on this device. Use it to track times, names and contradictions.</p>
+      <textarea id="notesArea" placeholder="Explanation:&#10;Evidence for:&#10;Evidence against:"></textarea>
+      <button class="btn ghost" id="notesClose">Close</button>
+    </div>
+  </div>
+</div>
+
+<div id="shelf"></div>
+
+<script>
+const SVG = {};
+
+SVG.map = `<svg viewBox="0 0 1536 1024" xmlns="http://www.w3.org/2000/svg"><image href="images/map.jpg" x="0" y="0" width="1536" height="1024"/><text x="226" y="90" text-anchor="middle" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="44" font-weight="600" fill="#4a3520" textLength="300" lengthAdjust="spacingAndGlyphs">JERUSALEM</text><text x="226" y="122" text-anchor="middle" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="25" font-weight="500" fill="#4a3520" font-style="italic" textLength="105" lengthAdjust="spacingAndGlyphs">c. AD 33</text><text x="395" y="216" text-anchor="middle" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="27" font-weight="600" fill="#4a3520" textLength="150" lengthAdjust="spacingAndGlyphs">GOLGOTHA</text><text x="561" y="379" text-anchor="middle" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="25" font-weight="600" fill="#4a3520" textLength="74" lengthAdjust="spacingAndGlyphs">GATE</text><text x="211" y="598" text-anchor="middle" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="19" font-weight="600" fill="#4a3520" textLength="96" lengthAdjust="spacingAndGlyphs">JOSEPH&#8217;S</text><text x="211" y="620" text-anchor="middle" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="19" font-weight="600" fill="#4a3520" textLength="86" lengthAdjust="spacingAndGlyphs">GARDEN</text><text x="913" y="279" text-anchor="middle" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="25" font-weight="600" fill="#4a3520" textLength="145" lengthAdjust="spacingAndGlyphs">COUNCIL HALL</text><text x="1420" y="126" text-anchor="middle" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="23" font-weight="600" fill="#4a3520" textLength="96" lengthAdjust="spacingAndGlyphs">TEMPLE</text><text x="1420" y="152" text-anchor="middle" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="23" font-weight="600" fill="#4a3520" textLength="116" lengthAdjust="spacingAndGlyphs">COMPLEX</text><text x="1067" y="636" text-anchor="middle" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="24" font-weight="600" fill="#4a3520" textLength="132" lengthAdjust="spacingAndGlyphs">UPPER ROOM</text><text x="1186.7" y="932" text-anchor="middle" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="17" font-weight="500" fill="#4a3520">0</text><text x="1255" y="932" text-anchor="middle" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="17" font-weight="500" fill="#4a3520">50</text><text x="1324" y="932" text-anchor="middle" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="17" font-weight="500" fill="#4a3520">100</text><text x="1393.3" y="932" text-anchor="middle" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="17" font-weight="500" fill="#4a3520">150</text><text x="1463.3" y="932" text-anchor="middle" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="17" font-weight="500" fill="#4a3520">200</text><text x="1325" y="986" text-anchor="middle" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="15" font-weight="500" fill="#4a3520" textLength="72" lengthAdjust="spacingAndGlyphs">METRES</text></svg>`;
+
+SVG.tomb = `<svg viewBox="0 0 1536 1024" xmlns="http://www.w3.org/2000/svg"><image href="images/tomb.jpg" x="0" y="0" width="1536" height="1024"/><text x="826" y="224" text-anchor="middle" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="26" font-weight="600" fill="#4a3520" textLength="262" lengthAdjust="spacingAndGlyphs">A &#183; THE WRAPPINGS</text><text x="1337" y="309" text-anchor="middle" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="26" font-weight="600" fill="#4a3520" textLength="226" lengthAdjust="spacingAndGlyphs">B &#183; THE FACE CLOTH</text></svg>`;
+
+SVG.stone = `<svg viewBox="0 0 1536 1024" xmlns="http://www.w3.org/2000/svg"><image href="images/stone.jpg" x="0" y="0" width="1536" height="1024"/><text x="1038" y="159" text-anchor="middle" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="26" font-weight="600" fill="#4a3520" textLength="240" lengthAdjust="spacingAndGlyphs">THE SEALING STONE</text><text x="840" y="745" text-anchor="middle" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="20" font-weight="600" fill="#4a3520" textLength="250" lengthAdjust="spacingAndGlyphs">CHANNEL SLOPES DOWN</text><text x="840" y="770" text-anchor="middle" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="20" font-weight="600" fill="#4a3520" textLength="228" lengthAdjust="spacingAndGlyphs">TO THE TOMB MOUTH</text><text x="342" y="850" text-anchor="middle" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="26" font-weight="600" fill="#4a3520" textLength="235" lengthAdjust="spacingAndGlyphs">THE TOMB MOUTH</text><text x="1228" y="220" text-anchor="middle" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="16" font-weight="500" fill="#4a3520">&#8776; 30 CM</text><text x="1320" y="418" text-anchor="start" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="17" font-weight="500" fill="#4a3520">&#8776; 1.6 M</text><text x="1005" y="336" text-anchor="middle" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="19" font-weight="600" fill="#4a3520" textLength="200" lengthAdjust="spacingAndGlyphs">TO OPEN &#8212; ROLL UPHILL</text></svg>`;
+
+SVG.seal = `<svg viewBox="0 0 1536 1024" xmlns="http://www.w3.org/2000/svg"><image href="images/seal.jpg" x="0" y="0" width="1536" height="1024"/><text x="764" y="169" text-anchor="middle" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="28" font-weight="600" fill="#4a3520" textLength="320" lengthAdjust="spacingAndGlyphs">CORD TORN THROUGH</text><text x="1259" y="725" text-anchor="middle" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="28" font-weight="600" fill="#4a3520" textLength="308" lengthAdjust="spacingAndGlyphs">WAX SEAL STILL INTACT</text></svg>`;
+
+SVG.cipher = `<svg viewBox="0 0 1400 467" xmlns="http://www.w3.org/2000/svg"><image href="images/cipher.jpg" x="0" y="0" width="1400" height="467"/><text x="700" y="150" text-anchor="middle" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="22" font-weight="500" fill="#3d2c18" font-style="italic" opacity=".7">tally scrap &#183; guard&#8217;s kit</text><text x="680" y="308" text-anchor="middle" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="92" font-weight="700" fill="#33230f">O L Q H Q</text></svg>`;
+
+SVG.decoder = `<svg viewBox="0 0 2172 724" xmlns="http://www.w3.org/2000/svg"><image href="images/decoder.jpg" x="0" y="0" width="2172" height="724"/><text x="1152" y="240" text-anchor="middle" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="30" font-weight="600" fill="#2f1d0d" opacity="0.82" letter-spacing="5">TENTH LEGION &#183; FIELD CIPHER</text><text x="336" y="330" text-anchor="start" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="27" font-weight="600" fill="#2f1d0d" opacity="0.7" letter-spacing="2">PLAIN</text><text x="336" y="405" text-anchor="start" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="27" font-weight="600" fill="#2f1d0d" opacity="0.7" letter-spacing="2">CIPHER</text><text x="572.0" y="330" text-anchor="middle" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="42" font-weight="600" fill="#2f1d0d" opacity="0.9">A</text><text x="572.0" y="405" text-anchor="middle" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="42" font-weight="600" fill="#2f1d0d" opacity="0.9">D</text><text x="627.52" y="330" text-anchor="middle" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="42" font-weight="600" fill="#2f1d0d" opacity="0.9">B</text><text x="627.52" y="405" text-anchor="middle" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="42" font-weight="600" fill="#2f1d0d" opacity="0.9">E</text><text x="683.04" y="330" text-anchor="middle" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="42" font-weight="600" fill="#2f1d0d" opacity="0.9">C</text><text x="683.04" y="405" text-anchor="middle" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="42" font-weight="600" fill="#2f1d0d" opacity="0.9">F</text><text x="738.56" y="330" text-anchor="middle" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="42" font-weight="600" fill="#2f1d0d" opacity="0.9">D</text><text x="738.56" y="405" text-anchor="middle" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="42" font-weight="600" fill="#2f1d0d" opacity="0.9">G</text><text x="794.08" y="330" text-anchor="middle" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="42" font-weight="600" fill="#2f1d0d" opacity="0.9">E</text><text x="794.08" y="405" text-anchor="middle" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="42" font-weight="600" fill="#2f1d0d" opacity="0.9">H</text><text x="849.6" y="330" text-anchor="middle" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="42" font-weight="600" fill="#2f1d0d" opacity="0.9">F</text><text x="849.6" y="405" text-anchor="middle" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="42" font-weight="600" fill="#2f1d0d" opacity="0.9">I</text><text x="905.12" y="330" text-anchor="middle" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="42" font-weight="600" fill="#2f1d0d" opacity="0.9">G</text><text x="905.12" y="405" text-anchor="middle" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="42" font-weight="600" fill="#2f1d0d" opacity="0.9">J</text><text x="960.6400000000001" y="330" text-anchor="middle" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="42" font-weight="600" fill="#2f1d0d" opacity="0.9">H</text><text x="960.6400000000001" y="405" text-anchor="middle" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="42" font-weight="600" fill="#2f1d0d" opacity="0.9">K</text><text x="1016.1600000000001" y="330" text-anchor="middle" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="42" font-weight="600" fill="#2f1d0d" opacity="0.9">I</text><text x="1016.1600000000001" y="405" text-anchor="middle" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="42" font-weight="600" fill="#2f1d0d" opacity="0.9">L</text><text x="1071.68" y="330" text-anchor="middle" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="42" font-weight="600" fill="#2f1d0d" opacity="0.9">J</text><text x="1071.68" y="405" text-anchor="middle" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="42" font-weight="600" fill="#2f1d0d" opacity="0.9">M</text><text x="1127.2" y="330" text-anchor="middle" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="42" font-weight="600" fill="#2f1d0d" opacity="0.9">K</text><text x="1127.2" y="405" text-anchor="middle" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="42" font-weight="600" fill="#2f1d0d" opacity="0.9">N</text><text x="1182.72" y="330" text-anchor="middle" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="42" font-weight="600" fill="#2f1d0d" opacity="0.9">L</text><text x="1182.72" y="405" text-anchor="middle" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="42" font-weight="600" fill="#2f1d0d" opacity="0.9">O</text><text x="1238.24" y="330" text-anchor="middle" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="42" font-weight="600" fill="#2f1d0d" opacity="0.9">M</text><text x="1238.24" y="405" text-anchor="middle" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="42" font-weight="600" fill="#2f1d0d" opacity="0.9">P</text><text x="1293.76" y="330" text-anchor="middle" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="42" font-weight="600" fill="#2f1d0d" opacity="0.9">N</text><text x="1293.76" y="405" text-anchor="middle" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="42" font-weight="600" fill="#2f1d0d" opacity="0.9">Q</text><text x="1349.2800000000002" y="330" text-anchor="middle" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="42" font-weight="600" fill="#2f1d0d" opacity="0.9">O</text><text x="1349.2800000000002" y="405" text-anchor="middle" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="42" font-weight="600" fill="#2f1d0d" opacity="0.9">R</text><text x="1404.8000000000002" y="330" text-anchor="middle" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="42" font-weight="600" fill="#2f1d0d" opacity="0.9">P</text><text x="1404.8000000000002" y="405" text-anchor="middle" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="42" font-weight="600" fill="#2f1d0d" opacity="0.9">S</text><text x="1460.3200000000002" y="330" text-anchor="middle" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="42" font-weight="600" fill="#2f1d0d" opacity="0.9">Q</text><text x="1460.3200000000002" y="405" text-anchor="middle" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="42" font-weight="600" fill="#2f1d0d" opacity="0.9">T</text><text x="1515.8400000000001" y="330" text-anchor="middle" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="42" font-weight="600" fill="#2f1d0d" opacity="0.9">R</text><text x="1515.8400000000001" y="405" text-anchor="middle" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="42" font-weight="600" fill="#2f1d0d" opacity="0.9">U</text><text x="1571.3600000000001" y="330" text-anchor="middle" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="42" font-weight="600" fill="#2f1d0d" opacity="0.9">S</text><text x="1571.3600000000001" y="405" text-anchor="middle" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="42" font-weight="600" fill="#2f1d0d" opacity="0.9">V</text><text x="1626.88" y="330" text-anchor="middle" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="42" font-weight="600" fill="#2f1d0d" opacity="0.9">T</text><text x="1626.88" y="405" text-anchor="middle" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="42" font-weight="600" fill="#2f1d0d" opacity="0.9">W</text><text x="1682.4" y="330" text-anchor="middle" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="42" font-weight="600" fill="#2f1d0d" opacity="0.9">U</text><text x="1682.4" y="405" text-anchor="middle" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="42" font-weight="600" fill="#2f1d0d" opacity="0.9">X</text><text x="1737.92" y="330" text-anchor="middle" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="42" font-weight="600" fill="#2f1d0d" opacity="0.9">V</text><text x="1737.92" y="405" text-anchor="middle" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="42" font-weight="600" fill="#2f1d0d" opacity="0.9">Y</text><text x="1793.44" y="330" text-anchor="middle" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="42" font-weight="600" fill="#2f1d0d" opacity="0.9">W</text><text x="1793.44" y="405" text-anchor="middle" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="42" font-weight="600" fill="#2f1d0d" opacity="0.9">Z</text><text x="1848.96" y="330" text-anchor="middle" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="42" font-weight="600" fill="#2f1d0d" opacity="0.9">X</text><text x="1848.96" y="405" text-anchor="middle" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="42" font-weight="600" fill="#2f1d0d" opacity="0.9">A</text><text x="1904.48" y="330" text-anchor="middle" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="42" font-weight="600" fill="#2f1d0d" opacity="0.9">Y</text><text x="1904.48" y="405" text-anchor="middle" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="42" font-weight="600" fill="#2f1d0d" opacity="0.9">B</text><text x="1960.0" y="330" text-anchor="middle" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="42" font-weight="600" fill="#2f1d0d" opacity="0.9">Z</text><text x="1960.0" y="405" text-anchor="middle" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="42" font-weight="600" fill="#2f1d0d" opacity="0.9">C</text><line x1="330" y1="353" x2="1985" y2="353" stroke="#2f1d0d" stroke-width="2" opacity="0.22"/></svg>`;
+
+SVG.roster = `<svg viewBox="0 0 900 1200" xmlns="http://www.w3.org/2000/svg"><image href="images/roster.jpg" x="0" y="0" width="900" height="1200"/><text x="450" y="175" text-anchor="middle" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="52" font-weight="600" fill="#3d2c18" letter-spacing="10">WATCH ORDER</text><text x="450" y="218" text-anchor="middle" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="21" font-weight="500" fill="#3d2c18" letter-spacing="3">GARDEN TOMB &#183; JOSEPH&#8217;S GROUND</text><line x1="180" y1="248" x2="720" y2="248" stroke="#3d2c18" stroke-width="2" opacity=".6"/><text x="450" y="300" text-anchor="middle" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="20" font-weight="500" fill="#3d2c18" font-style="italic">Posted at the eleventh hour, the Day of Preparation,</text><text x="450" y="330" text-anchor="middle" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="20" font-weight="500" fill="#3d2c18" font-style="italic">at the request of the chief priests, by authority of the Prefect.</text><text x="160" y="410" text-anchor="start" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="19" font-weight="600" fill="#3d2c18" letter-spacing="4">SIGNED ON WATCH</text><text x="160" y="480" text-anchor="start" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="33" font-weight="600" fill="#3d2c18">LUCIUS VARO</text><text x="160" y="506" text-anchor="start" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="17" font-weight="500" fill="#3d2c18" font-style="italic" opacity=".75">decanus, in command</text><path d="M636 474 q18 -14 36 4 q14 16 30 -2 q16 -18 34 6 q10 14 26 2" fill="none" stroke="#5a3a20" stroke-width="2.3" opacity=".72" stroke-linecap="round" stroke-linejoin="round"/><text x="160" y="585" text-anchor="start" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="33" font-weight="600" fill="#3d2c18">GAIUS PETRONIUS</text><text x="160" y="611" text-anchor="start" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="17" font-weight="500" fill="#3d2c18" font-style="italic" opacity=".75">legionary</text><path d="M640 582 q24 14 44 -8 q18 -18 38 2 q14 14 32 -6" fill="none" stroke="#5a3a20" stroke-width="2.3" opacity=".72" stroke-linecap="round" stroke-linejoin="round"/><text x="160" y="690" text-anchor="start" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="33" font-weight="600" fill="#3d2c18">MARCUS SILVANUS</text><text x="160" y="716" text-anchor="start" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="17" font-weight="500" fill="#3d2c18" font-style="italic" opacity=".75">legionary</text><path d="M634 686 q14 -16 32 0 q20 20 40 -4 q16 -16 36 4 q12 12 24 0" fill="none" stroke="#5a3a20" stroke-width="2.3" opacity=".72" stroke-linecap="round" stroke-linejoin="round"/><text x="160" y="795" text-anchor="start" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="33" font-weight="600" fill="#3d2c18">TIBERIUS RUFUS</text><text x="160" y="821" text-anchor="start" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="17" font-weight="500" fill="#3d2c18" font-style="italic" opacity=".75">legionary</text><path d="M640 790 q20 -18 40 2 q16 16 34 -4 q14 -14 30 4" fill="none" stroke="#5a3a20" stroke-width="2.3" opacity=".72" stroke-linecap="round" stroke-linejoin="round"/><line x1="160" y1="860" x2="740" y2="860" stroke="#3d2c18" stroke-width="1.5" opacity=".45"/><text x="450" y="910" text-anchor="middle" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="20" font-weight="500" fill="#3d2c18" font-style="italic">The seal is not to be broken. The watch does not sleep.</text><text x="450" y="942" text-anchor="middle" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="18" font-weight="500" fill="#3d2c18" font-style="italic" opacity=".85">Any man who leaves his post before relief answers for it with his life.</text><text x="450" y="1080" text-anchor="middle" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="17" font-weight="500" fill="#3d2c18" font-style="italic" opacity=".7">Each man signed for himself at the posting of the watch.</text></svg>`;
+
+SVG.finalSeal = `<svg class="seal-final" viewBox="0 0 100 100">
+  <circle cx="50" cy="50" r="46" fill="#8c2f1f"/>
+  <circle cx="50" cy="50" r="37" fill="none" stroke="#f2d9c9" stroke-width="2"/>
+  <text x="50" y="58" text-anchor="middle" font-family="Georgia,serif" font-size="26" fill="#f2d9c9">CS</text></svg>`;
+
+SVG.poster_jm33 = `<svg viewBox="0 0 1536 1024" xmlns="http://www.w3.org/2000/svg"><image href="images/poster_jm33.jpg" x="0" y="0" width="1536" height="1024"/></svg>`;
+
+SVG.poster_jm47 = `<svg viewBox="0 0 1536 1024" xmlns="http://www.w3.org/2000/svg"><image href="images/poster_jm47.jpg" x="0" y="0" width="1536" height="1024"/></svg>`;
+
+SVG.poster_jm19 = `<svg viewBox="0 0 1536 1024" xmlns="http://www.w3.org/2000/svg"><image href="images/poster_jm19.jpg" x="0" y="0" width="1536" height="1024"/></svg>`;
+
+SVG.poster_jm08 = `<svg viewBox="0 0 1536 1024" xmlns="http://www.w3.org/2000/svg"><image href="images/poster_jm08.jpg" x="0" y="0" width="1536" height="1024"/></svg>`;
+
+SVG.poster_jm02 = `<svg viewBox="0 0 1536 1024" xmlns="http://www.w3.org/2000/svg"><image href="images/poster_jm02.jpg" x="0" y="0" width="1536" height="1024"/></svg>`;
+
+SVG.poster_jm03 = `<svg viewBox="0 0 1536 1024" xmlns="http://www.w3.org/2000/svg"><image href="images/poster_jm03.jpg" x="0" y="0" width="1536" height="1024"/></svg>`;
+
+SVG.poster_jm04 = `<svg viewBox="0 0 1536 1024" xmlns="http://www.w3.org/2000/svg"><image href="images/poster_jm04.jpg" x="0" y="0" width="1536" height="1024"/></svg>`;
+
+SVG.poster_jm05 = `<svg viewBox="0 0 1536 1024" xmlns="http://www.w3.org/2000/svg"><image href="images/poster_jm05.jpg" x="0" y="0" width="1536" height="1024"/></svg>`;
+
+SVG.poster_jm06 = `<svg viewBox="0 0 1536 1024" xmlns="http://www.w3.org/2000/svg"><image href="images/poster_jm06.jpg" x="0" y="0" width="1536" height="1024"/></svg>`;
+
+SVG.poster_jm09 = `<svg viewBox="0 0 1536 1024" xmlns="http://www.w3.org/2000/svg"><image href="images/poster_jm09.jpg" x="0" y="0" width="1536" height="1024"/></svg>`;
+
+SVG.poster_jm10 = `<svg viewBox="0 0 1536 1024" xmlns="http://www.w3.org/2000/svg"><image href="images/poster_jm10.jpg" x="0" y="0" width="1536" height="1024"/></svg>`;
+SVG.poster_jm11 = `<svg viewBox="0 0 1536 1024" xmlns="http://www.w3.org/2000/svg"><image href="images/poster_jm11.jpg" x="0" y="0" width="1536" height="1024"/></svg>`;
+SVG.poster_jm13 = `<svg viewBox="0 0 1536 1024" xmlns="http://www.w3.org/2000/svg"><image href="images/poster_jm13.jpg" x="0" y="0" width="1536" height="1024"/></svg>`;
+SVG.poster_jm14 = `<svg viewBox="0 0 1536 1024" xmlns="http://www.w3.org/2000/svg"><image href="images/poster_jm14.jpg" x="0" y="0" width="1536" height="1024"/></svg>`;
+SVG.poster_jm15 = `<svg viewBox="0 0 1536 1024" xmlns="http://www.w3.org/2000/svg"><image href="images/poster_jm15.jpg" x="0" y="0" width="1536" height="1024"/></svg>`;
+SVG.poster_jm16 = `<svg viewBox="0 0 1536 1024" xmlns="http://www.w3.org/2000/svg"><image href="images/poster_jm16.jpg" x="0" y="0" width="1536" height="1024"/></svg>`;
+SVG.poster_jm18 = `<svg viewBox="0 0 1536 1024" xmlns="http://www.w3.org/2000/svg"><image href="images/poster_jm18.jpg" x="0" y="0" width="1536" height="1024"/></svg>`;
+SVG.poster_jm20 = `<svg viewBox="0 0 1536 1024" xmlns="http://www.w3.org/2000/svg"><image href="images/poster_jm20.jpg" x="0" y="0" width="1536" height="1024"/></svg>`;
+
+</script>
+<script>
+"use strict";
+/* ============================================================
+   THE CASE REGISTRY
+
+   The shelf runs on stubs — just enough about each case to draw its poster and
+   its progress stamp. The case itself (every document, lock, theory and verdict)
+   lives in its own file and is fetched the moment somebody takes the case down
+   off the board. That is what keeps the page small as the archive grows.
+
+   In the single-file build every case is already inlined, so registerCase() has
+   run for all of them before anybody clicks anything and nothing is fetched.
+   ============================================================ */
+
+const CASE_STUBS = [{"id": "jm33", "code": "CASE JM-33", "title": "The Empty Tomb", "period": "Jerusalem · c. AD 33", "colour": "#8c2f1f", "poster": "poster_jm33", "teaser": "A sealed tomb, four Roman guards on watch, and no body in the morning. Five explanations have been offered. Only one survives the file.", "nlocks": 2, "ntheories": 5}, {"id": "jm47", "code": "CASE JM-47", "title": "The Leak", "period": "Aram and Israel · c. 850 BC", "colour": "#2f5c7d", "poster": "poster_jm47", "teaser": "Five ambushes laid in secret. Five times the enemy simply did not come. The king of Aram is certain one of his own officers is talking — and he is about to be told something far stranger.", "nlocks": 2, "ntheories": 5}, {"id": "jm19", "code": "CASE JM-19", "title": "The Broken Riddle", "period": "Timnah, Philistia · c. 1100 BC", "colour": "#8a6a24", "poster": "poster_jm19", "teaser": "A riddle only one man on earth could answer — and thirty men answered it, perfectly, an hour before the deadline. Nobody saw. Nobody was told. Somebody is lying.", "nlocks": 2, "ntheories": 5}, {"id": "jm08", "code": "CASE JM-08", "title": "The Stolen Plunder", "period": "Jericho and Ai · c. 1400 BC", "colour": "#6b4a2a", "poster": "poster_jm08", "teaser": "Jericho fell in a week. Days later, a village stopped the same army dead and thirty-six men died running. Something is missing from the treasury, and the shortfall is exactly the size of one pair of hands.", "nlocks": 2, "ntheories": 5}, {"id": "jm02", "code": "CASE JM-02", "title": "The Missing Boy", "period": "Jerusalem · c. AD 8", "colour": "#5c7d8a", "poster": "poster_jm02", "teaser": "A family leaves the festival in a company of a hundred relatives. A full day out, a twelve-year-old is not among them. It takes two exhausted parents three days to find a child who was never hiding.", "nlocks": 2, "ntheories": 5}, {"id": "jm03", "code": "CASE JM-03", "title": "The Bush That Would Not Burn", "period": "Horeb · undated", "colour": "#7d5c2f", "poster": "poster_jm03", "teaser": "A shepherd turns aside to look at a burning bush — not because it is burning, but because it is still there. The site was surveyed afterwards. There is no ash on that hillside at all.", "nlocks": 2, "ntheories": 5}, {"id": "jm04", "code": "CASE JM-04", "title": "The Judgment", "period": "Jerusalem · c. 960 BC", "colour": "#7d6b4a", "poster": "poster_jm04", "teaser": "Two women, one living child, and not a single witness, document or mark to tell them apart. Both tell exactly the same story with the names reversed. The Society regards this as the hardest evidential problem in the archive.", "nlocks": 2, "ntheories": 5}, {"id": "jm05", "code": "CASE JM-05", "title": "The Writing on the Wall", "period": "Babylon · 539 BC", "colour": "#4a2f6b", "poster": "poster_jm05", "teaser": "A thousand nobles at a feast, and a hand that writes four words on the plaster and stops. The finest scholars in the empire can pronounce every word and cannot tell the king what any of it means. By morning he is dead.", "nlocks": 2, "ntheories": 5}, {"id": "jm06", "code": "CASE JM-06", "title": "The Walls", "period": "Jericho · c. 1400 BC", "colour": "#8a6a4a", "poster": "poster_jm06", "teaser": "For six days an army walks once around a walled city in complete silence and goes back to camp. On the seventh it walks round seven times, makes one sound, and the wall falls — outward, all the way round, except for one house.", "nlocks": 2, "ntheories": 5}, {"id": "jm09", "code": "CASE JM-09", "title": "The Mouldy Bread", "period": "Gibeon · c. 1400 BC", "colour": "#7d7a4a", "poster": "poster_jm09", "teaser": "Ambassadors arrive with split wineskins, worn-through sandals and dry crumbling bread as proof of a very long journey. A treaty is sworn. Three days later they turn out to live a day's walk away.", "nlocks": 2, "ntheories": 5}, {"id": "jm10", "code": "CASE JM-10", "title": "The Ten Blows", "period": "Egypt · c. 1450 BC", "colour": "#6b2f2f", "poster": "poster_jm10", "teaser": "Ten disasters strike Egypt inside a year. Pharaoh's own magicians reproduce the first two, fail at the third, and by the fourth something is happening that no chain of natural causes can account for.", "nlocks": 2, "ntheories": 5}, {"id": "jm11", "code": "CASE JM-11", "title": "The Cart That Chose Its Own Road", "period": "Philistia · c. 1100 BC", "colour": "#8a4a2f", "poster": "poster_jm11", "teaser": "Seven months after capturing Israel's ark, the Philistines are sick of it. Their own priests design a test to find out whether the chest is really the cause — and build it so that it could easily say no.", "nlocks": 2, "ntheories": 5}, {"id": "jm13", "code": "CASE JM-13", "title": "The Twelve Reports", "period": "Kadesh · c. 1445 BC", "colour": "#5c6b3a", "poster": "poster_jm13", "teaser": "Twelve men survey one country for forty days and come back with a bunch of grapes that takes two of them to carry — and two reports that cannot both be right. Except that every fact in them is identical.", "nlocks": 2, "ntheories": 5}, {"id": "jm14", "code": "CASE JM-14", "title": "The Crossing", "period": "The Sea of Reeds · c. 1446 BC", "colour": "#2f5c6b", "poster": "poster_jm14", "teaser": "A column of refugees is trapped between deep water and the fastest army in the world. By morning the refugees are across, and the army is not there at all.", "nlocks": 2, "ntheories": 5}, {"id": "jm15", "code": "CASE JM-15", "title": "The Witnesses Who Would Not Agree", "period": "Jerusalem · c. AD 30", "colour": "#5c3a3a", "poster": "poster_jm15", "teaser": "A court needs two witnesses whose accounts agree. It has plenty of witnesses, a whole night, and every advantage — and it cannot get two of them to say the same thing.", "nlocks": 2, "ntheories": 5}, {"id": "jm16", "code": "CASE JM-16", "title": "The Bread on the Ground", "period": "The wilderness of Sin · c. 1446 BC", "colour": "#8a7a4a", "poster": "poster_jm16", "teaser": "A substance appears on the ground each morning and feeds a nation for forty years. Every natural explanation fits — right up until the seventh day.", "nlocks": 2, "ntheories": 5}, {"id": "jm18", "code": "CASE JM-18", "title": "The Contest on Carmel", "period": "Mount Carmel · c. 860 BC", "colour": "#8a4a2f", "poster": "poster_jm18", "teaser": "One prophet against four hundred and fifty, one altar each, and a rule agreed in front of the whole nation. Then the challenger soaks his own altar until the trench around it overflows.", "nlocks": 2, "ntheories": 5}, {"id": "jm20", "code": "CASE JM-20", "title": "The Rock at Meribah", "period": "Kadesh · c. 1407 BC", "colour": "#6b5c4a", "poster": "poster_jm20", "teaser": "Water comes out of a rock in front of the whole nation, and the man who produced it is told he will not enter the country he has spent forty years walking toward. The Society is asked why.", "nlocks": 2, "ntheories": 5}];
+
+const CASE_REG = {};        // id -> the full case, once it is here
+const CASE_PENDING = {};    // id -> the promise fetching it
+
+/* Called at the foot of every case file. */
+function registerCase(c){ CASE_REG[c.id] = c; }
+
+function caseLoaded(id){ return !!CASE_REG[id]; }
+
+function loadCase(id){
+  if(CASE_REG[id]) return Promise.resolve(CASE_REG[id]);
+  if(CASE_PENDING[id]) return CASE_PENDING[id];
+  CASE_PENDING[id] = new Promise((resolve, reject)=>{
+    const s = document.createElement("script");
+    s.src = "cases/" + id + ".js";
+    s.async = true;
+    s.onload = ()=> CASE_REG[id]
+      ? resolve(CASE_REG[id])
+      : reject(new Error("the case file loaded but registered nothing"));
+    s.onerror = ()=> reject(new Error("could not fetch cases/" + id + ".js"));
+    document.head.appendChild(s);
+  });
+  CASE_PENDING[id].catch(()=>{ delete CASE_PENDING[id]; });   // let them try again
+  return CASE_PENDING[id];
+}
+
+/* Shown when a case file cannot be fetched — nearly always because the page was
+   opened straight off the disk rather than through a web address. */
+const CASE_LOAD_HELP =
+  "This build keeps every case in its own file, so it needs to be served from a " +
+  "web address — GitHub Pages, or a local server — rather than opened straight " +
+  "from the disk. The single file in standalone/ has everything inside it and " +
+  "works anywhere, including off a USB stick.";
+
+</script>
+<script>
+"use strict";
+/* ============================================================
+   THE BIBLE
+   World English Bible (WEB) — public domain, no permission needed.
+   Loaded on demand: fetched as bible.json in the split build,
+   or decoded from an inlined gzip blob in the single-file build.
+   ============================================================ */
+
+const BIBLE_BOOKS = [{"n":"Genesis","a":"Gen","t":"OT","c":50},{"n":"Exodus","a":"Ex","t":"OT","c":40},{"n":"Leviticus","a":"Lev","t":"OT","c":27},{"n":"Numbers","a":"Num","t":"OT","c":36},{"n":"Deuteronomy","a":"Deut","t":"OT","c":34},{"n":"Joshua","a":"Josh","t":"OT","c":24},{"n":"Judges","a":"Judg","t":"OT","c":21},{"n":"Ruth","a":"Ruth","t":"OT","c":4},{"n":"1 Samuel","a":"1Sam","t":"OT","c":31},{"n":"2 Samuel","a":"2Sam","t":"OT","c":24},{"n":"1 Kings","a":"1Kgs","t":"OT","c":22},{"n":"2 Kings","a":"2Kgs","t":"OT","c":25},{"n":"1 Chronicles","a":"1Chr","t":"OT","c":29},{"n":"2 Chronicles","a":"2Chr","t":"OT","c":36},{"n":"Ezra","a":"Ezra","t":"OT","c":10},{"n":"Nehemiah","a":"Neh","t":"OT","c":13},{"n":"Esther","a":"Est","t":"OT","c":10},{"n":"Job","a":"Job","t":"OT","c":42},{"n":"Psalms","a":"Ps","t":"OT","c":150},{"n":"Proverbs","a":"Prov","t":"OT","c":31},{"n":"Ecclesiastes","a":"Eccl","t":"OT","c":12},{"n":"Song of Solomon","a":"Song","t":"OT","c":8},{"n":"Isaiah","a":"Isa","t":"OT","c":66},{"n":"Jeremiah","a":"Jer","t":"OT","c":52},{"n":"Lamentations","a":"Lam","t":"OT","c":5},{"n":"Ezekiel","a":"Ezek","t":"OT","c":48},{"n":"Daniel","a":"Dan","t":"OT","c":12},{"n":"Hosea","a":"Hos","t":"OT","c":14},{"n":"Joel","a":"Joel","t":"OT","c":3},{"n":"Amos","a":"Amos","t":"OT","c":9},{"n":"Obadiah","a":"Obad","t":"OT","c":1},{"n":"Jonah","a":"Jonah","t":"OT","c":4},{"n":"Micah","a":"Mic","t":"OT","c":7},{"n":"Nahum","a":"Nah","t":"OT","c":3},{"n":"Habakkuk","a":"Hab","t":"OT","c":3},{"n":"Zephaniah","a":"Zeph","t":"OT","c":3},{"n":"Haggai","a":"Hag","t":"OT","c":2},{"n":"Zechariah","a":"Zech","t":"OT","c":14},{"n":"Malachi","a":"Mal","t":"OT","c":4},{"n":"Matthew","a":"Matt","t":"NT","c":28},{"n":"Mark","a":"Mark","t":"NT","c":16},{"n":"Luke","a":"Luke","t":"NT","c":24},{"n":"John","a":"John","t":"NT","c":21},{"n":"Acts","a":"Acts","t":"NT","c":28},{"n":"Romans","a":"Rom","t":"NT","c":16},{"n":"1 Corinthians","a":"1Cor","t":"NT","c":16},{"n":"2 Corinthians","a":"2Cor","t":"NT","c":13},{"n":"Galatians","a":"Gal","t":"NT","c":6},{"n":"Ephesians","a":"Eph","t":"NT","c":6},{"n":"Philippians","a":"Phil","t":"NT","c":4},{"n":"Colossians","a":"Col","t":"NT","c":4},{"n":"1 Thessalonians","a":"1Thess","t":"NT","c":5},{"n":"2 Thessalonians","a":"2Thess","t":"NT","c":3},{"n":"1 Timothy","a":"1Tim","t":"NT","c":6},{"n":"2 Timothy","a":"2Tim","t":"NT","c":4},{"n":"Titus","a":"Titus","t":"NT","c":3},{"n":"Philemon","a":"Phlm","t":"NT","c":1},{"n":"Hebrews","a":"Heb","t":"NT","c":13},{"n":"James","a":"Jas","t":"NT","c":5},{"n":"1 Peter","a":"1Pet","t":"NT","c":5},{"n":"2 Peter","a":"2Pet","t":"NT","c":3},{"n":"1 John","a":"1John","t":"NT","c":5},{"n":"2 John","a":"2John","t":"NT","c":1},{"n":"3 John","a":"3John","t":"NT","c":1},{"n":"Jude","a":"Jude","t":"NT","c":1},{"n":"Revelation","a":"Rev","t":"NT","c":22}];
+
+const BIBLE = {
+  books: BIBLE_BOOKS,
+  data: null,          // {text:{abbr:[[verse,…],…]}} — fetched on demand
+  loading: null,
+  byName: {},          // lower-case name/alias -> abbr
+  pref: { lord: false, book: "Gen", chapter: 1 }
+};
+
+const BIBLE_PREF_KEY = "jm_bible_v1";
+
+function biblePrefLoad(){
+  try{ Object.assign(BIBLE.pref, JSON.parse(localStorage.getItem(BIBLE_PREF_KEY)||"{}")); }catch(e){}
+}
+function biblePrefSave(){
+  try{ localStorage.setItem(BIBLE_PREF_KEY, JSON.stringify(BIBLE.pref)); }catch(e){}
+}
+
+/* ---------------- loading ---------------- */
+async function bibleLoad(){
+  if(BIBLE.data) return BIBLE.data;
+  if(BIBLE.loading) return BIBLE.loading;
+  BIBLE.loading = (async ()=>{
+    let json;
+    if(typeof window.__BIBLE_GZ__ === "string"){
+      if(!("DecompressionStream" in window)) throw new Error("nostream");
+      const bin = atob(window.__BIBLE_GZ__);
+      const bytes = new Uint8Array(bin.length);
+      for(let i=0;i<bin.length;i++) bytes[i] = bin.charCodeAt(i);
+      const ds = new DecompressionStream("gzip");
+      const stream = new Blob([bytes]).stream().pipeThrough(ds);
+      json = await new Response(stream).text();
+    } else {
+      const r = await fetch("bible.json");
+      if(!r.ok) throw new Error("fetch " + r.status);
+      json = await r.text();
+    }
+    BIBLE.data = JSON.parse(json);
+    return BIBLE.data;
+  })();
+  return BIBLE.loading;
+}
+
+/* ---------------- name index (available before the text is fetched) ---------------- */
+(function(){
+  BIBLE.books.forEach(b=>{
+    BIBLE.byName[b.n.toLowerCase()] = b.a;
+    BIBLE.byName[b.a.toLowerCase()] = b.a;
+  });
+  Object.entries({
+    "psalm":"Ps", "song of songs":"Song", "canticles":"Song",
+    "revelations":"Rev", "acts of the apostles":"Acts",
+    "1 kgs":"1Kgs", "2 kgs":"2Kgs", "1 sam":"1Sam", "2 sam":"2Sam",
+    "1 cor":"1Cor", "2 cor":"2Cor", "1 chron":"1Chr", "2 chron":"2Chr"
+  }).forEach(([k,v])=>{ BIBLE.byName[k]=v; });
+})();
+
+/* ---------------- text helpers ---------------- */
+const bookByAbbr = a => BIBLE.books.find(b=>b.a===a);
+function bibleVerses(abbr, ch){
+  const b = BIBLE.data.text[abbr];
+  return (b && b[ch-1]) ? b[ch-1] : [];
+}
+function divineName(t){
+  if(!BIBLE.pref.lord) return t;
+  return t.replace(/\bLord Yahweh\b/g, "Lord GOD")
+          .replace(/\bYahweh\b/g, "the LORD")
+          .replace(/\bYah\b/g, "the LORD");
+}
+
+/* ---------------- reference parsing ---------------- */
+function bibleBookPattern(){
+  const names = BIBLE.books.map(b=>b.n).concat(["Psalm","Song of Songs"]);
+  names.sort((a,b)=>b.length-a.length);
+  return names.map(n=>n.replace(/[.*+?^${}()|[\]\\]/g,"\\$&")).join("|");
+}
+let BIBLE_RE = null;
+function bibleRegex(){
+  if(!BIBLE_RE){
+    // Book 12  ·  Book 12:3  ·  Book 12:3–8  ·  Book 12:3 – 13:8  ·  Book 12–13
+    BIBLE_RE = new RegExp(
+      "\\b(" + bibleBookPattern() + ")\\s+(\\d+)" +
+      "(?::(\\d+))?" +
+      "(?:\\s*[–—-]\\s*(?:(\\d+):)?(\\d+))?", "g");
+  }
+  return BIBLE_RE;
+}
+function parseRefMatch(m){
+  const abbr = BIBLE.byName[m[1].toLowerCase()];
+  if(!abbr) return null;
+  const bk = bookByAbbr(abbr);
+  const ch = Math.min(parseInt(m[2],10), bk.c);
+  const v1 = m[3] ? parseInt(m[3],10) : null;
+  let v2 = null, ch2 = null;
+  if(m[5]){                      // there is a range end
+    if(m[4]) { ch2 = parseInt(m[4],10); v2 = parseInt(m[5],10); }
+    else if(v1 !== null) v2 = parseInt(m[5],10);
+  }
+  return {abbr, ch, v1, v2, ch2, label:m[0]};
+}
+
+/* Wrap every scripture reference in a container with a clickable link. */
+const SKIP_TAGS = new Set(["A","TEXTAREA","INPUT","SCRIPT","STYLE","BUTTON","SELECT"]);
+function linkifyRefs(root){
+  if(!root) return;
+  const re = bibleRegex();
+  const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, {
+    acceptNode(n){
+      if(!n.nodeValue || n.nodeValue.length < 5) return NodeFilter.FILTER_REJECT;
+      let p = n.parentElement;
+      while(p && p !== root){
+        if(SKIP_TAGS.has(p.tagName) || p.isContentEditable) return NodeFilter.FILTER_REJECT;
+        p = p.parentElement;
+      }
+      return NodeFilter.FILTER_ACCEPT;
+    }
+  });
+  const targets = [];
+  let n; while((n = walker.nextNode())) targets.push(n);
+  targets.forEach(node=>{
+    re.lastIndex = 0;
+    if(!re.test(node.nodeValue)) return;
+    re.lastIndex = 0;
+    const frag = document.createDocumentFragment();
+    let last = 0, m;
+    while((m = re.exec(node.nodeValue))){
+      const ref = parseRefMatch(m);
+      if(!ref) continue;
+      if(m.index > last) frag.appendChild(document.createTextNode(node.nodeValue.slice(last, m.index)));
+      const a = document.createElement("a");
+      a.className = "bref";
+      a.textContent = m[0];
+      a.title = "Open the Bible here";
+      a.addEventListener("click", e=>{ e.preventDefault(); e.stopPropagation(); openBible(ref); });
+      frag.appendChild(a);
+      last = m.index + m[0].length;
+    }
+    if(!frag.childNodes.length) return;
+    if(last < node.nodeValue.length) frag.appendChild(document.createTextNode(node.nodeValue.slice(last)));
+    node.parentNode.replaceChild(frag, node);
+  });
+}
+
+/* ---------------- the reader ---------------- */
+async function openBible(ref){
+  const o = overlay(`<div class="bibloading">Opening the Bible…</div>`, "wide bibsheet");
+  try{ await bibleLoad(); }
+  catch(err){
+    o.querySelector(".body").innerHTML =
+      `<div class="doc-kind">Bible</div><div class="doc-title">The Bible could not be loaded</div>
+       <div class="doc-body"><p>${err.message==="nostream"
+        ? "This browser is too old to unpack the built-in Bible. Use the version hosted on the web, which loads it as a separate file."
+        : "The Bible file could not be fetched. If you are opening this page straight from your hard drive, use the single-file version instead, or put the folder on a web server."}</p></div>`;
+    return;
+  }
+  if(ref){ BIBLE.pref.book = ref.abbr; BIBLE.pref.chapter = ref.ch; biblePrefSave(); }
+  const state = { abbr: BIBLE.pref.book, ch: BIBLE.pref.chapter, hit: ref || null, mode: "read" };
+
+  const rail = () => ["OT","NT"].map(t=>
+    `<h6>${t==="OT"?"Old Testament":"New Testament"}</h6>` +
+    BIBLE.books.filter(b=>b.t===t).map(b=>
+      `<button data-b="${b.a}" class="${b.a===state.abbr?"on":""}">${b.n}</button>`).join("")
+  ).join("");
+
+  const chapters = () => {
+    const bk = bookByAbbr(state.abbr);
+    return Array.from({length:bk.c},(_,i)=>
+      `<button data-c="${i+1}" class="${i+1===state.ch?"on":""}">${i+1}</button>`).join("");
+  };
+
+  const chapterHtml = () => {
+    const bk = bookByAbbr(state.abbr);
+    const vs = bibleVerses(state.abbr, state.ch);
+    const h = state.hit && state.hit.abbr===state.abbr && state.hit.ch===state.ch ? state.hit : null;
+    const from = h && h.v1 ? h.v1 : 0;
+    const to   = h && h.v1 ? (h.ch2 ? vs.length : (h.v2 || h.v1)) : -1;
+    return `<div class="bibref">${bk.n} ${state.ch}</div><div class="bibbody">` +
+      vs.map((t,i)=>{
+        const n = i+1, on = n>=from && n<=to;
+        return `<span class="bv${on?" hit":""}" id="v${n}"><sup>${n}</sup>${esc(divineName(t))}</span>`;
+      }).join("") + `</div>`;
+  };
+
+  const draw = ()=>{
+    const bk = bookByAbbr(state.abbr);
+    o.querySelector(".body").innerHTML = `
+      <div class="bibhead">
+        <div>
+          <div class="doc-kind">The Chronicle Society Reading Room</div>
+          <div class="doc-title">The Bible</div>
+        </div>
+        <div class="bibtools">
+          <input class="bibsearch" id="bibQ" placeholder="Search the Bible…" value="">
+          <label class="bibtoggle"><input type="checkbox" id="bibLord" ${BIBLE.pref.lord?"checked":""}> print “the LORD”</label>
+        </div>
+      </div>
+      <div class="rule"></div>
+      <div class="bibwrap">
+        <div class="bibrail">${rail()}</div>
+        <div class="bibmain" id="bibMain">
+          <div class="bibchaps">${chapters()}</div>
+          ${chapterHtml()}
+        </div>
+      </div>
+      <div class="bibfoot">
+        <button class="btn ghost" id="bibPrev">‹ Previous chapter</button>
+        <button class="btn ghost" id="bibNext">Next chapter ›</button>
+        <span class="bibnote">World English Bible — public domain. This translation prints God's personal name as “Yahweh”; tick the box above to read “the LORD” instead, as most classroom Bibles do.</span>
+      </div>`;
+    wire();
+    const main = o.querySelector("#bibMain");
+    const hit = o.querySelector(".bv.hit");
+    if(hit) main.scrollTop = Math.max(0, hit.offsetTop - main.offsetTop - 70);
+    else main.scrollTop = 0;
+  };
+
+  const go = (abbr, ch, hit)=>{
+    state.abbr = abbr; state.ch = ch; state.hit = hit || null;
+    BIBLE.pref.book = abbr; BIBLE.pref.chapter = ch; biblePrefSave();
+    draw();
+  };
+
+  const step = d => {
+    const list = BIBLE.books;
+    let i = list.findIndex(b=>b.a===state.abbr), ch = state.ch + d;
+    if(ch < 1){ i = (i-1+list.length)%list.length; ch = list[i].c; }
+    else if(ch > list[i].c){ i = (i+1)%list.length; ch = 1; }
+    go(list[i].a, ch);
+  };
+
+  const search = q =>{
+    const needle = q.trim().toLowerCase();
+    if(needle.length < 3) return;
+    const out = [];
+    outer:
+    for(const b of BIBLE.books){
+      const chs = BIBLE.data.text[b.a];
+      for(let c=0;c<chs.length;c++){
+        const vs = chs[c];
+        for(let v=0;v<vs.length;v++){
+          const t = divineName(vs[v]);
+          if(t.toLowerCase().includes(needle)){
+            out.push({b:b.a, n:b.n, c:c+1, v:v+1, t});
+            if(out.length >= 120) break outer;
+          }
+        }
+      }
+    }
+    const mark = t =>{
+      const i = t.toLowerCase().indexOf(needle);
+      if(i < 0) return esc(t);
+      const s = Math.max(0, i-70);
+      return (s?"… ":"") + esc(t.slice(s,i)) + "<mark>" + esc(t.slice(i,i+needle.length)) + "</mark>" +
+             esc(t.slice(i+needle.length, i+needle.length+110)) + "…";
+    };
+    o.querySelector(".bibwrap").innerHTML =
+      `<div class="bibresults" style="flex:1">
+        <div class="bibref">${out.length ? out.length + (out.length>=120?"+":"") + " results for “" + esc(q) + "”" : "Nothing found for “" + esc(q) + "”"}</div>
+        ${out.map((r,i)=>`<button class="bibresult" data-i="${i}"><b>${r.n} ${r.c}:${r.v}</b>${mark(r.t)}</button>`).join("")}
+      </div>`;
+    o.querySelectorAll(".bibresult").forEach(btn=>{
+      btn.addEventListener("click", ()=>{
+        const r = out[+btn.dataset.i];
+        go(r.b, r.c, {abbr:r.b, ch:r.c, v1:r.v, v2:r.v});
+      });
+    });
+  };
+
+  function wire(){
+    o.querySelectorAll(".bibrail button").forEach(b=>
+      b.addEventListener("click", ()=>go(b.dataset.b, 1)));
+    o.querySelectorAll(".bibchaps button").forEach(b=>
+      b.addEventListener("click", ()=>go(state.abbr, +b.dataset.c)));
+    o.querySelector("#bibPrev").addEventListener("click", ()=>step(-1));
+    o.querySelector("#bibNext").addEventListener("click", ()=>step(1));
+    o.querySelector("#bibLord").addEventListener("change", e=>{
+      BIBLE.pref.lord = e.target.checked; biblePrefSave(); draw();
+    });
+    const q = o.querySelector("#bibQ");
+    q.addEventListener("keydown", e=>{ if(e.key==="Enter") search(q.value); });
+  }
+
+  draw();
+}
+
+</script>
+<script>
+"use strict";
+/* ============================================================
+   THE PAPER EDITION
+   Every case can be printed, cut out and run with no device at all.
+   Everything here is generated from the case object, so a new case
+   gets its paper edition for nothing.
+   ============================================================ */
+
+const forPrint = html => (html||"")
+  .replace(/Click (?:the [a-z ]+|to)[^<.]*enlarge[^<.]*\.?/gi, "")
+  .replace(/<div class="cap">\s*<\/div>/g, "")
+  .replace(/<div class="plate">\s*<svg viewBox="0 0 (\d+(?:\.\d+)?) (\d+(?:\.\d+)?)"/g,
+    (m, w, h) => m.replace('class="plate"', 'class="plate ' + plateShape(+w / +h) + '"'));
+
+/* On paper a plate is sized by its width, because that is what the page limits.
+   Its shape decides how wide it can be before it grows too tall for one sheet. */
+function plateShape(ratio){
+  if(ratio >= 1.3) return "wideplate";     // the 3:2 field plates
+  if(ratio >= 0.9) return "squareplate";
+  return "tallplate";                      // upright paper props
+}
+
+const stageItems = (cdef, s) => cdef.items.filter(i=>i.stage===s);
+
+/* decoy labels so the envelope you open is not simply the only one there */
+function decoyCodes(code){
+  const d = new Set([code]);
+  const digits = code.split("");
+  while(d.size < 4){
+    const a = digits.slice();
+    const i = Math.floor(Math.random()*a.length), j = Math.floor(Math.random()*a.length);
+    [a[i],a[j]] = [a[j],a[i]];
+    d.add(a.join(""));
+    if(d.size < 4) d.add(String((parseInt(code,10) + 1 + d.size) % 10000).padStart(code.length,"0"));
+  }
+  return [...d].sort();
+}
+function decoyWords(word){
+  const pool = ["HARVEST","LANTERN","MEASURE","SHUTTER","GARLAND","TRAVAIL","CISTERN","MANTLE",
+                "PLEDGE","FURROW","BRAZIER","THISTLE","QUARRY","VESTURE","SANDAL","BEACON"];
+  const same = pool.filter(w=>w.length===word.length && w!==word);
+  const out = [word, ...same.slice(0,3)];
+  while(out.length < 4) out.push(pool.find(w=>!out.includes(w)));
+  return out.sort();
+}
+
+/* ---------------- the certificate ---------------- */
+function certificateHtml(cdef, names, dateStr, verdict){
+  return `<section class="pp-page pp-cert">
+    <div class="cert">
+      <div class="cert-in">
+        ${SVG.finalSeal}
+        <div class="cert-soc">The Chronicle Society · Department of Unsolved Antiquities</div>
+        <div class="cert-h">Certificate of Investigation</div>
+        <div class="cert-sub">This is to record that the case below was opened, worked and closed</div>
+        <div class="cert-names">${names || "&nbsp;"}</div>
+        <div class="cert-nl">investigator${(names||"").includes(",")||(names||"").includes("&")?"s":""}</div>
+        <div class="cert-case">${cdef.code}</div>
+        <div class="cert-title">${cdef.title}</div>
+        <div class="cert-where">${cdef.period}</div>
+        <div class="cert-verdict"><b>Conclusion filed:</b> ${verdict || cdef.teacher.conclusion}</div>
+        <div class="cert-sign">
+          <div><div class="cert-line"></div><span>A. Thorne · Case Supervisor</span></div>
+          <div><div class="cert-line"></div><span>Teacher</span></div>
+          <div><div class="cert-line">${dateStr||""}</div><span>Date closed</span></div>
+        </div>
+      </div>
+    </div>
+  </section>`;
+}
+
+function openCertificate(cdef){
+  const st = stateFor(cdef.id);
+  const names = (st.sheet && st.sheet.names) ? st.sheet.names : "";
+  const d = new Date();
+  const date = `${d.getDate()} ${["January","February","March","April","May","June","July",
+    "August","September","October","November","December"][d.getMonth()]} ${d.getFullYear()}`;
+  const o = overlay(`<div class="ppdoc">${certificateHtml(cdef, names, date)}</div>
+    <div class="noprint" style="margin-top:16px;display:flex;gap:10px;flex-wrap:wrap;align-items:center">
+      <button class="btn" id="certPrint">Print the certificate</button>
+      <span class="small">It fills in the names from your answer sheet. Print it and put it in your case folder.</span>
+    </div>`, "wide bibsheet");
+  o.classList.add("printme");
+  o.querySelector("#certPrint").addEventListener("click", ()=>window.print());
+}
+
+/* ---------------- the whole paper pack ---------------- */
+function printPack(cdef){
+  const L1 = cdef.locks[0], L2 = cdef.locks[1];
+  const s0 = stageItems(cdef,0), s1 = stageItems(cdef,1), s2 = stageItems(cdef,2);
+  /* A document carrying a plate prints as a full sheet rather than a cut-out
+     card. The plates carry typeset labels that have to be readable on paper, so
+     they run the full width of the page — which makes those documents taller
+     than a card can be. The team lays the sheet on the desk whole. */
+  const card = (it, band) => {
+    const sheet = /class="plate"/.test(it.body);
+    return `
+    <article class="pp-card${sheet ? " sheet" : ""}">
+      ${band?`<div class="pp-band">${band}</div>`:""}
+      <div class="doc-kind">${it.kind}</div>
+      <div class="pp-ct">${it.title}</div>
+      ${it.sub?`<div class="doc-sub">${it.sub}</div>`:""}
+      ${sheet ? `<div class="pp-keep">◻ A full sheet — use it whole, do not cut it up</div>` : ""}
+      <div class="doc-body">${forPrint(it.body)}</div>
+      ${sheet ? "" : `<div class="pp-cut">✂ cut here</div>`}
+    </article>`;
+  };
+
+  const step = (n, h, body) => `<div class="pp-step"><b>${n}</b><div><h5>${h}</h5>${body}</div></div>`;
+
+  const codes = decoyCodes(L1.code);
+  const words = decoyWords(L2.code);
+
+  const html = `<div class="ppdoc">
+
+  <!-- ============ COVER ============ -->
+  <section class="pp-page pp-cover">
+    <div class="pp-soc">The Chronicle Society · Department of Unsolved Antiquities</div>
+    <div class="pp-code">${cdef.code}</div>
+    <h1>${cdef.title}</h1>
+    <div class="pp-where">${cdef.period}</div>
+    <div class="pp-art">${cdef.poster && SVG[cdef.poster] ? SVG[cdef.poster] : ""}</div>
+    <p class="pp-teaser">${cdef.teaser}</p>
+    <div class="pp-stamp">PAPER EDITION · NO DEVICE REQUIRED</div>
+    <div class="pp-label">
+      <div class="pp-labelin">
+        <div class="pp-soc">The Chronicle Society</div>
+        <div class="pp-code">${cdef.code}</div>
+        <div class="pp-labeltitle">${cdef.title}</div>
+        <div class="pp-labelline">Investigators: ....................................................</div>
+        <div class="pp-labelline">Opened: ....................  Closed: ....................</div>
+      </div>
+      <div class="pp-cut">✂ cut out and stick on the front of your case folder</div>
+    </div>
+  </section>
+
+  <!-- ============ PREPARING ============ -->
+  <section class="pp-page">
+    <div class="pp-h">Before the lesson — preparing the pack</div>
+    <p class="pp-lead">Ten minutes with a pair of scissors and four envelopes, and this case runs with no screen at all.</p>
+    <div class="pp-step"><b>1</b><div><h5>Print the whole pack</h5>
+      <p>Single sided is easiest for cutting. Card stock makes better evidence but ordinary paper is fine.</p></div></div>
+    <div class="pp-step"><b>2</b><div><h5>Remove the answer key</h5>
+      <p>The last page is the teacher's answer key. Take it out before anything else, or the case is over before it starts.</p></div></div>
+    <div class="pp-step"><b>3</b><div><h5>Cut out the open evidence</h5>
+      <p>The ${s0.length} cards marked <b>OPEN FILE</b> go loose into the case folder. These are what the team starts with.</p></div></div>
+    <div class="pp-step"><b>4</b><div><h5>Make up the sealed bundles</h5>
+      <p>You need <b>eight envelopes</b>. Cut out the labels on the envelope-label sheet and stick one on each.</p>
+      <ul>
+        <li>Into the envelope labelled <b>${L1.code}</b>, put the ${s1.length} cards marked <b>BUNDLE B</b>.</li>
+        <li>Into the envelope labelled <b>${L2.code}</b>, put the ${s2.length} cards marked <b>BUNDLE C</b>.</li>
+        <li>Into each of the other six envelopes, put one of the small "not this one" slips.</li>
+      </ul>
+      <p>Every envelope should look the same from the outside. That is the whole point.</p></div></div>
+    <div class="pp-step"><b>5</b><div><h5>Set the desk</h5>
+      <p>Put the folder, the eight envelopes, the elimination board sheet, the evidence tags, the accusation form and a case record sheet on the table. Give each team scissors, a pen and a glue stick.</p></div></div>
+    <div class="pp-note"><b>Time:</b> 60–100 minutes, or two lessons. <b>Teams of two or three.</b> Any more and somebody stops reading.</div>
+  </section>
+
+  <!-- ============ WALKTHROUGH ============ -->
+  <section class="pp-page">
+    <div class="pp-h">The investigator's manuscript</div>
+    <p class="pp-lead">Read this out, or hand it to the team and let them run themselves. Do not read ahead.</p>
+    ${step(1,"Open the folder and read everything",
+      `<p>Spread the ${s0.length} documents across the desk so you can see them all at once. Read every one before you decide anything at all. Move them around. Put the ones that seem to belong together next to each other.</p>
+       <p class="pp-tip">Do not skip this. Teams that skip it lose more time later than the reading would have cost.</p>`)}
+    ${step(2,"Work out the first seal",
+      `<p>Four questions. Each answer is a single digit, and each one is answerable from a different document you already have.</p>
+       <ol class="pp-qs">${L1.questions.map(q=>`<li>${q}<span class="pp-blank"></span></li>`).join("")}</ol>
+       <p>Write the four digits in order. That is your seal number.</p>`)}
+    ${step(3,"Open the sealed bundle",
+      `<p>Find the envelope with your seal number on it and open <b>that one only</b>. If the slip inside says you are wrong, go back and check each digit against its own document.</p>
+       <p class="pp-tip">The other envelopes hold nothing but a note telling you to think again. Opening them all only spoils it for yourselves.</p>`)}
+    ${step(4,"Read the new evidence",
+      `<p>Add the ${s1.length} new documents to the desk. Read them the same way — all of them, before deciding anything.</p>`)}
+    ${step(5, cdef.crossword ? "Fill in the riddle sheet"
+             : cdef.ladder ? "Run the enquiry"
+             : cdef.matrix ? cdef.matrix.title
+             : cdef.scales ? cdef.scales.title
+             : "Build the keyword",
+      cdef.crossword
+        ? `<p>Every answer on the riddle sheet is a word you can find in the documents on your desk. Six squares carry a small number: collect those letters in number order and you have the keyword.</p>`
+        : cdef.ladder
+        ? `<p>Take the enquiry sheet. It has four rounds on it, and each round names the document that settles it. Read that document, tick the one group it points to, and write the survivor on the line before you go on to the next round. The name still standing at the end of round four is your keyword.</p>
+           <p class="pp-tip">Do not guess a round and move on. If a later round makes no sense, an earlier one is wrong.</p>`
+        : cdef.matrix
+        ? `<p>Take the grid sheet. ${cdef.matrix.blurb.replace(/<[^>]+>/g,"")}</p>
+           <p class="pp-tip">Fill it in from the document, not from memory. The answer is a shape in the grid, and you will not see the shape until every square is right.</p>`
+        : cdef.scales
+        ? `<p>Take the weighing sheet. ${cdef.scales.blurb.replace(/<[^>]+>/g,"")}</p>
+           <p class="pp-tip">Every value you need is on the table of weights in the open file. Work one word at a time and write down the stones you used.</p>`
+        : `<p>${L2.blurb.replace(/<[^>]+>/g,"")}</p><ol class="pp-qs">${L2.questions.map(q=>`<li>${q}</li>`).join("")}</ol>`)}
+    ${step(6,"Open the second bundle",
+      `<p>Find the envelope with your keyword on it. Open that one only. Add the ${s2.length} documents to the desk.</p>`)}
+    ${step(7,"Close the routes on the board",
+      `<p>Lay out the elimination board sheet. Cut out the evidence tags. For each of the five explanations, place the <b>one</b> tag naming the document that destroys it — not evidence that argues against it, the single fact that makes it impossible.</p>
+       <p>When you are all agreed, glue them down.</p>`)}
+    ${step(8,"File the conclusion",
+      `<p>Fill in the accusation form. Choose one conclusion and write your reasoning, naming at least two pieces of evidence. Then complete the case record and hand it in.</p>`)}
+    ${step(9,"Close the case",
+      `<p>Your teacher will check the board and sign the certificate. Put the certificate, your case record and anything else you want to keep into your case folder.</p>`)}
+  </section>
+
+  <!-- ============ OPEN EVIDENCE ============ -->
+  <section class="pp-sec"><div class="pp-h">The open file — cut these out</div>
+    <p class="pp-lead">These ${s0.length} documents go loose in the folder. The team starts with all of them.
+    Most are cut-out cards; the ones with a plate on them are full sheets and are used whole, because the labels on
+    the artwork have to be readable.</p></section>
+  <section class="pp-cards">${s0.map(i=>card(i,"OPEN FILE")).join("")}</section>
+
+  <!-- ============ ENVELOPE LABELS ============ -->
+  <section class="pp-page">
+    <div class="pp-h">Envelope labels — cut out and stick on</div>
+    <p class="pp-lead">Eight envelopes, all looking the same from the outside. Only two of them hold anything.</p>
+    <div class="pp-labels">
+      ${codes.map(c=>`<div class="pp-env"><div class="pp-envk">Sealed bundle</div><div class="pp-envc">${c}</div>
+        <div class="pp-envn">The Chronicle Society · ${cdef.code}</div></div>`).join("")}
+      ${words.map(w=>`<div class="pp-env"><div class="pp-envk">Sealed bundle</div><div class="pp-envc">${w}</div>
+        <div class="pp-envn">The Chronicle Society · ${cdef.code}</div></div>`).join("")}
+    </div>
+    <div class="pp-h" style="margin-top:22px">Slips for the six empty envelopes</div>
+    <div class="pp-slips">
+      ${Array.from({length:6},()=>`<div class="pp-slip">Not this one.<br><span>Your working is wrong somewhere. Go back to the documents and check it line by line.</span></div>`).join("")}
+    </div>
+  </section>
+
+  <!-- ============ BUNDLE B ============ -->
+  <section class="pp-page pp-seal">
+    <div class="pp-sealbig">BUNDLE ${L1.code}</div>
+    <div class="pp-sealsub">${L1.name}</div>
+    <p class="pp-lead">Everything after this page and before the next sealed banner goes inside the envelope marked <b>${L1.code}</b>.</p>
+    <div class="pp-stamp">DO NOT PUT THIS IN THE FOLDER</div>
+  </section>
+  <section class="pp-cards">${s1.map(i=>card(i,"BUNDLE "+L1.code)).join("")}</section>
+
+  <!-- ============ RIDDLE SHEET ============ -->
+  ${cdef.crossword ? crosswordPrint(cdef) : cdef.ladder ? ladderPrint(cdef)
+    : cdef.matrix ? matrixPrint(cdef) : cdef.scales ? scalesPrint(cdef) : ""}
+
+  <!-- ============ BUNDLE C ============ -->
+  <section class="pp-page pp-seal">
+    <div class="pp-sealbig">BUNDLE ${L2.code}</div>
+    <div class="pp-sealsub">${L2.name}</div>
+    <p class="pp-lead">Everything after this page goes inside the envelope marked <b>${L2.code}</b>.</p>
+    <div class="pp-stamp">DO NOT PUT THIS IN THE FOLDER</div>
+  </section>
+  <section class="pp-cards">${s2.map(i=>card(i,"BUNDLE "+L2.code)).join("")}</section>
+
+  <!-- ============ THE BOARD ============ -->
+  <section class="pp-page">
+    <div class="pp-h">${cdef.boardTitle}</div>
+    <p class="pp-lead">${cdef.boardIntro.replace(/<[^>]+>/g,"")}</p>
+    <div class="pp-board">
+      ${cdef.theories.map(t=>`<div class="pp-theory">
+        <div class="pp-tt">${t.title}</div>
+        <div class="pp-tc">${t.claim}</div>
+        <div class="pp-slot">glue the evidence tag here</div>
+      </div>`).join("")}
+    </div>
+  </section>
+  <section class="pp-page">
+    <div class="pp-h">Evidence tags — cut these out</div>
+    <p class="pp-lead">One of these goes on each explanation. Some of them belong nowhere.</p>
+    <div class="pp-tags">
+      ${cdef.items.filter(i=>!i.notEvidence).map(i=>`<div class="pp-tag">${i.title}</div>`).join("")}
+    </div>
+  </section>
+
+  <!-- ============ ACCUSATION ============ -->
+  <section class="pp-page">
+    <div class="pp-h">Accusation form — ${cdef.code}</div>
+    <p class="pp-lead">${cdef.accusationIntro}</p>
+    <div class="pp-choices">
+      ${cdef.verdicts.map(v=>`<div class="pp-choice"><span class="pp-box"></span>${v.text}</div>`).join("")}
+    </div>
+    <div class="pp-h" style="margin-top:18px">Our reasoning</div>
+    <p class="pp-lead">Name at least two pieces of evidence.</p>
+    ${Array.from({length:7},()=>`<div class="pp-rule"></div>`).join("")}
+    <div class="pp-sign2">
+      <div><div class="pp-rule"></div><span>Investigators</span></div>
+      <div><div class="pp-rule"></div><span>Date</span></div>
+    </div>
+  </section>
+
+  <!-- ============ CERTIFICATE ============ -->
+  ${certificateHtml(cdef, "", "")}
+
+  <!-- ============ ANSWER KEY ============ -->
+  <section class="pp-page pp-key">
+    <div class="pp-stamp">TEACHER — REMOVE THIS PAGE BEFORE THE LESSON</div>
+    <div class="pp-h">Answer key — ${cdef.code} · ${cdef.title}</div>
+    <p><b>Locks.</b> ${cdef.teacher.answers.replace(/<[^>]+>/g,"")}</p>
+    <p><b>Board.</b> ${cdef.teacher.pairs}</p>
+    <p><b>Conclusion.</b> ${cdef.teacher.conclusion}</p>
+    <p><b>If a team is stuck.</b> ${cdef.teacher.prompts.replace(/\\"/g,'"')}</p>
+    ${cdef.teacher.extra?`<p><b>Before you set this one.</b> ${cdef.teacher.extra}</p>`:""}
+    <div class="pp-h" style="margin-top:18px">The eliminations in full</div>
+    ${cdef.theories.map(t=>`<p><b>${t.title}</b> — ${t.verdict}</p>`).join("")}
+    <div class="pp-h" style="margin-top:18px">Afterwards</div>
+    <ul>${cdef.debrief.questions.map(q=>`<li>${q}</li>`).join("")}</ul>
+    <p class="pp-lead">${cdef.debrief.refs}</p>
+  </section>
+  </div>`;
+
+  const o = overlay(html + `<div class="noprint" style="margin-top:18px;display:flex;gap:10px;flex-wrap:wrap;align-items:center">
+      <button class="btn" id="ppPrint">Print the pack</button>
+      <span class="small">Print to paper, or to PDF if you want to keep it. Single sided is easiest to cut.</span>
+    </div>`, "wide bibsheet");
+  o.classList.add("printme");
+  o.querySelector("#ppPrint").addEventListener("click", ()=>window.print());
+}
+
+
+
+
+/* the balance scales, on paper */
+function scalesPrint(cdef){
+  const SC = cdef.scales;
+  const stones = SC.stones.map(s=>`<span class="pp-ldopt">${s.label}</span>`).join("");
+  const rounds = SC.rounds.map(r=>`
+    <div class="pp-ldr">
+      <div class="pp-ldn">Word ${r.n}</div>
+      <h5>${r.word}</h5>
+      <p>${r.prompt}</p>
+      <div class="pp-ldline"><span>Stones used:</span><i></i></div>
+      <div class="pp-ldline"><span>Total, in ${SC.unit}:</span><i></i></div>
+    </div>`).join("");
+  return `<section class="pp-page">
+    <div class="pp-h">${SC.title}</div>
+    <p class="pp-lead">${SC.blurb.replace(/<[^>]+>/g,"")}</p>
+    <div class="pp-h" style="margin-top:10px">The stones in the box</div>
+    <div class="pp-ldopts">${stones}</div>
+    ${rounds}
+    <div class="pp-h" style="margin-top:14px">The keyword</div>
+    <div class="pp-keyboxes">${[...SC.keyword].map(()=>`<div class="pp-kb"></div>`).join("")}</div>
+  </section>`;
+}
+
+/* the matrix, on paper — printed blank for the team to fill in */
+function matrixPrint(cdef){
+  const MX = cdef.matrix;
+  const head = MX.cols.map(c=>`<th>${c.label}${c.note?`<i>${c.note}</i>`:""}</th>`).join("");
+  const body = MX.rows.map(r=>`<tr><th>${r.label}${r.note?`<i>${r.note}</i>`:""}</th>
+    ${MX.cols.map(()=>`<td></td>`).join("")}</tr>`).join("");
+  const foot = MX.foot ? `<tr class="ppmxf"><th>${MX.foot.label}</th>
+    ${MX.cols.map(c=>`<td>${MX.foot.cells[c.id]||""}</td>`).join("")}</tr>` : "";
+  return `<section class="pp-page">
+    <div class="pp-h">${MX.title}</div>
+    <p class="pp-lead">${MX.blurb.replace(/<[^>]+>/g,"")}</p>
+    <table class="ppmx">
+      <tr><th>${MX.corner||""}</th>${head}</tr>
+      ${body}${foot}
+    </table>
+    ${MX.note?`<p class="pp-lead">${MX.note.replace(/<[^>]+>/g,"")}</p>`:""}
+    <div class="pp-h" style="margin-top:14px">The keyword</div>
+    <div class="pp-keyboxes">${[...MX.reveal.answer].map(()=>`<div class="pp-kb"></div>`).join("")}</div>
+  </section>`;
+}
+
+/* the elimination ladder, on paper */
+function ladderPrint(cdef){
+  const LD = cdef.ladder;
+  const rounds = LD.rounds.map(r=>`
+    <div class="pp-ldr">
+      <div class="pp-ldn">Round ${r.n}</div>
+      <h5>${r.field}</h5>
+      <div class="pp-lddoc">Settled by <b>${r.doc}</b></div>
+      <p>${r.clue}</p>
+      <div class="pp-ldopts">${r.options.map(op=>`<span class="pp-ldopt">&#9744; ${op}</span>`).join("")}</div>
+      <div class="pp-ldline"><span>Still standing after round ${r.n}:</span><i></i></div>
+    </div>`).join("");
+  return `<section class="pp-page">
+    <div class="pp-h">${LD.title}</div>
+    <p class="pp-lead">${LD.blurb.replace(/<[^>]+>/g,"")}</p>
+    ${rounds}
+    <div class="pp-h" style="margin-top:14px">${LD.strip}</div>
+    <div class="pp-keyboxes">${[...LD.keyword].map(()=>`<div class="pp-kb"></div>`).join("")}</div>
+  </section>`;
+}
+
+/* the crossword, on paper */
+function crosswordPrint(cdef){
+  const CW = cdef.crossword, sol = {};
+  CW.entries.forEach(en=>{
+    const dr = en.d==="A"?0:1, dc = en.d==="A"?1:0;
+    [...en.a].forEach((ch,i)=> sol[(en.r+dr*i)+","+(en.c+dc*i)] = ch);
+  });
+  const markAt = {}; CW.marks.forEach(m=> markAt[m.r+","+m.c]=m.i);
+  const startAt = {}; CW.entries.forEach(en=> startAt[en.r+","+en.c]=en.n);
+  let cells = "";
+  for(let r=0;r<CW.H;r++) for(let c=0;c<CW.W;c++){
+    const k=r+","+c;
+    cells += sol[k]
+      ? `<div class="ppc${markAt[k]?" mk":""}">${startAt[k]?`<span class="n">${startAt[k]}</span>`:""}${markAt[k]?`<span class="m">${markAt[k]}</span>`:""}</div>`
+      : `<div class="ppc bl"></div>`;
+  }
+  const clues = d => CW.entries.filter(e=>e.d===d).sort((a,b)=>a.n-b.n)
+    .map(e=>`<li><b>${e.n}</b> ${e.q} <i>(${e.a.length})</i></li>`).join("");
+  return `<section class="pp-page">
+    <div class="pp-h">${CW.title}</div>
+    <p class="pp-lead">${CW.blurb}</p>
+    <div class="ppcw">
+      <div class="ppgrid" style="--n:${CW.W}">${cells}</div>
+      <div class="ppclues">
+        <div><h6>Across</h6><ol>${clues("A")}</ol></div>
+        <div><h6>Down</h6><ol>${clues("D")}</ol></div>
+      </div>
+    </div>
+    <div class="pp-h" style="margin-top:14px">The numbered squares, in order</div>
+    <div class="pp-keyboxes">${CW.marks.slice().sort((a,b)=>a.i-b.i).map(m=>`<div class="pp-kb"><span>${m.i}</span></div>`).join("")}</div>
+  </section>`;
+}
+
+/* ---------------- the folder / scrapbook starter ---------------- */
+function folderPack(){
+  const rows = CASES.map(c=>({code:c.code, title:c.title, where:c.period}));
+  const blanks = Math.max(0, 50 - rows.length);
+  const html = `<div class="ppdoc">
+    <section class="pp-page pp-cover">
+      <div class="pp-soc">The Chronicle Society · Department of Unsolved Antiquities</div>
+      <h1 style="margin-top:18px">Investigator's File</h1>
+      <div class="pp-where">Keep every case you close in this folder</div>
+      <div class="pp-art" style="max-width:300px;margin:26px auto">${SVG.finalSeal}</div>
+      <div class="pp-fill">
+        <div><span>Name</span><div class="pp-rule"></div></div>
+        <div><span>Class</span><div class="pp-rule"></div></div>
+        <div><span>Year</span><div class="pp-rule"></div></div>
+      </div>
+      <p class="pp-teaser" style="margin-top:26px">Every case you finish adds three things to this folder: the case record in your own handwriting, the certificate your teacher signs, and whatever evidence you decide is worth keeping. By the end of the year it is the record of everything you worked out.</p>
+      <div class="pp-stamp">CONFIDENTIAL — PROPERTY OF THE INVESTIGATOR NAMED ABOVE</div>
+    </section>
+    <section class="pp-page">
+      <div class="pp-h">Index of cases</div>
+      <p class="pp-lead">Tick a case when you close it, and write the conclusion you reached in your own words.</p>
+      <table class="pp-index">
+        <tr><th>✓</th><th>Case</th><th>Title</th><th>Closed</th><th>What we concluded</th></tr>
+        ${rows.map(r=>`<tr><td class="tick"></td><td>${r.code}</td><td>${r.title}</td><td></td><td></td></tr>`).join("")}
+        ${Array.from({length:blanks},()=>`<tr><td class="tick"></td><td></td><td></td><td></td><td></td></tr>`).join("")}
+      </table>
+    </section>
+    <section class="pp-page">
+      <div class="pp-h">Spine labels</div>
+      <p class="pp-lead">Cut out and stick along the spine of the folder or the edge of a scrapbook.</p>
+      <div class="pp-spines">
+        ${Array.from({length:3},()=>`<div class="pp-spine"><b>THE CHRONICLE SOCIETY</b><span>Investigator's File · Department of Unsolved Antiquities</span></div>`).join("")}
+      </div>
+    </section>
+  </div>`;
+  const o = overlay(html + `<div class="noprint" style="margin-top:18px;display:flex;gap:10px;align-items:center;flex-wrap:wrap">
+      <button class="btn" id="fpPrint">Print the folder pack</button>
+      <span class="small">Cover, index of all cases, and spine labels.</span>
+    </div>`, "wide bibsheet");
+  o.classList.add("printme");
+  o.querySelector("#fpPrint").addEventListener("click", ()=>window.print());
+}
+
+</script>
+<script>
+"use strict";
+/* ============================================================
+   ENGINE — multi-case
+   ============================================================ */
+const $ = s => document.querySelector(s);
+const el = (t,c,h) => { const n=document.createElement(t); if(c)n.className=c; if(h!=null)n.innerHTML=h; return n; };
+const esc = s => (s||"").replace(/[<>&]/g, c => ({"<":"&lt;",">":"&gt;","&":"&amp;"}[c]));
+
+const SAVE_KEY = "jm_cases_v2";
+const OLD_KEY  = "jm33_v1";
+
+const CASES = CASE_STUBS;                       // metadata only — see part_registry.js
+const caseById = id => CASE_REG[id] || CASES.find(c=>c.id===id);
+
+const NEW_CASE_STATE = () => ({
+  opened:false, pos:{}, pins:{}, locked:{}, notes:"", hints:{},
+  solved:false, reasoning:"", sheet:{}, cw:{}, ld:{}
+});
+
+let S = { v:2, cases:{} };
+let C = null;   // current case definition
+let CS = null;  // current case state
+
+/* ---------------- save / load ---------------- */
+function save(){ try{ localStorage.setItem(SAVE_KEY, JSON.stringify(S)); }catch(e){} }
+function stateFor(id){
+  if(!S.cases[id]) S.cases[id] = NEW_CASE_STATE();
+  const st = S.cases[id];
+  st.pos = st.pos||{}; st.pins = st.pins||{}; st.locked = st.locked||{};
+  st.hints = st.hints||{}; st.sheet = st.sheet||{}; st.cw = st.cw||{}; st.ld = st.ld||{};
+  return st;
+}
+function load(){
+  try{
+    const raw = localStorage.getItem(SAVE_KEY);
+    if(raw){ const p = JSON.parse(raw); if(p && p.cases) S = p; }
+  }catch(e){ S = { v:2, cases:{} }; }
+  // carry over progress saved by the original single-case version
+  try{
+    const old = localStorage.getItem(OLD_KEY);
+    if(old && !S.cases.jm33){
+      const o = JSON.parse(old);
+      S.cases.jm33 = Object.assign(NEW_CASE_STATE(), o, {hints:o.hints||{}});
+      save();
+    }
+  }catch(e){}
+}
+
+/* ---------------- case progress helpers ---------------- */
+function locksDone(cdef, st){
+  const ids = cdef.locks ? cdef.locks.map(L=>L.id) : ["l1","l2"];
+  return ids.filter(id=>st[id]).length;
+}
+function pinsDone(cdef, st){ return Object.keys(st.locked||{}).length; }
+function nLocks(cdef){ return cdef.locks ? cdef.locks.length : (cdef.nlocks||2); }
+function nTheories(cdef){ return cdef.theories ? cdef.theories.length : (cdef.ntheories||5); }
+function progressLabel(cdef){
+  const st = stateFor(cdef.id);
+  if(st.solved) return {txt:"Case closed", detail:"conclusion filed", cls:"done"};
+  if(!st.opened) return {txt:"Not started", detail:"", cls:""};
+  return {txt:"In progress", cls:"wip",
+    detail:`${locksDone(cdef,st)} of ${nLocks(cdef)} locks · ${pinsDone(cdef,st)} of ${nTheories(cdef)} eliminated`};
+}
+
+/* ============================================================
+   THE SHELF
+   ============================================================ */
+const shelf = $("#shelf");
+function showShelf(){
+  C = null; CS = null;
+  $("#app").classList.add("hidden");
+  shelf.classList.remove("hidden");
+  renderShelf();
+}
+function posterArt(cdef){
+  if(cdef.poster && SVG[cdef.poster]) return SVG[cdef.poster];
+  // placeholder until the case has its own poster plate
+  return `<svg viewBox="0 0 300 200" xmlns="http://www.w3.org/2000/svg">
+    <rect width="300" height="200" fill="#e4d5b4"/>
+    <circle cx="150" cy="96" r="46" fill="${cdef.colour}" opacity=".85"/>
+    <circle cx="150" cy="96" r="37" fill="none" stroke="#f4e7cd" stroke-width="2"/>
+    <text x="150" y="106" text-anchor="middle" font-family="Georgia,serif" font-size="27" fill="#f6ead2">CS</text>
+    <text x="150" y="172" text-anchor="middle" font-family="Georgia,serif" font-size="13"
+      fill="#7a6238" letter-spacing="3">${cdef.code}</text>
+  </svg>`;
+}
+
+function renderShelf(){
+  const tilt = [-1.6, 1.3, -0.9, 1.8, -1.2];
+  const posters = CASES.map((cdef,i)=>{
+    const st = stateFor(cdef.id), p = progressLabel(cdef);
+    const cls = p.cls || "new";
+    return `<div class="poster" style="--fc:${cdef.colour};--r:${tilt[i%tilt.length]}deg">
+      <div class="p-soc">The Chronicle Society</div>
+      <div class="p-code">${cdef.code}</div>
+      <div class="p-hr"></div>
+      <div class="art">${posterArt(cdef)}</div>
+      <div class="p-title">${cdef.title}</div>
+      <div class="p-where">${cdef.period}</div>
+      <div class="p-hr thin"></div>
+      <div class="p-teaser">${cdef.teaser}</div>
+      <div class="p-stamp ${cls}">${p.txt}</div>
+      ${p.detail?`<div class="p-sub">${p.detail}</div>`:""}
+      <div class="p-acts">
+        <button class="p-open" data-case="${cdef.id}">${st.opened ? "Continue" : "Take this case"}</button>
+        <button class="p-restart" data-pp="${cdef.id}" title="Print this case to run on paper">🖨</button>
+        ${st.opened ? `<button class="p-restart" data-restart="${cdef.id}" title="Clear this case and start again">Restart</button>` : ""}
+      </div>
+    </div>`;
+  }).join("");
+
+  shelf.innerHTML = `<div class="shelfwrap">
+    <div class="boardsign">
+      <div class="kicker">The Chronicle Society</div>
+      <h1>Department of Unsolved Antiquities</h1>
+      <p>Take down a case and work it. Read everything, break the locks, and throw out every explanation the evidence will not carry — then file what is left.</p>
+    </div>
+    <div class="cases">${posters}
+      <div class="poster soon" style="--fc:#5c5346;--r:1.1deg">
+        <div class="p-soc">The Chronicle Society</div>
+        <div class="p-code">Case JM-??</div>
+        <div class="p-hr"></div>
+        <div class="art"><svg viewBox="0 0 300 200" xmlns="http://www.w3.org/2000/svg">
+          <rect width="300" height="200" fill="#ddcfb2"/>
+          <text x="150" y="112" text-anchor="middle" font-family="Georgia,serif" font-size="72" fill="#8d7d5e" opacity=".55">?</text>
+        </svg></div>
+        <div class="p-title">Not yet released</div>
+        <div class="p-where">&nbsp;</div>
+        <div class="p-hr thin"></div>
+        <div class="p-teaser">Another file is being prepared for the archive.</div>
+        <div class="p-stamp new">Sealed</div>
+      </div>
+    </div>
+    <div class="boardfoot">
+      <button class="btn ghost" id="shelfBible">📖 Read the Bible</button>
+      <button class="btn ghost" id="shelfFolder">🗂 Folder pack</button>
+      <button class="btn ghost" id="shelfTeacher">Teacher notes</button>
+      <span class="small">Progress is saved on this device, so you can close the tab and come back.</span>
+    </div>
+  </div>`;
+
+  shelf.querySelectorAll("[data-case]").forEach(b=>
+    b.addEventListener("click", ()=>{
+      b.disabled = true; b.textContent = "Opening…";
+      withCase(b.dataset.case, openCase).catch(()=>{
+        b.disabled = false; renderShelf();
+      });
+    }));
+  shelf.querySelectorAll("[data-pp]").forEach(b=>
+    b.addEventListener("click", e=>{ e.stopPropagation(); withCase(b.dataset.pp, printPack); }));
+  shelf.querySelectorAll("[data-restart]").forEach(b=>
+    b.addEventListener("click", e=>{ e.stopPropagation(); restartCase(b.dataset.restart); }));
+  shelf.querySelector("#shelfBible").addEventListener("click", ()=>openBible());
+  shelf.querySelector("#shelfFolder").addEventListener("click", folderPack);
+  shelf.querySelector("#shelfTeacher").addEventListener("click", teacherNotes);
+}
+
+function restartCase(id){
+  const cdef = caseById(id);
+  if(!confirm(`Restart ${cdef.code} — ${cdef.title}?\n\nThis clears the locks, the pinboard, your notes and the answer sheet for this case only. Other cases are not affected.`)) return;
+  delete S.cases[id];
+  save();
+  renderShelf();
+}
+
+/* ============================================================
+   OPENING A CASE
+   ============================================================ */
+/* Fetch a case, then hand it to fn. Everything that needs a whole case — opening
+   it, printing its paper edition, showing its answers — goes through here. */
+function withCase(id, fn){
+  return loadCase(id).then(fn).catch(err=>{
+    const stub = caseById(id);
+    alert("Could not open " + (stub ? stub.code : id) + ".\n\n" + CASE_LOAD_HELP);
+    throw err;
+  });
+}
+
+function openCase(cdef){
+  const id = cdef.id;
+  C  = cdef;
+  CS = stateFor(id);
+  shelf.classList.add("hidden");
+  $("#app").classList.remove("hidden");
+  $("#caseCode").textContent = C.code;
+  $("#caseName").textContent = C.title;
+  document.documentElement.style.setProperty("--accent", C.colour);
+  desk.innerHTML = ""; zTop = 10;
+  board.classList.add("hidden");
+  $("#btnBoard").classList.remove("on");
+  $("#deskHint").classList.remove("hidden");
+  toolBtn();
+  $("#notesPane").classList.add("hidden");
+  $("#notesArea").value = CS.notes || "";
+  lockPip();
+  if(CS.opened){ renderDesk(); }
+  else { runIntro(); }
+}
+
+function runIntro(){
+  const intro = el("div", null, `
+    <div id="intro">
+      <div>
+        <div class="kicker">${C.code} &middot; ${C.period}</div>
+        <h1>${C.title}</h1>
+        <div class="sub">${C.introSub}</div>
+        <div class="folder" id="folder">
+          <div class="back"></div>
+          <div class="stack"><i></i><i></i><i></i><i></i><i></i><i></i></div>
+          <div class="cover" style="--fc:${C.colour}">
+            <div class="f-label">
+              <div class="l1">The Chronicle Society</div>
+              <div class="l2">${C.title}</div>
+              <div class="l3">${C.code} &middot; ${C.period}</div>
+            </div>
+            <div class="f-stamp">CONFIDENTIAL</div>
+            <div class="f-string"></div>
+            <div class="f-button"></div>
+          </div>
+        </div>
+        <div class="tap" id="tapLine">Click the file to untie it</div>
+      </div>
+    </div>`).firstElementChild;
+  document.body.appendChild(intro);
+  const folder = intro.querySelector("#folder");
+  const go = ()=>{
+    if(folder.classList.contains("open")) return;
+    folder.classList.add("open");
+    intro.querySelector("#tapLine").textContent = "Tipping the contents onto the desk…";
+    setTimeout(()=>{
+      intro.classList.add("leaving");
+      setTimeout(()=>intro.remove(), 700);
+      renderDesk();
+      CS.opened = true; save();
+      setTimeout(()=>openItem(C.items[0]), 1100);
+    }, 1150);
+  };
+  folder.addEventListener("click", go);
+  intro.querySelector("#tapLine").addEventListener("click", go);
+}
+
+/* ============================================================
+   THE DESK
+   ============================================================ */
+const desk = $("#desk");
+const board = $("#board");
+let zTop = 10;
+function raise(n){
+  if(++zTop > 400){                       // keep desk cards below the pinboard
+    zTop = 10;
+    [...desk.children].forEach(c=>c.style.zIndex = ++zTop);
+  }
+  n.style.zIndex = zTop;
+}
+
+const byId = id => C.items.find(i=>i.id===id);
+function stageNow(){
+  let n = 0;
+  for(const L of C.locks){ if(CS[L.id]) n++; else break; }
+  return n;
+}
+function available(){ return C.items.filter(i=>i.stage<=stageNow()); }
+
+function renderDesk(){
+  const have = new Set([...desk.children].map(n=>n.dataset.id));
+  available().forEach(item=>{
+    if(have.has(item.id)) return;
+    desk.appendChild(makeItem(item, CS.pos[item.id]===undefined));
+  });
+}
+function makeItem(item, isNew){
+  const p = CS.pos[item.id] || {x:item.x, y:item.y, rot:item.rot};
+  CS.pos[item.id] = p;
+  const n = el("div","item"+(isNew?" new":""));
+  n.dataset.id = item.id;
+  n.style.width = (item.w||200)+"px";
+  place(n,p);
+  raise(n);
+  n.innerHTML = `
+    <div class="tape"></div>
+    <div class="card">
+      <div class="kind">${item.kind}</div>
+      <div class="ttl">${item.title}</div>
+      ${item.thumb?`<div class="thumb">${SVG[item.thumb]}</div>`:""}
+      <div class="prev">${item.prev||""}</div>
+      <div class="open">Click to read</div>
+    </div>`;
+  attachDrag(n,item);
+  return n;
+}
+function place(n,p){
+  n.style.left = p.x+"%"; n.style.top = p.y+"%";
+  n.style.transform = `translate(-50%,-50%) rotate(${p.rot}deg)`;
+}
+function attachDrag(n,item){
+  let sx=0, sy=0, ox=0, oy=0, moved=false, id=null;
+  n.addEventListener("pointerdown", e=>{
+    if(e.button!==undefined && e.button!==0) return;
+    id=e.pointerId; moved=false;
+    n._r = desk.getBoundingClientRect();
+    sx=e.clientX; sy=e.clientY;
+    ox=CS.pos[item.id].x; oy=CS.pos[item.id].y;
+    n.setPointerCapture(id);
+    n.classList.add("dragging");
+    raise(n);
+    e.preventDefault();
+  });
+  n.addEventListener("pointermove", e=>{
+    if(id===null || e.pointerId!==id) return;
+    const dx=e.clientX-sx, dy=e.clientY-sy;
+    if(Math.abs(dx)>5 || Math.abs(dy)>5) moved=true;
+    if(!moved) return;
+    const r=n._r, p=CS.pos[item.id];
+    p.x = Math.min(98, Math.max(2, ox + dx/r.width*100));
+    p.y = Math.min(97, Math.max(3, oy + dy/r.height*100));
+    place(n,p);
+  });
+  n.addEventListener("pointerup", ()=>{
+    if(id===null) return;
+    n.classList.remove("dragging");
+    try{ n.releasePointerCapture(id); }catch(err){}
+    id=null;
+    if(moved) save(); else openItem(item);
+  });
+  n.addEventListener("pointercancel", ()=>{ n.classList.remove("dragging"); id=null; });
+}
+
+/* ============================================================
+   OVERLAYS
+   ============================================================ */
+function overlay(html, cls){
+  const o = el("div","overlay");
+  o.innerHTML = `<div class="sheet ${cls||""}"><button class="x" aria-label="Close">✕</button><div class="body">${html}</div></div>`;
+  o.addEventListener("click", e=>{ if(e.target===o) o.remove(); });
+  o.querySelector(".x").addEventListener("click", ()=>o.remove());
+  document.body.appendChild(o);
+  if(!(cls||"").includes("bibsheet")) linkifyRefs(o.querySelector(".body"));
+  return o;
+}
+document.addEventListener("keydown", e=>{
+  if(e.key==="Escape"){ const os=document.querySelectorAll(".overlay"); if(os.length) os[os.length-1].remove(); }
+});
+function openItem(item){
+  const o = overlay(`
+    <div class="doc-kind">${item.kind}</div>
+    <div class="doc-title">${item.title}</div>
+    <div class="doc-sub">${item.sub||""}</div>
+    <div class="rule"></div>
+    <div class="doc-body">${item.body}</div>`);
+  o.querySelectorAll(".plate").forEach(pl=>{
+    pl.classList.add("zoomable");
+    pl.addEventListener("click", ()=>{
+      const g = pl.querySelector("svg,img");
+      if(g) overlay(`<div class="doc-kind">Enlarged</div><div class="doc-title">${item.title}</div><div class="plate">${g.outerHTML}</div>`, "wide");
+    });
+  });
+}
+
+/* ============================================================
+   LOCKS
+   ============================================================ */
+function lockPip(){ $("#lockPip").textContent = locksDone(C,CS) + "/" + C.locks.length; }
+
+function openLocks(){
+  const o = overlay(`<div class="doc-kind" style="color:var(--accent-2)">Sealed</div>
+    <div class="doc-title" style="color:#f3e8d4">Locked parts of the file</div>
+    <div class="doc-sub" style="color:#a08d6d">Every code is hidden in the documents you already have.</div>
+    <div id="lockList"></div>`);
+  const sh = o.querySelector(".sheet");
+  sh.style.background = "#1b1410"; sh.style.color = "#f0e6d6";
+  const list = o.querySelector("#lockList");
+  C.locks.forEach(L=>list.appendChild(lockCard(L)));
+}
+function lockCard(L){
+  const done = CS[L.id];
+  const c = el("div","lockcard"+(done?" done":""));
+  c.innerHTML = `<div class="st">${done?"● Open":"● Sealed"}</div>
+    <h3>${L.name}</h3><p>${done ? L.reward : L.blurb}</p>`;
+  if(done) return c;
+
+  const ul = el("ul","qs");
+  L.questions.forEach(q=>ul.appendChild(el("li",null,q)));
+  c.appendChild(ul);
+
+  const box = el("div","codebox");
+  const inp = el("input");
+  inp.maxLength = L.len;
+  inp.placeholder = L.type==="number" ? "0".repeat(L.len) : "?".repeat(L.len);
+  if(L.type==="number") inp.inputMode = "numeric";
+  const go = el("button","btn", L.type==="number"?"Enter code":"Enter keyword");
+  const hb = el("button","btn ghost","Need a hint");
+  box.append(inp, go, hb);
+  c.appendChild(box);
+  const msg = el("div","msg"); c.appendChild(msg);
+  const hw  = el("div","hintwrap"); c.appendChild(hw);
+
+  CS.hints[L.id] = CS.hints[L.id] || 0;
+  const showHints = ()=>{
+    hw.innerHTML = "";
+    for(let i=0;i<CS.hints[L.id];i++) hw.appendChild(el("div","hint",`<b>Hint ${i+1}.</b> ${L.hints[i]}`));
+    if(CS.hints[L.id] >= L.hints.length){ hb.disabled = true; hb.textContent = "No hints left"; }
+  };
+  showHints();
+  hb.addEventListener("click", ()=>{
+    if(CS.hints[L.id] < L.hints.length){ CS.hints[L.id]++; save(); showHints(); }
+  });
+
+  const attempt = ()=>{
+    const v = inp.value.trim().toUpperCase();
+    if(v.length < L.len){ msg.className="msg bad"; msg.textContent = `That is not a complete ${L.type==="number"?"code":"keyword"} yet.`; return; }
+    if(v === L.code){
+      CS[L.id] = true; save();
+      msg.className="msg good"; msg.textContent = "Open. " + L.reward;
+      renderDesk(); lockPip(); toolBtn();
+      setTimeout(()=>c.replaceWith(lockCard(L)), 1400);
+    } else {
+      msg.className="msg bad"; msg.textContent = L.wrong;
+      inp.select();
+    }
+  };
+  go.addEventListener("click", attempt);
+  inp.addEventListener("keydown", e=>{ if(e.key==="Enter") attempt(); });
+  return c;
+}
+
+/* ============================================================
+   THE ELIMINATION BOARD
+   ============================================================ */
+let selChip = null;
+function showBoard(show){
+  board.classList.toggle("hidden", !show);
+  $("#btnBoard").classList.toggle("on", show);
+  $("#deskHint").classList.toggle("hidden", show);
+  if(show) renderBoard();
+}
+function renderBoard(){
+  const allPinned = C.theories.every(t=>CS.locked[t.id]);
+  board.innerHTML = `<div class="inner">
+    <div class="boardhead"><div>
+      <h2>${C.boardTitle}</h2>
+      <p>${C.boardIntro}</p>
+    </div></div>
+    <div class="theories" id="theories"></div>
+    <div class="rail">
+      <h5>Evidence available</h5>
+      <div class="sub">Tap a piece of evidence, then tap the explanation it destroys. Tap a filled slot to take it back.</div>
+      <div class="chips" id="chips"></div>
+    </div>
+    <div class="boardbar">
+      <button class="btn" id="checkBtn">Test the board</button>
+      <button class="btn ghost" id="clearBtn">Clear unlocked slots</button>
+      <button class="btn" id="accuseBtn" ${allPinned?"":"disabled"}>${allPinned?"Open the accusation form":"Accusation form — locked"}</button>
+      <span class="small" id="boardMsg"></span>
+    </div>
+  </div>`;
+  const tw = board.querySelector("#theories");
+  C.theories.forEach(t=>{
+    const done = CS.locked[t.id], pinned = CS.pins[t.id];
+    const c = el("div","theory");
+    c.innerHTML = `<div class="pin"></div>
+      <h4>${t.title}</h4>
+      <div class="claim">${t.claim}</div>
+      <div class="slot ${pinned?"filled":""} ${done?"right":""}" data-t="${t.id}">
+        ${pinned ? byId(pinned).title : "Pin the evidence that disproves this"}
+      </div>
+      ${done?`<div class="verdict right">${t.verdict}</div>`:""}`;
+    c.querySelector(".slot").addEventListener("click", ()=>{
+      if(CS.locked[t.id]) return;
+      if(selChip){ CS.pins[t.id] = selChip; selChip = null; save(); renderBoard(); }
+      else if(CS.pins[t.id]){ delete CS.pins[t.id]; save(); renderBoard(); }
+    });
+    tw.appendChild(c);
+  });
+  const used = new Set(Object.values(CS.pins));
+  const chips = board.querySelector("#chips");
+  available().filter(i=>!i.notEvidence).forEach(i=>{
+    const ch = el("div","chip"+(used.has(i.id)?" used":"")+(selChip===i.id?" sel":""), i.title);
+    if(!used.has(i.id)) ch.addEventListener("click", ()=>{ selChip = (selChip===i.id?null:i.id); renderBoard(); });
+    chips.appendChild(ch);
+  });
+  board.querySelector("#checkBtn").addEventListener("click", checkBoard);
+  board.querySelector("#clearBtn").addEventListener("click", ()=>{
+    C.theories.forEach(t=>{ if(!CS.locked[t.id]) delete CS.pins[t.id]; });
+    selChip=null; save(); renderBoard();
+  });
+  if(allPinned) board.querySelector("#accuseBtn").addEventListener("click", openAccusation);
+}
+function checkBoard(){
+  let right=0, wrong=0, empty=0;
+  C.theories.forEach(t=>{
+    if(CS.locked[t.id]){ right++; return; }
+    const p = CS.pins[t.id];
+    if(!p){ empty++; return; }
+    if(p===t.answer){ CS.locked[t.id]=true; right++; }
+    else { delete CS.pins[t.id]; wrong++; }
+  });
+  save(); renderBoard();
+  const m = board.querySelector("#boardMsg"), n = C.theories.length;
+  if(right===n){ m.style.color="#1f4d2b"; m.textContent = "All eliminated. The accusation form is open."; }
+  else {
+    m.style.color="#5c2016";
+    m.textContent = `${right} of ${n} correct. ${wrong?wrong+" wrong pin"+(wrong>1?"s":"")+" removed. ":""}${empty?empty+" still empty. ":""}Go back to the desk and read again.`;
+  }
+}
+
+/* ============================================================
+   ACCUSATION + DEBRIEF
+   ============================================================ */
+function openAccusation(){
+  let pick = null;
+  const o = overlay(`
+    <div class="doc-kind">Final step</div>
+    <div class="doc-title">Accusation Form — ${C.code}</div>
+    <div class="doc-sub">You have eliminated every explanation on the board. State your conclusion.</div>
+    <div class="rule"></div>
+    <div class="doc-body"><p>${C.accusationIntro}</p></div>
+    <div class="choices" id="ch"></div>
+    <p class="doc-body" style="margin-bottom:6px"><b>Give your reasoning.</b> Name at least two pieces of evidence.</p>
+    <textarea id="why" placeholder="We concluded this because…"></textarea>
+    <div style="margin-top:14px"><button class="btn" id="submit">File the conclusion</button> <span class="msg" id="am"></span></div>`);
+  const ch = o.querySelector("#ch");
+  C.verdicts.forEach(v=>{
+    const b = el("button","choice",v.text);
+    b.addEventListener("click", ()=>{
+      pick = v.id;
+      ch.querySelectorAll(".choice").forEach(x=>x.classList.remove("sel"));
+      b.classList.add("sel");
+    });
+    ch.appendChild(b);
+  });
+  const why = o.querySelector("#why");
+  why.value = CS.reasoning || "";
+  why.addEventListener("input", ()=>{ CS.reasoning = why.value; save(); });
+  o.querySelector("#submit").addEventListener("click", ()=>{
+    const m = o.querySelector("#am");
+    if(!pick){ m.className="msg bad"; m.textContent="Choose a conclusion first."; return; }
+    if(why.value.trim().length < 40){ m.className="msg bad"; m.textContent="Write your reasoning first — at least a couple of sentences."; return; }
+    if(pick!==C.correct){
+      m.className="msg bad";
+      m.textContent="You pinned the evidence that destroys that explanation yourself. Look at your own board again.";
+      return;
+    }
+    CS.solved = true; save();
+    o.remove(); debrief();
+  });
+}
+function debrief(){
+  const verdicts = C.theories.map(t=>`<h4>${t.title}</h4><p>${t.verdict}</p>`).join("");
+  const qs = C.debrief.questions.map(q=>`<li>${q}</li>`).join("");
+  overlay(`
+    ${SVG.finalSeal}
+    <div class="doc-kind" style="text-align:center">Case closed</div>
+    <div class="doc-title" style="text-align:center">${C.code} — Conclusion Filed</div>
+    <div class="doc-sub" style="text-align:center">The Chronicle Society · Department of Unsolved Antiquities</div>
+    <div class="rule"></div>
+    <div class="doc-body">
+      <p>${C.debrief.lead}</p>
+      <h4>Your reasoning, as filed</h4>
+      <p style="font-family:var(--hand);font-size:19px;white-space:pre-wrap">${esc(CS.reasoning)}</p>
+      <div class="rule"></div>
+      <h4 style="font-size:13px">The full elimination</h4>
+      ${verdicts}
+      <div class="rule"></div>
+      <h4>Now think about it</h4>
+      <ul>${qs}</ul>
+      <h4>Read it for yourself</h4>
+      <p>${C.debrief.refs}</p>
+    </div>
+    <div style="margin-top:16px;display:flex;gap:10px;flex-wrap:wrap">
+      <button class="btn" id="dbCert">🏅 Print your certificate</button>
+      <button class="btn ghost" id="dbSheet">Open the answer sheet</button>
+      <button class="btn ghost" id="dbHome">Back to the case shelf</button>
+    </div>`, "wide");
+  $("#dbCert").addEventListener("click", ()=>openCertificate(C));
+  $("#dbSheet").addEventListener("click", answerSheet);
+  $("#dbHome").addEventListener("click", ()=>{
+    document.querySelectorAll(".overlay").forEach(o=>o.remove());
+    showShelf();
+  });
+}
+
+/* ============================================================
+   THE CASE TOOL BUTTON — crossword or enquiry, depending on the case
+   ============================================================ */
+function caseTool(){
+  if(!C) return null;
+  if(C.crossword) return {open:openCrossword, label:"\uD83E\uDDE9 Riddle", ready:true};
+  if(C.ladder)    return {open:openLadder,   label:"\u2696 Enquiry",
+                          ready:stageNow() >= 1};
+  if(C.matrix)    return {open:openMatrix,   label:C.matrix.button || "\uD83D\uDCCA Grid",
+                          ready:stageNow() >= (C.matrix.fromStage === undefined ? 1 : C.matrix.fromStage)};
+  if(C.scales)    return {open:openScales,   label:C.scales.button || "\u2696 The scales",
+                          ready:stageNow() >= (C.scales.fromStage === undefined ? 1 : C.scales.fromStage)};
+  return null;
+}
+function toolBtn(){
+  const b = $("#btnRiddle"), t = caseTool();
+  if(t && t.ready){ b.classList.remove("hidden"); b.textContent = t.label; }
+  else b.classList.add("hidden");
+}
+function openTool(){ const t = caseTool(); if(t && t.ready) t.open(); }
+
+
+/* ============================================================
+   THE BALANCE SCALES
+
+   Four words, each of them a unit of weight. The team puts stones on the pan
+   until the beam sits level, one word at a time. Nothing here is guesswork: the
+   table of weights on the desk gives every value, and the balance simply refuses
+   to lie about the arithmetic.
+   ============================================================ */
+function scalesTotal(n){
+  const SC = C.scales, put = (CS.sc && CS.sc[n]) || [];
+  return put.reduce((t,id)=>{
+    const st = SC.stones.find(s=>s.id===id);
+    return t + (st ? st.value : 0);
+  }, 0);
+}
+function scalesDone(){
+  const SC = C.scales; let n = 0;
+  for(const r of SC.rounds){ if(scalesTotal(r.n) === r.target) n++; else break; }
+  return n;
+}
+function openScales(){
+  const SC = C.scales;
+  CS.sc = CS.sc || {};
+  const o = overlay("<div id='scwrap'></div>", "wide");
+  const wrap = o.querySelector("#scwrap");
+
+  const unitName = v => v === 1 ? (SC.unitOne || SC.unit.replace(/s$/, "")) : SC.unit;
+
+  const beam = (diff, target)=>{
+    const t = Math.max(-1, Math.min(1, diff / Math.max(target, 1))) * 13;
+    const dy = t * 1.6;
+    return `<svg class="scsvg" viewBox="0 0 300 132" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <rect x="140" y="34" width="20" height="76" rx="4" fill="#8a7551"/>
+      <rect x="112" y="110" width="76" height="10" rx="4" fill="#8a7551"/>
+      <g transform="rotate(${t} 150 34)">
+        <rect x="34" y="30" width="232" height="8" rx="4" fill="#a08a63"/>
+        <circle cx="150" cy="34" r="9" fill="#6d5a3d"/>
+        <line x1="50" y1="36" x2="50" y2="66" stroke="#a08a63" stroke-width="3"/>
+        <line x1="250" y1="36" x2="250" y2="66" stroke="#a08a63" stroke-width="3"/>
+        <path d="M22 66 h56 a34 34 0 0 1 -56 0 z" fill="#c9ab6f" stroke="#8a7551" stroke-width="2"/>
+        <path d="M222 66 h56 a34 34 0 0 1 -56 0 z" fill="#c9ab6f" stroke="#8a7551" stroke-width="2"/>
+      </g>
+      <text x="50" y="${124 - dy}" text-anchor="middle" font-family="Georgia,serif" font-size="13" fill="#6d5a3d">the word</text>
+      <text x="250" y="${124 + dy}" text-anchor="middle" font-family="Georgia,serif" font-size="13" fill="#6d5a3d">your stones</text>
+    </svg>`;
+  };
+
+  function draw(){
+    const done = scalesDone(), finished = done === SC.rounds.length;
+    const rounds = SC.rounds.map(r=>{
+      const total = scalesTotal(r.n), solved = total === r.target;
+      if(solved && r.n <= done) return `<div class="scr done">
+        <div class="scn">Word ${r.n} &middot; balanced</div>
+        <h4>${r.word}</h4>
+        <p><b>${r.meaning}</b> &mdash; ${r.target} ${unitName(r.target)}. ${r.note||""}</p></div>`;
+      if(r.n !== done + 1) return `<div class="scr sealed">
+        <div class="scn">Word ${r.n} &middot; sealed</div>
+        <h4>${r.n <= done ? r.word : "&mdash;"}</h4>
+        <p>This word comes up when word ${r.n-1} balances.</p></div>`;
+      const put = (CS.sc[r.n] || []);
+      return `<div class="scr live">
+        <div class="scn">Word ${r.n} &middot; on the scales</div>
+        <h4>${r.word}</h4>
+        <p>${r.prompt}</p>
+        ${beam(total - r.target, r.target)}
+        <div class="scpan">
+          <div class="scsum ${total===r.target?"ok":""}">On the pan: <b>${total}</b> ${unitName(total)}</div>
+          <div class="scput">${put.length
+            ? put.map((id,i)=>{ const st=SC.stones.find(s=>s.id===id);
+                return `<button class="scstone in" data-drop="${i}">${st.label}</button>`; }).join("")
+            : `<span class="scempty">the pan is empty</span>`}</div>
+        </div>
+        <div class="sctray">${SC.stones.map(s=>
+          `<button class="scstone" data-add="${s.id}">${s.label}</button>`).join("")}</div>
+        <div class="msg" id="scm"></div></div>`;
+    }).join("");
+
+    const strip = finished
+      ? `<div class="mxdone"><p>${SC.reveal.lead}</p>
+         <div class="mxkey">${[...SC.keyword].map(ch=>`<span>${ch}</span>`).join("")}</div>
+         ${SC.reveal.caption?`<p class="mxcap">${SC.reveal.caption}</p>`:""}</div>`
+      : "";
+
+    wrap.innerHTML = `
+      <div class="doc-kind">${C.code}</div>
+      <div class="doc-title">${SC.title}</div>
+      <div class="doc-sub">${SC.blurb}</div>
+      <div class="rule"></div>
+      <div class="scrounds">${rounds}</div>
+      ${strip}
+      <div style="margin-top:16px;display:flex;gap:10px;flex-wrap:wrap;align-items:center">
+        <button class="btn ghost" id="scReset">Clear the scales</button>
+        <span class="small">Every value is on <b>The Table of Weights</b>. The beam will not settle until the arithmetic is right.</span>
+      </div>`;
+
+    const cur = done + 1;
+    wrap.querySelectorAll("[data-add]").forEach(b=>b.addEventListener("click", ()=>{
+      CS.sc[cur] = (CS.sc[cur] || []).concat([b.dataset.add]);
+      save(); draw();
+    }));
+    wrap.querySelectorAll("[data-drop]").forEach(b=>b.addEventListener("click", ()=>{
+      const arr = (CS.sc[cur] || []).slice();
+      arr.splice(+b.dataset.drop, 1);
+      CS.sc[cur] = arr; save(); draw();
+    }));
+    wrap.querySelector("#scReset").addEventListener("click", ()=>{
+      if(!confirm("Clear every word and start the weighing again?")) return;
+      CS.sc = {}; save(); draw();
+    });
+    linkifyRefs(wrap);
+  }
+  draw();
+}
+
+/* ============================================================
+   THE MATRIX — a grid the team fills in from a document
+
+   One mechanic, several uses. A search grid (which district was searched on
+   which day), a hypothesis table (what each explanation predicts would be
+   found), a pattern chart, a testimony grid. In every case the team transfers
+   what a document says into a grid, and the shape that appears — a row of
+   blanks, a column ticked all the way down — is the answer.
+   ============================================================ */
+function matrixKey(r, c){ return r + "|" + c; }
+function matrixRight(){
+  const MX = C.matrix, want = new Set(MX.truth), got = CS.mx || {};
+  const marked = Object.keys(got).filter(k=>got[k]);
+  return marked.length === want.size && marked.every(k=>want.has(k));
+}
+function openMatrix(){
+  const MX = C.matrix;
+  CS.mx = CS.mx || {};
+  const o = overlay("<div id='mxwrap'></div>", "wide");
+  const wrap = o.querySelector("#mxwrap");
+
+  function draw(msg){
+    const solved = matrixRight();
+    const head = MX.cols.map(c=>`<th><span>${c.label}</span>${c.note?`<i>${c.note}</i>`:""}</th>`).join("");
+    const body = MX.rows.map(r=>`<tr>
+        <th class="mxrow">${r.label}${r.note?`<i>${r.note}</i>`:""}</th>
+        ${MX.cols.map(c=>{
+          const k = matrixKey(r.id, c.id), on = !!CS.mx[k];
+          return `<td><button class="mxc${on?" on":""}" data-k="${k}"
+            aria-pressed="${on}" aria-label="${r.label} — ${c.label}">${on?MX.mark||"✔":""}</button></td>`;
+        }).join("")}
+      </tr>`).join("");
+    const foot = MX.foot ? `<tr class="mxfoot">
+        <th class="mxrow">${MX.foot.label}${MX.foot.note?`<i>${MX.foot.note}</i>`:""}</th>
+        ${MX.cols.map(c=>`<td><span class="mxf">${MX.foot.cells[c.id]||""}</span></td>`).join("")}
+      </tr>` : "";
+    const reveal = solved ? `
+      <div class="mxdone">
+        <p>${MX.reveal.lead}</p>
+        <div class="mxkey">${[...MX.reveal.answer].map(ch=>`<span>${ch}</span>`).join("")}</div>
+        ${MX.reveal.caption?`<p class="mxcap">${MX.reveal.caption}</p>`:""}
+      </div>` : "";
+
+    wrap.innerHTML = `
+      <div class="doc-kind">${C.code}</div>
+      <div class="doc-title">${MX.title}</div>
+      <div class="doc-sub">${MX.blurb}</div>
+      <div class="rule"></div>
+      <div class="mxscroll">
+        <table class="mx">
+          <tr><th class="mxcorner">${MX.corner||""}</th>${head}</tr>
+          ${body}${foot}
+        </table>
+      </div>
+      ${MX.note?`<p class="mxnote">${MX.note}</p>`:""}
+      ${reveal}
+      <div style="margin-top:16px;display:flex;gap:10px;flex-wrap:wrap;align-items:center">
+        <button class="btn" id="mxCheck">${MX.verify||"Check the grid"}</button>
+        <button class="btn ghost" id="mxClear">Clear</button>
+        <span class="msg" id="mxMsg">${msg||""}</span>
+      </div>`;
+
+    wrap.querySelectorAll(".mxc").forEach(b=>b.addEventListener("click", ()=>{
+      const k = b.dataset.k;
+      if(CS.mx[k]) delete CS.mx[k]; else CS.mx[k] = 1;
+      save(); draw();
+    }));
+    wrap.querySelector("#mxCheck").addEventListener("click", ()=>{
+      const want = new Set(MX.truth);
+      let wrong = 0, missing = 0;
+      wrap.querySelectorAll(".mxc").forEach(b=>{
+        const k = b.dataset.k, on = !!CS.mx[k], should = want.has(k);
+        b.classList.toggle("bad", on && !should);
+        b.classList.toggle("gap", !on && should);
+        if(on && !should) wrong++;
+        if(!on && should) missing++;
+      });
+      const m = wrap.querySelector("#mxMsg");
+      if(!wrong && !missing){ draw(); }
+      else {
+        m.className = "msg bad";
+        m.textContent =
+          (wrong ? wrong + " mark" + (wrong>1?"s":"") + " the document does not support" : "") +
+          (wrong && missing ? ", and " : "") +
+          (missing ? missing + " still missing" : "") + ". Read it again, line by line.";
+      }
+    });
+    wrap.querySelector("#mxClear").addEventListener("click", ()=>{
+      if(!confirm("Clear the whole grid?")) return;
+      CS.mx = {}; save(); draw();
+    });
+    linkifyRefs(wrap);
+  }
+  draw();
+}
+
+/* ============================================================
+   THE ELIMINATION LADDER (THE ENQUIRY)
+   ============================================================ */
+function ladderDone(){
+  const LD = C.ladder; let n = 0;
+  for(const r of LD.rounds){ if(CS.ld[r.n]) n++; else break; }
+  return n;
+}
+function openLadder(){
+  const LD = C.ladder;
+  CS.ld = CS.ld || {};
+  const o = overlay("<div id='ldwrap'></div>", "wide");
+  const wrap = o.querySelector("#ldwrap");
+
+  function draw(){
+    const done = ladderDone(), finished = done === LD.rounds.length;
+    const rounds = LD.rounds.map(r=>{
+      if(CS.ld[r.n]) return `<div class="ldr done">
+        <div class="ldn">Round ${r.n} &middot; settled</div>
+        <h4>${r.field}</h4>
+        <div class="ldpick">${CS.ld[r.n]}</div>
+        <p>${r.after}</p></div>`;
+      if(r.n === done + 1) return `<div class="ldr live">
+        <div class="ldn">Round ${r.n} &middot; open</div>
+        <h4>${r.field}</h4>
+        <div class="lddoc">Settled by <b>${r.doc}</b></div>
+        <p>${r.clue}</p>
+        <div class="ldopts">${r.options.map(op=>
+          `<button class="ldopt" data-r="${r.n}" data-v="${op}">${op}</button>`).join("")}</div>
+        <div class="msg" id="ldm"></div></div>`;
+      return `<div class="ldr sealed">
+        <div class="ldn">Round ${r.n} &middot; sealed</div>
+        <h4>${r.field}</h4>
+        <p>This round opens when round ${r.n-1} has been settled.</p></div>`;
+    }).join("");
+    const strip = finished
+      ? `<div class="ldkey">${[...LD.keyword].map(ch=>`<span>${ch}</span>`).join("")}</div>
+         <p class="ldfin">${LD.done}</p>`
+      : `<div class="ldkey blank">${[...LD.keyword].map(()=>`<span>&nbsp;</span>`).join("")}</div>
+         <p class="ldfin muted">The name appears here when all four rounds have been settled.</p>`;
+    wrap.innerHTML = `
+      <div class="doc-kind">${C.code}</div>
+      <div class="doc-title">${LD.title}</div>
+      <div class="doc-sub">${LD.blurb}</div>
+      <div class="rule"></div>
+      <div class="ldrounds">${rounds}</div>
+      <div class="rule"></div>
+      <div class="doc-body" style="margin:0"><b>${LD.strip}</b></div>
+      ${strip}
+      <div style="margin-top:16px;display:flex;gap:10px;flex-wrap:wrap;align-items:center">
+        <button class="btn ghost" id="ldReset">Start the enquiry again</button>
+        <span class="small">Each round is settled by a document on your desk. Read it before you choose.</span>
+      </div>`;
+    wrap.querySelectorAll(".ldopt").forEach(b=>b.addEventListener("click", ()=>{
+      const r = LD.rounds.find(x=>x.n === +b.dataset.r);
+      if(b.dataset.v === r.answer){ CS.ld[r.n] = r.answer; save(); draw(); }
+      else {
+        b.classList.add("no");
+        const m = wrap.querySelector("#ldm");
+        if(m){ m.className = "msg bad"; m.textContent = r.wrong; }
+      }
+    }));
+    wrap.querySelector("#ldReset").addEventListener("click", ()=>{
+      if(!confirm("Clear the enquiry and run all four rounds again?")) return;
+      CS.ld = {}; save(); draw();
+    });
+    linkifyRefs(wrap);
+  }
+  draw();
+}
+
+/* ============================================================
+   THE CROSSWORD (RIDDLE SHEET)
+   ============================================================ */
+function cwSolution(){
+  const sol = {};
+  C.crossword.entries.forEach(en=>{
+    const dr = en.d==="A"?0:1, dc = en.d==="A"?1:0;
+    [...en.a].forEach((ch,i)=> sol[(en.r+dr*i)+","+(en.c+dc*i)] = ch);
+  });
+  return sol;
+}
+function openCrossword(){
+  const CW = C.crossword, sol = cwSolution();
+  CS.cw = CS.cw || {};
+  const markAt = {}; CW.marks.forEach(m=> markAt[m.r+","+m.c] = m.i);
+  const startAt = {}; CW.entries.forEach(en=> startAt[en.r+","+en.c] = en.n);
+
+  let cells = "";
+  for(let r=0;r<CW.H;r++) for(let c=0;c<CW.W;c++){
+    const k = r+","+c;
+    if(!sol[k]){ cells += `<div class="cwc block"></div>`; continue; }
+    cells += `<div class="cwc ${markAt[k]?"mark":""}" data-k="${k}">
+      ${startAt[k]?`<span class="cn">${startAt[k]}</span>`:""}
+      ${markAt[k]?`<span class="cm">${markAt[k]}</span>`:""}
+      <input maxlength="1" data-k="${k}" value="${CS.cw[k]||""}" aria-label="row ${r+1} column ${c+1}">
+    </div>`;
+  }
+  const clueList = d => CW.entries.filter(en=>en.d===d).sort((a,b)=>a.n-b.n)
+    .map(en=>`<li data-e="${en.n}${en.d}"><b>${en.n}</b>${en.q} <i>(${en.a.length})</i></li>`).join("");
+  const boxes = CW.marks.slice().sort((a,b)=>a.i-b.i)
+    .map(m=>`<div class="cwbox" data-mk="${m.r},${m.c}"><span>${m.i}</span></div>`).join("");
+
+  const o = overlay(`
+    <div class="doc-kind">${C.code}</div>
+    <div class="doc-title">${CW.title}</div>
+    <div class="doc-sub">${CW.blurb}</div>
+    <div class="rule"></div>
+    <div class="cwwrap">
+      <div class="cwgrid" style="--n:${CW.W}">${cells}</div>
+      <div class="cwclues">
+        <div class="cwcol"><h5>Across</h5><ol>${clueList("A")}</ol></div>
+        <div class="cwcol"><h5>Down</h5><ol>${clueList("D")}</ol></div>
+      </div>
+    </div>
+    <div class="rule"></div>
+    <div class="doc-body" style="margin:0"><b>The numbered squares, in order:</b></div>
+    <div class="cwstrip">${boxes}</div>
+    <div style="margin-top:18px;display:flex;gap:10px;flex-wrap:wrap;align-items:center">
+      <button class="btn" id="cwCheck">Check the sheet</button>
+      <button class="btn ghost" id="cwClear">Clear</button>
+      <span class="msg" id="cwMsg"></span>
+    </div>`, "wide");
+
+  const inputs = [...o.querySelectorAll(".cwc input")];
+  const refreshStrip = ()=>{
+    o.querySelectorAll(".cwbox").forEach(b=>{
+      const v = (CS.cw[b.dataset.mk]||"").toUpperCase();
+      b.childNodes.forEach(n=>{ if(n.nodeType===3) n.remove(); });
+      if(v) b.appendChild(document.createTextNode(v));
+      b.classList.toggle("full", !!v);
+    });
+    // strike through clues that are fully and correctly filled
+    C.crossword.entries.forEach(en=>{
+      const dr = en.d==="A"?0:1, dc = en.d==="A"?1:0;
+      const got = [...en.a].every((ch,i)=> (CS.cw[(en.r+dr*i)+","+(en.c+dc*i)]||"") === ch);
+      const li = o.querySelector(`[data-e="${en.n}${en.d}"]`);
+      if(li) li.classList.toggle("got", got);
+    });
+  };
+  inputs.forEach((inp,idx)=>{
+    inp.addEventListener("input", ()=>{
+      const v = inp.value.replace(/[^a-zA-Z]/g,"").toUpperCase();
+      inp.value = v;
+      if(v) CS.cw[inp.dataset.k] = v; else delete CS.cw[inp.dataset.k];
+      inp.closest(".cwc").classList.remove("bad");
+      save(); refreshStrip();
+      if(v && inputs[idx+1]) inputs[idx+1].focus();
+    });
+    inp.addEventListener("keydown", e=>{
+      if(e.key==="Backspace" && !inp.value && inputs[idx-1]){ inputs[idx-1].focus(); }
+    });
+  });
+  o.querySelector("#cwCheck").addEventListener("click", ()=>{
+    let wrong=0, blank=0, right=0;
+    inputs.forEach(inp=>{
+      const k = inp.dataset.k, v = (CS.cw[k]||"").toUpperCase(), cell = inp.closest(".cwc");
+      cell.classList.remove("bad");
+      if(!v){ blank++; return; }
+      if(v===sol[k]) right++; else { wrong++; cell.classList.add("bad"); }
+    });
+    const m = o.querySelector("#cwMsg");
+    if(!wrong && !blank){ m.className="msg good"; m.textContent="Every square is right. Read the numbered squares in order."; }
+    else if(wrong){ m.className="msg bad"; m.textContent=`${wrong} letter${wrong>1?"s are":" is"} wrong (shown in red). ${blank?blank+" still empty.":""}`; }
+    else { m.className="msg bad"; m.textContent=`Nothing wrong so far — ${blank} square${blank>1?"s":""} still empty.`; }
+  });
+  o.querySelector("#cwClear").addEventListener("click", ()=>{
+    if(!confirm("Clear the whole sheet?")) return;
+    CS.cw = {}; save();
+    inputs.forEach(i=>{ i.value=""; i.closest(".cwc").classList.remove("bad"); });
+    refreshStrip();
+    o.querySelector("#cwMsg").textContent = "";
+  });
+  refreshStrip();
+}
+
+/* ============================================================
+   PRINTABLE ANSWER SHEET
+   ============================================================ */
+function answerSheet(){
+  const line = (id, label, rows) =>
+    `<div class="fld"><label>${label}</label><div class="wl" contenteditable="true" data-f="${id}" style="min-height:${rows*26}px"></div></div>`;
+  const rowsHtml = C.theories.map((t,i)=>`
+    <tr>
+      <td class="th">${t.title}</td>
+      <td><div class="wl" contenteditable="true" data-f="ev${i}" style="min-height:52px"></div></td>
+      <td><div class="wl" contenteditable="true" data-f="wh${i}" style="min-height:52px"></div></td>
+    </tr>`).join("");
+  const lockRows = C.locks.map((L,i)=>`
+    <tr>
+      <td class="th">${L.name}</td>
+      <td style="width:110px"><div class="wl" contenteditable="true" data-f="lc${i}" style="min-height:34px"></div></td>
+      <td><div class="wl" contenteditable="true" data-f="lh${i}" style="min-height:34px"></div></td>
+    </tr>`).join("");
+
+  const o = overlay(`
+    <div class="sheetdoc">
+      <div class="sd-head">
+        <div>
+          <div class="doc-kind">The Chronicle Society · Case Record</div>
+          <div class="doc-title" style="margin:2px 0 0">${C.code} — ${C.title}</div>
+        </div>
+        <div class="sd-names">
+          <div class="fld inline"><label>Investigators</label><div class="wl" contenteditable="true" data-f="names"></div></div>
+          <div class="fld inline"><label>Date</label><div class="wl" contenteditable="true" data-f="date"></div></div>
+        </div>
+      </div>
+      <div class="rule"></div>
+
+      <h4 class="sd-h">1 · The locks</h4>
+      <table class="sd-table"><tr><th>Locked file</th><th>Code</th><th>How we worked it out</th></tr>${lockRows}</table>
+
+      <h4 class="sd-h">2 · Eliminating the explanations</h4>
+      <table class="sd-table"><tr><th style="width:26%">Explanation</th><th style="width:30%">Evidence that destroys it</th><th>Why that settles it</th></tr>${rowsHtml}</table>
+
+      <h4 class="sd-h">3 · Our conclusion</h4>
+      ${line("concl","What actually happened, in one sentence", 2)}
+      ${line("why","Our reasoning — name at least two pieces of evidence", 5)}
+
+      <h4 class="sd-h">4 · The hardest part</h4>
+      ${line("hard","Which single piece of evidence was hardest to explain away, and why?", 3)}
+
+      <div class="sd-foot">${C.code} · ${C.period} · ${C.debrief.refs}</div>
+    </div>
+    <div class="noprint" style="margin-top:16px;display:flex;gap:10px;flex-wrap:wrap;align-items:center">
+      <button class="btn" id="asPrint">Print this sheet</button>
+      <span class="small">Type straight into the boxes, or print it blank and write on it. Anything you type is saved.</span>
+    </div>`, "wide sheetmode");
+  o.classList.add("printme");
+
+  o.querySelectorAll("[data-f]").forEach(n=>{
+    const k = n.dataset.f;
+    if(CS.sheet[k]) n.textContent = CS.sheet[k];
+    n.addEventListener("input", ()=>{ CS.sheet[k] = n.textContent; save(); });
+  });
+  o.querySelector("#asPrint").addEventListener("click", ()=>window.print());
+}
+
+/* ============================================================
+   TEACHER NOTES / MENU
+   ============================================================ */
+function teacherNotes(){
+  const blocks = CASES.map(cdef=>`
+    <details class="tnotes" data-tn="${cdef.id}">
+      <summary>${cdef.code} — ${cdef.title} <span>${cdef.period}</span></summary>
+      <div class="tnbody">Loading the case…</div>
+    </details>`).join("");
+  const o = overlay(`
+    <div class="doc-kind">The Chronicle Society</div>
+    <div class="doc-title">Teacher Notes</div>
+    <div class="rule"></div>
+    <div class="doc-body">
+      <h4>For students</h4>
+      <p>Work in pairs or threes. Read everything on the desk first. Drag documents around to group them. Click any picture to enlarge it. Progress saves on this device, so a group can stop mid-lesson and pick it up next time.</p>
+      <h4>Running it</h4>
+      <p><b>Time:</b> 60–100 minutes per case, or two lessons. <b>Level:</b> Years 7–8. No accounts, and no internet needed once the page has loaded.</p>
+      <p><b>Skills:</b> reading for detail across multiple sources, telling evidence apart from assertion, cross-referencing, elimination reasoning, and writing a justified conclusion. The printable answer sheet (top bar, inside a case) gives you their reasoning to mark, not just their final answer.</p>
+      ${blocks}
+      <h4>Running it on paper</h4>
+      <p>Every case prints as a full <b>paper edition</b>: cut-out evidence cards, sealed bundle envelopes, the board, the accusation form, a walkthrough manuscript the team runs itself from, and an answer key for you. No device needed at all once it is printed — which also covers the day the Chromebooks are booked out.</p>
+      <p><button class="btn ghost" id="folderBtn">🗂 Print the Investigator's File starter pack</button> — folder cover, index of every case, and spine labels for the scrapbook.</p>
+      <h4>Reset</h4>
+      <p>This clears every case's progress on this device.</p>
+      <button class="btn ghost" id="resetBtn">Clear all progress</button>
+    </div>`, "wide");
+  const fillNotes = (d)=>{
+    const id = d.dataset.tn, body = d.querySelector(".tnbody");
+    if(d.dataset.done) return;
+    d.dataset.done = "1";
+    loadCase(id).then(c=>{
+      body.innerHTML = `
+        <p><b>Answers:</b> ${c.teacher.answers}</p>
+        <p><b>Board pairs:</b> ${c.teacher.pairs}</p>
+        <p><b>Conclusion:</b> ${c.teacher.conclusion}</p>
+        <p><b>If a group gets stuck:</b> ${c.teacher.prompts}</p>
+        ${c.teacher.extra?`<p>${c.teacher.extra}</p>`:""}
+        <p><button class="btn ghost" data-pp="${c.id}">🖨 Print the paper edition of ${c.code}</button></p>`;
+      linkifyRefs(body);
+      body.querySelector("[data-pp]").addEventListener("click", ()=>{
+        document.querySelectorAll(".overlay").forEach(x=>x.remove());
+        withCase(c.id, printPack);
+      });
+    }).catch(()=>{
+      d.dataset.done = "";
+      body.textContent = CASE_LOAD_HELP;
+    });
+  };
+  o.querySelectorAll("details[data-tn]").forEach(d=>
+    d.addEventListener("toggle", ()=>{ if(d.open) fillNotes(d); }));
+  o.querySelector("#folderBtn").addEventListener("click", ()=>{
+    document.querySelectorAll(".overlay").forEach(x=>x.remove()); folderPack();
+  });
+  o.querySelector("#resetBtn").addEventListener("click", ()=>{
+    if(confirm("Clear progress on every case on this device?")){
+      try{ localStorage.removeItem(SAVE_KEY); localStorage.removeItem(OLD_KEY); }catch(e){}
+      location.reload();
+    }
+  });
+}
+
+/* ============================================================
+   BOOT
+   ============================================================ */
+load();
+biblePrefLoad();
+const notesArea = $("#notesArea");
+notesArea.addEventListener("input", ()=>{ if(CS){ CS.notes = notesArea.value; save(); } });
+$("#notesClose").addEventListener("click", ()=>$("#notesPane").classList.add("hidden"));
+$("#btnNotes").addEventListener("click", ()=>$("#notesPane").classList.toggle("hidden"));
+$("#btnLocks").addEventListener("click", openLocks);
+$("#btnSheet").addEventListener("click", answerSheet);
+$("#btnBible").addEventListener("click", ()=>openBible());
+$("#btnRiddle").addEventListener("click", openTool);
+$("#btnMenu").addEventListener("click", teacherNotes);
+$("#btnBoard").addEventListener("click", ()=>showBoard(board.classList.contains("hidden")));
+$("#btnDesk").addEventListener("click", ()=>showBoard(false));
+$("#btnHome").addEventListener("click", showShelf);
+showShelf();
+
+</script>
+</body>
+</html>

@@ -1,0 +1,20 @@
+# ---- Not for a public repo -------------------------------------------------
+# The production guide lists every lock code and answer for all fifty cases,
+# and print/ holds the answer-sheet PDFs. Keep both on the Mac only.
+docs/
+print/
+
+# ---- Local build output ----------------------------------------------------
+# Every rebuild rewrites all of these in full, so committing them would add
+# tens of megabytes to the history on each push. Run src/build.py to remake them.
+single/
+standalone/
+
+# ---- Raw artwork ----------------------------------------------------------
+# The PNGs you drop into tobuild/ are 183 MB of originals, and every one of them
+# is already in the repo as the optimised JPEG in images/. The prompt sheets stay.
+tobuild/**/*.png
+
+# ---- scratch ---------------------------------------------------------------
+_to_delete/
+.DS_Store

@@ -1,0 +1,28 @@
+<div id="app" class="hidden">
+  <div id="topbar">
+    <button class="tbtn" id="btnHome">← Cases</button>
+    <div id="caseTitle"><span id="caseCode"></span><b id="caseName"></b></div>
+    <div class="spacer"></div>
+    <button class="tbtn" id="btnDesk">🗂 Desk</button>
+    <button class="tbtn" id="btnLocks">🔒 Locks <span class="pip" id="lockPip">0/2</span></button>
+    <button class="tbtn" id="btnBoard">📌 Pinboard</button>
+    <button class="tbtn hidden" id="btnRiddle">🧩 Riddle</button>
+    <button class="tbtn" id="btnBible">📖 Bible</button>
+    <button class="tbtn" id="btnSheet">🖨 Sheet</button>
+    <button class="tbtn" id="btnNotes">📝 Notes</button>
+    <button class="tbtn" id="btnMenu">☰</button>
+  </div>
+  <div id="stage">
+    <div id="desk"></div>
+    <div id="deskHint">Drag items around the desk · click an item to read it</div>
+    <div id="board" class="hidden"></div>
+    <div id="notesPane" class="hidden">
+      <h3>Case Notes</h3>
+      <p>Anything you type is saved on this device. Use it to track times, names and contradictions.</p>
+      <textarea id="notesArea" placeholder="Explanation:&#10;Evidence for:&#10;Evidence against:"></textarea>
+      <button class="btn ghost" id="notesClose">Close</button>
+    </div>
+  </div>
+</div>
+
+<div id="shelf"></div>
