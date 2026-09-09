@@ -1,4 +1,4 @@
-# The Chronicle Society — Bible mystery cases
+# B.I.B. — The Bible Investigation Bureau
 
 Bible mystery-box investigations for Years 7–8. Eighteen cases built, thirty-two designed.
 
@@ -73,7 +73,11 @@ run both levels side by side and still be solving one case.
 
 To add one: write `src/part_caseN.easy.js` ending in
 `registerEasy("<id>", EASY_JMxx);`, add it to `EASY_FILES` in `build.py`, and
-rebuild. Cases with no pack simply stay at medium and their switch is hidden.
+rebuild. Cases with no pack stay at medium: their poster says the easy version is
+coming soon, and the top-bar switch shows medium with a note rather than a
+control that would do nothing. Nothing is ever missing at either level.
+
+Written at both levels so far: **JM-33, JM-47, JM-19, JM-08, JM-02, JM-20**.
 
 ## Deploying to GitHub Pages
 
