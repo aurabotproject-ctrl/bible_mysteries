@@ -13,14 +13,14 @@ const JM14_ITEMS = [
 /* ---------------- STAGE 0 ---------------- */
 {
   id:"j14letter", stage:0, notEvidence:true, kind:"Briefing", title:"Letter from the Case Supervisor",
-  sub:"The Chronicle Society · Department of Unsolved Antiquities",
+  sub:"The Bible Investigation Bureau · Department of Unsolved Antiquities",
   prev:"By nightfall they were trapped. By morning they were across and the army was not.",
   x:22, y:26, rot:-3, w:216,
   body:`
     <p><b>To the investigating team,</b></p>
     <p>A column of several hundred thousand people — on foot, with children, livestock and carts — is camped by deep water with mountains on one side, wilderness on the other, and the fastest army in the world coming up behind them.</p>
     <p>That is the position at dusk. By dawn <b>the column is on the far shore and the army is gone.</b></p>
-    <p>The Society is not asking you to decide what the water did. It is asking you to <b>reconstruct the route</b>: where exactly did they cross, and does any ordinary explanation survive contact with the ground?</p>
+    <p>The Bureau is not asking you to decide what the water did. It is asking you to <b>reconstruct the route</b>: where exactly did they cross, and does any ordinary explanation survive contact with the ground?</p>
     <h4>Your task</h4>
     <p>Five explanations are on the board. Four of them are the sensible, sceptical ones, and the file will let you test every one against a survey. Close all five, then say what the evidence actually supports.</p>
     <h4>How the file works</h4>
@@ -85,7 +85,7 @@ const JM14_ITEMS = [
   prev:"There is no tide on that water big enough to matter, and none that waits until dark.",
   x:26, y:56, rot:5, w:208,
   body:`
-    <p>A freak low tide is the tidiest natural explanation available, so the Society tested it properly.</p>
+    <p>A freak low tide is the tidiest natural explanation available, so the Bureau tested it properly.</p>
     <table class="ledger">
       <tr><th>Question</th><th>Finding</th></tr>
       <tr><td>Tidal range on this water</td><td>Small — measured in a few handspans, not in the height of a man</td></tr>
@@ -163,10 +163,10 @@ const JM14_ITEMS = [
       <tr><td>Would the bed be dry, or a churned mudflat?</td><td>Churned. The record says <b>dry ground</b></td></tr>
       <tr><td>Would it stop on cue as the last person landed?</td><td class="n"><b>no</b></td></tr>
     </table>
-    <h4>The Society's position</h4>
+    <h4>The Bureau's position</h4>
     <p>Setdown by wind is real, and if the account had said "the water was shallow and a gale blew it thin", this file would be closed. It does not. It says <b>dry ground, walls on both sides, a whole night's window, and a return of the water timed to the pursuit.</b> A wind explains the first word of that sentence and none of the rest.</p>
     <p class="margin-note">Keep the word. The record gives an agent for the dry ground and it is not a shrug — it is a specific, named, checkable claim, and it is four letters long.</p>
-    <div class="ref">Background: Exodus 14:21. Setdown notes are the Society's own.</div>`
+    <div class="ref">Background: Exodus 14:21. Setdown notes are the Bureau's own.</div>`
 },
 {
   id:"j14wheel", stage:1, kind:"Recovered material", title:"What Was Lifted Off the Bed",
@@ -194,7 +194,7 @@ const JM14_ITEMS = [
   prev:"A night is enough to cross. It is nowhere near enough to walk round.",
   x:80, y:44, rot:-6, w:208,
   body:`
-    <p>Any route reconstruction has to survive arithmetic. The Society modelled the column: people on foot, children, flocks and herds, carts, moving in the dark.</p>
+    <p>Any route reconstruction has to survive arithmetic. The Bureau modelled the column: people on foot, children, flocks and herds, carts, moving in the dark.</p>
     <table class="ledger">
       <tr><th>Route</th><th>Time needed</th><th>Fits one night?</th></tr>
       <tr><td>Round the head of the water</td><td>A day and a half of open shore</td><td class="n"><b>no</b></td></tr>
@@ -212,7 +212,7 @@ const JM14_ITEMS = [
   prev:"No monument says it happened. No monument ever says that sort of thing.",
   x:46, y:62, rot:3, w:206,
   body:`
-    <p>The obvious objection: if Egypt lost an army, why is there no Egyptian inscription about it? The Society answers this squarely, because students will ask.</p>
+    <p>The obvious objection: if Egypt lost an army, why is there no Egyptian inscription about it? The Bureau answers this squarely, because students will ask.</p>
     <table class="ledger">
       <tr><th>Question</th><th>Finding</th></tr>
       <tr><td>Do Egyptian monuments record defeats?</td><td class="n"><b>almost never</b> — they are official display, not chronicle</td></tr>
@@ -221,7 +221,7 @@ const JM14_ITEMS = [
       <tr><td>What would count as evidence?</td><td>Material on the ground, and a force that stops appearing</td></tr>
     </table>
     <h4>How to use this honestly</h4>
-    <p>The Society does not offer Egypt's silence as evidence <i>for</i> the account. It offers it as evidence that <b>silence proves nothing here</b> — the argument "there is no Egyptian record, therefore it did not happen" would also disprove every Egyptian defeat we know happened from other sources.</p>
+    <p>The Bureau does not offer Egypt's silence as evidence <i>for</i> the account. It offers it as evidence that <b>silence proves nothing here</b> — the argument "there is no Egyptian record, therefore it did not happen" would also disprove every Egyptian defeat we know happened from other sources.</p>
     <p class="margin-note">Teach the shape of this reasoning. Absence of evidence is only evidence of absence where you would expect the evidence to exist.</p>
     <div class="ref">Fictional archive note, on standard practice in royal inscriptions.</div>`
 },
@@ -259,7 +259,7 @@ const JM14_ITEMS = [
   prev:"The account survives as a poem — and the poem's language is older than the prose around it.",
   x:56, y:30, rot:4, w:208,
   body:`
-    <p>Immediately after the crossing the record breaks into a song, and the Society flags it for a reason that has nothing to do with music.</p>
+    <p>Immediately after the crossing the record breaks into a song, and the Bureau flags it for a reason that has nothing to do with music.</p>
     <table class="ledger">
       <tr><th>Feature</th><th>Note</th></tr>
       <tr><td>Form</td><td>A victory poem, sung at the shore</td></tr>
@@ -268,12 +268,12 @@ const JM14_ITEMS = [
       <tr><td>Content</td><td>Names the chariots, the officers, the water, the wind — the same details as the prose</td></tr>
       <tr><td>Also preserved</td><td>Miriam's short refrain, with the women and timbrels</td></tr>
     </table>
-    <h4>Why the Society keeps this page</h4>
+    <h4>Why the Bureau keeps this page</h4>
     <p>Because "the story grew in the telling" predicts that the <b>oldest</b> layer should be the plainest and the dramatic details should be late. Here the oldest layer is the one with the chariots and the sea in it.</p>
     <div class="ref">Background: Exodus 15:1–21.</div>`
 },
 {
-  id:"j14lesson", stage:2, kind:"Society analysis", title:"Ruling Things Out Honestly",
+  id:"j14lesson", stage:2, kind:"Bureau analysis", title:"Ruling Things Out Honestly",
   sub:"Sealed Pouch C",
   prev:"Four sensible explanations, each killed by a measurement rather than an argument.",
   x:80, y:34, rot:-4, w:212,
@@ -288,7 +288,7 @@ const JM14_ITEMS = [
       <li><b>The wind</b> — got closest, and failed on the details the record itself insists on: dry ground, two walls, a whole night, and a return timed to the pursuit.</li>
     </ul>
     <h4>The honest remainder</h4>
-    <p>What is left is what the account says, and the Society states it plainly: <b>a dry corridor with water standing on both sides, open for one night, and closed on the force that followed them in.</b> The file does not ask you to find that easy. It asks you to notice that the ordinary explanations were tested and did not survive — and that the record names its own agent for it, in one word, rather than leaving it unexplained.</p>
+    <p>What is left is what the account says, and the Bureau states it plainly: <b>a dry corridor with water standing on both sides, open for one night, and closed on the force that followed them in.</b> The file does not ask you to find that easy. It asks you to notice that the ordinary explanations were tested and did not survive — and that the record names its own agent for it, in one word, rather than leaving it unexplained.</p>
     <p class="margin-note">The most valuable habit here is the order of work: measure first, argue second. Every explanation on this board died to a number.</p>
     <div class="ref">Background: Exodus 14 · Exodus 15 · compare Joshua 2:9–11 · Psalm 77:16–20.</div>`
 }
@@ -367,7 +367,7 @@ const JM14_LOCKS = [
       "The south channel passes on timing and on depth, and fails on the camp position and on the recovered material.",
       "Only the camp crossing passes all four — and the record gives one agent for the sea going back that night. Four letters."
     ],
-    reward:"Sealed Pouch C is open: the crossing hour by hour, the note on the age of the song, and the Society's analysis of how each explanation was ruled out."
+    reward:"Sealed Pouch C is open: the crossing hour by hour, the note on the age of the song, and the Bureau's analysis of how each explanation was ruled out."
   }
 ];
 

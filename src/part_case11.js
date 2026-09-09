@@ -13,14 +13,14 @@ const JM10_ITEMS = [
 /* ---------------- STAGE 0 ---------------- */
 {
   id:"j10letter", stage:0, notEvidence:true, kind:"Briefing", title:"Letter from the Case Supervisor",
-  sub:"The Chronicle Society · Department of Unsolved Antiquities",
+  sub:"The Bible Investigation Bureau · Department of Unsolved Antiquities",
   prev:"Ten disasters in sequence. The question is whether they are one disaster.",
   x:22, y:26, rot:-3, w:216,
   body:`
     <p><b>To the investigating team,</b></p>
     <p>Ten separate calamities strike Egypt inside a year: the river ruined, frogs, lice, flies, cattle dead, boils, hail, locusts, three days of darkness, and finally the deaths of the firstborn.</p>
     <p>Any one of these is a bad year in the delta. All ten together, in sequence, is either <b>a cascade</b> — one natural disaster setting off the next, which is a real and well-understood thing — or it is something else.</p>
-    <p>The Society has no interest in arguing you out of the cascade. It is a good idea and it accounts for a great deal. Your job is to find the point where it stops working, and to be precise about which fact does it.</p>
+    <p>The Bureau has no interest in arguing you out of the cascade. It is a good idea and it accounts for a great deal. Your job is to find the point where it stops working, and to be precise about which fact does it.</p>
     <h4>Your task</h4>
     <p>Five explanations. Four of them fail on the documents. Pay particular attention to the third one — <i>the Egyptian records say nothing, so it did not happen</i> — because it is an argument students meet everywhere and almost never test.</p>
     <h4>How the file works</h4>
@@ -115,7 +115,7 @@ const JM10_ITEMS = [
       <tr><td>4 onward</td><td>No further attempt recorded</td></tr>
       <tr><td>6 · Boils</td><td><b>They could not stand before Moses</b> — they were struck themselves</td></tr>
     </table>
-    <h4>What the Society draws from this</h4>
+    <h4>What the Bureau draws from this</h4>
     <ul>
       <li>They reproduced <b>two</b>, and gave up at the <b>third</b>. Both numbers are in the first lock.</li>
       <li>Notice what reproducing means: they could turn water red and produce frogs. <b>Neither of them removed anything</b> — they added to the problem twice.</li>
@@ -132,7 +132,7 @@ const JM10_ITEMS = [
   x:80, y:56, rot:4, w:212,
   body:`
     <div class="plate">${SVG.j10instr}<div class="cap">Click the plate to enlarge it.</div></div>
-    <p>The Society examined the working kit of the court's practitioners, because what a conjuror carries tells you what a conjuror can do.</p>
+    <p>The Bureau examined the working kit of the court's practitioners, because what a conjuror carries tells you what a conjuror can do.</p>
     <table class="ledger">
       <tr><th>In the kit</th><th>What it will do</th></tr>
       <tr><td>Red mineral powders and salts</td><td>Colour a vessel of water convincingly</td></tr>
@@ -184,7 +184,7 @@ const JM10_ITEMS = [
       <tr><td>8 → 9</td><td>Darkness</td><td><b>No.</b> A sandstorm is not caused by locusts</td></tr>
     </table>
     <h4>Where it actually breaks</h4>
-    <p>Two links in the chain do not connect at all. But the Society regards that as the <i>lesser</i> problem, because a run of bad luck could supply them.</p>
+    <p>Two links in the chain do not connect at all. But the Bureau regards that as the <i>lesser</i> problem, because a run of bad luck could supply them.</p>
     <p>The real difficulty is this. <b>A cascade is a physical process, and physical processes go where the physics takes them.</b> Flies breeding in rot on the western bank do not stop at a channel a few hundred paces wide. Cattle disease does not check whose herd it is. Hail does not fall on one field and not its neighbour. From the fourth blow onward, every single one does exactly that.</p>
     <p class="margin-note">A cascade cannot skip a region. This one skipped the same region nine times running.</p>
     <div class="ref">Fictional analysis. Background: Exodus 8:22 · 9:4 · 9:26 · 10:23.</div>`
@@ -211,7 +211,7 @@ const JM10_ITEMS = [
     <div class="ref">Background: Exodus 8:9–13 · 8:29–31 · 9:5 · 9:29–33 · 10:18–19 · 11:4–5.</div>`
 },
 {
-  id:"j10inscript", stage:1, kind:"Society note", title:"On Egyptian Royal Inscriptions",
+  id:"j10inscript", stage:1, kind:"Bureau note", title:"On Egyptian Royal Inscriptions",
   sub:"Field Chest B · the argument from silence",
   prev:"No Egyptian king ever records a defeat. Not one, anywhere.",
   x:80, y:44, rot:-6, w:208,
@@ -228,7 +228,7 @@ const JM10_ITEMS = [
     <h4>What silence can and cannot show</h4>
     <p>Absence of evidence is evidence of absence <b>only where you would expect the evidence to exist</b>. That is the whole test, and it is a good one — apply it here and it fails, because a monument whose purpose is to declare the king victorious is precisely the last place a national humiliation would ever be written.</p>
     <p class="margin-note">This argument is not wrong because it is sceptical. It is wrong because it is not sceptical enough — it takes the silence of a propaganda medium at face value.</p>
-    <div class="ref">Fictional Society note on a genuine feature of Egyptian royal inscription.</div>`
+    <div class="ref">Fictional Bureau note on a genuine feature of Egyptian royal inscription.</div>`
 },
 {
   id:"j10israel", stage:1, kind:"Regional reports", title:"Did Israel Suffer Too?",
@@ -253,12 +253,12 @@ const JM10_ITEMS = [
 
 /* ---------------- STAGE 2 — released by the keyword lock ---------------- */
 {
-  id:"j10point", stage:2, kind:"Society analysis", title:"What the Blows Were Aimed At",
+  id:"j10point", stage:2, kind:"Bureau analysis", title:"What the Blows Were Aimed At",
   sub:"Sealed Pouch C · why these ten",
   prev:"Not random damage. A list, and every item on it was worshipped.",
   x:26, y:28, rot:-3, w:210,
   body:`
-    <p>The Society's view is that the sequence is not a list of disasters but a list of <b>claims</b>, and each one is aimed.</p>
+    <p>The Bureau's view is that the sequence is not a list of disasters but a list of <b>claims</b>, and each one is aimed.</p>
     <table class="ledger">
       <tr><th>The blow</th><th>What it struck at</th></tr>
       <tr><td>The Nile turned</td><td>The river itself — the source of Egypt's life and a god in its own right</td></tr>
@@ -287,17 +287,17 @@ const JM10_ITEMS = [
       <tr><td>Duration of the whole sequence</td><td>Under a year</td></tr>
       <tr><td>Pharaoh's final act</td><td>Changed his mind and pursued them — which is the subject of <b>Case JM-14</b></td></tr>
     </table>
-    <h4>The detail the Society finds most telling</h4>
+    <h4>The detail the Bureau finds most telling</h4>
     <p>Not the leaving — the <b>paying</b>. A population does not load its neighbours with silver on the way out unless it has concluded, unanimously and at some cost to its own pride, that the sooner they are gone the better.</p>
     <div class="ref">Background: Exodus 11:3 · 12:31–36.</div>`
 },
 {
-  id:"j10why", stage:2, kind:"Society analysis", title:"Cascade or Pattern",
+  id:"j10why", stage:2, kind:"Bureau analysis", title:"Cascade or Pattern",
   sub:"Sealed Pouch C · what the file will support",
   prev:"The difference between a chain of events and a sequence of decisions.",
   x:78, y:60, rot:-5, w:212,
   body:`
-    <p>Stated as plainly as the Society can manage.</p>
+    <p>Stated as plainly as the Bureau can manage.</p>
     <h4>A cascade has three properties</h4>
     <ol>
       <li>Each event <b>causes</b> the next.</li>
@@ -386,7 +386,7 @@ const JM10_LOCKS = [
       "From the fourth onward, every single blow struck the western delta and none struck the eastern one.",
       "The eastern delta — the land where the Israelites had been settled for generations — is called Goshen. Six letters."
     ],
-    reward:"Sealed Pouch C is open: the Society's note on what the blows were aimed at, the record of what happened afterwards, and the analysis of cascade against pattern are now on the desk."
+    reward:"Sealed Pouch C is open: the Bureau's note on what the blows were aimed at, the record of what happened afterwards, and the analysis of cascade against pattern are now on the desk."
   }
 ];
 

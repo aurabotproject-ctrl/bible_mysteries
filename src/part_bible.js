@@ -195,7 +195,7 @@ async function openBible(ref){
     o.querySelector(".body").innerHTML = `
       <div class="bibhead">
         <div>
-          <div class="doc-kind">The Chronicle Society Reading Room</div>
+          <div class="doc-kind">The Bible Investigation Bureau Reading Room</div>
           <div class="doc-title">The Bible</div>
         </div>
         <div class="bibtools">

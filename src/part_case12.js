@@ -13,7 +13,7 @@ const JM11_ITEMS = [
 /* ---------------- STAGE 0 ---------------- */
 {
   id:"j11letter", stage:0, notEvidence:true, kind:"Briefing", title:"Letter from the Case Supervisor",
-  sub:"The Chronicle Society · Department of Unsolved Antiquities",
+  sub:"The Bible Investigation Bureau · Department of Unsolved Antiquities",
   prev:"A captured chest, seven bad months, and a test designed by the people it accused.",
   x:22, y:26, rot:-3, w:216,
   body:`
@@ -49,8 +49,8 @@ const JM11_ITEMS = [
       <tr><td>Second</td><td>Face down again — and this time broken, with the head and hands at the threshold of the doorway.</td></tr>
       <tr><td>After</td><td>The priests of Dagon stopped treading on that threshold. They were still avoiding it generations later.</td></tr>
     </table>
-    <h4>Note from the Society</h4>
-    <p>The Society records this without deciding it for you. What is not in dispute is the Philistines' own reaction: <b>they did not conclude that a statue had fallen over twice.</b> They moved the chest out of the city.</p>
+    <h4>Note from the Bureau</h4>
+    <p>The Bureau records this without deciding it for you. What is not in dispute is the Philistines' own reaction: <b>they did not conclude that a statue had fallen over twice.</b> They moved the chest out of the city.</p>
     <p class="margin-note">A custom that survives for generations usually started with something people found hard to explain away.</p>
     <div class="ref">Background: 1 Samuel 5:1–5.</div>`
 },
@@ -144,7 +144,7 @@ const JM11_ITEMS = [
   prev:"A new cart, two cows that had never worn a yoke, and nobody holding a rein.",
   x:28, y:26, rot:-3, w:214,
   body:`
-    <div class="plate">${SVG.j11cart}<div class="cap">Click the plate to enlarge it. The cart as measured by the Society.</div></div>
+    <div class="plate">${SVG.j11cart}<div class="cap">Click the plate to enlarge it. The cart as measured by the Bureau.</div></div>
     <table class="ledger">
       <tr><th>Element</th><th>Specification</th><th>Why it is there</th></tr>
       <tr><td>The cart</td><td><b>New</b>, never used</td><td>No familiar smell, no worn ruts, no habit attached to it</td></tr>
@@ -166,7 +166,7 @@ const JM11_ITEMS = [
   prev:"Ask any farmer. She turns round. She does not walk away up a hill.",
   x:58, y:24, rot:4, w:206,
   body:`
-    <p>The Society consulted people who keep cattle, because this part of the test is only impressive if you know how cows behave.</p>
+    <p>The Bureau consulted people who keep cattle, because this part of the test is only impressive if you know how cows behave.</p>
     <table class="ledger">
       <tr><th>Situation</th><th>Ordinary behaviour</th></tr>
       <tr><td>Milk cow separated from her calf</td><td>Turns back toward it; calls; will not be driven away easily</td></tr>
@@ -178,7 +178,7 @@ const JM11_ITEMS = [
     <h4>What the cows in this test are recorded as doing</h4>
     <p>Going straight up the road, side by side, <b>complaining loudly the entire way</b> — the record uses one word for the noise a cow makes when she is unhappy — and not turning aside to the right or the left.</p>
     <p class="margin-note">The sound is the detail people skip, and it is the most interesting thing in the sentence: whatever was happening, <b>the cows did not want to do it.</b> They did it anyway.</p>
-    <div class="ref">Background: 1 Samuel 6:12. Husbandry notes are the Society's own.</div>`
+    <div class="ref">Background: 1 Samuel 6:12. Husbandry notes are the Bureau's own.</div>`
 },
 {
   id:"j11diviners", stage:1, kind:"Advice", title:"The Diviners' Recommendation",
@@ -191,7 +191,7 @@ const JM11_ITEMS = [
       <p>"If you send away the ark of the God of Israel, do not send it empty; <b>return him a guilt offering</b>. Then you will be healed, and you will know why his hand has not departed from you.</p>
       <p>Why do you harden your hearts, as the Egyptians and Pharaoh hardened theirs? <b>When he had worked among them, did they not let the people go?</b>"</p>
     </div>
-    <h4>What the Society draws from this</h4>
+    <h4>What the Bureau draws from this</h4>
     <ul>
       <li>The Philistines knew the Egyptian story. They cite it as a warning to themselves — an outside people's own account of events in another outside people's country.</li>
       <li>The offering they sent was five gold tumours and five gold mice: <b>one for each Philistine lord</b>, an admission in metal that the trouble was theirs collectively.</li>
@@ -206,7 +206,7 @@ const JM11_ITEMS = [
   prev:"The trouble moved when the chest moved. Diseases do not take instructions.",
   x:46, y:62, rot:3, w:210,
   body:`
-    <p>An ordinary epidemic is a serious explanation and deserves a serious test. The Society laid the two timelines side by side.</p>
+    <p>An ordinary epidemic is a serious explanation and deserves a serious test. The Bureau laid the two timelines side by side.</p>
     <table class="ledger">
       <tr><th>Step</th><th>Chest</th><th>Trouble begins</th><th>Trouble ends</th></tr>
       <tr><td>1</td><td>Arrives Ashdod</td><td>Ashdod</td><td>When it leaves</td></tr>
@@ -230,7 +230,7 @@ const JM11_ITEMS = [
   prev:"“Moved off at once. Lowing continuously. Took the road.” Then the page ends.",
   x:34, y:44, rot:-5, w:204,
   body:`
-    <p>The five Philistine lords followed the cart at a distance as far as the border. A watch post on the ridge kept a separate log. The Society holds the first page only; the rest is in Sealed Pouch C.</p>
+    <p>The five Philistine lords followed the cart at a distance as far as the border. A watch post on the ridge kept a separate log. The Bureau holds the first page only; the rest is in Sealed Pouch C.</p>
     <table class="ledger">
       <tr><th>Entry</th><th>Recorded</th></tr>
       <tr><td>i</td><td>Cart set on the road outside Ekron. Cows yoked. No driver. Lords withdraw.</td></tr>
@@ -282,13 +282,13 @@ const JM11_ITEMS = [
       <tr><td>Then</td><td><b>Men of Beth Shemesh looked into the chest, and men died</b></td></tr>
       <tr><td>The town's response</td><td>"Who is able to stand before this holy God?" — and they sent it on to Kiriath-jearim</td></tr>
     </table>
-    <h4>Why the Society keeps this page in the file</h4>
+    <h4>Why the Bureau keeps this page in the file</h4>
     <p>Because it removes the easy reading. This is not a story where one nation is careful and the other is careless. <b>The record's own side comes off badly here</b>, and the account includes it anyway — which is a point worth making about the kind of document you are working with.</p>
     <p class="margin-note">Records written to flatter the writer leave this sort of page out.</p>
     <div class="ref">Background: 1 Samuel 6:14–21 · 7:1–2.</div>`
 },
 {
-  id:"j11never", stage:2, kind:"Society analysis", title:"Why the Philistines Never Tried Again",
+  id:"j11never", stage:2, kind:"Bureau analysis", title:"Why the Philistines Never Tried Again",
   sub:"Sealed Pouch C",
   prev:"They ran one honest test, got an answer they did not want, and acted on it.",
   x:80, y:34, rot:-4, w:212,
@@ -303,7 +303,7 @@ const JM11_ITEMS = [
       <li><b>They accepted the result and changed their behaviour.</b> They never took the ark again.</li>
     </ul>
     <h4>The one weakness, stated honestly</h4>
-    <p>It is a single trial. One run of any test can go strangely. The Society notes it, and notes also that the priests could have repeated it and did not — and that seven months of city-by-city trouble was itself the evidence the test was designed to confirm or clear.</p>
+    <p>It is a single trial. One run of any test can go strangely. The Bureau notes it, and notes also that the priests could have repeated it and did not — and that seven months of city-by-city trouble was itself the evidence the test was designed to confirm or clear.</p>
     <p class="margin-note">Ask your team to design the test themselves before showing them this file. Most groups build something that can only give one answer. That is the lesson.</p>
     <div class="ref">Background: 1 Samuel 6:9 · 7:13 · compare 1 Thessalonians 5:21.</div>`
 }
@@ -382,7 +382,7 @@ const JM11_LOCKS = [
       "Four of the five outcomes are the ones the priests wrote down as meaning 'a chance that happened to us'. Only one is the other kind.",
       "The cows went straight on at the fork — and the log says they were lowing the whole way. Six letters."
     ],
-    reward:"Sealed Pouch C is open: the rest of the ridge log, what Beth Shemesh did with the chest, and the Society's analysis of the test are now on the desk."
+    reward:"Sealed Pouch C is open: the rest of the ridge log, what Beth Shemesh did with the chest, and the Bureau's analysis of the test are now on the desk."
   }
 ];
 

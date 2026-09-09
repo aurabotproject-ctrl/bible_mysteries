@@ -13,7 +13,7 @@ const JM06_ITEMS = [
 /* ---------------- STAGE 0 ---------------- */
 {
   id:"j06letter", stage:0, notEvidence:true, kind:"Briefing", title:"Letter from the Case Supervisor",
-  sub:"The Chronicle Society · Department of Unsolved Antiquities",
+  sub:"The Bible Investigation Bureau · Department of Unsolved Antiquities",
   prev:"A walled city taken by an army that never touched the wall.",
   x:22, y:26, rot:-3, w:216,
   body:`
@@ -41,7 +41,7 @@ const JM06_ITEMS = [
   prev:"Once a day for six days. Seven times on the seventh. No talking.",
   x:52, y:22, rot:3, w:212,
   body:`
-    <p>The instructions were given in full before a single man moved, which is why the Society can check what happened against what was ordered.</p>
+    <p>The instructions were given in full before a single man moved, which is why the Bureau can check what happened against what was ordered.</p>
     <div class="stamp">ORDER OF MARCH · JERICHO</div>
     <table class="ledger">
       <tr><th>Instruction</th><th>Detail</th></tr>
@@ -95,7 +95,7 @@ const JM06_ITEMS = [
     </table>
     <h4>What was not in the column</h4>
     <p class="margin-note">No ladders. No battering ram. No siege tower. No picks, mattocks, levers or digging tools of any kind. No timber for shoring. Nothing that has ever brought a wall down anywhere else.</p>
-    <p>Count the priests with trumpets. Seven — the same number as the circuits on the last day, which is either a coincidence or a design, and the Society does not believe this file contains coincidences.</p>
+    <p>Count the priests with trumpets. Seven — the same number as the circuits on the last day, which is either a coincidence or a design, and the Bureau does not believe this file contains coincidences.</p>
     <div class="ref">Background: Joshua 6:4, 6:8–9.</div>`
 },
 {
@@ -202,7 +202,7 @@ const JM06_ITEMS = [
   prev:"The valley does shake. Earthquakes do not spare one house.",
   x:58, y:24, rot:4, w:208,
   body:`
-    <p>This is the explanation the Society takes most seriously, and students should too. The Jordan valley is seismically active, mud brick on a stone base is exactly what falls in a quake, and the date is not impossible.</p>
+    <p>This is the explanation the Bureau takes most seriously, and students should too. The Jordan valley is seismically active, mud brick on a stone base is exactly what falls in a quake, and the date is not impossible.</p>
     <table class="ledger">
       <tr><th>What a quake produces</th><th>What the site shows</th></tr>
       <tr><td>Collapse in the direction of the shaking</td><td><b>Collapse outward, uniformly, all the way round</b></td></tr>
@@ -263,7 +263,7 @@ const JM06_ITEMS = [
   prev:"A house built into the wall, and a length of cord in its window.",
   x:70, y:70, rot:-4, w:210,
   body:`
-    <p>The section still standing on the eastern side has a house built into it, and the Society knows a great deal about that house, because the arrangement made in it was recorded on both sides.</p>
+    <p>The section still standing on the eastern side has a house built into it, and the Bureau knows a great deal about that house, because the arrangement made in it was recorded on both sides.</p>
     <h4>What happened there before the march began</h4>
     <ul>
       <li>Two Israelite scouts entered the city and lodged in that house.</li>
@@ -302,7 +302,7 @@ const JM06_ITEMS = [
       <tr><td>How the army entered</td><td><b>Straight up the rubble — every man straight before him</b></td></tr>
       <tr><td>Time from the shout to the collapse</td><td>Immediate</td></tr>
     </table>
-    <h4>The two details the Society keeps returning to</h4>
+    <h4>The two details the Bureau keeps returning to</h4>
     <p>First, <b>the entry</b>. Nobody climbed, nobody breached, nobody forced a gate. The wall became a ramp and they walked in on a broad front all the way round — which is only possible if the whole circuit fell outward at the same moment.</p>
     <p>Second, <b>the timing</b>. Not on the first day, not on the sixth, and not at some point during the seventh. On the shout at the end of the seventh circuit of the seventh day.</p>
     <div class="ref">Background: Joshua 6:15–20.</div>`
@@ -322,7 +322,7 @@ const JM06_ITEMS = [
       <tr><td>Where they were settled</td><td>Outside the camp at first, then <b>among Israel</b></td></tr>
       <tr><td>How long the record says they remained</td><td>"To this day"</td></tr>
     </table>
-    <h4>Why the Society files this under evidence rather than sentiment</h4>
+    <h4>Why the Bureau files this under evidence rather than sentiment</h4>
     <p>Because it is the control. Everything else about that wall behaved identically all the way round — same construction, same age, same mound, same shout. <b>One piece behaved differently, and the difference between it and every other piece was an agreement made a week earlier and a cord in a window.</b></p>
     <p>You do not have to accept any particular explanation of that. You do have to account for it, and no natural process on your board can.</p>
     <div class="ref">Background: Joshua 6:22–25 · compare Hebrews 11:31 and James 2:25.</div>`
@@ -333,7 +333,7 @@ const JM06_ITEMS = [
   prev:"Nothing to be taken. The army walked away with the metal and nothing else.",
   x:78, y:60, rot:-5, w:206,
   body:`
-    <p>The Society keeps this page here for two reasons, and neither of them is the obvious one.</p>
+    <p>The Bureau keeps this page here for two reasons, and neither of them is the obvious one.</p>
     <h4>The order</h4>
     <table class="ledger">
       <tr><th>Class</th><th>Instruction</th></tr>
@@ -348,12 +348,12 @@ const JM06_ITEMS = [
     <div class="ref">Background: Joshua 6:17–19 · Joshua 7:1.</div>`
 },
 {
-  id:"j06why", stage:2, kind:"Society analysis", title:"What the Rubble Will and Will Not Say",
+  id:"j06why", stage:2, kind:"Bureau analysis", title:"What the Rubble Will and Will Not Say",
   sub:"Sealed Pouch C",
   prev:"The evidence is unusually good, and it stops in an unusual place.",
   x:44, y:76, rot:2, w:212,
   body:`
-    <p>This case has better physical evidence than almost anything else in the archive, and the Society wants students to be exact about what it proves.</p>
+    <p>This case has better physical evidence than almost anything else in the archive, and the Bureau wants students to be exact about what it proves.</p>
     <h4>What the rubble does say</h4>
     <ol>
       <li>The wall fell <b>outward, all the way round, at one moment</b>. Every deliberate method of bringing down a wall drops it the other way.</li>
@@ -444,7 +444,7 @@ const JM06_LOCKS = [
       "Every one of the five can live with a barred gate, full granaries or an absence of tunnels — but not one of them produces an outward collapse all the way round, and not one produces a single surviving section.",
       "Go to <b>The House on the Wall</b> and read the terms of the agreement. What she had to hang in the window is the keyword. Seven letters."
     ],
-    reward:"Sealed Pouch C is open: the record of the seventh day, what became of the household in the house, the standing order about plunder and the Society's analysis are now on the desk."
+    reward:"Sealed Pouch C is open: the record of the seventh day, what became of the household in the house, the standing order about plunder and the Bureau's analysis are now on the desk."
   }
 ];
 

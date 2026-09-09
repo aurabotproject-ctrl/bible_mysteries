@@ -3,7 +3,7 @@ const JM33_ITEMS = [
 /* ---------------- STAGE 0 ---------------- */
 {
   id:"letter", stage:0, notEvidence:true, kind:"Briefing", title:"Letter from the Case Supervisor",
-  sub:"The Chronicle Society · Department of Unsolved Antiquities",
+  sub:"The Bible Investigation Bureau · Department of Unsolved Antiquities",
   prev:"Your task is not to guess. It is to eliminate.",
   x:26, y:30, rot:-3, w:216,
   body:`
@@ -153,7 +153,7 @@ const JM33_ITEMS = [
   x:34, y:84, rot:8, w:178,
   body:`
     <div class="plate">${SVG.cipher}</div>
-    <p>A torn strip of papyrus found folded inside a soldier's kit. Five letters, nothing else. The Society's archivists believe it was the keyword to the archive pouch the Council used for sensitive papers — soldiers on guard duty were often told a keyword in cipher so it could not simply be read off them.</p>
+    <p>A torn strip of papyrus found folded inside a soldier's kit. Five letters, nothing else. The Bureau's archivists believe it was the keyword to the archive pouch the Council used for sensitive papers — soldiers on guard duty were often told a keyword in cipher so it could not simply be read off them.</p>
     <p class="margin-note">Use the decoder strip. Move each letter back, not forward.</p>
     <div class="ref">Fictional prop. Caesar-shift ciphers of this kind really were used by Roman commanders.</div>`
 },

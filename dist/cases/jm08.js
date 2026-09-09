@@ -13,7 +13,7 @@ const JM08_ITEMS = [
 /* ---------------- STAGE 0 ---------------- */
 {
   id:"j08letter", stage:0, notEvidence:true, kind:"Briefing", title:"Letter from the Case Supervisor",
-  sub:"The Chronicle Society · Department of Unsolved Antiquities",
+  sub:"The Bible Investigation Bureau · Department of Unsolved Antiquities",
   prev:"An army that walked through Jericho has just been beaten by a village.",
   x:22, y:26, rot:-3, w:216,
   body:`
@@ -156,12 +156,12 @@ const JM08_ITEMS = [
     <div class="ref">Background: Joshua 7:6–15.</div>`
 },
 {
-  id:"j08protocol", stage:0, notEvidence:true, kind:"Society note", title:"The Enquiry Protocol",
+  id:"j08protocol", stage:0, notEvidence:true, kind:"Bureau note", title:"The Enquiry Protocol",
   sub:"How an enquiry of this kind is run",
   prev:"Four rounds. Twelve tribes down to one man.",
   x:64, y:78, rot:2, w:200,
   body:`
-    <p>The Society keeps a note on the procedure, because it turns up in several files of this period and students of the archive routinely get it wrong.</p>
+    <p>The Bureau keeps a note on the procedure, because it turns up in several files of this period and students of the archive routinely get it wrong.</p>
     <h4>The four rounds</h4>
     <table class="ledger">
       <tr><th>Round</th><th>Who comes forward</th><th>How many groups</th></tr>
@@ -171,7 +171,7 @@ const JM08_ITEMS = [
       <tr><td>4</td><td>The taken household, <b>man by man</b></td><td>the men of one household</td></tr>
     </table>
     <p>Four rounds. No more and no fewer. Each round narrows the field by one level, and the fourth round ends on an individual.</p>
-    <h4>What the Society insists on</h4>
+    <h4>What the Bureau insists on</h4>
     <p>A result that is only "the lot fell here" proves nothing to an investigator. So in this file <b>every round is checked against a written record</b> — a duty roll, a carrying list, a search report — and a round is only accepted when the paperwork agrees with it.</p>
     <p class="margin-note">The enquiry itself becomes available once Field Chest B is open. You will run all four rounds yourself.</p>
     <div class="ref">Procedure as described in Joshua 7:14.</div>`
@@ -293,7 +293,7 @@ const JM08_ITEMS = [
       <div class="stamp">STATEMENT · TAKEN IN THE CAMP</div>
       <p style="font-size:18px">"It is true. I have sinned against the God of Israel, and this is what I did.</p>
       <p style="font-size:18px">When I saw among the spoil <b>a beautiful robe from Shinar</b>, and <b>two hundred shekels of silver</b>, and <b>a bar of gold weighing fifty shekels</b>, then I coveted them and took them. They are hidden in the ground inside my tent, with the silver underneath."</p>
-      <h4>What the Society notices about this statement</h4>
+      <h4>What the Bureau notices about this statement</h4>
       <ul>
         <li>It is four verbs in order: <b>I saw, I coveted, I took, I hid.</b> Nothing about need, nothing about orders, nothing about anybody else.</li>
         <li>He names three things, and the treasury's count was short in exactly three ways.</li>
@@ -310,7 +310,7 @@ const JM08_ITEMS = [
   prev:"Thirty-six dead at Ai. Then a valley that took his name.",
   x:56, y:30, rot:4, w:206,
   body:`
-    <p>The Society sets out the cost plainly, because the point of the file is not the theft.</p>
+    <p>The Bureau sets out the cost plainly, because the point of the file is not the theft.</p>
     <table class="ledger">
       <tr><th>Cost</th><th>Record</th></tr>
       <tr><td>Value of what was taken</td><td>a robe, 200 shekels of silver, a bar of gold of 50 shekels</td></tr>
@@ -326,12 +326,12 @@ const JM08_ITEMS = [
     <div class="ref">Background: Joshua 7:24–26 · Hosea 2:15.</div>`
 },
 {
-  id:"j08why", stage:2, kind:"Society analysis", title:"Why One Man's Theft Counted Against Everybody",
+  id:"j08why", stage:2, kind:"Bureau analysis", title:"Why One Man's Theft Counted Against Everybody",
   sub:"Sealed Pouch C",
   prev:"The hardest question in the file, and the one it is really about.",
   x:78, y:60, rot:-5, w:206,
   body:`
-    <p>Students of this file almost always arrive at the same objection, and it is a good one: <b>why should thirty-six men die for something one man did?</b> The Society does not think that objection should be talked out of anybody. Here is what the record actually says.</p>
+    <p>Students of this file almost always arrive at the same objection, and it is a good one: <b>why should thirty-six men die for something one man did?</b> The Bureau does not think that objection should be talked out of anybody. Here is what the record actually says.</p>
     <h4>1 · The order said so in advance</h4>
     <p>The ban was not "do not steal, or you will be punished". It was "do not take, <b>or you will make the camp itself a thing under the ban</b>". Everybody heard it. The consequence was published before the crime.</p>
     <h4>2 · Israel is described as one body, not a collection of individuals</h4>
@@ -418,7 +418,7 @@ const JM08_LOCKS = [
     ],
     hints:[
       "The questions are in order: question one gives the first digit. Every answer is a single digit.",
-      "Question 1 is the scouts' report. Question 2 is the treasury inventory. Question 3 is the Society's note on the enquiry protocol. Question 4 is Joshua's charge to the camp.",
+      "Question 1 is the scouts' report. Question 2 is the treasury inventory. Question 3 is the Bureau's note on the enquiry protocol. Question 4 is Joshua's charge to the camp.",
       "Three thousand men. Three shortfalls — silver, gold and one garment. Four rounds: tribe, clan, household, man. And Joshua says it plainly: one man."
     ],
     reward:"Field Chest B is open: the Jericho duty rolls, the carrying parties, the tent search report and the record of the enquiry are now on the desk. The ⚖ Enquiry button in the top bar is live."
@@ -439,7 +439,7 @@ const JM08_LOCKS = [
       "Round 2 is the quarters roll on the same document; round 3 is the carrying parties; round 4 is the tent search report.",
       "Judah → the Zerahites → the household of Zabdi → the man whose tent floor had been dug out and filled in again."
     ],
-    reward:"Sealed Pouch C is open: the confession, what it cost, the Society's analysis of why one man's theft counted against everybody, and the record of the second attack on Ai are now on the desk."
+    reward:"Sealed Pouch C is open: the confession, what it cost, the Bureau's analysis of why one man's theft counted against everybody, and the record of the second attack on Ai are now on the desk."
   }
 ];
 

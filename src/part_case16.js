@@ -13,13 +13,13 @@ const JM16_ITEMS = [
 /* ---------------- STAGE 0 ---------------- */
 {
   id:"j16letter", stage:0, notEvidence:true, kind:"Briefing", title:"Letter from the Case Supervisor",
-  sub:"The Chronicle Society · Department of Unsolved Antiquities",
+  sub:"The Bible Investigation Bureau · Department of Unsolved Antiquities",
   prev:"Every natural explanation fits the data — for six days out of seven.",
   x:22, y:26, rot:-3, w:216,
   body:`
     <p><b>To the investigating team,</b></p>
     <p>A substance appears on the ground at dawn in the wilderness. The people gather it, grind it, bake it and live on it. This goes on for <b>forty years</b>.</p>
-    <p>There are perfectly respectable natural candidates for what it might have been, and the Society takes them seriously — a tree secretion, a wind-blown lichen, trade with local tribes, supplies carried out of Egypt, or a story tidied up long afterwards. <b>Every one of them fits the data reasonably well.</b></p>
+    <p>There are perfectly respectable natural candidates for what it might have been, and the Bureau takes them seriously — a tree secretion, a wind-blown lichen, trade with local tribes, supplies carried out of Egypt, or a story tidied up long afterwards. <b>Every one of them fits the data reasonably well.</b></p>
     <p>Then you get to the seventh day, and every one of them stops fitting at once.</p>
     <h4>Your task</h4>
     <p>Five explanations are on the board. Close all five, and be fair to them — three are genuinely good until they meet the calendar.</p>
@@ -168,7 +168,7 @@ const JM16_ITEMS = [
   prev:"It is real, it is sweet, and there is nothing like enough of it.",
   x:58, y:24, rot:4, w:210,
   body:`
-    <p>The Society states this one carefully, because it is a real phenomenon and students should know it is not being dismissed out of hand.</p>
+    <p>The Bureau states this one carefully, because it is a real phenomenon and students should know it is not being dismissed out of hand.</p>
     <table class="ledger">
       <tr><th>The tamarisk secretion</th><th>The record's substance</th></tr>
       <tr><td>Real: insects on tamarisk twigs produce sweet droplets that harden</td><td>Fine, white, flake-like on the ground</td></tr>
@@ -181,7 +181,7 @@ const JM16_ITEMS = [
     <h4>Where it fits and where it stops</h4>
     <p>The comparison is genuinely useful for the <i>appearance</i>: something small, pale and sweet on the ground is not an invented image. It fails on <b>quantity, location, duration and behaviour</b> — four separate walls, any one of which would be enough.</p>
     <p class="margin-note">Teach this as a model of how to handle a good partial explanation: say exactly what it accounts for, then say exactly where it stops.</p>
-    <div class="ref">Botanical notes are the Society's own. Background: Exodus 16:14, 31, 35.</div>`
+    <div class="ref">Botanical notes are the Bureau's own. Background: Exodus 16:14, 31, 35.</div>`
 },
 {
   id:"j16duration", stage:1, kind:"Duration record", title:"Forty Years, and the Day It Stopped",
@@ -217,7 +217,7 @@ const JM16_ITEMS = [
       <tr><td>Purpose, as stated</td><td>"That they may see the bread wherewith I have fed you in the wilderness"</td></tr>
       <tr><td>Still referred to</td><td>Centuries later, as an object in the sanctuary</td></tr>
     </table>
-    <h4>What the Society makes of it</h4>
+    <h4>What the Bureau makes of it</h4>
     <p>People inventing a food story afterwards do not usually invent a <b>physical exhibit sitting in a public building</b> that anybody can ask to see. It is a claim with an address. That does not settle what the substance was — but it is the behaviour of a record expecting to be checked, not one hoping not to be.</p>
     <p class="margin-note">Compare this with the props in JM-09, which were staged to be examined and fell apart when they were. Here the exhibit is offered, not pressed on you.</p>
     <div class="ref">Background: Exodus 16:32–34 · Hebrews 9:4.</div>`
@@ -247,7 +247,7 @@ const JM16_ITEMS = [
     <div class="ref">Background: Exodus 16:22–30.</div>`
 },
 {
-  id:"j16pattern", stage:2, kind:"Society analysis", title:"No Natural Process Keeps a Calendar",
+  id:"j16pattern", stage:2, kind:"Bureau analysis", title:"No Natural Process Keeps a Calendar",
   sub:"Sealed Pouch C",
   prev:"Rain, tides, seasons and secretions all have rhythms. None of them is seven days long.",
   x:56, y:30, rot:4, w:210,
@@ -268,12 +268,12 @@ const JM16_ITEMS = [
     <div class="ref">Background: Exodus 16 · Genesis 2:2–3 · Exodus 20:8–11.</div>`
 },
 {
-  id:"j16lesson", stage:2, kind:"Society analysis", title:"How to Handle a Good Partial Explanation",
+  id:"j16lesson", stage:2, kind:"Bureau analysis", title:"How to Handle a Good Partial Explanation",
   sub:"Sealed Pouch C",
   prev:"Say what it accounts for. Then say exactly where it stops.",
   x:80, y:34, rot:-4, w:212,
   body:`
-    <p>The Society keeps this file as a lesson in <b>fair testing</b>, because four of the five explanations here are respectable and one of them is genuinely half-right.</p>
+    <p>The Bureau keeps this file as a lesson in <b>fair testing</b>, because four of the five explanations here are respectable and one of them is genuinely half-right.</p>
     <h4>The method</h4>
     <ol>
       <li><b>List what the explanation gets right.</b> The tamarisk really does produce something small, pale and sweet on the ground.</li>
@@ -361,7 +361,7 @@ const JM16_LOCKS = [
       "Then be strict about the last column: double on the sixth, keeping overnight only then, and none on the seventh — every week, for forty years.",
       "Nothing in nature runs on a seven-day cycle. The day the record is describing has a name, seven letters long."
     ],
-    reward:"Sealed Pouch C is open: the sixth day and the seventh in full, the note on natural rhythms, and the Society's method for handling a good partial explanation."
+    reward:"Sealed Pouch C is open: the sixth day and the seventh in full, the note on natural rhythms, and the Bureau's method for handling a good partial explanation."
   }
 ];
 

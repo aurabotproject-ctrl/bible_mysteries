@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="description" content="Bible mystery-box investigations for Years 7-8: read the evidence, break the codes, eliminate every explanation the file will not support.">
-<title>Chronicle Society Case Files</title>
+<title>B.I.B. — The Bible Investigation Bureau</title>
 <style>*{box-sizing:border-box}html,body{height:100%;margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
 </head>
 <body>
@@ -378,8 +378,13 @@ kbd{background:#3a2d23;border:1px solid #55432f;border-radius:4px;padding:1px 6p
 }
 .boardsign::before{left:12px} .boardsign::after{right:12px}
 .boardsign .kicker{font-size:10.5px;letter-spacing:.34em;text-transform:uppercase;color:#e0c9a0}
-.boardsign h1{font-family:var(--serif);font-size:clamp(22px,3.8vw,34px);color:#fdf1d8;margin:6px 0 8px;font-weight:700;
+.boardsign h1{font-family:var(--serif);font-size:clamp(22px,3.8vw,34px);color:#fdf1d8;margin:6px 0 2px;font-weight:700;
   text-shadow:0 2px 0 rgba(0,0,0,.45)}
+.boardsign .kicker{font-weight:700}
+.boardsign .dept{
+  font-family:var(--serif);font-size:12.5px;letter-spacing:.16em;text-transform:uppercase;
+  color:#d8bd93;margin:0 0 10px;
+}
 .boardsign p{color:#e6d2ae;font-size:13.5px;line-height:1.55;margin:0 auto;max-width:560px}
 
 .cases{display:grid;grid-template-columns:repeat(auto-fill,minmax(268px,1fr));gap:34px 26px;margin-top:6px}
@@ -867,6 +872,19 @@ tr.ppmxf td{background:#efe9dc}
 /* the paper edition prints at whatever level is on screen; the switch itself
    is furniture and never prints */
 @media print{ .lvl{display:none!important} }
+
+/* a case whose easy version is not written yet */
+.lvl.soon .lvl-b[data-lvl="easy"]{opacity:.4;pointer-events:none}
+.lvl-soon{
+  font-size:10px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;
+  color:#c9a86a;padding:0 9px 0 6px;white-space:nowrap;
+}
+.p-easysoon{
+  margin-top:7px;font-size:10.5px;font-weight:700;letter-spacing:.05em;
+  text-transform:uppercase;color:#8a6f45;text-align:center;
+  border-top:1px dashed rgba(120,92,52,.5);padding-top:7px;
+}
+@media print{ .p-easysoon{display:none} }
 </style>
 
 <div id="app" class="hidden">
@@ -969,7 +987,7 @@ SVG.poster_jm20 = `<svg viewBox="0 0 1536 1024" xmlns="http://www.w3.org/2000/sv
    run for all of them before anybody clicks anything and nothing is fetched.
    ============================================================ */
 
-const CASE_STUBS = [{"id": "jm33", "code": "CASE JM-33", "title": "The Empty Tomb", "period": "Jerusalem · c. AD 33", "colour": "#8c2f1f", "poster": "poster_jm33", "teaser": "A sealed tomb, four Roman guards on watch, and no body in the morning. Five explanations have been offered. Only one survives the file.", "nlocks": 2, "ntheories": 5}, {"id": "jm47", "code": "CASE JM-47", "title": "The Leak", "period": "Aram and Israel · c. 850 BC", "colour": "#2f5c7d", "poster": "poster_jm47", "teaser": "Five ambushes laid in secret. Five times the enemy simply did not come. The king of Aram is certain one of his own officers is talking — and he is about to be told something far stranger.", "nlocks": 2, "ntheories": 5}, {"id": "jm19", "code": "CASE JM-19", "title": "The Broken Riddle", "period": "Timnah, Philistia · c. 1100 BC", "colour": "#8a6a24", "poster": "poster_jm19", "teaser": "A riddle only one man on earth could answer — and thirty men answered it, perfectly, an hour before the deadline. Nobody saw. Nobody was told. Somebody is lying.", "nlocks": 2, "ntheories": 5}, {"id": "jm08", "code": "CASE JM-08", "title": "The Stolen Plunder", "period": "Jericho and Ai · c. 1400 BC", "colour": "#6b4a2a", "poster": "poster_jm08", "teaser": "Jericho fell in a week. Days later, a village stopped the same army dead and thirty-six men died running. Something is missing from the treasury, and the shortfall is exactly the size of one pair of hands.", "nlocks": 2, "ntheories": 5}, {"id": "jm02", "code": "CASE JM-02", "title": "The Missing Boy", "period": "Jerusalem · c. AD 8", "colour": "#5c7d8a", "poster": "poster_jm02", "teaser": "A family leaves the festival in a company of a hundred relatives. A full day out, a twelve-year-old is not among them. It takes two exhausted parents three days to find a child who was never hiding.", "nlocks": 2, "ntheories": 5}, {"id": "jm03", "code": "CASE JM-03", "title": "The Bush That Would Not Burn", "period": "Horeb · undated", "colour": "#7d5c2f", "poster": "poster_jm03", "teaser": "A shepherd turns aside to look at a burning bush — not because it is burning, but because it is still there. The site was surveyed afterwards. There is no ash on that hillside at all.", "nlocks": 2, "ntheories": 5}, {"id": "jm04", "code": "CASE JM-04", "title": "The Judgment", "period": "Jerusalem · c. 960 BC", "colour": "#7d6b4a", "poster": "poster_jm04", "teaser": "Two women, one living child, and not a single witness, document or mark to tell them apart. Both tell exactly the same story with the names reversed. The Society regards this as the hardest evidential problem in the archive.", "nlocks": 2, "ntheories": 5}, {"id": "jm05", "code": "CASE JM-05", "title": "The Writing on the Wall", "period": "Babylon · 539 BC", "colour": "#4a2f6b", "poster": "poster_jm05", "teaser": "A thousand nobles at a feast, and a hand that writes four words on the plaster and stops. The finest scholars in the empire can pronounce every word and cannot tell the king what any of it means. By morning he is dead.", "nlocks": 2, "ntheories": 5}, {"id": "jm06", "code": "CASE JM-06", "title": "The Walls", "period": "Jericho · c. 1400 BC", "colour": "#8a6a4a", "poster": "poster_jm06", "teaser": "For six days an army walks once around a walled city in complete silence and goes back to camp. On the seventh it walks round seven times, makes one sound, and the wall falls — outward, all the way round, except for one house.", "nlocks": 2, "ntheories": 5}, {"id": "jm09", "code": "CASE JM-09", "title": "The Mouldy Bread", "period": "Gibeon · c. 1400 BC", "colour": "#7d7a4a", "poster": "poster_jm09", "teaser": "Ambassadors arrive with split wineskins, worn-through sandals and dry crumbling bread as proof of a very long journey. A treaty is sworn. Three days later they turn out to live a day's walk away.", "nlocks": 2, "ntheories": 5}, {"id": "jm10", "code": "CASE JM-10", "title": "The Ten Blows", "period": "Egypt · c. 1450 BC", "colour": "#6b2f2f", "poster": "poster_jm10", "teaser": "Ten disasters strike Egypt inside a year. Pharaoh's own magicians reproduce the first two, fail at the third, and by the fourth something is happening that no chain of natural causes can account for.", "nlocks": 2, "ntheories": 5}, {"id": "jm11", "code": "CASE JM-11", "title": "The Cart That Chose Its Own Road", "period": "Philistia · c. 1100 BC", "colour": "#8a4a2f", "poster": "poster_jm11", "teaser": "Seven months after capturing Israel's ark, the Philistines are sick of it. Their own priests design a test to find out whether the chest is really the cause — and build it so that it could easily say no.", "nlocks": 2, "ntheories": 5}, {"id": "jm13", "code": "CASE JM-13", "title": "The Twelve Reports", "period": "Kadesh · c. 1445 BC", "colour": "#5c6b3a", "poster": "poster_jm13", "teaser": "Twelve men survey one country for forty days and come back with a bunch of grapes that takes two of them to carry — and two reports that cannot both be right. Except that every fact in them is identical.", "nlocks": 2, "ntheories": 5}, {"id": "jm14", "code": "CASE JM-14", "title": "The Crossing", "period": "The Sea of Reeds · c. 1446 BC", "colour": "#2f5c6b", "poster": "poster_jm14", "teaser": "A column of refugees is trapped between deep water and the fastest army in the world. By morning the refugees are across, and the army is not there at all.", "nlocks": 2, "ntheories": 5}, {"id": "jm15", "code": "CASE JM-15", "title": "The Witnesses Who Would Not Agree", "period": "Jerusalem · c. AD 30", "colour": "#5c3a3a", "poster": "poster_jm15", "teaser": "A court needs two witnesses whose accounts agree. It has plenty of witnesses, a whole night, and every advantage — and it cannot get two of them to say the same thing.", "nlocks": 2, "ntheories": 5}, {"id": "jm16", "code": "CASE JM-16", "title": "The Bread on the Ground", "period": "The wilderness of Sin · c. 1446 BC", "colour": "#8a7a4a", "poster": "poster_jm16", "teaser": "A substance appears on the ground each morning and feeds a nation for forty years. Every natural explanation fits — right up until the seventh day.", "nlocks": 2, "ntheories": 5}, {"id": "jm18", "code": "CASE JM-18", "title": "The Contest on Carmel", "period": "Mount Carmel · c. 860 BC", "colour": "#8a4a2f", "poster": "poster_jm18", "teaser": "One prophet against four hundred and fifty, one altar each, and a rule agreed in front of the whole nation. Then the challenger soaks his own altar until the trench around it overflows.", "nlocks": 2, "ntheories": 5}, {"id": "jm20", "code": "CASE JM-20", "title": "The Rock at Meribah", "period": "Kadesh · c. 1407 BC", "colour": "#6b5c4a", "poster": "poster_jm20", "teaser": "Water comes out of a rock in front of the whole nation, and the man who produced it is told he will not enter the country he has spent forty years walking toward. The Society is asked why.", "nlocks": 2, "ntheories": 5}];
+const CASE_STUBS = [{"id": "jm33", "code": "CASE JM-33", "title": "The Empty Tomb", "period": "Jerusalem · c. AD 33", "colour": "#8c2f1f", "poster": "poster_jm33", "teaser": "A sealed tomb, four Roman guards on watch, and no body in the morning. Five explanations have been offered. Only one survives the file.", "nlocks": 2, "ntheories": 5}, {"id": "jm47", "code": "CASE JM-47", "title": "The Leak", "period": "Aram and Israel · c. 850 BC", "colour": "#2f5c7d", "poster": "poster_jm47", "teaser": "Five ambushes laid in secret. Five times the enemy simply did not come. The king of Aram is certain one of his own officers is talking — and he is about to be told something far stranger.", "nlocks": 2, "ntheories": 5}, {"id": "jm19", "code": "CASE JM-19", "title": "The Broken Riddle", "period": "Timnah, Philistia · c. 1100 BC", "colour": "#8a6a24", "poster": "poster_jm19", "teaser": "A riddle only one man on earth could answer — and thirty men answered it, perfectly, an hour before the deadline. Nobody saw. Nobody was told. Somebody is lying.", "nlocks": 2, "ntheories": 5}, {"id": "jm08", "code": "CASE JM-08", "title": "The Stolen Plunder", "period": "Jericho and Ai · c. 1400 BC", "colour": "#6b4a2a", "poster": "poster_jm08", "teaser": "Jericho fell in a week. Days later, a village stopped the same army dead and thirty-six men died running. Something is missing from the treasury, and the shortfall is exactly the size of one pair of hands.", "nlocks": 2, "ntheories": 5}, {"id": "jm02", "code": "CASE JM-02", "title": "The Missing Boy", "period": "Jerusalem · c. AD 8", "colour": "#5c7d8a", "poster": "poster_jm02", "teaser": "A family leaves the festival in a company of a hundred relatives. A full day out, a twelve-year-old is not among them. It takes two exhausted parents three days to find a child who was never hiding.", "nlocks": 2, "ntheories": 5}, {"id": "jm03", "code": "CASE JM-03", "title": "The Bush That Would Not Burn", "period": "Horeb · undated", "colour": "#7d5c2f", "poster": "poster_jm03", "teaser": "A shepherd turns aside to look at a burning bush — not because it is burning, but because it is still there. The site was surveyed afterwards. There is no ash on that hillside at all.", "nlocks": 2, "ntheories": 5}, {"id": "jm04", "code": "CASE JM-04", "title": "The Judgment", "period": "Jerusalem · c. 960 BC", "colour": "#7d6b4a", "poster": "poster_jm04", "teaser": "Two women, one living child, and not a single witness, document or mark to tell them apart. Both tell exactly the same story with the names reversed. The Bureau regards this as the hardest evidential problem in the archive.", "nlocks": 2, "ntheories": 5}, {"id": "jm05", "code": "CASE JM-05", "title": "The Writing on the Wall", "period": "Babylon · 539 BC", "colour": "#4a2f6b", "poster": "poster_jm05", "teaser": "A thousand nobles at a feast, and a hand that writes four words on the plaster and stops. The finest scholars in the empire can pronounce every word and cannot tell the king what any of it means. By morning he is dead.", "nlocks": 2, "ntheories": 5}, {"id": "jm06", "code": "CASE JM-06", "title": "The Walls", "period": "Jericho · c. 1400 BC", "colour": "#8a6a4a", "poster": "poster_jm06", "teaser": "For six days an army walks once around a walled city in complete silence and goes back to camp. On the seventh it walks round seven times, makes one sound, and the wall falls — outward, all the way round, except for one house.", "nlocks": 2, "ntheories": 5}, {"id": "jm09", "code": "CASE JM-09", "title": "The Mouldy Bread", "period": "Gibeon · c. 1400 BC", "colour": "#7d7a4a", "poster": "poster_jm09", "teaser": "Ambassadors arrive with split wineskins, worn-through sandals and dry crumbling bread as proof of a very long journey. A treaty is sworn. Three days later they turn out to live a day's walk away.", "nlocks": 2, "ntheories": 5}, {"id": "jm10", "code": "CASE JM-10", "title": "The Ten Blows", "period": "Egypt · c. 1450 BC", "colour": "#6b2f2f", "poster": "poster_jm10", "teaser": "Ten disasters strike Egypt inside a year. Pharaoh's own magicians reproduce the first two, fail at the third, and by the fourth something is happening that no chain of natural causes can account for.", "nlocks": 2, "ntheories": 5}, {"id": "jm11", "code": "CASE JM-11", "title": "The Cart That Chose Its Own Road", "period": "Philistia · c. 1100 BC", "colour": "#8a4a2f", "poster": "poster_jm11", "teaser": "Seven months after capturing Israel's ark, the Philistines are sick of it. Their own priests design a test to find out whether the chest is really the cause — and build it so that it could easily say no.", "nlocks": 2, "ntheories": 5}, {"id": "jm13", "code": "CASE JM-13", "title": "The Twelve Reports", "period": "Kadesh · c. 1445 BC", "colour": "#5c6b3a", "poster": "poster_jm13", "teaser": "Twelve men survey one country for forty days and come back with a bunch of grapes that takes two of them to carry — and two reports that cannot both be right. Except that every fact in them is identical.", "nlocks": 2, "ntheories": 5}, {"id": "jm14", "code": "CASE JM-14", "title": "The Crossing", "period": "The Sea of Reeds · c. 1446 BC", "colour": "#2f5c6b", "poster": "poster_jm14", "teaser": "A column of refugees is trapped between deep water and the fastest army in the world. By morning the refugees are across, and the army is not there at all.", "nlocks": 2, "ntheories": 5}, {"id": "jm15", "code": "CASE JM-15", "title": "The Witnesses Who Would Not Agree", "period": "Jerusalem · c. AD 30", "colour": "#5c3a3a", "poster": "poster_jm15", "teaser": "A court needs two witnesses whose accounts agree. It has plenty of witnesses, a whole night, and every advantage — and it cannot get two of them to say the same thing.", "nlocks": 2, "ntheories": 5}, {"id": "jm16", "code": "CASE JM-16", "title": "The Bread on the Ground", "period": "The wilderness of Sin · c. 1446 BC", "colour": "#8a7a4a", "poster": "poster_jm16", "teaser": "A substance appears on the ground each morning and feeds a nation for forty years. Every natural explanation fits — right up until the seventh day.", "nlocks": 2, "ntheories": 5}, {"id": "jm18", "code": "CASE JM-18", "title": "The Contest on Carmel", "period": "Mount Carmel · c. 860 BC", "colour": "#8a4a2f", "poster": "poster_jm18", "teaser": "One prophet against four hundred and fifty, one altar each, and a rule agreed in front of the whole nation. Then the challenger soaks his own altar until the trench around it overflows.", "nlocks": 2, "ntheories": 5}, {"id": "jm20", "code": "CASE JM-20", "title": "The Rock at Meribah", "period": "Kadesh · c. 1407 BC", "colour": "#6b5c4a", "poster": "poster_jm20", "teaser": "Water comes out of a rock in front of the whole nation, and the man who produced it is told he will not enter the country he has spent forty years walking toward. The Bureau is asked why.", "nlocks": 2, "ntheories": 5}];
 
 const CASE_REG = {};        // id -> the case as the reader should see it
 const CASE_BASE = {};       // id -> the untouched medium-level case
@@ -1307,7 +1325,7 @@ async function openBible(ref){
     o.querySelector(".body").innerHTML = `
       <div class="bibhead">
         <div>
-          <div class="doc-kind">The Chronicle Society Reading Room</div>
+          <div class="doc-kind">The Bible Investigation Bureau Reading Room</div>
           <div class="doc-title">The Bible</div>
         </div>
         <div class="bibtools">
@@ -1458,7 +1476,7 @@ function certificateHtml(cdef, names, dateStr, verdict){
     <div class="cert">
       <div class="cert-in">
         ${SVG.finalSeal}
-        <div class="cert-soc">The Chronicle Society · Department of Unsolved Antiquities</div>
+        <div class="cert-soc">The Bible Investigation Bureau · Department of Unsolved Antiquities</div>
         <div class="cert-h">Certificate of Investigation</div>
         <div class="cert-sub">This is to record that the case below was opened, worked and closed</div>
         <div class="cert-names">${names || "&nbsp;"}</div>
@@ -1523,7 +1541,7 @@ function printPack(cdef){
 
   <!-- ============ COVER ============ -->
   <section class="pp-page pp-cover">
-    <div class="pp-soc">The Chronicle Society · Department of Unsolved Antiquities</div>
+    <div class="pp-soc">The Bible Investigation Bureau · Department of Unsolved Antiquities</div>
     <div class="pp-code">${cdef.code}</div>
     <h1>${cdef.title}</h1>
     <div class="pp-where">${cdef.period}</div>
@@ -1532,7 +1550,7 @@ function printPack(cdef){
     <div class="pp-stamp">PAPER EDITION · NO DEVICE REQUIRED</div>
     <div class="pp-label">
       <div class="pp-labelin">
-        <div class="pp-soc">The Chronicle Society</div>
+        <div class="pp-soc">The Bible Investigation Bureau</div>
         <div class="pp-code">${cdef.code}</div>
         <div class="pp-labeltitle">${cdef.title}</div>
         <div class="pp-labelline">Investigators: ....................................................</div>
@@ -1622,9 +1640,9 @@ function printPack(cdef){
     <p class="pp-lead">Eight envelopes, all looking the same from the outside. Only two of them hold anything.</p>
     <div class="pp-labels">
       ${codes.map(c=>`<div class="pp-env"><div class="pp-envk">Sealed bundle</div><div class="pp-envc">${c}</div>
-        <div class="pp-envn">The Chronicle Society · ${cdef.code}</div></div>`).join("")}
+        <div class="pp-envn">The Bible Investigation Bureau · ${cdef.code}</div></div>`).join("")}
       ${words.map(w=>`<div class="pp-env"><div class="pp-envk">Sealed bundle</div><div class="pp-envc">${w}</div>
-        <div class="pp-envn">The Chronicle Society · ${cdef.code}</div></div>`).join("")}
+        <div class="pp-envn">The Bible Investigation Bureau · ${cdef.code}</div></div>`).join("")}
     </div>
     <div class="pp-h" style="margin-top:22px">Slips for the six empty envelopes</div>
     <div class="pp-slips">
@@ -1825,7 +1843,7 @@ function folderPack(){
   const blanks = Math.max(0, 50 - rows.length);
   const html = `<div class="ppdoc">
     <section class="pp-page pp-cover">
-      <div class="pp-soc">The Chronicle Society · Department of Unsolved Antiquities</div>
+      <div class="pp-soc">The Bible Investigation Bureau · Department of Unsolved Antiquities</div>
       <h1 style="margin-top:18px">Investigator's File</h1>
       <div class="pp-where">Keep every case you close in this folder</div>
       <div class="pp-art" style="max-width:300px;margin:26px auto">${SVG.finalSeal}</div>
@@ -1959,7 +1977,7 @@ function renderShelf(){
     const st = stateFor(cdef.id), p = progressLabel(cdef);
     const cls = p.cls || "new";
     return `<div class="poster" style="--fc:${cdef.colour};--r:${tilt[i%tilt.length]}deg">
-      <div class="p-soc">The Chronicle Society</div>
+      <div class="p-soc">B.I.B.</div>
       <div class="p-code">${cdef.code}</div>
       <div class="p-hr"></div>
       <div class="art">${posterArt(cdef)}</div>
@@ -1969,6 +1987,8 @@ function renderShelf(){
       <div class="p-teaser">${cdef.teaser}</div>
       <div class="p-stamp ${cls}">${p.txt}</div>
       ${p.detail?`<div class="p-sub">${p.detail}</div>`:""}
+      ${LEVEL === "easy" && !hasEasy(cdef.id)
+        ? `<div class="p-easysoon">Easy version coming soon &middot; opens at medium</div>` : ""}
       <div class="p-acts">
         <button class="p-open" data-case="${cdef.id}">${st.opened ? "Continue" : "Take this case"}</button>
         <button class="p-restart" data-pp="${cdef.id}" title="Print this case to run on paper">🖨</button>
@@ -1979,8 +1999,9 @@ function renderShelf(){
 
   shelf.innerHTML = `<div class="shelfwrap">
     <div class="boardsign">
-      <div class="kicker">The Chronicle Society</div>
-      <h1>Department of Unsolved Antiquities</h1>
+      <div class="kicker">B &middot; I &middot; B</div>
+      <h1>The Bible Investigation Bureau</h1>
+      <div class="dept">Department of Unsolved Antiquities</div>
       <p>Take down a case and work it. Read everything, break the locks, and throw out every explanation the evidence will not carry — then file what is left.</p>
       <div class="lvl shelf-lvl" id="lvlShelf" title="Reading level — the same cases, in plainer words">
         <span class="lvl-cap">Reading level</span>
@@ -1990,7 +2011,7 @@ function renderShelf(){
     </div>
     <div class="cases">${posters}
       <div class="poster soon" style="--fc:#5c5346;--r:1.1deg">
-        <div class="p-soc">The Chronicle Society</div>
+        <div class="p-soc">B.I.B.</div>
         <div class="p-code">Case JM-??</div>
         <div class="p-hr"></div>
         <div class="art"><svg viewBox="0 0 300 200" xmlns="http://www.w3.org/2000/svg">
@@ -2083,7 +2104,7 @@ function runIntro(){
           <div class="stack"><i></i><i></i><i></i><i></i><i></i><i></i></div>
           <div class="cover" style="--fc:${C.colour}">
             <div class="f-label">
-              <div class="l1">The Chronicle Society</div>
+              <div class="l1">B.I.B. &middot; Bible Investigation Bureau</div>
               <div class="l2">${C.title}</div>
               <div class="l3">${C.code} &middot; ${C.period}</div>
             </div>
@@ -2425,7 +2446,7 @@ function debrief(){
     ${SVG.finalSeal}
     <div class="doc-kind" style="text-align:center">Case closed</div>
     <div class="doc-title" style="text-align:center">${C.code} — Conclusion Filed</div>
-    <div class="doc-sub" style="text-align:center">The Chronicle Society · Department of Unsolved Antiquities</div>
+    <div class="doc-sub" style="text-align:center">The Bible Investigation Bureau · Department of Unsolved Antiquities</div>
     <div class="rule"></div>
     <div class="doc-body">
       <p>${C.debrief.lead}</p>
@@ -2884,7 +2905,7 @@ function answerSheet(){
     <div class="sheetdoc">
       <div class="sd-head">
         <div>
-          <div class="doc-kind">The Chronicle Society · Case Record</div>
+          <div class="doc-kind">The Bible Investigation Bureau · Case Record</div>
           <div class="doc-title" style="margin:2px 0 0">${C.code} — ${C.title}</div>
         </div>
         <div class="sd-names">
@@ -2933,7 +2954,7 @@ function teacherNotes(){
       <div class="tnbody">Loading the case…</div>
     </details>`).join("");
   const o = overlay(`
-    <div class="doc-kind">The Chronicle Society</div>
+    <div class="doc-kind">The Bible Investigation Bureau</div>
     <div class="doc-title">Teacher Notes</div>
     <div class="rule"></div>
     <div class="doc-body">
@@ -2993,14 +3014,31 @@ function teacherNotes(){
    levels side by side and still be solving one case.
    ============================================================ */
 function paintLevel(){
+  // A case with no easy version of its own is genuinely being read at medium,
+  // so the switch says medium however the shelf is set.
+  const reading = (C && !hasEasy(C.id)) ? "medium" : LEVEL;
   document.querySelectorAll(".lvl").forEach(bar=>{
+    const lvl = (bar.id === "lvlBar") ? reading : LEVEL;
     bar.querySelectorAll(".lvl-b").forEach(b=>
-      b.classList.toggle("on", b.dataset.lvl === LEVEL));
+      b.classList.toggle("on", b.dataset.lvl === lvl));
   });
-  // In the top bar the switch only means something if this case has an easy
-  // pack; on the shelf it always shows.
+  // In the top bar, a case with no easy version of its own says so rather
+  // than offering a switch that would do nothing. Everything still reads at
+  // medium — no case is ever short of content.
   const bar = $("#lvlBar");
-  if(bar) bar.classList.toggle("hidden", !!C && !hasEasy(C.id));
+  if(!bar) return;
+  const soon = !!C && !hasEasy(C.id);
+  bar.classList.toggle("soon", soon);
+  const note = bar.querySelector(".lvl-soon");
+  if(soon && !note){
+    bar.insertAdjacentHTML("beforeend",
+      `<span class="lvl-soon">Easy coming soon</span>`);
+  } else if(!soon && note){
+    note.remove();
+  }
+  bar.title = soon
+    ? "This case has not been rewritten at the easy level yet — it reads at medium"
+    : "Reading level — the same case, in plainer words";
 }
 
 function setReadingLevel(lvl){

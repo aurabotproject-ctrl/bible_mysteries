@@ -13,7 +13,7 @@ const JM09_ITEMS = [
 /* ---------------- STAGE 0 ---------------- */
 {
   id:"j09letter", stage:0, notEvidence:true, kind:"Briefing", title:"Letter from the Case Supervisor",
-  sub:"The Chronicle Society · Department of Unsolved Antiquities",
+  sub:"The Bible Investigation Bureau · Department of Unsolved Antiquities",
   prev:"A treaty signed with a country that turns out to be down the road.",
   x:22, y:26, rot:-3, w:216,
   body:`
@@ -42,7 +42,7 @@ const JM09_ITEMS = [
   x:52, y:22, rot:3, w:216,
   body:`
     <div class="plate">${SVG.j09props}<div class="cap">Click the plate to enlarge it.</div></div>
-    <p>The delegation left everything behind when the truth came out, so the Society has the whole set.</p>
+    <p>The delegation left everything behind when the truth came out, so the Bureau has the whole set.</p>
     <table class="ledger">
       <tr><th>Item</th><th>Presented as</th><th>First impression</th></tr>
       <tr><td>Sacks</td><td>Worn out on the road</td><td>Torn — and the tears are stitched</td></tr>
@@ -65,7 +65,7 @@ const JM09_ITEMS = [
       <p>"From a very far country your servants have come, because of the name of the LORD your God — for we have heard of his fame, and of all he did in Egypt.</p>
       <p>Our elders and all the people of our country spoke to us, saying: take provisions for the journey, and go to meet them, and say to them, <b>we are your servants; now make a covenant with us.</b></p>
       <p><b>This bread of ours we took hot for our provision out of our houses on the day we set out</b>, and now, see, it is dry and mouldy. And these wineskins were new when we filled them, and see, they are split. And these garments and sandals of ours are worn out by the very long journey."</p>
-      <h4>What the Society notices about this speech</h4>
+      <h4>What the Bureau notices about this speech</h4>
       <ul>
         <li>Every claim in it is <b>about distance</b>, and only about distance. They tell no lie about who they are, what they want, or what they will do.</li>
         <li>It is well made: they praise, they submit, they produce evidence, and they ask.</li>
@@ -140,7 +140,7 @@ const JM09_ITEMS = [
   prev:"Real road-worn gear, three months out. It looks nothing like theirs.",
   x:28, y:26, rot:-3, w:212,
   body:`
-    <p>To test worn-out things you need genuinely worn-out things. The Society keeps a comparison set: a courier's kit that really has been three months on the road.</p>
+    <p>To test worn-out things you need genuinely worn-out things. The Bureau keeps a comparison set: a courier's kit that really has been three months on the road.</p>
     <table class="ledger">
       <tr><th>Item</th><th>Genuinely old</th><th>The delegation's</th></tr>
       <tr><td>Sack</td><td>Worn <b>thin along the fold lines</b>, holes where it rubs the shoulder</td><td>Cut tears in the middle of sound cloth</td></tr>
@@ -159,7 +159,7 @@ const JM09_ITEMS = [
   prev:"Nothing changed hands. There was nothing in it for anybody.",
   x:58, y:24, rot:4, w:206,
   body:`
-    <p>A treaty signed too quickly invites the obvious suspicion. The Society checked it.</p>
+    <p>A treaty signed too quickly invites the obvious suspicion. The Bureau checked it.</p>
     <table class="ledger">
       <tr><th>Checked</th><th>Found</th></tr>
       <tr><td>Gifts or payments recorded with the treaty</td><td class="n"><b>none</b></td></tr>
@@ -203,7 +203,7 @@ const JM09_ITEMS = [
       <p>Joshua asked them directly: why have you deceived us?</p>
       <p>"Because your servants were told plainly what the LORD your God commanded his servant Moses — to give you all the land and destroy everyone living in it. <b>So we were very much afraid for our lives because of you, and we did this thing.</b></p>
       <p>And now, see, we are in your hand. Do to us as it seems good and right to you."</p>
-      <h4>What the Society draws from this</h4>
+      <h4>What the Bureau draws from this</h4>
       <ul>
         <li>They admit it immediately and completely. No second story, no attempt to argue the treaty was honest.</li>
         <li>Their motive was <b>fear, not greed</b> — and their information was accurate: they had heard about Jericho and Ai and drawn the obvious conclusion.</li>
@@ -230,12 +230,12 @@ const JM09_ITEMS = [
       <tr><td>Centuries later, when Saul broke the treaty</td><td>It was treated as a serious wrong, and put right in David's time</td></tr>
       <tr><td>Gibeon's later standing</td><td>The tabernacle stood there in Solomon's day</td></tr>
     </table>
-    <h4>Why the Society keeps the sequel</h4>
+    <h4>Why the Bureau keeps the sequel</h4>
     <p>Because the treaty was not merely endured — <b>it was honoured, defended, and still binding four hundred years later.</b> A promise Israel was tricked into became a promise Israel marched all night to keep, and breaking it long afterwards counted as a national offence.</p>
     <div class="ref">Background: Joshua 9:26–27 · Joshua 10:6–8 · 2 Samuel 21:1–2 · 1 Kings 3:4.</div>`
 },
 {
-  id:"j09lesson", stage:2, kind:"Society analysis", title:"The Question Nobody Asked",
+  id:"j09lesson", stage:2, kind:"Bureau analysis", title:"The Question Nobody Asked",
   sub:"Sealed Pouch C",
   prev:"They tested the evidence. They never tested the question.",
   x:56, y:30, rot:4, w:212,
@@ -326,7 +326,7 @@ const JM09_LOCKS = [
       "The bread is the odd one out. It is genuinely dry and genuinely cracked — it passes those tests. It fails on one thing only.",
       "They said their bread was dry and <i>mouldy</i>. It is dry. It has no mould on it at all, and it does not smell of any. Six letters."
     ],
-    reward:"Sealed Pouch C is open: what became of the four cities, and the Society's analysis of the question nobody asked, are now on the desk."
+    reward:"Sealed Pouch C is open: what became of the four cities, and the Bureau's analysis of the question nobody asked, are now on the desk."
   }
 ];
 

@@ -13,7 +13,7 @@ const JM18_ITEMS = [
 /* ---------------- STAGE 0 ---------------- */
 {
   id:"j18letter", stage:0, notEvidence:true, kind:"Briefing", title:"Letter from the Case Supervisor",
-  sub:"The Chronicle Society · Department of Unsolved Antiquities",
+  sub:"The Bible Investigation Bureau · Department of Unsolved Antiquities",
   prev:"One man against four hundred and fifty — and he keeps handing them advantages.",
   x:22, y:26, rot:-3, w:216,
   body:`
@@ -208,7 +208,7 @@ const JM18_ITEMS = [
       <tr><td><b>The water in the trench</b></td><td>Licked up — the whole standing pool</td></tr>
     </table>
     <h4>How to use this page</h4>
-    <p>The Society is not asking you to accept the report. It is asking you to notice <b>what the report commits itself to</b>, because a claim's shape tells you what kind of claim it is.</p>
+    <p>The Bureau is not asking you to accept the report. It is asking you to notice <b>what the report commits itself to</b>, because a claim's shape tells you what kind of claim it is.</p>
     <ul>
       <li>A hidden flame consumes an offering. It does not consume stones.</li>
       <li>A poured accelerant burns off fast and leaves the stones and the trench water behind.</li>
@@ -258,7 +258,7 @@ const JM18_ITEMS = [
       <tr><td>The challenger's response</td><td><b>He ran, sat under a tree, and asked to die</b></td></tr>
       <tr><td>What he was told</td><td>To eat, and sleep — twice — before anything else was said to him</td></tr>
     </table>
-    <h4>The Society's note</h4>
+    <h4>The Bureau's note</h4>
     <p>Two honest observations about this page, and they pull in different directions.</p>
     <p><b>The killing is real and the record does not excuse it.</b> It belongs to a brutal period, in a fight the court had started — the same queen had been killing prophets on the other side for years. Reading it should be uncomfortable, and the account does not ask you to enjoy it.</p>
     <p><b>The collapse is the more surprising entry.</b> A man who has just won a national contest in public runs away from one message and asks to die under a tree. <b>Invented heroes do not do that</b>, and a story built to glorify him would end at the rain.</p>
@@ -266,7 +266,7 @@ const JM18_ITEMS = [
     <div class="ref">Background: 1 Kings 18:39–46 · 19:1–8 · 18:4.</div>`
 },
 {
-  id:"j18falsifiable", stage:2, kind:"Society analysis", title:"A Test Anybody Could Have Failed",
+  id:"j18falsifiable", stage:2, kind:"Bureau analysis", title:"A Test Anybody Could Have Failed",
   sub:"Sealed Pouch C",
   prev:"The rule was agreed first, in public, and both sides could lose under it.",
   x:56, y:30, rot:4, w:210,
@@ -280,7 +280,7 @@ const JM18_ITEMS = [
       <tr><td>The opposition choose their own conditions</td><td>Yes — their bull, their order, their timing</td></tr>
       <tr><td>Hostile observers at close range</td><td>Yes — several hundred, and the state religion's own specialists</td></tr>
       <tr><td>Difficulty added deliberately by the claimant</td><td>Yes — twelve jars of water, in a drought</td></tr>
-      <tr><td>Repeatable</td><td class="n"><b>no</b> — a single trial, and the Society says so</td></tr>
+      <tr><td>Repeatable</td><td class="n"><b>no</b> — a single trial, and the Bureau says so</td></tr>
     </table>
     <h4>Stated honestly</h4>
     <p>Six out of seven is a strong shape and the seventh is a real weakness. <b>One event, once, is one event.</b> What the file can establish is not what happened in the fire but what kind of claim was made: a public, falsifiable, pre-announced one, with the terms handed to the other side — which is a very different thing from a private wonder reported afterwards by its beneficiary.</p>
@@ -288,7 +288,7 @@ const JM18_ITEMS = [
     <div class="ref">Background: 1 Kings 18:21–39 · compare 1 Samuel 6:7–9.</div>`
 },
 {
-  id:"j18lesson", stage:2, kind:"Society analysis", title:"Giving Away Advantages",
+  id:"j18lesson", stage:2, kind:"Bureau analysis", title:"Giving Away Advantages",
   sub:"Sealed Pouch C",
   prev:"Count what he handed over. The list is the argument.",
   x:80, y:34, rot:-4, w:212,
@@ -386,7 +386,7 @@ const JM18_LOCKS = [
       "The crowd column catches the ones that need something carried in or poured on unseen.",
       "The last column catches everything: soaked three times, and standing water round the base. Six letters, and it was cut on purpose."
     ],
-    reward:"Sealed Pouch C is open: what happened next, the Society's assessment of the test's design, and the analysis of every advantage the challenger gave away."
+    reward:"Sealed Pouch C is open: what happened next, the Bureau's assessment of the test's design, and the analysis of every advantage the challenger gave away."
   }
 ];
 

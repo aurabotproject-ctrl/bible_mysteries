@@ -13,7 +13,7 @@ const JM04_ITEMS = [
 /* ---------------- STAGE 0 ---------------- */
 {
   id:"j04letter", stage:0, notEvidence:true, kind:"Briefing", title:"Letter from the Case Supervisor",
-  sub:"The Chronicle Society · Department of Unsolved Antiquities",
+  sub:"The Bible Investigation Bureau · Department of Unsolved Antiquities",
   prev:"Two women. One living child. And not one piece of evidence in the world.",
   x:22, y:26, rot:-3, w:216,
   body:`
@@ -95,7 +95,7 @@ const JM04_ITEMS = [
     <div class="ref">Fictional plan, drawn from the description in 1 Kings 3:17–18.</div>`
 },
 {
-  id:"j04note", stage:0, notEvidence:true, kind:"Society note", title:"Note on the Hearing",
+  id:"j04note", stage:0, notEvidence:true, kind:"Bureau note", title:"Note on the Hearing",
   sub:"How the case was concluded",
   prev:"The king asked no further questions. He proposed one thing, once.",
   x:56, y:52, rot:-2, w:204,
@@ -110,7 +110,7 @@ const JM04_ITEMS = [
       <tr><td>Tests proposed by the king</td><td class="n"><b>1</b></td></tr>
       <tr><td>Times that test was carried out</td><td class="n"><b>0</b></td></tr>
     </table>
-    <h4>What the Society wants you to notice now</h4>
+    <h4>What the Bureau wants you to notice now</h4>
     <p>He did not investigate. He did not send anyone to ask the neighbours, or examine the child, or take the women aside separately. He listened to both, said one thing, and the case was over.</p>
     <p class="margin-note"><b>Count the tests. One.</b> That number is part of the first lock — and by the end of this file it will be the most interesting number in it.</p>
     <div class="ref">Background: 1 Kings 3:23–27.</div>`
@@ -156,7 +156,7 @@ const JM04_ITEMS = [
   prev:"Nine claims each. The same nine, in the same order, with the names reversed.",
   x:28, y:26, rot:-3, w:216,
   body:`
-    <p>The Society's standard first move with two competing accounts is to look for the asymmetry: the extra detail, the hesitation, the fact one speaker knows and the other does not. There is none here, and the absence is worth seeing properly.</p>
+    <p>The Bureau's standard first move with two competing accounts is to look for the asymmetry: the extra detail, the hesitation, the fact one speaker knows and the other does not. There is none here, and the absence is worth seeing properly.</p>
     <table class="ledger">
       <tr><th>Measure</th><th>First woman</th><th>Second woman</th></tr>
       <tr><td>Separate claims made</td><td class="n">9</td><td class="n">9</td></tr>
@@ -176,7 +176,7 @@ const JM04_ITEMS = [
   prev:"Nobody visited. Nobody heard. Nobody was asked because there was nobody to ask.",
   x:58, y:24, rot:4, w:206,
   body:`
-    <p>The obvious way out of a deadlock is to find somebody who was there. The Society looked.</p>
+    <p>The obvious way out of a deadlock is to find somebody who was there. The Bureau looked.</p>
     <table class="ledger">
       <tr><th>Enquiry</th><th>Result</th></tr>
       <tr><td>Adults resident in the house</td><td class="n"><b>2</b> — the claimants</td></tr>
@@ -192,7 +192,7 @@ const JM04_ITEMS = [
     <div class="ref">Background: 1 Kings 3:18.</div>`
 },
 {
-  id:"j04newborns", stage:1, kind:"Society note", title:"Note on Newborns",
+  id:"j04newborns", stage:1, kind:"Bureau note", title:"Note on Newborns",
   sub:"Field Chest B · why looking at the child settles nothing",
   prev:"Three days apart, at that age, is no difference at all.",
   x:80, y:44, rot:-6, w:206,
@@ -243,7 +243,7 @@ const JM04_ITEMS = [
     <div class="stamp">RECORDED IN OPEN COURT</div>
     <p style="font-size:18px">"The one says, <i>this is my son that lives and your son is the dead one</i>; and the other says, <i>no, your son is the dead one and my son is the living one.</i></p>
     <p style="font-size:18px"><b>Bring me a sword. Divide the living child in two, and give half to the one and half to the other.</b>"</p>
-    <h4>What the Society insists you notice</h4>
+    <h4>What the Bureau insists you notice</h4>
     <ul>
       <li>It is <b>a proposal, made aloud, in front of both women</b>. It is not an order carried out and then regretted.</li>
       <li>The sword was fetched. It was never used. The note on the hearing records the test proposed once and carried out <b>zero</b> times.</li>
@@ -272,12 +272,12 @@ const JM04_ITEMS = [
     <div class="ref">Background: 1 Kings 3:26–27.</div>`
 },
 {
-  id:"j04why", stage:2, kind:"Society analysis", title:"Why That Counts As Evidence",
+  id:"j04why", stage:2, kind:"Bureau analysis", title:"Why That Counts As Evidence",
   sub:"Sealed Pouch C",
   prev:"He could not find the difference between them. So he built a situation that would show it.",
   x:78, y:60, rot:-5, w:208,
   body:`
-    <p>This is the page the case exists for, and the Society would like students to be able to argue it themselves.</p>
+    <p>This is the page the case exists for, and the Bureau would like students to be able to argue it themselves.</p>
     <h4>The problem, stated exactly</h4>
     <p>Two claims, identical in every respect, with no witness, no document, no mark and no third party. <b>Nothing that had already happened could distinguish the two women.</b> Every ordinary investigative tool works on the past, and the past here is a locked room with two people in it.</p>
     <h4>What the king did instead</h4>
@@ -307,7 +307,7 @@ const JM04_ITEMS = [
       <tr><td>Appeals or challenges recorded</td><td class="n"><b>none</b></td></tr>
       <tr><td>What he had asked for on becoming king</td><td>Not long life, not riches, not the death of his enemies — <b>an understanding heart to discern between good and evil</b></td></tr>
     </table>
-    <h4>Why the Society keeps this page</h4>
+    <h4>Why the Bureau keeps this page</h4>
     <p>Because of who the two women were. They had no family in the case, no husband, no property and no standing whatever — the record is blunt about their position and does not soften it. They were the least likely pair of claimants in the kingdom to get a careful hearing.</p>
     <p><b>They got the king himself, and they got his full attention.</b> The country did not marvel that the case was clever. It marvelled that it was <i>just</i> — and that the court had spent that much care on these two.</p>
     <div class="ref">Background: 1 Kings 3:28 · 1 Kings 3:5–14.</div>`
@@ -366,7 +366,7 @@ const JM04_LOCKS = [
     ],
     hints:[
       "The questions are in order: question one gives the first digit. Every answer is a single digit.",
-      "Question 1 is the court record. Question 2 is the household record. Question 3 is the plan of the house. Question 4 is the Society's note on the hearing.",
+      "Question 1 is the court record. Question 2 is the household record. Question 3 is the plan of the house. Question 4 is the Bureau's note on the hearing.",
       "Two claimants. One living child. Nobody else in the house at all — zero. And exactly one test."
     ],
     reward:"Field Chest B is open: the comparison of the two statements, the neighbourhood record, the note on newborns and the record of the order of speaking are now on the desk. The ⚖ Testimony grid in the top bar is live."
@@ -387,7 +387,7 @@ const JM04_LOCKS = [
       "Now the third column. Go looking for one thing in the whole file that confirms any of it independently, and notice that you cannot find any. That column stays completely empty.",
       "Two full columns and an empty one: no way to tell them apart, and no evidence at all. So the king called for the one object that would make evidence appear. Five letters."
     ],
-    reward:"Sealed Pouch C is open: the test, what each woman said, the Society's analysis of why it counts as evidence, and the record of what followed are now on the desk."
+    reward:"Sealed Pouch C is open: the test, what each woman said, the Bureau's analysis of why it counts as evidence, and the record of what followed are now on the desk."
   }
 ];
 
@@ -443,7 +443,7 @@ const JM04_VERDICTS = [
 const CASE_JM04 = {
   id:"jm04", code:"CASE JM-04", title:"The Judgment",
   period:"Jerusalem · c. 960 BC", colour:"#7d6b4a", poster:"poster_jm04",
-  teaser:"Two women, one living child, and not a single witness, document or mark to tell them apart. Both tell exactly the same story with the names reversed. The Society regards this as the hardest evidential problem in the archive.",
+  teaser:"Two women, one living child, and not a single witness, document or mark to tell them apart. Both tell exactly the same story with the names reversed. The Bureau regards this as the hardest evidential problem in the archive.",
   introSub:"Two identical accounts. No witnesses. Nothing to weigh.",
   items:JM04_ITEMS, theories:JM04_THEORIES, locks:JM04_LOCKS, verdicts:JM04_VERDICTS,
   matrix:JM04_MATRIX,

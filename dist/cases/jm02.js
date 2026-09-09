@@ -13,7 +13,7 @@ const JM02_ITEMS = [
 /* ---------------- STAGE 0 ---------------- */
 {
   id:"j02letter", stage:0, notEvidence:true, kind:"Briefing", title:"Letter from the Case Supervisor",
-  sub:"The Chronicle Society · Department of Unsolved Antiquities",
+  sub:"The Bible Investigation Bureau · Department of Unsolved Antiquities",
   prev:"A twelve-year-old is missing in a city of tens of thousands. It takes three days.",
   x:22, y:26, rot:-3, w:216,
   body:`
@@ -37,7 +37,7 @@ const JM02_ITEMS = [
 },
 {
   id:"j02caravan", stage:0, kind:"Custom and practice", title:"How a Festival Caravan Travels",
-  sub:"Society note on pilgrim companies",
+  sub:"Bureau note on pilgrim companies",
   prev:"Children travelled with the company, not with their parents. Everybody's, all together.",
   x:52, y:22, rot:3, w:212,
   body:`
@@ -78,7 +78,7 @@ const JM02_ITEMS = [
 },
 {
   id:"j02parents", stage:0, kind:"Statements", title:"The Parents' Accounts",
-  sub:"Taken separately, at the Society's request",
+  sub:"Taken separately, at the Bureau's request",
   prev:"Two accounts, taken apart. They agree, including on the part that hurts.",
   x:26, y:56, rot:5, w:212,
   body:`
@@ -90,7 +90,7 @@ const JM02_ITEMS = [
       <h4>The father</h4>
       <p>"Nothing was said to me either, and we have spoken about it since and neither of us is protecting the other on this. He did not ask and we did not refuse.</p>
       <p>She has told you it was both of us and it was. We searched together and we did not stop."</p>
-      <h4>What the Society notes</h4>
+      <h4>What the Bureau notes</h4>
       <p>The statements were taken apart. They agree on the one point that would most have excused the parents if they could have claimed it — that he had asked and been given permission, or that they had misheard. <b>Neither of them takes that way out.</b> Accounts that agree on the inconvenient thing are worth more than accounts that agree on the convenient one.</p>
     </div>
     <div class="ref">Background: Luke 2:48 — "your father and I have sought you anxiously".</div>`
@@ -128,7 +128,7 @@ const JM02_ITEMS = [
       <tr><td>"He told me he was staying"</td><td class="n"><b>none</b></td></tr>
       <tr><td>"He seemed distressed or unwilling to leave"</td><td class="n"><b>none</b></td></tr>
     </table>
-    <h4>Why the Society keeps this page</h4>
+    <h4>Why the Bureau keeps this page</h4>
     <p>Notice the shape of it. A hundred people each correctly assumed the boy was safe, and the assumption was reasonable every single time — and the sum of a hundred reasonable assumptions is that nobody actually knew.</p>
     <p>Notice too what nobody reports: no argument, no sulking, no scene. Whatever he did, he did not storm off.</p>
     <div class="ref">Fictional statements, consistent with Luke 2:44.</div>`
@@ -183,13 +183,13 @@ const JM02_ITEMS = [
       <tr><td><b>Two</b></td><td>The market streets · The upper city · The lower city and Siloam · The pool of Bethesda</td></tr>
       <tr><td><b>Three</b></td><td><b>The temple courts</b></td></tr>
     </table>
-    <h4>Note from the Society</h4>
+    <h4>Note from the Bureau</h4>
     <p>Take this log to the <b>search grid</b> — the 🗺 button in the top bar — and mark off every district against the day it was searched. Eight districts, three days, and one square in the grid that sits a long way from the rest.</p>
     <p class="margin-note">There is no mystery about where he was. The mystery is about the order.</p>
     <div class="ref">Fictional log, reconstructing the three days of Luke 2:46.</div>`
 },
 {
-  id:"j02districts", stage:1, kind:"Society note", title:"How the Districts Were Chosen",
+  id:"j02districts", stage:1, kind:"Bureau note", title:"How the Districts Were Chosen",
   sub:"Field Chest B · the reasoning behind the order",
   prev:"Every district was searched for a reason. So was the one they left till last.",
   x:58, y:24, rot:4, w:208,
@@ -207,7 +207,7 @@ const JM02_ITEMS = [
       <tr><td><b>The temple courts</b></td><td><b>—</b></td></tr>
     </table>
     <h4>The blank line</h4>
-    <p>There is no reason written against the last one, and the Society thinks that is the most interesting thing in the file. Every other district answers the question <i>where would a lost, frightened or endangered child end up?</i></p>
+    <p>There is no reason written against the last one, and the Bureau thinks that is the most interesting thing in the file. Every other district answers the question <i>where would a lost, frightened or endangered child end up?</i></p>
     <p>The temple answers a different question — <i>where would this child choose to be?</i> — and nobody thought to ask it for two days.</p>
     <div class="ref">Fictional analysis of Luke 2:45–46.</div>`
 },
@@ -263,7 +263,7 @@ const JM02_ITEMS = [
       <p>His mother spoke first. "Son, why have you treated us this way? Look — your father and I have been searching for you, in great distress."</p>
       <div class="stamp">RECORDED REPLY</div>
       <p style="font-size:18px">"<b>Why were you looking for me? Did you not know that I must be about my Father's business?</b>"</p>
-      <h4>What the Society notices</h4>
+      <h4>What the Bureau notices</h4>
       <ul>
         <li>It is a question, not an excuse. He does not say he forgot, or lost track of the time, or meant to catch them up.</li>
         <li>He assumes they already knew where he would be — which is why he never thought to tell anyone.</li>
@@ -294,12 +294,12 @@ const JM02_ITEMS = [
     <div class="ref">Background: Luke 2:51–52.</div>`
 },
 {
-  id:"j02why", stage:2, kind:"Society analysis", title:"Why the Last Place Should Have Been the First",
+  id:"j02why", stage:2, kind:"Bureau analysis", title:"Why the Last Place Should Have Been the First",
   sub:"Sealed Pouch C",
   prev:"The search was competent, thorough, and looking for the wrong child.",
   x:44, y:76, rot:2, w:212,
   body:`
-    <p>The Society keeps this case not because it is hard to solve but because of what the solution shows about searching.</p>
+    <p>The Bureau keeps this case not because it is hard to solve but because of what the solution shows about searching.</p>
     <h4>The search was good</h4>
     <p>Eight districts in three days, in a city swollen to several times its normal size, with two people and no help. Nothing in the log is lazy or stupid. Every district they chose was a sensible answer to the question they were asking.</p>
     <h4>The question was wrong</h4>
@@ -385,7 +385,7 @@ const JM02_LOCKS = [
       "Mark all eight and look at the third column. Only one square in it is ticked.",
       "The district they left until last is the temple. Six letters."
     ],
-    reward:"Sealed Pouch C is open: where he was found, what he said, what happened next, and the Society's analysis of the search are now on the desk."
+    reward:"Sealed Pouch C is open: where he was found, what he said, what happened next, and the Bureau's analysis of the search are now on the desk."
   }
 ];
 

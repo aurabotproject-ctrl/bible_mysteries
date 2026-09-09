@@ -50,7 +50,7 @@ function certificateHtml(cdef, names, dateStr, verdict){
     <div class="cert">
       <div class="cert-in">
         ${SVG.finalSeal}
-        <div class="cert-soc">The Chronicle Society · Department of Unsolved Antiquities</div>
+        <div class="cert-soc">The Bible Investigation Bureau · Department of Unsolved Antiquities</div>
         <div class="cert-h">Certificate of Investigation</div>
         <div class="cert-sub">This is to record that the case below was opened, worked and closed</div>
         <div class="cert-names">${names || "&nbsp;"}</div>
@@ -115,7 +115,7 @@ function printPack(cdef){
 
   <!-- ============ COVER ============ -->
   <section class="pp-page pp-cover">
-    <div class="pp-soc">The Chronicle Society · Department of Unsolved Antiquities</div>
+    <div class="pp-soc">The Bible Investigation Bureau · Department of Unsolved Antiquities</div>
     <div class="pp-code">${cdef.code}</div>
     <h1>${cdef.title}</h1>
     <div class="pp-where">${cdef.period}</div>
@@ -124,7 +124,7 @@ function printPack(cdef){
     <div class="pp-stamp">PAPER EDITION · NO DEVICE REQUIRED</div>
     <div class="pp-label">
       <div class="pp-labelin">
-        <div class="pp-soc">The Chronicle Society</div>
+        <div class="pp-soc">The Bible Investigation Bureau</div>
         <div class="pp-code">${cdef.code}</div>
         <div class="pp-labeltitle">${cdef.title}</div>
         <div class="pp-labelline">Investigators: ....................................................</div>
@@ -214,9 +214,9 @@ function printPack(cdef){
     <p class="pp-lead">Eight envelopes, all looking the same from the outside. Only two of them hold anything.</p>
     <div class="pp-labels">
       ${codes.map(c=>`<div class="pp-env"><div class="pp-envk">Sealed bundle</div><div class="pp-envc">${c}</div>
-        <div class="pp-envn">The Chronicle Society · ${cdef.code}</div></div>`).join("")}
+        <div class="pp-envn">The Bible Investigation Bureau · ${cdef.code}</div></div>`).join("")}
       ${words.map(w=>`<div class="pp-env"><div class="pp-envk">Sealed bundle</div><div class="pp-envc">${w}</div>
-        <div class="pp-envn">The Chronicle Society · ${cdef.code}</div></div>`).join("")}
+        <div class="pp-envn">The Bible Investigation Bureau · ${cdef.code}</div></div>`).join("")}
     </div>
     <div class="pp-h" style="margin-top:22px">Slips for the six empty envelopes</div>
     <div class="pp-slips">
@@ -417,7 +417,7 @@ function folderPack(){
   const blanks = Math.max(0, 50 - rows.length);
   const html = `<div class="ppdoc">
     <section class="pp-page pp-cover">
-      <div class="pp-soc">The Chronicle Society · Department of Unsolved Antiquities</div>
+      <div class="pp-soc">The Bible Investigation Bureau · Department of Unsolved Antiquities</div>
       <h1 style="margin-top:18px">Investigator's File</h1>
       <div class="pp-where">Keep every case you close in this folder</div>
       <div class="pp-art" style="max-width:300px;margin:26px auto">${SVG.finalSeal}</div>

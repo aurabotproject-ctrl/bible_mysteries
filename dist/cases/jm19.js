@@ -15,7 +15,7 @@ const JM19_ITEMS = [
 /* ---------------- STAGE 0 ---------------- */
 {
   id:"j19letter", stage:0, notEvidence:true, kind:"Briefing", title:"Letter from the Case Supervisor",
-  sub:"The Chronicle Society · Department of Unsolved Antiquities",
+  sub:"The Bible Investigation Bureau · Department of Unsolved Antiquities",
   prev:"A riddle only one man on earth could answer — answered by thirty.",
   x:24, y:28, rot:-3, w:216,
   body:`
@@ -153,8 +153,8 @@ const JM19_ITEMS = [
   prev:"Dry bones, a bees' nest, and nobody else's footprints.", thumb:"j19carcass",
   x:28, y:26, rot:-4, w:206,
   body:`
-    <div class="plate">${SVG.j19carcass}<div class="cap">Click to enlarge. The site as the Society recorded it.</div></div>
-    <p>The Society examined the site and what was left of it.</p>
+    <div class="plate">${SVG.j19carcass}<div class="cap">Click to enlarge. The site as the Bureau recorded it.</div></div>
+    <p>The Bureau examined the site and what was left of it.</p>
     <table class="ledger">
       <tr><th>Finding</th><th>Detail</th></tr>
       <tr><td>Location</td><td>Inside a terraced vineyard, above and away from the road</td></tr>
@@ -171,7 +171,7 @@ const JM19_ITEMS = [
 },
 {
   id:"j19analysis", stage:1, kind:"Analysis", title:"Could the Riddle Be Reasoned Out?",
-  sub:"Bundle B · the Society's assessment",
+  sub:"Bundle B · the Bureau's assessment",
   prev:"A riddle about a private event has no path in from outside.",
   x:57, y:22, rot:3, w:206,
   body:`
@@ -276,7 +276,7 @@ const JM19_ITEMS = [
     <p>Samson paid the wager — by going down to Ashkelon and taking the cloth from thirty other Philistines by force. Then he went home to his father's house in a rage, and his wife was given to the companion who had been his best man.</p>
     <h4>Then</h4>
     <p>He came back for her, found her married to someone else, and burned the Philistine grain fields. The Philistines answered by carrying out on her family exactly the threat the thirty had made in the first place. Samson answered that. And so on, and on.</p>
-    <h4>Why the Society keeps this page in the file</h4>
+    <h4>Why the Bureau keeps this page in the file</h4>
     <p>A wager about cloth turned into a feud that ran for years and cost a great many lives. Every step of it can be traced back to <b>one afternoon, one frightened person, and one secret that was worth more to somebody else than it was to the man who owned it</b>.</p>
     <p class="margin-note">Nobody in this case set out to start a war. They set out to avoid paying for some clothes.</p>
     <div class="ref">Background: Judges 14:19–20; 15:1–8.</div>`

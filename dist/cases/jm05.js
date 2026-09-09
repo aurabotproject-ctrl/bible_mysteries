@@ -13,7 +13,7 @@ const JM05_ITEMS = [
 /* ---------------- STAGE 0 ---------------- */
 {
   id:"j05letter", stage:0, notEvidence:true, kind:"Briefing", title:"Letter from the Case Supervisor",
-  sub:"The Chronicle Society · Department of Unsolved Antiquities",
+  sub:"The Bible Investigation Bureau · Department of Unsolved Antiquities",
   prev:"Four words on a wall that the cleverest men in the empire could not read.",
   x:22, y:26, rot:-3, w:216,
   body:`
@@ -154,7 +154,7 @@ const JM05_ITEMS = [
       <tr><td>What was done with them that night</td><td><b>Drunk from</b>, by the king, his lords, his wives and his concubines</td></tr>
       <tr><td>What was praised while they drank</td><td>Gods of gold, silver, bronze, iron, wood and stone</td></tr>
     </table>
-    <h4>The Society's note</h4>
+    <h4>The Bureau's note</h4>
     <p>Nothing in the hall was accidental, and this least of all. There were a thousand vessels of ordinary gold in Babylon. <b>These particular cups were sent for.</b> It was a deliberate gesture and everybody in the room understood it as one.</p>
     <p>Keep the sequence in mind: the vessels were called for, the hall drank from them and praised gods of metal and stone — <b>and then</b> the hand appeared.</p>
     <div class="ref">Background: Daniel 5:1–4 · 2 Kings 25:8–15.</div>`
@@ -213,7 +213,7 @@ const JM05_ITEMS = [
       <p>So I told him what nobody in that room was old enough to remember. <b>There is a man in your kingdom</b> in whom is the spirit of the holy gods. In the days of your grandfather, light and understanding and wisdom were found in him, and your grandfather made him chief of the wise men.</p>
       <p>His name is Daniel. <b>The king my husband's grandfather gave him the name Belteshazzar.</b> Send for him and he will show the interpretation."</p>
       <div class="sig">the queen</div>
-      <h4>What the Society notes</h4>
+      <h4>What the Bureau notes</h4>
       <ul>
         <li>She had <b>no part in the feast</b> and no reason to be involved. She came because of an uproar she could hear from another part of the palace.</li>
         <li>The man she names holds no office. He is not in the room, was not sent for, and is not on any list of the king's advisers.</li>
@@ -224,7 +224,7 @@ const JM05_ITEMS = [
 },
 {
   id:"j05daniel", stage:1, kind:"Personnel file", title:"Daniel's File",
-  sub:"Field Chest B · the Society's record of the man",
+  sub:"Field Chest B · the Bureau's record of the man",
   prev:"Eighty years old, out of office, and not at the feast.",
   x:80, y:44, rot:-6, w:206,
   body:`
@@ -299,13 +299,13 @@ const JM05_ITEMS = [
       <tr><td>Time between the writing and the fall</td><td><b>A matter of hours</b></td></tr>
       <tr><td>Siege, battle in the streets, or long resistance recorded</td><td class="n"><b>none in this account</b></td></tr>
     </table>
-    <h4>Why the Society keeps the timing on its own page</h4>
+    <h4>Why the Bureau keeps the timing on its own page</h4>
     <p>Because it is the part that makes the file hard to explain away. A prediction of a dynasty's end is cheap; empires end eventually and a patient prophet is bound to be right in the end.</p>
     <p><b>This one had a deadline of a few hours</b>, was delivered in front of a thousand witnesses, was written up in advance on a wall that could not be reached, and named the successor. There is no comfortable amount of room in that for a lucky guess.</p>
     <div class="ref">Background: Daniel 5:29–31.</div>`
 },
 {
-  id:"j05whyvessels", stage:2, kind:"Society analysis", title:"What the Vessels Had To Do With It",
+  id:"j05whyvessels", stage:2, kind:"Bureau analysis", title:"What the Vessels Had To Do With It",
   sub:"Sealed Pouch C",
   prev:"The cups were the charge. The wall was the sentence.",
   x:78, y:60, rot:-5, w:208,
@@ -319,13 +319,13 @@ const JM05_ITEMS = [
       <li>And you praised gods of gold, silver, bronze, iron, wood and stone — <b>which do not see, or hear, or know</b>.</li>
       <li>The God in whose hand your breath is, and whose are all your ways, you have not honoured.</li>
     </ul>
-    <h4>Why the Society finds the last line the sharpest</h4>
+    <h4>Why the Bureau finds the last line the sharpest</h4>
     <p>He praises gods that cannot see or hear — and a hand writes on the wall in front of him. The whole point of the vessels was that they were <b>trophies</b>: proof that the God of the people who owned them had lost. The reply arrives in the only medium that could not be ignored, in the room where the boast was made, in the middle of the boast.</p>
     <p class="margin-note">The cups were not a detail of the story. They were the charge sheet.</p>
     <div class="ref">Background: Daniel 5:18–23.</div>`
 },
 {
-  id:"j05why", stage:2, kind:"Society analysis", title:"Why Nobody Could Read It",
+  id:"j05why", stage:2, kind:"Bureau analysis", title:"Why Nobody Could Read It",
   sub:"Sealed Pouch C · what the file is actually about",
   prev:"The hardest thing to see is the thing you use every day.",
   x:44, y:76, rot:2, w:210,
@@ -416,7 +416,7 @@ const JM05_LOCKS = [
       "MENE again (sixty), then TEKEL (one shekel), then PARSIN, which is half a mina — thirty.",
       "You do not admire a weight. You put something in the other pan and find out what it comes to. The middle word, TEKEL, is the one that names it: the king has been <b>weighed</b>. Seven letters."
     ],
-    reward:"Sealed Pouch C is open: the reading of the words, the record of the night the city fell, the Society's note on the vessels and its analysis of why nobody could read it are now on the desk."
+    reward:"Sealed Pouch C is open: the reading of the words, the record of the night the city fell, the Bureau's note on the vessels and its analysis of why nobody could read it are now on the desk."
   }
 ];
 

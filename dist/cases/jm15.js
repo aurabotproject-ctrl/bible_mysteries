@@ -13,7 +13,7 @@ const JM15_ITEMS = [
 /* ---------------- STAGE 0 ---------------- */
 {
   id:"j15letter", stage:0, notEvidence:true, kind:"Briefing", title:"Letter from the Case Supervisor",
-  sub:"The Chronicle Society · Department of Unsolved Antiquities",
+  sub:"The Bible Investigation Bureau · Department of Unsolved Antiquities",
   prev:"A court with plenty of witnesses and no case, because no two of them said the same thing.",
   x:22, y:26, rot:-3, w:216,
   body:`
@@ -119,7 +119,7 @@ const JM15_ITEMS = [
       <tr><td>Was any of it usable?</td><td class="n"><b>none</b></td></tr>
     </table>
     <h4>Why "they were honest and simply differed" fails</h4>
-    <p>Honest witnesses to a real event do differ, and courts expect it. But these were <b>recruited to support a conclusion</b> that had already been reached, and the account calls their evidence false without hedging. That is a different thing from imperfect memory — and it is the account's own word, not the Society's.</p>
+    <p>Honest witnesses to a real event do differ, and courts expect it. But these were <b>recruited to support a conclusion</b> that had already been reached, and the account calls their evidence false without hedging. That is a different thing from imperfect memory — and it is the account's own word, not the Bureau's.</p>
     <p class="margin-note">The record is not flattering to the men running this court, and it was written by people from inside that world. Keep that in view.</p>
     <div class="ref">Background: Mark 14:55–57 · Matthew 26:59–60.</div>`
 },
@@ -193,7 +193,7 @@ const JM15_ITEMS = [
     <div class="ref">Background: Mark 14:60–62 · compare Isaiah 53:7.</div>`
 },
 {
-  id:"j15hostile", stage:1, kind:"Society analysis", title:"What a Failed Frame-Up Proves",
+  id:"j15hostile", stage:1, kind:"Bureau analysis", title:"What a Failed Frame-Up Proves",
   sub:"Field Chest B · the backwards argument",
   prev:"They could not get two men to tell one lie the same way. Hold that thought.",
   x:80, y:44, rot:-6, w:208,
@@ -211,7 +211,7 @@ const JM15_ITEMS = [
     <h4>Stated honestly</h4>
     <p>This is not a proof of anything. It is a piece of evidence about how hard invented agreement is to sustain, produced by the people best placed to try it and recorded by their opponents. Weigh it as that.</p>
     <p class="margin-note">Test it in class: send two students out to invent a matching account of an event, question them separately, and see how long it survives.</p>
-    <div class="ref">Background: Mark 14:55–59. The reasoning is the Society's own.</div>`
+    <div class="ref">Background: Mark 14:55–59. The reasoning is the Bureau's own.</div>`
 },
 {
   id:"j15saying", stage:1, kind:"Source note", title:"What Was Actually Said",
@@ -263,7 +263,7 @@ const JM15_ITEMS = [
   prev:"The temple accusation reappears — and the record flags it as false a second time.",
   x:56, y:30, rot:4, w:208,
   body:`
-    <p>The Society keeps this page because it shows the pattern rather than the incident.</p>
+    <p>The Bureau keeps this page because it shows the pattern rather than the incident.</p>
     <table class="ledger">
       <tr><th>Element</th><th>Record</th></tr>
       <tr><td>Accused</td><td>Stephen, brought before the same council</td></tr>
@@ -277,7 +277,7 @@ const JM15_ITEMS = [
     <div class="ref">Background: Acts 6:11–14 · 7:57–60.</div>`
 },
 {
-  id:"j15lesson", stage:2, kind:"Society analysis", title:"Agreement Is the Test, Not Volume",
+  id:"j15lesson", stage:2, kind:"Bureau analysis", title:"Agreement Is the Test, Not Volume",
   sub:"Sealed Pouch C",
   prev:"Six witnesses, one sentence, no agreement — and one word for what was missing.",
   x:80, y:34, rot:-4, w:212,
@@ -353,7 +353,7 @@ const JM15_LOCKS = [
       "Question 1 is the two-witness rule. Questions 2 and 3 are the statement sheets. Question 4 is the council note.",
       "Two required. None agreed. Three days is the one word most of them share. And nothing from the witnesses held at all."
     ],
-    reward:"Field Chest B is open: the transcript of the question that ended it, the note on the silence, the Society's analysis of the failed frame-up, and the saying the witnesses were mangling. The 📑 Testimony grid in the top bar is live."
+    reward:"Field Chest B is open: the transcript of the question that ended it, the note on the silence, the Bureau's analysis of the failed frame-up, and the saying the witnesses were mangling. The 📑 Testimony grid in the top bar is live."
   },
   {
     id:"l2", type:"word", code:"AGREE", len:5,
@@ -371,7 +371,7 @@ const JM15_LOCKS = [
       "Some rows overlap — several mention three days — but overlapping on one element is not matching.",
       "No two rows are the same. The law required the witnesses to do one thing, and this is the word for it. Five letters."
     ],
-    reward:"Sealed Pouch C is open: the charge that went to Rome, the same accusation used again a few years later, and the Society's analysis of agreement versus volume."
+    reward:"Sealed Pouch C is open: the charge that went to Rome, the same accusation used again a few years later, and the Bureau's analysis of agreement versus volume."
   }
 ];
 

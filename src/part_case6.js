@@ -13,7 +13,7 @@ const JM03_ITEMS = [
 /* ---------------- STAGE 0 ---------------- */
 {
   id:"j03letter", stage:0, notEvidence:true, kind:"Briefing", title:"Letter from the Case Supervisor",
-  sub:"The Chronicle Society · Department of Unsolved Antiquities",
+  sub:"The Bible Investigation Bureau · Department of Unsolved Antiquities",
   prev:"A bush on fire that is still standing, still green, and still growing.",
   x:22, y:26, rot:-3, w:216,
   body:`
@@ -69,7 +69,7 @@ const JM03_ITEMS = [
       <p>When I went towards it my name was called out of the middle of it. <b>Twice — my name, and then my name again.</b> I answered, and I was told not to come closer, and to take my sandals off, because the ground I was standing on was holy.</p>
       <p>I hid my face. I was afraid to look."</p>
       <div class="sig">Moses son of Amram</div>
-      <h4>What the Society notes</h4>
+      <h4>What the Bureau notes</h4>
       <ul>
         <li>The witness states his own reasoning, and it is an investigator's reasoning: he identified an anomaly, tested it by watching, and then went to find out why.</li>
         <li>He approached <b>deliberately</b> and from a distance, over a period of time. This is not a glimpse.</li>
@@ -84,7 +84,7 @@ const JM03_ITEMS = [
   prev:"He argued his way out of it five separate times, and lost every time.",
   x:26, y:56, rot:5, w:210,
   body:`
-    <p>Having been given a commission, the witness spent the rest of the interview trying to decline it. The Society has set the attempts out in order, because they matter to one of the explanations.</p>
+    <p>Having been given a commission, the witness spent the rest of the interview trying to decline it. The Bureau has set the attempts out in order, because they matter to one of the explanations.</p>
     <table class="ledger">
       <tr><th></th><th>What he said</th><th>What it means</th></tr>
       <tr><td>1</td><td>"Who am I, that I should go to Pharaoh?"</td><td>I am the wrong man</td></tr>
@@ -122,7 +122,7 @@ const JM03_ITEMS = [
   prev:"Wrong hour, wrong direction, wrong duration.",
   x:80, y:56, rot:4, w:206,
   body:`
-    <p>The simplest explanation of a bush that looks like it is on fire is low sun behind it, seen at the right angle at the right moment. The Society tested it.</p>
+    <p>The simplest explanation of a bush that looks like it is on fire is low sun behind it, seen at the right angle at the right moment. The Bureau tested it.</p>
     <table class="ledger">
       <tr><th>What the explanation needs</th><th>What the file records</th></tr>
       <tr><td>Sun low on the horizon</td><td>He was grazing the flock — <b>the working middle of the day</b></td></tr>
@@ -245,7 +245,7 @@ const JM03_ITEMS = [
       <p>His second objection was practical: they will ask me who sent you, and I will not know what to say.</p>
       <div class="stamp">RECORDED REPLY</div>
       <p style="font-size:18px"><b>"I AM WHO I AM."</b> And: "Say this to the children of Israel: <b>I AM has sent me to you.</b>"</p>
-      <h4>Why the Society keeps this page with the physical evidence</h4>
+      <h4>Why the Bureau keeps this page with the physical evidence</h4>
       <p>Because the name and the bush say the same thing.</p>
       <ul>
         <li>Everything else on that hillside exists because something else made it and something else keeps it going. Fire needs fuel. A bush needs water. A name usually says whose son you are, or what town you come from.</li>
@@ -263,7 +263,7 @@ const JM03_ITEMS = [
   x:56, y:30, rot:4, w:206,
   body:`
     <p>Before anything was said about Egypt, the witness was told two things: <b>do not come any closer</b>, and <b>take off your sandals, for the place where you are standing is holy ground</b>.</p>
-    <h4>What the Society finds interesting about this</h4>
+    <h4>What the Bureau finds interesting about this</h4>
     <ul>
       <li>It is a shelf of stone on a hillside he had walked over for forty years. Nothing about the rock had changed, and nothing about it stayed changed afterwards.</li>
       <li>The instruction is the ordinary courtesy of a guest entering a house — and it is given on open ground, in the open air, in the middle of a wilderness.</li>
@@ -278,7 +278,7 @@ const JM03_ITEMS = [
   prev:"An eighty-year-old shepherd went back to the country he had fled.",
   x:78, y:60, rot:-5, w:206,
   body:`
-    <p>The Society tests a claimed experience by what the person then did about it. This one has an unusually clear answer.</p>
+    <p>The Bureau tests a claimed experience by what the person then did about it. This one has an unusually clear answer.</p>
     <table class="ledger">
       <tr><th>Before</th><th>After</th></tr>
       <tr><td>Shepherding another man's flock in exile</td><td>Returned to Egypt</td></tr>
@@ -293,12 +293,12 @@ const JM03_ITEMS = [
     <div class="ref">Background: Exodus 2:11–15 · Exodus 4:18–20 · Exodus 7:7.</div>`
 },
 {
-  id:"j03why", stage:2, kind:"Society analysis", title:"The One Property",
+  id:"j03why", stage:2, kind:"Bureau analysis", title:"The One Property",
   sub:"Sealed Pouch C · what is actually left",
   prev:"Every explanation predicts ash. There is no ash.",
   x:44, y:76, rot:2, w:212,
   body:`
-    <p>Here is the case in one paragraph, and the Society would like students to be able to say it in their own words.</p>
+    <p>Here is the case in one paragraph, and the Bureau would like students to be able to say it in their own words.</p>
     <h4>The reasoning</h4>
     <ol>
       <li>Fire is a process that <b>consumes</b>. That is not a detail about fire; it is what fire is. Burning is fuel being turned into something else.</li>
@@ -306,7 +306,7 @@ const JM03_ITEMS = [
       <li>The site had no ash. It had no scorching, no soot, no fuel source and no damage of any kind, and the bush went on growing and flowered the next season.</li>
       <li>So whatever was on that hillside was <b>burning without consuming</b> — and that is the one property no natural explanation can produce, because it is the one property that contradicts what burning is.</li>
     </ol>
-    <h4>What the Society does <i>not</i> claim</h4>
+    <h4>What the Bureau does <i>not</i> claim</h4>
     <p>The file does not prove what it was. It closes what it was not, and it is honest that the physical evidence is a single site, surveyed after the fact, on the word of one man with no witnesses. A student who says <i>"I still think he imagined it"</i> has not failed the case — they have made a claim, and the file asks them to say which document they are setting aside to make it.</p>
     <p class="margin-note">The honest end of this case is not "and therefore God". It is: everything that consumes has been ruled out, and something that did not consume is what is left. What you do with that is yours.</p>
     <div class="ref">Background: Exodus 3:1–6 · compare Deuteronomy 4:24 and Daniel 3:25–27.</div>`
@@ -386,7 +386,7 @@ const JM03_LOCKS = [
       "Four of the five columns have at least one gap — a resin flare in the branches need not scorch the ground; lightning is over too fast to leave soot; only some of them need a fuel source or a particular season.",
       "The column with no gaps is the first one. Whatever the fuel, fire turns it into ash — and the site report found none."
     ],
-    reward:"Sealed Pouch C is open: the name, the instruction about the ground, what came of it all, and the Society's analysis are now on the desk."
+    reward:"Sealed Pouch C is open: the name, the instruction about the ground, what came of it all, and the Bureau's analysis are now on the desk."
   }
 ];
 

@@ -93,7 +93,7 @@ function renderShelf(){
     const st = stateFor(cdef.id), p = progressLabel(cdef);
     const cls = p.cls || "new";
     return `<div class="poster" style="--fc:${cdef.colour};--r:${tilt[i%tilt.length]}deg">
-      <div class="p-soc">The Chronicle Society</div>
+      <div class="p-soc">B.I.B.</div>
       <div class="p-code">${cdef.code}</div>
       <div class="p-hr"></div>
       <div class="art">${posterArt(cdef)}</div>
@@ -103,6 +103,8 @@ function renderShelf(){
       <div class="p-teaser">${cdef.teaser}</div>
       <div class="p-stamp ${cls}">${p.txt}</div>
       ${p.detail?`<div class="p-sub">${p.detail}</div>`:""}
+      ${LEVEL === "easy" && !hasEasy(cdef.id)
+        ? `<div class="p-easysoon">Easy version coming soon &middot; opens at medium</div>` : ""}
       <div class="p-acts">
         <button class="p-open" data-case="${cdef.id}">${st.opened ? "Continue" : "Take this case"}</button>
         <button class="p-restart" data-pp="${cdef.id}" title="Print this case to run on paper">🖨</button>
@@ -113,8 +115,9 @@ function renderShelf(){
 
   shelf.innerHTML = `<div class="shelfwrap">
     <div class="boardsign">
-      <div class="kicker">The Chronicle Society</div>
-      <h1>Department of Unsolved Antiquities</h1>
+      <div class="kicker">B &middot; I &middot; B</div>
+      <h1>The Bible Investigation Bureau</h1>
+      <div class="dept">Department of Unsolved Antiquities</div>
       <p>Take down a case and work it. Read everything, break the locks, and throw out every explanation the evidence will not carry — then file what is left.</p>
       <div class="lvl shelf-lvl" id="lvlShelf" title="Reading level — the same cases, in plainer words">
         <span class="lvl-cap">Reading level</span>
@@ -124,7 +127,7 @@ function renderShelf(){
     </div>
     <div class="cases">${posters}
       <div class="poster soon" style="--fc:#5c5346;--r:1.1deg">
-        <div class="p-soc">The Chronicle Society</div>
+        <div class="p-soc">B.I.B.</div>
         <div class="p-code">Case JM-??</div>
         <div class="p-hr"></div>
         <div class="art"><svg viewBox="0 0 300 200" xmlns="http://www.w3.org/2000/svg">
@@ -217,7 +220,7 @@ function runIntro(){
           <div class="stack"><i></i><i></i><i></i><i></i><i></i><i></i></div>
           <div class="cover" style="--fc:${C.colour}">
             <div class="f-label">
-              <div class="l1">The Chronicle Society</div>
+              <div class="l1">B.I.B. &middot; Bible Investigation Bureau</div>
               <div class="l2">${C.title}</div>
               <div class="l3">${C.code} &middot; ${C.period}</div>
             </div>
@@ -559,7 +562,7 @@ function debrief(){
     ${SVG.finalSeal}
     <div class="doc-kind" style="text-align:center">Case closed</div>
     <div class="doc-title" style="text-align:center">${C.code} — Conclusion Filed</div>
-    <div class="doc-sub" style="text-align:center">The Chronicle Society · Department of Unsolved Antiquities</div>
+    <div class="doc-sub" style="text-align:center">The Bible Investigation Bureau · Department of Unsolved Antiquities</div>
     <div class="rule"></div>
     <div class="doc-body">
       <p>${C.debrief.lead}</p>
@@ -1018,7 +1021,7 @@ function answerSheet(){
     <div class="sheetdoc">
       <div class="sd-head">
         <div>
-          <div class="doc-kind">The Chronicle Society · Case Record</div>
+          <div class="doc-kind">The Bible Investigation Bureau · Case Record</div>
           <div class="doc-title" style="margin:2px 0 0">${C.code} — ${C.title}</div>
         </div>
         <div class="sd-names">
@@ -1067,7 +1070,7 @@ function teacherNotes(){
       <div class="tnbody">Loading the case…</div>
     </details>`).join("");
   const o = overlay(`
-    <div class="doc-kind">The Chronicle Society</div>
+    <div class="doc-kind">The Bible Investigation Bureau</div>
     <div class="doc-title">Teacher Notes</div>
     <div class="rule"></div>
     <div class="doc-body">
@@ -1127,14 +1130,31 @@ function teacherNotes(){
    levels side by side and still be solving one case.
    ============================================================ */
 function paintLevel(){
+  // A case with no easy version of its own is genuinely being read at medium,
+  // so the switch says medium however the shelf is set.
+  const reading = (C && !hasEasy(C.id)) ? "medium" : LEVEL;
   document.querySelectorAll(".lvl").forEach(bar=>{
+    const lvl = (bar.id === "lvlBar") ? reading : LEVEL;
     bar.querySelectorAll(".lvl-b").forEach(b=>
-      b.classList.toggle("on", b.dataset.lvl === LEVEL));
+      b.classList.toggle("on", b.dataset.lvl === lvl));
   });
-  // In the top bar the switch only means something if this case has an easy
-  // pack; on the shelf it always shows.
+  // In the top bar, a case with no easy version of its own says so rather
+  // than offering a switch that would do nothing. Everything still reads at
+  // medium — no case is ever short of content.
   const bar = $("#lvlBar");
-  if(bar) bar.classList.toggle("hidden", !!C && !hasEasy(C.id));
+  if(!bar) return;
+  const soon = !!C && !hasEasy(C.id);
+  bar.classList.toggle("soon", soon);
+  const note = bar.querySelector(".lvl-soon");
+  if(soon && !note){
+    bar.insertAdjacentHTML("beforeend",
+      `<span class="lvl-soon">Easy coming soon</span>`);
+  } else if(!soon && note){
+    note.remove();
+  }
+  bar.title = soon
+    ? "This case has not been rewritten at the easy level yet — it reads at medium"
+    : "Reading level — the same case, in plainer words";
 }
 
 function setReadingLevel(lvl){

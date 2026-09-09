@@ -17,7 +17,7 @@ const JM47_ITEMS = [
 /* ---------------- STAGE 0 ---------------- */
 {
   id:"j47letter", stage:0, notEvidence:true, kind:"Briefing", title:"Letter from the Case Supervisor",
-  sub:"The Chronicle Society · Department of Unsolved Antiquities",
+  sub:"The Bible Investigation Bureau · Department of Unsolved Antiquities",
   prev:"Five plans. Five empty ambushes. Somebody is talking.",
   x:24, y:28, rot:-3, w:216,
   body:`
@@ -222,7 +222,7 @@ const JM47_ITEMS = [
   prev:"They turned aside before the column had been told where it was going.",
   x:66, y:66, rot:5, w:204,
   body:`
-    <p>The simplest answer to any leak is that there is no leak — that the other side is just watching, and watching well. The Society tested that answer against the five failures. It does not hold.</p>
+    <p>The simplest answer to any leak is that there is no leak — that the other side is just watching, and watching well. The Bureau tested that answer against the five failures. It does not hold.</p>
     <h4>What ordinary scouting could explain</h4>
     <p>A watcher on high ground can see a column on the march. Given a day, he can guess roughly where it is heading and warn his king to keep clear.</p>
     <h4>What it cannot explain</h4>
@@ -288,7 +288,7 @@ const JM47_ITEMS = [
     <p>He was told no. He was told to <b>set bread and water in front of them</b>. A great feast was prepared, the Aramean force ate, and they were sent home to their master.</p>
     <h4>The result</h4>
     <p>The record is blunt about what followed: <b>the Aramean raiding parties stopped coming into Israel.</b> Not because they were beaten in the field. Because the war stopped making any sense to fight.</p>
-    <h4>Why the Society keeps this page in the file</h4>
+    <h4>Why the Bureau keeps this page in the file</h4>
     <p>Every ordinary explanation of the leak assumed somebody was being paid, blackmailed, or was quietly working for the other side. This ending fits none of that. The side that held all the advantage gave it away and fed its enemies — which is not how spies, traitors or informers behave.</p>
     <div class="ref">Background: 2 Kings 6:20–23.</div>`
 },
@@ -298,7 +298,7 @@ const JM47_ITEMS = [
   prev:"He never entered Damascus. He never needed to.",
   x:78, y:62, rot:-5, w:200,
   body:`
-    <p>The Society's file on Elisha, so far as it can be reconstructed:</p>
+    <p>The Bureau's file on Elisha, so far as it can be reconstructed:</p>
     <ul>
       <li>A prophet in Israel, successor to Elijah. Lived plainly, held no office and commanded no soldiers.</li>
       <li><b>He had no agent in Damascus, no household there, and no recorded correspondence with anyone in Aram.</b></li>
@@ -385,7 +385,7 @@ const JM47_LOCKS = [
       "R-E-H — the third letter is H. Now do GOLAN with two companies, KARNAIM with three, and so on.",
       "H, O, R, S, E. It is the thing the king sent to Dothan — and the thing the prophet's servant saw on the hills."
     ],
-    reward:"Sealed Pouch C is open: the council minute, the report of the raid on Dothan, the follow-up file and the Society's file on the prophet are now on the desk."
+    reward:"Sealed Pouch C is open: the council minute, the report of the raid on Dothan, the follow-up file and the Bureau's file on the prophet are now on the desk."
   }
 ];
 

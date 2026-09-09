@@ -13,14 +13,14 @@ const JM20_ITEMS = [
 /* ---------------- STAGE 0 ---------------- */
 {
   id:"j20letter", stage:0, notEvidence:true, kind:"Briefing", title:"Letter from the Case Supervisor",
-  sub:"The Chronicle Society · Department of Unsolved Antiquities",
+  sub:"The Bible Investigation Bureau · Department of Unsolved Antiquities",
   prev:"The water came. He was barred from the country anyway. The file is asked why.",
   x:22, y:26, rot:-3, w:216,
   body:`
     <p><b>To the investigating team,</b></p>
     <p>A nation is out of water at Kadesh. There is a rock. There is an order. Water comes out of the rock, plentifully, in front of everybody, and the herds drink.</p>
     <p>And the man who produced it is told, that same day, that <b>he will not bring the assembly into the land</b> — after forty years of walking toward it.</p>
-    <p>This case has been sent to the Society repeatedly by people who think the sentence is out of proportion. That is a fair reaction and the Society does not want you to suppress it. But before you argue about whether it was fair, <b>find out precisely what happened</b>, because most people arguing about this case have never compared the two orders.</p>
+    <p>This case has been sent to the Bureau repeatedly by people who think the sentence is out of proportion. That is a fair reaction and the Bureau does not want you to suppress it. But before you argue about whether it was fair, <b>find out precisely what happened</b>, because most people arguing about this case have never compared the two orders.</p>
     <h4>Your task</h4>
     <p>Five explanations are on the board. Close all five. This is a <b>document forensics</b> case: the answer is a difference between two pieces of text, and it is one word long.</p>
     <h4>How the file works</h4>
@@ -194,12 +194,12 @@ const JM20_ITEMS = [
     <div class="ref">Background: Numbers 20:2–13 · compare Numbers 14:26–35.</div>`
 },
 {
-  id:"j20anger", stage:1, kind:"Society analysis", title:"The Anger Question",
+  id:"j20anger", stage:1, kind:"Bureau analysis", title:"The Anger Question",
   sub:"Field Chest B · was it the temper or the act?",
   prev:"The anger is real, and it is not what the sentence names.",
   x:80, y:44, rot:-6, w:208,
   body:`
-    <p>The Society takes this explanation seriously, because a later record does mention the anger and students will find it.</p>
+    <p>The Bureau takes this explanation seriously, because a later record does mention the anger and students will find it.</p>
     <table class="ledger">
       <tr><th>Source</th><th>What it says</th></tr>
       <tr><td>The sentence itself</td><td>"Because ye <b>believed me not, to sanctify me</b> in the eyes of the children of Israel"</td></tr>
@@ -213,9 +213,9 @@ const JM20_ITEMS = [
       <li>The later summary uses the word <b>commandment</b>, which points at an instruction, not at a temper.</li>
       <li>And the psalm describes the anger as the <i>route</i> to the mistake: provoked, therefore spoke rashly, therefore did the old thing instead of the new one.</li>
     </ul>
-    <h4>The Society's reading, stated as a reading</h4>
+    <h4>The Bureau's reading, stated as a reading</h4>
     <p>The anger explains <b>how</b> it happened. The sentence names <b>what</b> happened: an order given in front of the whole nation, and a different action performed in front of the whole nation. Both are in the file; only one is in the verdict.</p>
-    <p class="margin-note">This is a good place to let a class disagree with the Society. The evidence is all on the page and the reading is arguable.</p>
+    <p class="margin-note">This is a good place to let a class disagree with the Bureau. The evidence is all on the page and the reading is arguable.</p>
     <div class="ref">Background: Numbers 20:12 · 27:14 · Psalm 106:32–33.</div>`
 },
 {
@@ -264,7 +264,7 @@ const JM20_ITEMS = [
     <div class="ref">Background: Deuteronomy 3:23–28 · 34:1–12.</div>`
 },
 {
-  id:"j20eyes", stage:2, kind:"Society analysis", title:"In the Eyes of the People",
+  id:"j20eyes", stage:2, kind:"Bureau analysis", title:"In the Eyes of the People",
   sub:"Sealed Pouch C · why the audience is in the verdict",
   prev:"The order was public, so the failure was public. That is the whole logic of the sentence.",
   x:56, y:30, rot:4, w:210,
@@ -283,12 +283,12 @@ const JM20_ITEMS = [
     <div class="ref">Background: Numbers 20:8, 12 · Deuteronomy 34:9.</div>`
 },
 {
-  id:"j20lesson", stage:2, kind:"Society analysis", title:"Read the New Order",
+  id:"j20lesson", stage:2, kind:"Bureau analysis", title:"Read the New Order",
   sub:"Sealed Pouch C",
   prev:"The situation repeated. The instruction did not. Almost nobody checks.",
   x:80, y:34, rot:-4, w:212,
   body:`
-    <p>The Society files this as its principal <b>document forensics</b> case, and the method transfers to anything with instructions in it.</p>
+    <p>The Bureau files this as its principal <b>document forensics</b> case, and the method transfers to anything with instructions in it.</p>
     <h4>The method</h4>
     <ol>
       <li><b>Get both documents in front of you.</b> Most of the argument about this case is conducted by people working from memory of one of them.</li>
@@ -360,7 +360,7 @@ const JM20_LOCKS = [
       "Question 1 is the two orders. Question 2 is the account. Question 3 is the Horeb/Kadesh plan. Question 4 is the sentence.",
       "Told once to speak. Struck it twice. Told once, thirty-eight years earlier, to strike a rock. And two men were named."
     ],
-    reward:"Field Chest B is open: the Horeb order in full, the record of the people's complaint, the Society's note on the anger question, and the record of the other man named. The 📜 Document comparison in the top bar is live."
+    reward:"Field Chest B is open: the Horeb order in full, the record of the people's complaint, the Bureau's note on the anger question, and the record of the other man named. The 📜 Document comparison in the top bar is live."
   },
   {
     id:"l2", type:"word", code:"SPEAK", len:5,
@@ -378,7 +378,7 @@ const JM20_LOCKS = [
       "Two rows are uneven. One has ticks at Horeb and in what was done, but not in the Kadesh order. The other is the mirror image.",
       "He was told to do it, before their eyes, and he did not. Five letters."
     ],
-    reward:"Sealed Pouch C is open: the appeal and its refusal, the Society's note on why the audience is in the verdict, and the analysis of how to read a new order."
+    reward:"Sealed Pouch C is open: the appeal and its refusal, the Bureau's note on why the audience is in the verdict, and the analysis of how to read a new order."
   }
 ];
 
@@ -433,7 +433,7 @@ const JM20_VERDICTS = [
 const CASE_JM20 = {
   id:"jm20", code:"CASE JM-20", title:"The Rock at Meribah",
   period:"Kadesh · c. 1407 BC", colour:"#6b5c4a", poster:"poster_jm20",
-  teaser:"Water comes out of a rock in front of the whole nation, and the man who produced it is told he will not enter the country he has spent forty years walking toward. The Society is asked why.",
+  teaser:"Water comes out of a rock in front of the whole nation, and the man who produced it is told he will not enter the country he has spent forty years walking toward. The Bureau is asked why.",
   introSub:"Two orders, thirty-eight years apart, and one verb between them.",
   items:JM20_ITEMS, theories:JM20_THEORIES, locks:JM20_LOCKS, verdicts:JM20_VERDICTS,
   matrix:JM20_MATRIX,

@@ -13,7 +13,7 @@ const JM13_ITEMS = [
 /* ---------------- STAGE 0 ---------------- */
 {
   id:"j13letter", stage:0, notEvidence:true, kind:"Briefing", title:"Letter from the Case Supervisor",
-  sub:"The Chronicle Society · Department of Unsolved Antiquities",
+  sub:"The Bible Investigation Bureau · Department of Unsolved Antiquities",
   prev:"Twelve men, one country, forty days — and two reports that cannot both be right.",
   x:22, y:26, rot:-3, w:216,
   body:`
@@ -201,7 +201,7 @@ const JM13_ITEMS = [
     <div class="ref">Background: Numbers 13:26–33 · 14:1–10.</div>`
 },
 {
-  id:"j13measure", stage:1, kind:"Society analysis", title:"Two Ways of Measuring",
+  id:"j13measure", stage:1, kind:"Bureau analysis", title:"Two Ways of Measuring",
   sub:"Field Chest B · what the last line of each report is doing",
   prev:"Same giants, two yardsticks. Everything turns on what you hold them against.",
   x:80, y:44, rot:-6, w:210,
@@ -233,7 +233,7 @@ const JM13_ITEMS = [
       <p>And now, see, the LORD has kept me alive these forty-five years… I am this day eighty-five years old, and as yet I am as strong this day as I was in the day that Moses sent me.</p>
       <p><b>Now therefore give me this mountain</b>, whereof the LORD spoke in that day — for you heard in that day how the Anakim were there, and that the cities were great and fenced."</p>
     </div>
-    <h4>What the Society draws from this</h4>
+    <h4>What the Bureau draws from this</h4>
     <ul>
       <li>Caleb repeats the ten's facts <b>approvingly</b> — great cities, fenced, Anakim present. He never disputed a word of it.</li>
       <li>He asks for the hardest part of the country, by name, at eighty-five.</li>
@@ -283,12 +283,12 @@ const JM13_ITEMS = [
     <div class="ref">Background: Numbers 14:39–45.</div>`
 },
 {
-  id:"j13lesson", stage:2, kind:"Society analysis", title:"Fact, Conclusion, and the Word Between Them",
+  id:"j13lesson", stage:2, kind:"Bureau analysis", title:"Fact, Conclusion, and the Word Between Them",
   sub:"Sealed Pouch C",
   prev:"Nobody lied. That is what makes this case worth a whole lesson.",
   x:80, y:34, rot:-4, w:212,
   body:`
-    <p>The Society keeps this file at the front of the training set for one reason: <b>it contains no deception at all.</b> No forged prop, no planted evidence, no false witness. Twelve honest men and one honest report of the facts.</p>
+    <p>The Bureau keeps this file at the front of the training set for one reason: <b>it contains no deception at all.</b> No forged prop, no planted evidence, no false witness. Twelve honest men and one honest report of the facts.</p>
     <h4>What the grid shows</h4>
     <p>Fill in the testimony grid and every single box earns a tick. That is the finding: <b>the reports agree.</b> The disagreement lives entirely in one sentence at the end of each, and that sentence is not a fact — it is what each party did with the facts.</p>
     <h4>Three things to take away</h4>
@@ -357,7 +357,7 @@ const JM13_LOCKS = [
       "Question 1 is the roster. Question 2 is the reports — count the statements about the land itself that nobody disputed. Question 3 is the outcome sheet. Question 4 is the reports again.",
       "Two men. One agreed thing — that it is a good land. Two of that generation went in, and they are the same two. And the number of facts in dispute is none at all."
     ],
-    reward:"Field Chest B is open: the sealed instructions, the assembly record, the Society's note on the two closing lines, and Caleb's statement forty-five years later. The 📑 Testimony grid in the top bar is live."
+    reward:"Field Chest B is open: the sealed instructions, the assembly record, the Bureau's note on the two closing lines, and Caleb's statement forty-five years later. The 📑 Testimony grid in the top bar is live."
   },
   {
     id:"l2", type:"word", code:"AGREED", len:6,
@@ -375,7 +375,7 @@ const JM13_LOCKS = [
       "You will finish with every box ticked. That is not a mistake — it is the finding.",
       "Twelve men, one country, and not one fact in dispute. What did they all do? Six letters, past tense."
     ],
-    reward:"Sealed Pouch C is open: the sentence and its proportion, the strange business of the next morning, and the Society's analysis of fact and conclusion."
+    reward:"Sealed Pouch C is open: the sentence and its proportion, the strange business of the next morning, and the Bureau's analysis of fact and conclusion."
   }
 ];
 
