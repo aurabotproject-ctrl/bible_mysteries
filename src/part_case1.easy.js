@@ -338,8 +338,7 @@ locks:{
     ],
     hints:[
       "Every answer is a single digit, and the questions are in order. Question 1 gives the first digit.",
-      "Question 1 is the Watch Order. Question 2 is the Timeline. Question 3 is Mary's statement. Question 4 is the spice receipt.",
-      "Count the signatures (4). Count Friday, Saturday, Sunday (3). Count Mary, Mary and Salome (3). Count myrrh and aloes (2)."
+      "Question 1 is the Watch Order. Question 2 is the Timeline. Question 3 is Mary's statement. Question 4 is the spice receipt."
     ],
     reward:"Evidence Bag B is open. The drawing of the tomb inside, the list of what was found, the report on the stone, and Peter's statement are now on the desk."
   },
@@ -354,8 +353,7 @@ locks:{
     ],
     hints:[
       "The scrap reads O L Q H Q. Every letter has to move BACK three places in the alphabet.",
-      "O goes back to L. Now do the other four the same way.",
-      "L – I – N – E – N. It is something you have already seen lying in the tomb."
+      "O goes back to L. Now do the other four the same way."
     ],
     reward:"Archive Pouch C is open. The Council's money record, Joseph of Arimathea's statement, the sealing order and the follow-up file are now on the desk."
   }

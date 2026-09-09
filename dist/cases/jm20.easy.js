@@ -328,8 +328,7 @@ locks:{
     ],
     hints:[
       "The questions are in order. Question one gives the first digit. Every answer is a single digit.",
-      "Question 1 is in the two orders. Question 2 is in the account of what he did. Question 3 is on the Horeb and Kadesh map. Question 4 is in the sentence.",
-      "Told once to speak. Hit it twice. Told once, thirty-eight years earlier, to hit a rock. And two men were named."
+      "Question 1 is in the two orders. Question 2 is in the account of what he did. Question 3 is on the Horeb and Kadesh map. Question 4 is in the sentence."
     ],
     reward:"Field Chest B is open. The Horeb order in full, the record of the people's complaint, our note about the anger, and the record of the other man named are now on the desk. The 📜 Document comparison at the top is now working."
   },
@@ -345,8 +344,7 @@ locks:{
     ],
     hints:[
       "Be careful with the stick and the people. Those show up everywhere — which is exactly why the real difference is so easy to miss.",
-      "Two rows are uneven. One is ticked at Horeb and in what he did, but not in the Kadesh order. The other one is the opposite.",
-      "He was told to do it, while everyone watched, and he did not. Five letters."
+      "Two rows are uneven. One is ticked at Horeb and in what he did, but not in the Kadesh order. The other one is the opposite."
     ]
   }
 },

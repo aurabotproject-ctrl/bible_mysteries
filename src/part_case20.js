@@ -357,8 +357,7 @@ const JM20_LOCKS = [
     ],
     hints:[
       "The questions are in order: question one gives the first digit. Every answer is a single digit.",
-      "Question 1 is the two orders. Question 2 is the account. Question 3 is the Horeb/Kadesh plan. Question 4 is the sentence.",
-      "Told once to speak. Struck it twice. Told once, thirty-eight years earlier, to strike a rock. And two men were named."
+      "Question 1 is the two orders. Question 2 is the account. Question 3 is the Horeb/Kadesh plan. Question 4 is the sentence."
     ],
     reward:"Field Chest B is open: the Horeb order in full, the record of the people's complaint, the Bureau's note on the anger question, and the record of the other man named. The 📜 Document comparison in the top bar is live."
   },
@@ -375,8 +374,7 @@ const JM20_LOCKS = [
     ],
     hints:[
       "Be exact about the rod and the assembly — those appear everywhere, and that is why the difference is so easy to miss.",
-      "Two rows are uneven. One has ticks at Horeb and in what was done, but not in the Kadesh order. The other is the mirror image.",
-      "He was told to do it, before their eyes, and he did not. Five letters."
+      "Two rows are uneven. One has ticks at Horeb and in what was done, but not in the Kadesh order. The other is the mirror image."
     ],
     reward:"Sealed Pouch C is open: the appeal and its refusal, the Bureau's note on why the audience is in the verdict, and the analysis of how to read a new order."
   }

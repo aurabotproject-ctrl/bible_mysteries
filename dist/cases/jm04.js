@@ -366,8 +366,7 @@ const JM04_LOCKS = [
     ],
     hints:[
       "The questions are in order: question one gives the first digit. Every answer is a single digit.",
-      "Question 1 is the court record. Question 2 is the household record. Question 3 is the plan of the house. Question 4 is the Bureau's note on the hearing.",
-      "Two claimants. One living child. Nobody else in the house at all — zero. And exactly one test."
+      "Question 1 is the court record. Question 2 is the household record. Question 3 is the plan of the house. Question 4 is the Bureau's note on the hearing."
     ],
     reward:"Field Chest B is open: the comparison of the two statements, the neighbourhood record, the note on newborns and the record of the order of speaking are now on the desk. The ⚖ Testimony grid in the top bar is live."
   },
@@ -384,8 +383,7 @@ const JM04_LOCKS = [
     ],
     hints:[
       "Work along each row. Both women make every single one of the nine claims — the accounts are identical with the names reversed.",
-      "Now the third column. Go looking for one thing in the whole file that confirms any of it independently, and notice that you cannot find any. That column stays completely empty.",
-      "Two full columns and an empty one: no way to tell them apart, and no evidence at all. So the king called for the one object that would make evidence appear. Five letters."
+      "Now the third column. Go looking for one thing in the whole file that confirms any of it independently, and notice that you cannot find any. That column stays completely empty."
     ],
     reward:"Sealed Pouch C is open: the test, what each woman said, the Bureau's analysis of why it counts as evidence, and the record of what followed are now on the desk."
   }

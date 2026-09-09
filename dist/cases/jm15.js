@@ -350,8 +350,7 @@ const JM15_LOCKS = [
     ],
     hints:[
       "The questions are in order: question one gives the first digit. Every answer is a single digit.",
-      "Question 1 is the two-witness rule. Questions 2 and 3 are the statement sheets. Question 4 is the council note.",
-      "Two required. None agreed. Three days is the one word most of them share. And nothing from the witnesses held at all."
+      "Question 1 is the two-witness rule. Questions 2 and 3 are the statement sheets. Question 4 is the council note."
     ],
     reward:"Field Chest B is open: the transcript of the question that ended it, the note on the silence, the Bureau's analysis of the failed frame-up, and the saying the witnesses were mangling. The 📑 Testimony grid in the top bar is live."
   },
@@ -368,8 +367,7 @@ const JM15_LOCKS = [
     ],
     hints:[
       "Work witness by witness from the statement sheets. Witness VI said almost nothing; witness V said almost everything.",
-      "Some rows overlap — several mention three days — but overlapping on one element is not matching.",
-      "No two rows are the same. The law required the witnesses to do one thing, and this is the word for it. Five letters."
+      "Some rows overlap — several mention three days — but overlapping on one element is not matching."
     ],
     reward:"Sealed Pouch C is open: the charge that went to Rome, the same accusation used again a few years later, and the Bureau's analysis of agreement versus volume."
   }

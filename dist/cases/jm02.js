@@ -364,8 +364,7 @@ const JM02_LOCKS = [
     ],
     hints:[
       "The questions are in order: question one gives the first digit. Every answer is a single digit.",
-      "Question 1 is the note on how a festival caravan travels. Question 2 is the search record. Question 3 is the parents' accounts. Question 4 is the festival calendar.",
-      "The company camps one day out. The search took three days. Both parents went back — two of them. And the calendar says this family went up for one feast a year, the Passover."
+      "Question 1 is the note on how a festival caravan travels. Question 2 is the search record. Question 3 is the parents' accounts. Question 4 is the festival calendar."
     ],
     reward:"Field Chest B is open: the search log, the note on how the districts were chosen and the road watch are now on the desk. The 🗺 Search grid in the top bar is live."
   },
@@ -382,8 +381,7 @@ const JM02_LOCKS = [
     ],
     hints:[
       "The log lists three districts on day one, four on day two, and one on day three.",
-      "Mark all eight and look at the third column. Only one square in it is ticked.",
-      "The district they left until last is the temple. Six letters."
+      "Mark all eight and look at the third column. Only one square in it is ticked."
     ],
     reward:"Sealed Pouch C is open: where he was found, what he said, what happened next, and the Bureau's analysis of the search are now on the desk."
   }

@@ -365,8 +365,7 @@ const JM03_LOCKS = [
     ],
     hints:[
       "The questions are in order: question one gives the first digit. Every answer is a single digit.",
-      "Question 1 is his own account. Question 2 is the transcript of refusals. Question 3 is the record of the signs. Question 4 is the site report — and it is a number.",
-      "His name, and then his name again: two. Five refusals. Three signs. And nothing at all of the bush was consumed: zero."
+      "Question 1 is his own account. Question 2 is the transcript of refusals. Question 3 is the record of the signs. Question 4 is the site report — and it is a number."
     ],
     reward:"Field Chest B is open: the comparison plate, the botanical note and the analysis of the duration are now on the desk. The 📊 Hypothesis table in the top bar is live."
   },
@@ -383,8 +382,7 @@ const JM03_LOCKS = [
     ],
     hints:[
       "Work along the rows, not down the columns. Ask of each one: if this is what happened, what would I find on that shelf?",
-      "Four of the five columns have at least one gap — a resin flare in the branches need not scorch the ground; lightning is over too fast to leave soot; only some of them need a fuel source or a particular season.",
-      "The column with no gaps is the first one. Whatever the fuel, fire turns it into ash — and the site report found none."
+      "Four of the five columns have at least one gap — a resin flare in the branches need not scorch the ground; lightning is over too fast to leave soot; only some of them need a fuel source or a particular season."
     ],
     reward:"Sealed Pouch C is open: the name, the instruction about the ground, what came of it all, and the Bureau's analysis are now on the desk."
   }

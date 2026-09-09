@@ -354,8 +354,7 @@ const JM13_LOCKS = [
     ],
     hints:[
       "The questions are in order: question one gives the first digit. Every answer is a single digit.",
-      "Question 1 is the roster. Question 2 is the reports — count the statements about the land itself that nobody disputed. Question 3 is the outcome sheet. Question 4 is the reports again.",
-      "Two men. One agreed thing — that it is a good land. Two of that generation went in, and they are the same two. And the number of facts in dispute is none at all."
+      "Question 1 is the roster. Question 2 is the reports — count the statements about the land itself that nobody disputed. Question 3 is the outcome sheet. Question 4 is the reports again."
     ],
     reward:"Field Chest B is open: the sealed instructions, the assembly record, the Bureau's note on the two closing lines, and Caleb's statement forty-five years later. The 📑 Testimony grid in the top bar is live."
   },
@@ -372,8 +371,7 @@ const JM13_LOCKS = [
     ],
     hints:[
       "Do not look for the trick. Every line in the ten's report is in the two's report as well.",
-      "You will finish with every box ticked. That is not a mistake — it is the finding.",
-      "Twelve men, one country, and not one fact in dispute. What did they all do? Six letters, past tense."
+      "You will finish with every box ticked. That is not a mistake — it is the finding."
     ],
     reward:"Sealed Pouch C is open: the sentence and its proportion, the strange business of the next morning, and the Bureau's analysis of fact and conclusion."
   }

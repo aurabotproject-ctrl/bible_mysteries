@@ -326,8 +326,7 @@ locks:{
     ],
     hints:[
       "The questions are in order. Question one gives the first digit. Every answer is a single digit.",
-      "Question 1 is the note on how a festival group travels. Question 2 is the search record. Question 3 is the parents' accounts. Question 4 is the festival calendar.",
-      "The group camps one day out. The search took three days. Both parents went back — that is two. And the calendar says this family went up for one feast a year, the Passover."
+      "Question 1 is the note on how a festival group travels. Question 2 is the search record. Question 3 is the parents' accounts. Question 4 is the festival calendar."
     ],
     reward:"Field Chest B is open. The search log, the note on how they chose the districts, and the road watch are now on the desk. The 🗺 Search grid at the top is live."
   },
@@ -343,8 +342,7 @@ locks:{
     ],
     hints:[
       "The log lists three districts on day one, four on day two, and one on day three.",
-      "Tick all eight, then look at the third column. Only one square in it has a tick.",
-      "The district they left until last is the temple. Six letters."
+      "Tick all eight, then look at the third column. Only one square in it has a tick."
     ],
     reward:"Sealed Pouch C is open. Where he was found, what he said, what happened next, and the Bureau's analysis of the search are now on the desk."
   }

@@ -364,8 +364,7 @@ const JM47_LOCKS = [
     ],
     hints:[
       "The questions are in order: question one gives the first digit. Every answer is a single digit.",
-      "Question 1 is the campaign register. Question 2 is the scribe's dispatch book. Question 3 is the council roster. Question 4 is the king's own statement.",
-      "Count the plans (5). Count the two marked 'spoken only' (2). Count the councillors (6). The king says in not one of the five did they so much as see an Israelite (0)."
+      "Question 1 is the campaign register. Question 2 is the scribe's dispatch book. Question 3 is the council roster. Question 4 is the king's own statement."
     ],
     reward:"Field Chest B is open: the plan of the king's inner chamber, the steward's book, Hazael's statement and the analysis of Israelite movements are now on the desk."
   },
@@ -382,8 +381,7 @@ const JM47_LOCKS = [
     ],
     hints:[
       "Start with plan one: REHOB, three companies. Count three letters into REHOB.",
-      "R-E-H — the third letter is H. Now do GOLAN with two companies, KARNAIM with three, and so on.",
-      "H, O, R, S, E. It is the thing the king sent to Dothan — and the thing the prophet's servant saw on the hills."
+      "R-E-H — the third letter is H. Now do GOLAN with two companies, KARNAIM with three, and so on."
     ],
     reward:"Sealed Pouch C is open: the council minute, the report of the raid on Dothan, the follow-up file and the Bureau's file on the prophet are now on the desk."
   }

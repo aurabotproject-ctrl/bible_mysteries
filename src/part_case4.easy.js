@@ -376,8 +376,7 @@ locks:{
     ],
     hints:[
       "The questions are in order. Question one gives the first digit. Every answer is a single digit.",
-      "Question 1 is the scouts' report. Question 2 is the treasury inventory. Question 3 is the Bureau's note on how an enquiry works. Question 4 is Joshua's speech to the camp.",
-      "Three thousand men. Three shortfalls — silver, gold and one garment. Four rounds: tribe, clan, family, man. And Joshua says it plainly: one man."
+      "Question 1 is the scouts' report. Question 2 is the treasury inventory. Question 3 is the Bureau's note on how an enquiry works. Question 4 is Joshua's speech to the camp."
     ],
     reward:"Field Chest B is open. The Jericho duty lists, the carrying parties, the tent search report and the record of the enquiry are now on the desk. The ⚖ Enquiry button at the top is live."
   },
@@ -393,8 +392,7 @@ locks:{
     ],
     hints:[
       "Round 1 is settled by the Jericho duty lists — only one tribe went inside the walls at all.",
-      "Round 2 is the list of city quarters on the same document. Round 3 is the carrying parties. Round 4 is the tent search report.",
-      "Judah → the Zerahites → the family of Zabdi → the man whose tent floor had been dug up and filled in again."
+      "Round 2 is the list of city quarters on the same document. Round 3 is the carrying parties. Round 4 is the tent search report."
     ],
     reward:"Sealed Pouch C is open. The confession, what it cost, the Bureau's analysis of why one man's theft counted against everybody, and the record of the second attack on Ai are now on the desk."
   }

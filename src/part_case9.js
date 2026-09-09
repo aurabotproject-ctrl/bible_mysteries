@@ -423,8 +423,7 @@ const JM06_LOCKS = [
     ],
     hints:[
       "The questions are in order: question one gives the first digit. Every answer is a single digit.",
-      "Question 1 is the marching log. Question 2 is the order of march. Question 3 is the procession roster. Question 4 is the plan of the ruins.",
-      "Six days of one circuit. Seven circuits on the seventh day. Seven priests with trumpets. And one house still standing."
+      "Question 1 is the marching log. Question 2 is the order of march. Question 3 is the procession roster. Question 4 is the plan of the ruins."
     ],
     reward:"Field Chest B is open: the engineering survey, the earthquake assessment, the gate report, the granary report and the file on the house built into the wall are now on the desk. The 📊 Hypothesis table in the top bar is live."
   },
@@ -441,8 +440,7 @@ const JM06_LOCKS = [
     ],
     hints:[
       "Work along each row. Ask of each explanation: if this is what happened, would I expect to find this?",
-      "Every one of the five can live with a barred gate, full granaries or an absence of tunnels — but not one of them produces an outward collapse all the way round, and not one produces a single surviving section.",
-      "Go to <b>The House on the Wall</b> and read the terms of the agreement. What she had to hang in the window is the keyword. Seven letters."
+      "Every one of the five can live with a barred gate, full granaries or an absence of tunnels — but not one of them produces an outward collapse all the way round, and not one produces a single surviving section."
     ],
     reward:"Sealed Pouch C is open: the record of the seventh day, what became of the household in the house, the standing order about plunder and the Bureau's analysis are now on the desk."
   }

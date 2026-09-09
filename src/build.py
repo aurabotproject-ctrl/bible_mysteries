@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-The Chronicle Society — build script.
+B.I.B. — The Bible Investigation Bureau — build script.
 
     cd /path/to/investigate
     python3 src/build.py
@@ -99,7 +99,7 @@ FRONT_DOOR = """<!doctype html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<title>The Chronicle Society</title>
+<title>B.I.B. &mdash; The Bible Investigation Bureau</title>
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <noscript><meta http-equiv="refresh" content="0;url=dist/index.html"></noscript>
 <style>body{margin:0;min-height:100vh;display:grid;place-items:center;background:#efe4cb;
@@ -109,7 +109,7 @@ a{color:#6b4a2a}</style>
 <body>
 <div>
   <p>Opening the case archive&hellip;</p>
-  <p><a href="dist/index.html">The Chronicle Society</a></p>
+  <p><a href="dist/index.html">B.I.B. &mdash; The Bible Investigation Bureau</a></p>
 </div>
 <script>
 fetch("dist/index.html", {method:"HEAD"})
@@ -281,7 +281,7 @@ def main():
         # inlined; the other slots get a 1x1 placeholder nothing ever draws.
         need = {n for n in NAMES if ('__IMG_%s__' % n) in src} | {stub['poster']}
         body = swap(body, lambda n: b64[n] if n in need else BLANK_PIXEL)
-        body = body.replace('<title>Chronicle Society Case Files</title>',
+        body = body.replace('<title>B.I.B. \u2014 The Bible Investigation Bureau</title>',
                             '<title>%s &mdash; %s</title>' % (stub['code'], stub['title']))
         path = os.path.join(SINGLE, stub['id'] + '.html')
         with open(path, 'w', encoding='utf-8') as f:

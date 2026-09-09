@@ -395,8 +395,7 @@ const JM05_LOCKS = [
     ],
     hints:[
       "The questions are in order: question one gives the first digit. Every answer is a single digit.",
-      "Question 1 is the wall report. Question 2 is the language note. Question 3 is the king's proclamation. Question 4 is the scribes' copy.",
-      "Four words. Not one of them could interpret it — zero. Third place in the kingdom. And the first word is written twice."
+      "Question 1 is the wall report. Question 2 is the language note. Question 3 is the king's proclamation. Question 4 is the scribes' copy."
     ],
     reward:"Field Chest B is open: the court record of the offer, the queen's statement, Daniel's file and the record of the refusal are now on the desk. The ⚖ balance in the top bar is live."
   },
@@ -413,8 +412,7 @@ const JM05_LOCKS = [
     ],
     hints:[
       "Start with MENE. It is a mina, which the table of weights gives as sixty shekels — make sixty out of the stones in the box, however you like.",
-      "MENE again (sixty), then TEKEL (one shekel), then PARSIN, which is half a mina — thirty.",
-      "You do not admire a weight. You put something in the other pan and find out what it comes to. The middle word, TEKEL, is the one that names it: the king has been <b>weighed</b>. Seven letters."
+      "MENE again (sixty), then TEKEL (one shekel), then PARSIN, which is half a mina — thirty."
     ],
     reward:"Sealed Pouch C is open: the reading of the words, the record of the night the city fell, the Bureau's note on the vessels and its analysis of why nobody could read it are now on the desk."
   }

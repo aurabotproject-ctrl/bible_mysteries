@@ -365,8 +365,7 @@ const JM10_LOCKS = [
     ],
     hints:[
       "The questions are in order: question one gives the first digit. Every answer is a single digit.",
-      "Questions 1 and 2 are the court record. Question 3 is the regional reports. Question 4 is the sequence.",
-      "They reproduced two. They gave up at the third. From the fourth on, the eastern delta was struck not once — zero. And there was one warning before the last blow."
+      "Questions 1 and 2 are the court record. Question 3 is the regional reports. Question 4 is the sequence."
     ],
     reward:"Field Chest B is open: the cascade analysis, the timing record, the note on Egyptian inscriptions and the reports on what Israel suffered are now on the desk. The 📊 Pattern chart in the top bar is live."
   },
@@ -383,8 +382,7 @@ const JM10_LOCKS = [
     ],
     hints:[
       "The first three blows struck both regions. Mark those six boxes first.",
-      "From the fourth onward, every single blow struck the western delta and none struck the eastern one.",
-      "The eastern delta — the land where the Israelites had been settled for generations — is called Goshen. Six letters."
+      "From the fourth onward, every single blow struck the western delta and none struck the eastern one."
     ],
     reward:"Sealed Pouch C is open: the Bureau's note on what the blows were aimed at, the record of what happened afterwards, and the analysis of cascade against pattern are now on the desk."
   }

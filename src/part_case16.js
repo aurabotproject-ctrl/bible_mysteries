@@ -340,8 +340,7 @@ const JM16_LOCKS = [
     ],
     hints:[
       "The questions are in order: question one gives the first digit. Every answer is a single digit.",
-      "Question 1 is in the object study as well as the log. Questions 2, 3 and 4 are all in the gathering log — read down the columns.",
-      "One omer ordinarily. Two on the sixth. Six days out of seven. And on the seventh, nothing at all."
+      "Question 1 is in the object study as well as the log. Questions 2, 3 and 4 are all in the gathering log — read down the columns."
     ],
     reward:"Field Chest B is open: the spoilage note, the tamarisk comparison, the record of the forty years and the day it stopped, and the jar that was kept. The 📋 Hypothesis table in the top bar is live."
   },
@@ -358,8 +357,7 @@ const JM16_LOCKS = [
     ],
     hints:[
       "Be generous where you honestly can: trade could deliver quantity, stored supplies could account for quantity, a lichen and a tree could both spoil overnight.",
-      "Then be strict about the last column: double on the sixth, keeping overnight only then, and none on the seventh — every week, for forty years.",
-      "Nothing in nature runs on a seven-day cycle. The day the record is describing has a name, seven letters long."
+      "Then be strict about the last column: double on the sixth, keeping overnight only then, and none on the seventh — every week, for forty years."
     ],
     reward:"Sealed Pouch C is open: the sixth day and the seventh in full, the note on natural rhythms, and the Bureau's method for handling a good partial explanation."
   }

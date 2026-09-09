@@ -365,8 +365,7 @@ const JM18_LOCKS = [
     ],
     hints:[
       "The questions are in order: question one gives the first digit. Every answer is a single digit.",
-      "Question 1 is the mountain plan. Questions 2 and 3 are on the altar plate and in the stones-and-jars study. Question 4 is the timetable.",
-      "Two bulls. Three pourings. Four jars each time — twelve in all. And he prayed once."
+      "Question 1 is the mountain plan. Questions 2 and 3 are on the altar plate and in the stones-and-jars study. Question 4 is the timetable."
     ],
     reward:"Field Chest B is open: the contest terms, the weather record, the itemised fire report and the prayer in full. The 📋 Hypothesis table in the top bar is live."
   },
@@ -383,8 +382,7 @@ const JM18_LOCKS = [
     ],
     hints:[
       "The first two columns are about fairness, not about the fire — most explanations sail straight through them.",
-      "The crowd column catches the ones that need something carried in or poured on unseen.",
-      "The last column catches everything: soaked three times, and standing water round the base. Six letters, and it was cut on purpose."
+      "The crowd column catches the ones that need something carried in or poured on unseen."
     ],
     reward:"Sealed Pouch C is open: what happened next, the Bureau's assessment of the test's design, and the analysis of every advantage the challenger gave away."
   }

@@ -361,8 +361,7 @@ const JM11_LOCKS = [
     ],
     hints:[
       "The questions are in order: question one gives the first digit. Every answer is a single digit.",
-      "Questions 1 and 2 are in the city reports and the guard record. Questions 3 and 4 are in the plan and the briefing — and the cart's own specification will confirm them once it opens.",
-      "Ashdod, Gath, Ekron — three. Seven months. Two cows. And nobody at all driving them: zero."
+      "Questions 1 and 2 are in the city reports and the guard record. Questions 3 and 4 are in the plan and the briefing — and the cart's own specification will confirm them once it opens."
     ],
     reward:"Field Chest B is open: the cart specification, the husbandry note, the diviners' advice, the pattern analysis and the first page of the ridge log are on the desk. The 📋 Hypothesis table in the top bar is live."
   },
@@ -379,8 +378,7 @@ const JM11_LOCKS = [
     ],
     hints:[
       "Work outcome by outcome, and be strict: 'they turned back to the calves' and 'they stood still' both prove the same ordinary thing, and neither proves anybody rigged anything.",
-      "Four of the five outcomes are the ones the priests wrote down as meaning 'a chance that happened to us'. Only one is the other kind.",
-      "The cows went straight on at the fork — and the log says they were lowing the whole way. Six letters."
+      "Four of the five outcomes are the ones the priests wrote down as meaning 'a chance that happened to us'. Only one is the other kind."
     ],
     reward:"Sealed Pouch C is open: the rest of the ridge log, what Beth Shemesh did with the chest, and the Bureau's analysis of the test are now on the desk."
   }

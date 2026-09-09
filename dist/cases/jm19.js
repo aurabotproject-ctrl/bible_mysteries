@@ -335,8 +335,7 @@ const JM19_LOCKS = [
     ],
     hints:[
       "The questions are in order — question one gives the first digit. Every answer is a single digit.",
-      "Question 1 is on the terms of the wager. Question 2 is on the day log. Questions 3 and 4 are both in Samson's own statement — and his parents confirm the last one.",
-      "Seven days of feast. Three days of failure. Two journeys down to Timnah. And he had told nobody at all — which is a number too."
+      "Question 1 is on the terms of the wager. Question 2 is on the day log. Questions 3 and 4 are both in Samson's own statement — and his parents confirm the last one."
     ],
     reward:"Bundle B is open: the report on the carcass, the assessment of the riddle, the answer as it was given, and what the wager was worth."
   },
@@ -353,8 +352,7 @@ const JM19_LOCKS = [
     ],
     hints:[
       "You do not need the whole grid — only the six numbered squares. But they sit in six different answers, so you will need six different clues right.",
-      "Start with the easy counting clues: how many days, how many companions. They cross other answers and open the grid up.",
-      "It is the word Samson himself threw at the thirty when he knew he had been betrayed: \"If you had not ploughed with my ______…\""
+      "Start with the easy counting clues: how many days, how many companions. They cross other answers and open the grid up."
     ],
     reward:"Sealed Bundle C is open: what the thirty said to her, her own statement, and what all of it led to."
   }

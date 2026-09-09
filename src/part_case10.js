@@ -305,8 +305,7 @@ const JM09_LOCKS = [
     ],
     hints:[
       "The questions are in order: question one gives the first digit. Every answer is a single digit.",
-      "Question 1 is the record of the third day. Question 2 is the plate of the props. Question 3 is the treaty. Question 4 is the treaty as well — count the cities named in it.",
-      "Three days. Four kinds of prop: sacks, wineskins, sandals, bread. They asked counsel not once — zero. And four cities."
+      "Question 1 is the record of the third day. Question 2 is the plate of the props. Question 3 is the treaty. Question 4 is the treaty as well — count the cities named in it."
     ],
     reward:"Field Chest B is open: the comparison set, the accounts, the note on the oath and the delegation's own explanation are now on the desk. The 🔍 Object study in the top bar is live."
   },
@@ -323,8 +322,7 @@ const JM09_LOCKS = [
     ],
     hints:[
       "Work item by item. Ask of each: is the damage where use would put it, and is the repair older or newer than the damage?",
-      "The bread is the odd one out. It is genuinely dry and genuinely cracked — it passes those tests. It fails on one thing only.",
-      "They said their bread was dry and <i>mouldy</i>. It is dry. It has no mould on it at all, and it does not smell of any. Six letters."
+      "The bread is the odd one out. It is genuinely dry and genuinely cracked — it passes those tests. It fails on one thing only."
     ],
     reward:"Sealed Pouch C is open: what became of the four cities, and the Bureau's analysis of the question nobody asked, are now on the desk."
   }

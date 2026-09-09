@@ -537,4 +537,15 @@ tr.ppmxf td{background:#efe9dc}
   border-top:1px dashed rgba(120,92,52,.5);padding-top:7px;
 }
 @media print{ .p-easysoon{display:none} }
+
+/* ---------- wrong-answer counter ---------- */
+.tbtn.chip{cursor:pointer;user-select:none}
+.tbtn.chip:hover{background:#3a2d23;border-color:#55432f}
+
+.tbtn.chip .pip{background:#6b5a3f;color:#f2e6cc}
+.tbtn.chip.warn{border-color:#b4472e;background:#4a2a20}
+.tbtn.chip.warn .pip{background:#c9502f;color:#fff}
+.overlay.fail .sheet{border-color:#8c2f1f}
+.overlay.fail .doc-title{color:#8c2f1f}
+@media print{ .tbtn.chip{display:none!important} }
 </style>

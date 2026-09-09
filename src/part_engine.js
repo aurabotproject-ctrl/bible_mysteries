@@ -14,8 +14,15 @@ const caseById = id => CASE_REG[id] || CASES.find(c=>c.id===id);
 
 const NEW_CASE_STATE = () => ({
   opened:false, pos:{}, pins:{}, locked:{}, notes:"", hints:{},
-  solved:false, reasoning:"", sheet:{}, cw:{}, ld:{}
+  solved:false, reasoning:"", sheet:{}, cw:{}, ld:{},
+  wrong:0, failed:false, snapshot:null
 });
+
+/* How many wrong answers a team is allowed before the case is failed.
+   Only the two things a student should be sure about before committing count:
+   entering a lock code, and choosing a group in the enquiry. The grids, the
+   crossword and the pinboard are working tools — checking them is free. */
+const WRONG_ALLOWED = 5;
 
 let S = { v:2, cases:{} };
 let C = null;   // current case definition
@@ -28,6 +35,8 @@ function stateFor(id){
   const st = S.cases[id];
   st.pos = st.pos||{}; st.pins = st.pins||{}; st.locked = st.locked||{};
   st.hints = st.hints||{}; st.sheet = st.sheet||{}; st.cw = st.cw||{}; st.ld = st.ld||{};
+  st.wrong = st.wrong||0; st.failed = st.failed||false;
+  if(st.snapshot === undefined) st.snapshot = null;
   return st;
 }
 function load(){
@@ -202,7 +211,7 @@ function openCase(cdef){
   toolBtn();
   $("#notesPane").classList.add("hidden");
   $("#notesArea").value = CS.notes || "";
-  lockPip();
+  lockPip(); wrongPip();
   if(CS.opened){ renderDesk(); }
   else { runIntro(); }
   paintLevel();
@@ -372,6 +381,126 @@ function openItem(item){
    ============================================================ */
 function lockPip(){ $("#lockPip").textContent = locksDone(C,CS) + "/" + C.locks.length; }
 
+/* ---------- wrong answers ---------- */
+function wrongTail(){
+  const left = WRONG_ALLOWED - (CS.wrong||0) + 1;
+  return left <= 0 ? "" :
+    ` (Wrong answer ${CS.wrong} of ${WRONG_ALLOWED + 1}. ${left} left.)`;
+}
+function wrongPip(){
+  const el = $("#wrongPip"); if(!el || !CS) return;
+  el.textContent = CS.failed ? "failed" :
+                   Math.min(CS.wrong||0, WRONG_ALLOWED) + "/" + WRONG_ALLOWED;
+  const bar = $("#btnWrong");
+  if(bar){
+    bar.classList.toggle("warn", (CS.wrong||0) >= WRONG_ALLOWED - 1 && !CS.failed);
+    bar.title = "Wrong answers used. " + (WRONG_ALLOWED - (CS.wrong||0)) +
+                " left before the case is failed. Only lock codes and enquiry " +
+                "choices count \u2014 checking a grid or the pinboard is free.";
+  }
+}
+
+/* The chip in the top bar explains itself, and gives a teacher a way back in
+   even after a team has restarted the case. */
+function openWrong(){
+  if(!CS) return;
+  const left = Math.max(0, WRONG_ALLOWED - (CS.wrong||0));
+  const o = overlay(`
+    <div class="doc-kind">B.I.B. &middot; Standing order 5</div>
+    <div class="doc-title">Wrong answers</div>
+    <div class="rule"></div>
+    <div class="doc-body">
+      <p>An investigator may be wrong <b>${WRONG_ALLOWED} times</b> on a case. This team
+         has used <b>${CS.wrong||0}</b>${CS.failed ? " and the case has been failed." :
+         `, so <b>${left}</b> ${left===1?"is":"are"} left.`}</p>
+      <p><b>What costs you one:</b> entering a lock code that is wrong, and choosing
+         the wrong name or answer in an enquiry.</p>
+      <p><b>What is free:</b> reading any document, opening the folder, taking notes,
+         and checking a grid, a crossword or the pinboard. Checking your working is
+         never punished \u2014 only committing to an answer is.</p>
+    </div>
+    <div class="row" id="wrongRow"></div>`);
+  const row = o.querySelector("#wrongRow");
+  if(CS.snapshot){
+    const b = el("button","btn ghost","Teacher: restore earlier progress");
+    b.addEventListener("click", ()=>{
+      if(!confirm("Restore this team's earlier progress and give them five more wrong answers?\n\nThis is a teacher decision \u2014 it puts back every document, pin and code they had before the case was failed.")) return;
+      const snap = CS.snapshot;
+      S.cases[C.id] = Object.assign(NEW_CASE_STATE(), snap,
+                                    {wrong:0, failed:false, snapshot:null});
+      CS = stateFor(C.id); save();
+      o.remove(); openCase(CASE_REG[C.id] || C);
+    });
+    row.appendChild(b);
+  }
+}
+
+/* Called when a student commits to an answer and it is wrong. Returns true if
+   that was the one that failed the case. */
+function strike(){
+  if(!CS || CS.failed) return false;
+  CS.wrong = (CS.wrong||0) + 1;
+  if(CS.wrong > WRONG_ALLOWED){
+    // Keep everything as it stands so a teacher can put it back.
+    CS.snapshot = JSON.parse(JSON.stringify(
+      Object.assign({}, CS, {snapshot:null})));
+    CS.failed = true;
+    save(); wrongPip();
+    setTimeout(failCase, 900);
+    return true;
+  }
+  save(); wrongPip();
+  return false;
+}
+
+function failCase(){
+  document.querySelectorAll(".overlay").forEach(o=>o.remove());
+  const o = el("div","overlay fail", `
+    <div class="sheet">
+      <div class="x">&times;</div>
+      <div class="doc-kind">B.I.B. &middot; Department of Unsolved Antiquities</div>
+      <div class="doc-title">The case has been taken off you</div>
+      <div class="rule"></div>
+      <div class="doc-body">
+        <p>You have used <b>${WRONG_ALLOWED + 1} wrong answers</b> on ${C.code}. The Bureau
+           does not let a team keep guessing at a file: every wrong code and every
+           wrong name in an enquiry is a decision you committed to before you had
+           read enough.</p>
+        <p><b>The case has been closed and reset.</b> Everything you had opened is
+           locked again, and the board is cleared. You may take it down off the
+           shelf and work it properly from the beginning.</p>
+        <p class="margin-note">Reading the documents costs nothing. Checking a grid,
+           a crossword or the pinboard costs nothing. Only committing to an answer
+           costs you one of your five.</p>
+      </div>
+      <div class="row">
+        <button class="btn" id="failRestart">Start the case again</button>
+        <button class="btn ghost" id="failTeacher">Teacher: restore this case</button>
+      </div>
+    </div>`);
+  document.body.appendChild(o);
+  o.querySelector(".x").addEventListener("click", ()=>o.remove());
+  o.querySelector("#failRestart").addEventListener("click", ()=>{
+    const snap = CS.snapshot;
+    S.cases[C.id] = NEW_CASE_STATE();
+    S.cases[C.id].snapshot = snap;      // a teacher can still put it back
+    CS = stateFor(C.id); save();
+    o.remove(); showShelf();
+  });
+  o.querySelector("#failTeacher").addEventListener("click", ()=>{
+    if(!confirm("Restore this team's progress and give them five more wrong answers?\n\nThis is a teacher decision \u2014 it puts back every document, pin and code they had before the case was failed.")) return;
+    const snap = CS.snapshot;
+    if(snap){
+      S.cases[C.id] = Object.assign(NEW_CASE_STATE(), snap,
+                                    {wrong:0, failed:false, snapshot:null});
+    } else {
+      CS.wrong = 0; CS.failed = false;
+    }
+    CS = stateFor(C.id); save();
+    o.remove(); openCase(CASE_REG[C.id] || C);
+  });
+}
+
 function openLocks(){
   const o = overlay(`<div class="doc-kind" style="color:var(--accent-2)">Sealed</div>
     <div class="doc-title" style="color:#f3e8d4">Locked parts of the file</div>
@@ -425,7 +554,9 @@ function lockCard(L){
       renderDesk(); lockPip(); toolBtn();
       setTimeout(()=>c.replaceWith(lockCard(L)), 1400);
     } else {
-      msg.className="msg bad"; msg.textContent = L.wrong;
+      const dead = strike();
+      msg.className="msg bad";
+      msg.textContent = L.wrong + (dead ? "" : wrongTail());
       inp.select();
     }
   };
@@ -879,9 +1010,10 @@ function openLadder(){
       const r = LD.rounds.find(x=>x.n === +b.dataset.r);
       if(b.dataset.v === r.answer){ CS.ld[r.n] = r.answer; save(); draw(); }
       else {
+        const dead = strike();
         b.classList.add("no");
         const m = wrap.querySelector("#ldm");
-        if(m){ m.className = "msg bad"; m.textContent = r.wrong; }
+        if(m){ m.className = "msg bad"; m.textContent = r.wrong + (dead ? "" : wrongTail()); }
       }
     }));
     wrap.querySelector("#ldReset").addEventListener("click", ()=>{
@@ -1195,6 +1327,7 @@ notesArea.addEventListener("input", ()=>{ if(CS){ CS.notes = notesArea.value; sa
 $("#notesClose").addEventListener("click", ()=>$("#notesPane").classList.add("hidden"));
 $("#btnNotes").addEventListener("click", ()=>$("#notesPane").classList.toggle("hidden"));
 $("#btnLocks").addEventListener("click", openLocks);
+const _bw = $("#btnWrong"); if(_bw) _bw.addEventListener("click", openWrong);
 $("#btnSheet").addEventListener("click", answerSheet);
 $("#btnBible").addEventListener("click", ()=>openBible());
 $("#btnRiddle").addEventListener("click", openTool);

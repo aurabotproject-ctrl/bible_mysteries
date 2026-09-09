@@ -346,8 +346,7 @@ const JM14_LOCKS = [
     ],
     hints:[
       "The questions are in order: question one gives the first digit. Every answer is a single digit.",
-      "Question 1 is the night record. Question 2 is the survey plan. Question 3 is the muster. Question 4 is the depth survey.",
-      "One night, and one only. Three days out. Nothing at all came back. And two walls — one on the right hand, one on the left."
+      "Question 1 is the night record. Question 2 is the survey plan. Question 3 is the muster. Question 4 is the depth survey."
     ],
     reward:"Field Chest B is open: the wind analysis, the material lifted off the bed, the marching times, and the note on the Egyptian side of the file. The 🧭 Route reconstruction in the top bar is live."
   },
@@ -364,8 +363,7 @@ const JM14_LOCKS = [
     ],
     hints:[
       "Be strict with 'round the head': it is not a crossing at all, and it does not survive the clock.",
-      "The south channel passes on timing and on depth, and fails on the camp position and on the recovered material.",
-      "Only the camp crossing passes all four — and the record gives one agent for the sea going back that night. Four letters."
+      "The south channel passes on timing and on depth, and fails on the camp position and on the recovered material."
     ],
     reward:"Sealed Pouch C is open: the crossing hour by hour, the note on the age of the song, and the Bureau's analysis of how each explanation was ruled out."
   }

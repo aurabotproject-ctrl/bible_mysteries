@@ -297,8 +297,7 @@ locks:{
     ],
     hints:[
       "The questions are in order — question one gives the first digit. Every answer is a single digit.",
-      "Question 1 is in the terms of the bet. Question 2 is in the day log. Questions 3 and 4 are both in Samson's own statement, and his parents back up the last one.",
-      "Seven days of feasting. Three days of getting nowhere. Two journeys down to Timnah. And he had told nobody at all — which is a number too."
+      "Question 1 is in the terms of the bet. Question 2 is in the day log. Questions 3 and 4 are both in Samson's own statement, and his parents back up the last one."
     ],
     reward:"Bundle B is open. The report on the dead lion, the study of the riddle, the answer as it was given, and what the bet was worth are now on the desk."
   },
@@ -314,8 +313,7 @@ locks:{
     ],
     hints:[
       "You do not need the whole grid — only the six numbered squares. But they sit in six different answers, so you need six different clues right.",
-      "Start with the easy counting clues: how many days, how many companions. They cross other answers and open the grid up.",
-      "It is the word Samson threw at the thirty when he knew he had been betrayed: “If you had not ploughed with my ______…”"
+      "Start with the easy counting clues: how many days, how many companions. They cross other answers and open the grid up."
     ],
     reward:"Sealed Bundle C is open. What the thirty said to her, her own statement, and what it all led to are now on the desk."
   }
