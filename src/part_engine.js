@@ -113,7 +113,7 @@ function renderShelf(){
       <div class="p-stamp ${cls}">${p.txt}</div>
       ${p.detail?`<div class="p-sub">${p.detail}</div>`:""}
       ${LEVEL === "easy" && !hasEasy(cdef.id)
-        ? `<div class="p-easysoon">Easy version coming soon &middot; opens at medium</div>` : ""}
+        ? `<div class="p-easysoon">Medium only &middot; the easy level runs out after the first ten cases</div>` : ""}
       <div class="p-acts">
         <button class="p-open" data-case="${cdef.id}">${st.opened ? "Continue" : "Take this case"}</button>
         <button class="p-restart" data-pp="${cdef.id}" title="Print this case to run on paper">🖨</button>
@@ -1280,7 +1280,7 @@ function paintLevel(){
   const note = bar.querySelector(".lvl-soon");
   if(soon && !note){
     bar.insertAdjacentHTML("beforeend",
-      `<span class="lvl-soon">Easy coming soon</span>`);
+      `<span class="lvl-soon">Medium only</span>`);
   } else if(!soon && note){
     note.remove();
   }
