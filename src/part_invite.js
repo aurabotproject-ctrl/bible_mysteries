@@ -313,7 +313,7 @@ function decCertHtml(name, when){
     <div class="dc-kind">B.I.B. &middot; The Bible Investigation Bureau</div>
     <div class="dc-h">The Ransom</div>
     <div class="dc-sub">Case JM-01 &middot; the file with your name in it</div>
-    <div class="dc-seal">✝</div>
+    <img class="dc-seal" src="__IMG_j01cert__" alt="">
     <div class="dc-line">This is to record that</div>
     <div class="dc-name">${esc(name) || "&nbsp;"}</div>
     <div class="dc-line">read the charge, weighed the ledger, and on</div>
@@ -413,6 +413,7 @@ function printSheet(title, html){
   if(!w){ alert("Your browser blocked the print window. Allow pop-ups for this page and try again."); return; }
   const css = [...document.querySelectorAll("style")].map(s=>s.textContent).join("\n");
   w.document.write(`<!doctype html><html><head><meta charset="utf-8"><title>${title}</title>
+    <base href="${location.href}">
     <style>${css}
       body{background:#fff;margin:0;padding:26px;font-family:Georgia,serif}
       .overlay,.topbar,#shelf{display:none!important}

@@ -48,6 +48,7 @@ j01letter:{
 j01charge:{
   prev:"One rule. One time it was broken. Everything else in this file comes from that page.",
   body:`
+    <div class="plate">${SVG.j01gate}<div class="cap">Click the plate to make it bigger. The garden, seen from outside the shut gate.</div></div>
     <p>The debt starts in a garden, and the paperwork is short.</p>
     <table class="ledger">
       <tr><th>Entry</th><th>Record</th></tr>
@@ -109,6 +110,7 @@ j01wage:{
 j01ledger:{
   prev:"Page after page of payments offered. Every single one handed back.",
   body:`
+    <div class="plate">${SVG.j01ledger}<div class="cap">Click the plate to make it bigger. Four things people offered against the debt. All four came back.</div></div>
     <p>This is the working account book. People have been offering payments against this debt for as long as it has been open, and the book says what happened to each one.</p>
     <table class="ledger">
       <tr><th>Offered</th><th>Handed back marked</th></tr>
@@ -243,6 +245,7 @@ j01door:{
 j01paid:{
   prev:"“It is finished.” One word in the original language, and it is a word off a bill.",
   body:`
+    <div class="plate">${SVG.j01paid}<div class="cap">Click the plate to make it bigger. The page struck through, and the seal not broken.</div></div>
     <p>The last thing he said before he died is three words in English and <b>one word</b> in the language it was written in: <i>tetelestai</i>.</p>
     <h4>Where else that word turns up</h4>
     <table class="ledger">

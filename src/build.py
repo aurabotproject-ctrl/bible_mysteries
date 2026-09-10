@@ -62,7 +62,7 @@ CASE_FILES = ['part_case0.js', 'part_case1.js', 'part_case2.js', 'part_case3.js'
               'part_case8.js', 'part_case9.js', 'part_case10.js',
               'part_case11.js', 'part_case12.js', 'part_case13.js', 'part_case14.js', 'part_case15.js', 'part_case16.js', 'part_case18.js', 'part_case20.js']
 
-NAMES = ['bibsign', 'poster_jm01', 'j01hill',
+NAMES = ['bibsign', 'poster_jm01', 'j01hill', 'j01gate', 'j01ledger', 'j01paid', 'j01cert',
          'map', 'tomb', 'stone', 'seal', 'roster', 'cipher', 'decoder',
          'j47map', 'j47chamber', 'j47disp', 'j47dothan',
          'poster_jm33', 'poster_jm47', 'poster_jm19', 'poster_jm08',
@@ -330,8 +330,13 @@ def main():
         # inlined; the other slots get a 1x1 placeholder nothing ever draws.
         # 'bibsign' is the shelf sign in the shared bundle rather than in any
         # one case, so it has to be asked for by name or it lands as a blank pixel.
-        need = ({n for n in NAMES if ('__IMG_%s__' % n) in src}
-                | {stub['poster'], 'bibsign'})
+        # A case needs an image if it carries the token itself, or if it draws
+        # a plate whose SVG is defined in the shared part_assets.js.  Without
+        # the second test a shared plate lands here as a blank pixel.
+        need = ({n for n in NAMES
+                 if ('__IMG_%s__' % n) in src
+                 or re.search(r'SVG\.%s\b' % re.escape(n), src)}
+                | {stub['poster'], 'bibsign', 'j01cert'})
         body = swap(body, lambda n: b64[n] if n in need else BLANK_PIXEL)
         body = body.replace('<title>B.I.B. \u2014 The Bible Investigation Bureau</title>',
                             '<title>%s &mdash; %s</title>' % (stub['code'], stub['title']))

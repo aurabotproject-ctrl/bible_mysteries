@@ -11,7 +11,6 @@
    their own life, and that part lives in part_invite.js.
    ============================================================ */
 
-SVG.j01hill = `<svg viewBox="0 0 1536 1024" xmlns="http://www.w3.org/2000/svg"><image href="__IMG_j01hill__" x="0" y="0" width="1536" height="1024"/><text x="822" y="330" text-anchor="middle" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="26" font-weight="600" fill="#4a3520" textLength="196" lengthAdjust="spacingAndGlyphs">THE PLACE</text><text x="822" y="356" text-anchor="middle" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="13" font-weight="500" fill="#7d4a24" font-style="italic" opacity=".92" textLength="228" lengthAdjust="spacingAndGlyphs">outside the city wall</text><text x="1230" y="470" text-anchor="middle" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="20" font-weight="600" fill="#4a3520" textLength="212" lengthAdjust="spacingAndGlyphs">TWO OTHERS</text><text x="1230" y="494" text-anchor="middle" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="13" font-weight="500" fill="#7d4a24" font-style="italic" opacity=".92" textLength="246" lengthAdjust="spacingAndGlyphs">both owed what they paid</text><text x="330" y="470" text-anchor="middle" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="20" font-weight="600" fill="#4a3520" textLength="230" lengthAdjust="spacingAndGlyphs">THE MIDDLE ONE</text><text x="330" y="494" text-anchor="middle" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="13" font-weight="500" fill="#7d4a24" font-style="italic" opacity=".92" textLength="200" lengthAdjust="spacingAndGlyphs">owed nothing at all</text></svg>`;
 
 const JM01_ITEMS = [
 
@@ -44,10 +43,11 @@ const JM01_ITEMS = [
 },
 {
   id:"j01charge", stage:0, kind:"Charge sheet", title:"The Charge, As Laid",
-  sub:"The oldest entry in the file",
+  sub:"The oldest entry in the file", thumb:"j01gate",
   prev:"One command. One breach. Everything after this file follows from that page.",
   x:52, y:22, rot:3, w:214,
   body:`
+    <div class="plate">${SVG.j01gate}<div class="cap">Click the plate to make it bigger. The garden, from outside the shut gate.</div></div>
     <p>The account opens in a garden, and the paperwork is short.</p>
     <table class="ledger">
       <tr><th>Entry</th><th>Record</th></tr>
@@ -111,10 +111,11 @@ const JM01_ITEMS = [
 },
 {
   id:"j01ledger", stage:0, kind:"Ledger", title:"The Account, As Found",
-  sub:"Every payment ever offered against this debt",
+  sub:"Every payment ever offered against this debt", thumb:"j01ledger",
   prev:"Column after column of payments offered. Every one returned.",
   x:56, y:52, rot:-2, w:212,
   body:`
+    <div class="plate">${SVG.j01ledger}<div class="cap">Click the plate to make it bigger. Four of the payments offered against this account. All four came back.</div></div>
     <p>This is the working ledger. People have been offering payments against this account for as long as it has been open, and the ledger records what happened to each one.</p>
     <table class="ledger">
       <tr><th>Offered</th><th>Returned marked</th></tr>
@@ -263,10 +264,11 @@ const JM01_ITEMS = [
 /* ---------------- STAGE 2 — released by the keyword lock ---------------- */
 {
   id:"j01paid", stage:2, kind:"Document study", title:"The Word Written Across the Account",
-  sub:"Sealed Pouch C · what he actually said",
+  sub:"Sealed Pouch C · what he actually said", thumb:"j01paid",
   prev:"“It is finished.” One word in the original, and it is a word from a bill.",
   x:26, y:28, rot:-3, w:212,
   body:`
+    <div class="plate">${SVG.j01paid}<div class="cap">Click the plate to make it bigger. The account, struck through, and the seal left unbroken.</div></div>
     <p>The last thing he said before he died is three words in English and <b>one word</b> in the language it was written in: <i>tetelestai</i>.</p>
     <h4>Where else that word turns up</h4>
     <table class="ledger">

@@ -9,10 +9,9 @@ and rebuild — the case picks it up by file name with nothing else to change.
 The house style block is already folded into every prompt below, so there is
 nothing to paste in front of them.
 
-**Two of these already exist as hand-drawn stand-ins** (`poster_jm01.jpg` and
-`j01hill.jpg`) so the case works today. They are honest placeholders, not
-finished art. Generating the real ones and saving them under the same names
-replaces them.
+**All six of these are done.** The finished art is in this folder and in
+`investigate/images/`, wired into the case and labelled. The prompts below are
+kept so a plate can be regenerated later — same file name, rebuild, done.
 
 ---
 
@@ -49,8 +48,7 @@ than evidence, and it is worth being deliberate about it.
 
 ## Plate — the garden, and the way out — save as `j01gate.jpg`
 
-*Wire this to the item `j01charge` (The Charge, As Laid) once the file is here —
-tell me and I will add the plate to that card.*
+*Wired to the item `j01charge` (The Charge, As Laid).*
 
 > Hand-drawn antique illustration on aged cream parchment, in the manner of a 19th-century archaeological field plate. Sepia, ochre, tan and faded ink-brown palette with muted olive-green accents. Fine pen cross-hatching and light watercolour wash. Visible paper grain, foxing spots, softly worn deckled edges. No people. Wide landscape format, 3:2. Looking back at a heavy shut wooden gate set in a high stone garden wall, seen from outside. Behind and above the wall, the tops of lush green fruit trees are visible, catching warm light. In front of the gate, the ground is dry and stony, and a faint worn footpath leads away from the gate towards the viewer and out of frame. One small bare tree stands to the right of the path. The gate is closed. No people, no figures, no angel, no sword, no flame. Add three blank rectangular label plaques with thin dark borders and empty cream interiors, each connected by a fine leader line with a small dot to one of the main features. The plaques must be completely blank. Absolutely no text, letters, numbers or writing anywhere in the image.
 
@@ -58,7 +56,7 @@ tell me and I will add the plate to that card.*
 
 ## Plate — the account, and what was offered against it — save as `j01ledger.jpg`
 
-*Wire this to the item `j01ledger` (The Account, As Found).*
+*Wired to the item `j01ledger` (The Account, As Found).*
 
 > Hand-drawn antique illustration on aged cream parchment, in the manner of a 19th-century archaeological field plate. Sepia, ochre, tan and faded ink-brown palette with muted olive-green accents. Fine pen cross-hatching and light watercolour wash. Visible paper grain, foxing spots, softly worn deckled edges. No people. Wide landscape format, 3:2. A flat evidence study photographed from directly above on a dark wooden surface, warm raking lamplight. An open ledger page ruled into columns and filled with illegible handwritten entries. Laid out beside it, as if each had been offered and handed back, a small worn purse spilling a few coins, a folded letter, a set of prayer beads, and a pair of clean folded work gloves. A pair of brass balance scales sits at the edge of the frame, one pan resting on the table. Add four blank rectangular label plaques with thin dark borders and empty cream interiors, each connected by a fine leader line with a small dot to one of the objects. The plaques must be completely blank. Absolutely no text, letters, numbers, stamps or writing anywhere in the image — all handwriting must be pure illegible scribble.
 
@@ -66,18 +64,17 @@ tell me and I will add the plate to that card.*
 
 ## Plate — the account, discharged — save as `j01paid.jpg`
 
-*Wire this to the item `j01paid` (The Word Written Across the Account). This is
+*Wired to the item `j01paid` (The Word Written Across the Account). This is
 the one image in the case that is allowed to feel like relief.*
 
 > Hand-drawn antique illustration on aged cream parchment, in the manner of a 19th-century archaeological field plate. Sepia, ochre, tan and faded ink-brown palette with muted olive-green accents. Fine pen cross-hatching and light watercolour wash. Visible paper grain, foxing spots, softly worn deckled edges. No people. Wide landscape format, 3:2. A flat evidence study photographed from directly above on a dark wooden surface, warm raking lamplight. A single sheet of an old account, its columns of illegible handwritten entries struck through corner to corner with one broad confident diagonal stroke of dark ink. The nail that once held the sheet lies loose beside it, and the sheet has been lifted away from the board. A large deep-red wax seal, intact and unbroken, rests at the lower corner of the sheet. Add two blank rectangular label plaques with thin dark borders and empty cream interiors, each connected by a fine leader line with a small dot. The plaques must be completely blank. Absolutely no text, letters, numbers or writing anywhere in the image — the struck-through entries must be pure illegible scribble.
 
 ---
 
-## Optional — the certificate seal
+## The certificate seal — save as `j01cert.jpg`
 
-The decision certificate currently uses a simple typeset cross. If you would
-rather it carried a drawn emblem, generate this and tell me — it is a small
-change to swap in.
+Done, and in use — the decision certificate carries this emblem instead of the
+old typeset cross. Saved as `j01cert.jpg`.
 
 > A single emblem on plain cream parchment, drawn in fine 19th-century engraving style, deep red-brown ink only. A plain unadorned cross inside a double circular border, in the manner of a wax seal impression or a notary's stamp. Symmetrical, centred, simple enough to read at 40 pixels across. Square format. Absolutely no text, letters or numbers anywhere.
 
@@ -100,3 +97,18 @@ change to swap in.
   folder is ready.
 
 *Written for case JM-01, the last one built and the first one on the shelf.*
+
+---
+
+## What the plaques say
+
+The art is generated blank. These are the labels typeset onto it afterwards,
+measured to each plaque, in `src/part_assets.js`. Change the words there and
+rebuild — the art never has to be touched.
+
+| Plate | Plaque labels |
+|---|---|
+| `j01hill` | THE CENTRE CROSS *owed nothing at all* · ONE EACH SIDE *both owed what they paid* · THE CITY WALL *the payment was made outside it* |
+| `j01gate` | EVERY TREE BUT ONE *one rule, and they knew it* · THE GATE, SHUT *the way back was closed* · THE PATH AWAY *and the account starts here* |
+| `j01ledger` | GIVING · REGRET · RELIGION · A GOOD LIFE — each *returned — not enough* |
+| `j01paid` | STRUCK THROUGH *one stroke, the whole page* · THE SEAL, UNBROKEN *nothing left to collect* |

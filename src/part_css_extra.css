@@ -756,7 +756,7 @@ button.tourbtn{cursor:pointer;font-family:var(--ui-font)}
   text-transform:uppercase;color:#8c2f2a;font-weight:800}
 .dc-h{font-size:34px;line-height:1.1;margin:6px 0 2px}
 .dc-sub{font-size:12px;font-style:italic;color:#7a6a52;margin-bottom:10px}
-.dc-seal{font-size:40px;color:#8c2f2a;line-height:1;margin:10px 0 12px}
+.dc-seal{display:block;width:74px;height:74px;margin:12px auto 14px;border-radius:50%;object-fit:cover;opacity:.94}
 .dc-line{font-size:14.5px;line-height:1.6;max-width:44ch;margin:0 auto}
 .dc-name{font-family:var(--hand);font-size:36px;color:#2f2416;margin:12px 0 4px;
   border-bottom:1px solid rgba(90,65,35,.35);display:inline-block;min-width:280px;padding:0 18px 4px}
