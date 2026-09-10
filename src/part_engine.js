@@ -527,15 +527,44 @@ function overlay(html, cls){
 document.addEventListener("keydown", e=>{
   if(e.key==="Escape"){ const os=document.querySelectorAll(".overlay"); if(os.length) os[os.length-1].remove(); }
 });
-/* Some documents open out into a place you can walk about in. The link is
-   relative to the build, so it works from dist/, single/ and standalone/. */
+/* Some documents open out into a place you can walk about in. It opens over
+   the case rather than in a tab, so a team never loses the file it is working
+   on -- and so a handout file that carries the page inside it works the same
+   way as the website, with nothing to fetch. */
+const TOURS = (typeof window !== "undefined" && window.__TOURS__) || {};
 function tourLink(item){
   if(!item.tour) return "";
-  return `<div class="tourbar">
-    <a class="tourbtn" href="${item.tour.href}" target="_blank" rel="noopener">${item.tour.label}</a>
-    <span class="tournote">${item.tour.note || ""} &middot; opens in a new tab</span>
-  </div>`;
+  const held = !!TOURS[item.tour.href];
+  const btn = held
+    ? `<button class="tourbtn" data-tour="${item.id}">${item.tour.label}</button>`
+    : `<a class="tourbtn" data-tour="${item.id}" href="${item.tour.href}">${item.tour.label}</a>`;
+  return `<div class="tourbar">${btn}
+    <span class="tournote">${item.tour.note || ""}</span></div>`;
 }
+function openTour(item){
+  if(!item || !item.tour) return;
+  const o = el("div","overlay tourview", `
+    <div class="tourwrap">
+      <div class="tourhead">
+        <span class="tourttl">${item.tour.label}</span>
+        <span class="toursub">${item.title}</span>
+        <button class="btn ghost tourclose">Close</button>
+      </div>
+      <iframe class="tourframe" title="${item.tour.label}"></iframe>
+    </div>`);
+  document.body.appendChild(o);
+  const f = o.querySelector(".tourframe");
+  const held = TOURS[item.tour.href];
+  if(held) f.srcdoc = held; else f.src = item.tour.href;
+  o.querySelector(".tourclose").addEventListener("click", ()=>o.remove());
+}
+document.addEventListener("click", e=>{
+  const b = e.target.closest("[data-tour]");
+  if(!b) return;
+  if(e.metaKey || e.ctrlKey || e.shiftKey) return;   // let a real link open a tab
+  e.preventDefault();
+  openTour(byId(b.dataset.tour));
+});
 function wirePlates(root, title){
   root.querySelectorAll(".plate").forEach(pl=>{
     pl.classList.add("zoomable");

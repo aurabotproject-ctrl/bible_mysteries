@@ -267,6 +267,32 @@ def main():
         with open(os.path.join(IMAGES, n + '.jpg'), 'rb') as f:
             b64[n] = 'data:image/jpeg;base64,' + base64.b64encode(f.read()).decode()
 
+    # ---- walk-in experiences -------------------------------------------
+    # A card declares  tour:{href:"../tours/x.html"}.  The deploy build fetches
+    # that file when a student opens it, so dist/index.html stays small.  The
+    # offline builds have nowhere to fetch from, so the pages they need are
+    # inlined and the app reads them out of window.__TOURS__ instead.  Adding
+    # another experience needs nothing here: drop the file in tours/ and point
+    # a card at it.
+    TOUR_RE = re.compile(r'tour:\s*\{[^}]*?href:\s*"([^"]+)"')
+
+    def tours_in(src):
+        return sorted(set(TOUR_RE.findall(src)))
+
+    def tour_tag(hrefs):
+        out = {}
+        for href in hrefs:
+            path = os.path.normpath(os.path.join(DIST, href))   # ../tours/x.html
+            if not os.path.exists(path):
+                sys.exit('a card asks for %s, which is not there' % href)
+            with open(path, encoding='utf-8') as f:
+                out[href] = f.read()
+        if not out:
+            return ''
+        # </script> inside the page would end this tag early
+        blob = json.dumps(out, ensure_ascii=False).replace('</', '<\\/')
+        return '<script>window.__TOURS__=' + blob + ';</script>\n'
+
     with open(BIBLE_JSON, 'rb') as f:
         bible_tag = ('<script>window.__BIBLE_GZ__="' +
                      base64.b64encode(gzip.compress(f.read(), 9)).decode() + '";</script>\n')
@@ -276,9 +302,11 @@ def main():
                           ["<script>\n" + easy[c] + "\n</script>" for c in sorted(easy)])
     inline = swap(assemble(case_tags), lambda n: b64[n])
 
+    all_tours = sorted({h for _, cs in cases for h in tours_in(cs)}
+                       | {h for cs in easy.values() for h in tours_in(cs)})
     os.makedirs(STANDALONE, exist_ok=True)
     with open(os.path.join(STANDALONE, 'index.html'), 'w', encoding='utf-8') as f:
-        f.write(wrap(bible_tag + inline))
+        f.write(wrap(bible_tag + tour_tag(all_tours) + inline))
     open(os.path.join(STANDALONE, '.nojekyll'), 'w').close()
 
     # 2b. one self-contained file per case. Same page, but the shelf holds only
@@ -306,9 +334,10 @@ def main():
         body = swap(body, lambda n: b64[n] if n in need else BLANK_PIXEL)
         body = body.replace('<title>B.I.B. \u2014 The Bible Investigation Bureau</title>',
                             '<title>%s &mdash; %s</title>' % (stub['code'], stub['title']))
+        mine = tours_in(src) + tours_in(easy.get(stub['id'], ''))
         path = os.path.join(SINGLE, stub['id'] + '.html')
         with open(path, 'w', encoding='utf-8') as f:
-            f.write(wrap(bible_tag + body))
+            f.write(wrap(bible_tag + tour_tag(sorted(set(mine))) + body))
         single_sizes.append((stub, os.path.getsize(path)))
     open(os.path.join(SINGLE, '.nojekyll'), 'w').close()
 
