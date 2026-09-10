@@ -44,7 +44,8 @@ SCRIPTS = ['part_assets.js', 'part_registry.js', 'part_bible.js',
            'part_print.js', 'part_engine.js', 'part_invite.js']
 # Easy-level wording packs. One per case that has one; a case with no entry
 # here simply stays at the medium reading level.
-EASY_FILES = {'jm33': 'part_case1.easy.js',
+EASY_FILES = {'jm01': 'part_case0.easy.js',
+              'jm33': 'part_case1.easy.js',
               'jm47': 'part_case2.easy.js',
               'jm19': 'part_case3.easy.js',
               'jm08': 'part_case4.easy.js',

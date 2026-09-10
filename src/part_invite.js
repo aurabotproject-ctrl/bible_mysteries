@@ -16,6 +16,15 @@
 
 const DEC_KEY = "bib-decision";
 
+/* The invitation follows the reading level like everything else, because this
+   is the one page in the archive where being understood matters more than
+   anywhere. E() picks the easy wording when the switch is on; nothing is left
+   out of it and nothing is softened -- shorter sentences, plainer words, the
+   same four steps and the same honesty about what they cost. */
+function E(medium, easy){
+  return (typeof LEVEL !== "undefined" && LEVEL === "easy") ? easy : medium;
+}
+
 function decisionGet(){
   try{ return JSON.parse(localStorage.getItem(DEC_KEY) || "null"); }
   catch(e){ return null; }
@@ -46,13 +55,19 @@ function openInvite(){
   const o = overlay(`
     <div class="inv">
       <div class="inv-kind">Not part of the case</div>
-      <div class="inv-title">One question, and it is yours</div>
+      <div class="inv-title">${E("One question, and it is yours", "One question, and it is yours")}</div>
       <div class="rule"></div>
       <div class="doc-body">
-        <p>Every other file in this archive is about somebody else. You have just spent an hour on the one file that has your name in it: a charge that is real, a ledger where nothing you could offer was ever accepted, and an account marked <b>paid in full</b> by somebody who did not owe it.</p>
-        <p>The record says that a gift, however completely it is paid for, is still not yours until you take it. So the file ends by asking you something, and then it stops asking.</p>
-        <p class="inv-q">Would you like to take that step yourself, today?</p>
-        <p class="inv-small">Nobody can see your answer. Nothing is sent anywhere. Your teacher cannot look it up, and there is no right answer to give to please anybody — which is exactly why it is worth answering honestly.</p>
+${E(
+  `<p>Every other file in this archive is about somebody else. You have just spent an hour on the one file that has your name in it: a charge that is real, a ledger where nothing you could offer was ever accepted, and an account marked <b>paid in full</b> by somebody who did not owe it.</p>
+   <p>The record says that a gift, however completely it is paid for, is still not yours until you take it. So the file ends by asking you something, and then it stops asking.</p>`,
+  `<p>Every other file here is about somebody else. You have just spent an hour on the one file with your name in it: a debt that is real, an account book where nothing you could offer was ever taken, and one page marked <b>paid in full</b> by somebody who did not owe it.</p>
+   <p>The record says a gift is still not yours until you take it, no matter how completely it has been paid for. So the file ends by asking you something. Then it stops asking.</p>`)}
+        <p class="inv-q">${E("Would you like to take that step yourself, today?",
+                             "Would you like to take that step yourself, today?")}</p>
+        <p class="inv-small">${E(
+  "Nobody can see your answer. Nothing is sent anywhere. Your teacher cannot look it up, and there is no right answer to give to please anybody — which is exactly why it is worth answering honestly.",
+  "Nobody can see your answer. Nothing is sent anywhere. Your teacher cannot look it up. There is no answer here that will make anybody pleased with you — which is exactly why it is worth being honest.")}</p>
       </div>
       <div class="inv-row">
         <button class="btn inv-yes" id="invYes">Yes — I want to take this step</button>
@@ -73,8 +88,11 @@ const INV_STEPS = [
   {
     n:1, word:"Admit",
     head:"That the charge sheet has my name on it too",
-    body:`<p>Not "I am as bad as anybody else" — that is a comparison, and the audit already closed comparisons. Just the plain thing the audit asked: <b>I have not always done what I myself knew was right.</b></p>
-          <p>This is the step people find hardest, and it is the one that costs nothing. You are not confessing to being a monster. You are agreeing with a ledger you have already read.</p>`,
+    body:E(
+      `<p>Not "I am as bad as anybody else" — that is a comparison, and the audit already closed comparisons. Just the plain thing the audit asked: <b>I have not always done what I myself knew was right.</b></p>
+       <p>This is the step people find hardest, and it is the one that costs nothing. You are not confessing to being a monster. You are agreeing with a ledger you have already read.</p>`,
+      `<p>Not "I am as bad as everyone else" — that is comparing yourself to people, and the audit already closed that. Just the plain thing the audit asked: <b>I have not always done what I knew was right.</b></p>
+       <p>People find this step the hardest, and it is the one that costs nothing. You are not saying you are a monster. You are agreeing with an account book you have already read.</p>`),
     verse:"“If we confess our sins, he is faithful and just to forgive us our sins, and to cleanse us from all unrighteousness.”",
     ref:"1 John 1:9 · Romans 3:23",
     tick:"I admit it. I have broken what I knew was right."
@@ -82,8 +100,11 @@ const INV_STEPS = [
   {
     n:2, word:"Believe",
     head:"That he died in my place, was buried, and rose again",
-    body:`<p>All three parts, because the record never gives two of them without the third. He died — the debt was actually paid, not waved away. He was buried — he was really dead. He rose on the third day — the payment was accepted, and there are named witnesses.</p>
-          <p>Believing this is not deciding to feel certain. It is deciding that you think it is <b>true</b>, the way you decided about every other case on that shelf.</p>`,
+    body:E(
+      `<p>All three parts, because the record never gives two of them without the third. He died — the debt was actually paid, not waved away. He was buried — he was really dead. He rose on the third day — the payment was accepted, and there are named witnesses.</p>
+       <p>Believing this is not deciding to feel certain. It is deciding that you think it is <b>true</b>, the way you decided about every other case on that shelf.</p>`,
+      `<p>All three parts, because the record never gives two of them without the third. He died — so the debt was really paid, not just let off. He was buried — so he was really dead. He rose on the third day — so the payment was accepted, and the record names people who saw him.</p>
+       <p>Believing this does not mean deciding to feel sure. It means deciding you think it is <b>true</b>, the same way you decided about every other case on that shelf.</p>`),
     verse:"“God commends his own love toward us, in that while we were yet sinners, Christ died for us.”",
     ref:"Romans 5:8 · 1 Corinthians 15:3–4",
     tick:"I believe it. He died for me, was buried, and rose again."
@@ -91,8 +112,11 @@ const INV_STEPS = [
   {
     n:3, word:"Receive",
     head:"I stop trying to pay, and I take what he has paid",
-    body:`<p>This is the step in the file that everyone skips. Somebody has paid your fine in full and the money is sitting with the clerk — and if you never sign for it you walk out still owing, not because the payment was too small but because you never took it.</p>
-          <p>So: ask him. Ask him to forgive what is on the charge sheet, and ask him to be your Saviour — the one who paid it — and your Lord — the one you now follow. <b>And stop adding your own payments to a bill that is marked paid in full.</b></p>`,
+    body:E(
+      `<p>This is the step in the file that everyone skips. Somebody has paid your fine in full and the money is sitting with the clerk — and if you never sign for it you walk out still owing, not because the payment was too small but because you never took it.</p>
+       <p>So: ask him. Ask him to forgive what is on the charge sheet, and ask him to be your Saviour — the one who paid it — and your Lord — the one you now follow. <b>And stop adding your own payments to a bill that is marked paid in full.</b></p>`,
+      `<p>This is the step everybody skips. Somebody has paid your fine in full and the money is sitting with the clerk. If you never sign for it, you walk out still owing — not because the money was not enough, but because you never took it.</p>
+       <p>So ask him. Ask him to forgive what is on your page. Ask him to be your Saviour — the one who paid it — and your Lord — the one you follow now. <b>And stop trying to add your own payments to a bill that already says paid in full.</b></p>`),
     verse:"“To as many as received him, to them he gave the right to become God’s children.”",
     ref:"John 1:12 · Ephesians 2:8–9",
     tick:"I receive him. I am not paying for this. I am taking it."
@@ -100,8 +124,11 @@ const INV_STEPS = [
   {
     n:4, word:"Tell",
     head:"Out loud, to a real person",
-    body:`<p>The record treats this as part of it rather than an extra, and there is a good reason: a decision nobody ever hears about is very easy to quietly un-decide next week.</p>
-          <p>It does not have to be a speech, and it does not have to be today. It has to be a real person — your teacher, a parent, somebody at church, somebody who follows Jesus and will be glad. <b>Say it in your own words.</b> You will be given something to help with that at the end.</p>`,
+    body:E(
+      `<p>The record treats this as part of it rather than an extra, and there is a good reason: a decision nobody ever hears about is very easy to quietly un-decide next week.</p>
+       <p>It does not have to be a speech, and it does not have to be today. It has to be a real person — your teacher, a parent, somebody at church, somebody who follows Jesus and will be glad. <b>Say it in your own words.</b> You will be given something to help with that at the end.</p>`,
+      `<p>The record treats this as part of it, not an extra, and there is a good reason. A decision nobody ever hears about is very easy to quietly un-decide next week.</p>
+       <p>It does not have to be a speech and it does not have to be today. It does have to be a real person — your teacher, a parent, somebody at church, somebody who follows Jesus and will be glad. <b>Say it in your own words.</b> There is something at the end to help if that is hard.</p>`),
     verse:"“If you will confess with your mouth that Jesus is Lord, and believe in your heart that God raised him from the dead, you will be saved.”",
     ref:"Romans 10:9–10 · Matthew 10:32",
     tick:"I will tell somebody. I am not keeping this to myself."
@@ -148,7 +175,9 @@ function invitePrayer(){
       <div class="inv-title">You can use these words, or your own</div>
       <div class="rule"></div>
       <div class="doc-body">
-        <p><b>There is nothing magic in this prayer.</b> No sentence has power in it, and God is not listening for a particular form of words. He is listening for whether you mean it. If your own words are better, use your own words — they will be better, because they are yours.</p>
+        ${E(
+  `<p><b>There is nothing magic in this prayer.</b> No sentence has power in it, and God is not listening for a particular form of words. He is listening for whether you mean it. If your own words are better, use your own words — they will be better, because they are yours.</p>`,
+  `<p><b>There is nothing magic in this prayer.</b> No sentence has power in it. God is not listening for the right words. He is listening for whether you mean it. If you would rather use your own words, use them — they will be better, because they are yours.</p>`)}
         <div class="inv-prayer">
           <p>Jesus,</p>
           <p>I have not always done what I knew was right. I have broken it, and I am not going to pretend otherwise or argue that it is small.</p>
@@ -184,7 +213,9 @@ function inviteWelcome(fresh){
       <div class="inv-title big">Welcome to the family</div>
       <div class="rule"></div>
       <div class="doc-body">
-        <p class="inv-lead">Whatever else is true about today, this is: you are not settling that account any more, because it is settled. That is not a feeling and it does not depend on how you feel tomorrow morning. It is a receipt with somebody else's name on the payment line.</p>
+        <p class="inv-lead">${E(
+  "Whatever else is true about today, this is: you are not settling that account any more, because it is settled. That is not a feeling and it does not depend on how you feel tomorrow morning. It is a receipt with somebody else's name on the payment line.",
+  "Whatever else is true about today, this is true: you are not paying that debt any more, because it is paid. That is not a feeling, and it does not depend on how you feel tomorrow morning. It is a receipt with somebody else's name on the line where the payer signs.")}</p>
         <div class="inv-verse">“To as many as received him, to them he gave the right to become God’s children.”<div class="inv-ref">John 1:12</div></div>
         <p>The record says three things happen at this point, and none of them is about you trying harder.</p>
         <ul>
@@ -193,9 +224,13 @@ function inviteWelcome(fresh){
           <li><b>You are not alone in being glad.</b> The record says there is joy in heaven over one person turning round — over you, today. <span class="inv-ref-in">Luke 15:7, 15:10</span></li>
         </ul>
         <h4>What happens now</h4>
-        <p><b>Step four is still waiting, and it is the important one today: tell somebody.</b> A real person, out loud — your teacher, a parent, somebody at church. Not because it makes it more true, but because a decision nobody ever hears about is very easy to quietly un-decide. There is a note below you can print and hand to somebody if saying it out loud is hard.</p>
-        <p>After that, three ordinary things, none of them complicated: <b>talk to him</b> (that is all prayer is — no special voice), <b>read what he said</b> (the 📖 Bible is in the top bar of every case; John's account is a good place to start), and <b>find people who are doing the same</b>, because nobody keeps this up alone.</p>
-        <p class="margin-note">One last thing, because somebody should say it plainly. You will have a bad day, probably quite soon, and you will wonder whether today counted. It did. The account was not settled by how you were feeling — it was settled outside a city on a Friday, and your feelings on Tuesday do not reopen it.</p>
+        ${E(
+  `<p><b>Step four is still waiting, and it is the important one today: tell somebody.</b> A real person, out loud — your teacher, a parent, somebody at church. Not because it makes it more true, but because a decision nobody ever hears about is very easy to quietly un-decide. There is a note below you can print and hand to somebody if saying it out loud is hard.</p>
+   <p>After that, three ordinary things, none of them complicated: <b>talk to him</b> (that is all prayer is — no special voice), <b>read what he said</b> (the 📖 Bible is in the top bar of every case; John's account is a good place to start), and <b>find people who are doing the same</b>, because nobody keeps this up alone.</p>
+   <p class="margin-note">One last thing, because somebody should say it plainly. You will have a bad day, probably quite soon, and you will wonder whether today counted. It did. The account was not settled by how you were feeling — it was settled outside a city on a Friday, and your feelings on Tuesday do not reopen it.</p>`,
+  `<p><b>Step four is still waiting, and today it is the important one: tell somebody.</b> A real person, out loud — your teacher, a parent, somebody at church. Not because it makes it more true, but because a decision nobody ever hears about is very easy to quietly un-decide. If saying it out loud is hard, there is a note below you can print and hand to somebody.</p>
+   <p>After that, three ordinary things, and none of them are complicated. <b>Talk to him</b> — that is all praying is, and you do not need a special voice. <b>Read what he said</b> — the 📖 Bible is at the top of every case, and John's account is a good place to start. <b>Find other people doing the same</b>, because nobody keeps this going on their own.</p>
+   <p class="margin-note">One last thing, because somebody should say it plainly. You will have a bad day, probably quite soon, and you will wonder if today really counted. It did. The debt was not paid off by how you were feeling. It was paid outside a city on a Friday, and how you feel on Tuesday does not open it back up.</p>`)}
       </div>
       <div class="inv-row">
         <button class="btn inv-yes" id="invCert">🏅 My certificate</button>
@@ -215,11 +250,15 @@ function inviteNotNow(){
   const o = overlay(`
     <div class="inv">
       <div class="inv-kind">Answer received</div>
-      <div class="inv-title">That is an honest answer, and honest is what this file asked for</div>
+      <div class="inv-title">${E("That is an honest answer, and honest is what this file asked for",
+                                   "That is an honest answer, and honest is what this file asked for")}</div>
       <div class="rule"></div>
       <div class="doc-body">
-        <p>We meant it when we said all three answers were real. Saying yes to something you do not yet believe would not make it true, and it would not fool anybody worth fooling. <b>Not yet is a better answer than a yes you do not mean.</b></p>
-        <p>So nothing is saved, nothing is marked, and nobody will be told. You worked the case, you weighed the evidence and you said what you actually think, which is exactly what every other file in this archive asks of you.</p>
+        ${E(
+  `<p>We meant it when we said all three answers were real. Saying yes to something you do not yet believe would not make it true, and it would not fool anybody worth fooling. <b>Not yet is a better answer than a yes you do not mean.</b></p>
+   <p>So nothing is saved, nothing is marked, and nobody will be told. You worked the case, you weighed the evidence and you said what you actually think, which is exactly what every other file in this archive asks of you.</p>`,
+  `<p>We meant it when we said all three answers were real. Saying yes to something you do not believe yet would not make it true, and it would not fool anybody worth fooling. <b>Not yet is a better answer than a yes you do not mean.</b></p>
+   <p>So nothing is saved, nothing is marked, and nobody is told. You worked the case, you weighed up the evidence, and you said what you really think. That is exactly what every other file here asks of you.</p>`)}
         <h4>If you want to keep going with it</h4>
         <ul>
           <li><b>Go back to the document that was hardest to get past.</b> Everyone has one. That is usually where the real question is hiding.</li>
