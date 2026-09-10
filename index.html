@@ -4,6 +4,8 @@
 <meta charset="utf-8">
 <title>B.I.B. &mdash; The Bible Investigation Bureau</title>
 <meta name="viewport" content="width=device-width,initial-scale=1">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
 <noscript><meta http-equiv="refresh" content="0;url=dist/index.html"></noscript>
 <style>body{margin:0;min-height:100vh;display:grid;place-items:center;background:#efe4cb;
 color:#4a3a26;font:400 16px/1.5 Georgia,'Iowan Old Style',serif;text-align:center;padding:24px}
@@ -15,9 +17,10 @@ a{color:#6b4a2a}</style>
   <p><a href="dist/index.html">B.I.B. &mdash; The Bible Investigation Bureau</a></p>
 </div>
 <script>
-fetch("dist/index.html", {method:"HEAD"})
-  .then(function(r){ location.replace(r.ok ? "dist/index.html" : "standalone/index.html"); })
-  .catch(function(){ location.replace("standalone/index.html"); });
+var V = "?v=20260910-0530";
+fetch("dist/index.html" + V, {method:"HEAD", cache:"no-store"})
+  .then(function(r){ location.replace((r.ok ? "dist/index.html" : "standalone/index.html") + V); })
+  .catch(function(){ location.replace("standalone/index.html" + V); });
 </script>
 </body>
 </html>

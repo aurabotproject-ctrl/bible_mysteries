@@ -629,4 +629,11 @@ tr.ppmxf td{background:#efe9dc}
 .chips .chip.reading{border-color:#6b4a2a;box-shadow:0 0 0 2px rgba(107,74,42,.35)}
 .chips .chip.used.reading{opacity:.7}
 @media print{ .railread{display:none!important} }
+
+#buildTag{
+  position:fixed;right:10px;bottom:8px;z-index:20;
+  font-size:10px;letter-spacing:.08em;color:rgba(230,210,175,.32);
+  pointer-events:none;user-select:none;
+}
+@media print{ #buildTag{display:none!important} }
 </style>

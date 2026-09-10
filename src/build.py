@@ -100,12 +100,19 @@ RESET = ('<style>*{box-sizing:border-box}html,body{height:100%;margin:0}'
 
 # The front door. Whatever the repo looks like, GitHub Pages finds an index.html
 # at the root and this sends the browser on to the real build.
+# A stamp that changes every build. It goes in the front door's redirect so a
+# browser holding an old copy of dist/index.html is forced to fetch the new one,
+# and into the page itself so you can see which build you are looking at.
+BUILD = __import__('datetime').datetime.now().strftime('%Y%m%d-%H%M')
+
 FRONT_DOOR = """<!doctype html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
 <title>B.I.B. &mdash; The Bible Investigation Bureau</title>
 <meta name="viewport" content="width=device-width,initial-scale=1">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
 <noscript><meta http-equiv="refresh" content="0;url=dist/index.html"></noscript>
 <style>body{margin:0;min-height:100vh;display:grid;place-items:center;background:#efe4cb;
 color:#4a3a26;font:400 16px/1.5 Georgia,'Iowan Old Style',serif;text-align:center;padding:24px}
@@ -117,9 +124,10 @@ a{color:#6b4a2a}</style>
   <p><a href="dist/index.html">B.I.B. &mdash; The Bible Investigation Bureau</a></p>
 </div>
 <script>
-fetch("dist/index.html", {method:"HEAD"})
-  .then(function(r){ location.replace(r.ok ? "dist/index.html" : "standalone/index.html"); })
-  .catch(function(){ location.replace("standalone/index.html"); });
+var V = "?v=__BUILD__";
+fetch("dist/index.html" + V, {method:"HEAD", cache:"no-store"})
+  .then(function(r){ location.replace((r.ok ? "dist/index.html" : "standalone/index.html") + V); })
+  .catch(function(){ location.replace("standalone/index.html" + V); });
 </script>
 </body>
 </html>
@@ -225,7 +233,7 @@ def main():
     #    fetched) and holds every case for the standalone one. Either way the
     #    cases sit directly after the registry that they call into, and before
     #    the engine that reads them.
-    parts = [read(p) for p in PARTS]
+    parts = [read(p).replace('__BUILD__', BUILD) for p in PARTS]
 
     def assemble(case_tags, shelf=None):
         tags = []
@@ -238,7 +246,8 @@ def main():
                       .replace('__EASY_AVAILABLE__',
                                json.dumps(sorted(easy), ensure_ascii=False))
                       .replace('__EASY_STUBS__',
-                               json.dumps(easy_stubs, ensure_ascii=False)))
+                               json.dumps(easy_stubs, ensure_ascii=False))
+                      .replace('__BUILD__', BUILD))
             tags.append("<script>\n" + s + "\n</script>")
             if name == 'part_registry.js' and case_tags:
                 tags.append(case_tags)
@@ -317,7 +326,7 @@ def main():
 
     # 4. the front door at the top of the folder
     with open(os.path.join(ROOT, 'index.html'), 'w', encoding='utf-8') as f:
-        f.write(FRONT_DOOR)
+        f.write(FRONT_DOOR.replace('__BUILD__', BUILD))
     open(os.path.join(ROOT, '.nojekyll'), 'w').close()
 
     kb = lambda p: round(os.path.getsize(p) / 1024)
