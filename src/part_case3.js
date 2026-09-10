@@ -115,6 +115,8 @@ const JM19_ITEMS = [
 {
   id:"j19road", stage:0, kind:"Plan", title:"The Road Down to Timnah",
   sub:"Where the lion was killed, and what could be seen", thumb:"j19road",
+  tour:{href:"../tours/timnah-road.html", label:"\ud83d\udeb6 Walk the road to Timnah",
+        note:"Zorah to Timnah, past the terraces and the carcass"},
   prev:"The vineyard terraces stand above the road and cannot be seen into.",
   x:38, y:32, rot:-2, w:222,
   body:`
