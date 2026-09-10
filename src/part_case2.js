@@ -146,6 +146,8 @@ const JM47_ITEMS = [
 {
   id:"j47map", stage:0, kind:"Plan", title:"Campaign Map — the Border Country",
   sub:"Damascus, the five positions, and the Israelite ground", thumb:"j47map",
+  tour:{href:"../tours/aram-campaign.html", label:"🗺 Open the campaign map",
+        note:"Follow the fifth march position by position"},
   prev:"Where each ambush was laid, and how far it is from anywhere.",
   x:40, y:34, rot:-2, w:222,
   body:`

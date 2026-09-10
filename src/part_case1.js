@@ -133,6 +133,8 @@ const JM33_ITEMS = [
 {
   id:"map", stage:0, kind:"Plan", title:"Plan of Jerusalem and the Garden",
   sub:"Reconstructed from the sources", thumb:"map",
+  tour:{href:"../tours/jerusalem-ad33.html", label:"🚶 Visit Jerusalem",
+        note:"Walk the city as it stood in AD 33"},
   prev:"The tomb, the execution ground, the council hall and the room where the followers were hiding.",
   x:52, y:34, rot:-2, w:224,
   body:`

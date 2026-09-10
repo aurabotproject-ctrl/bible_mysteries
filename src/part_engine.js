@@ -527,6 +527,15 @@ function overlay(html, cls){
 document.addEventListener("keydown", e=>{
   if(e.key==="Escape"){ const os=document.querySelectorAll(".overlay"); if(os.length) os[os.length-1].remove(); }
 });
+/* Some documents open out into a place you can walk about in. The link is
+   relative to the build, so it works from dist/, single/ and standalone/. */
+function tourLink(item){
+  if(!item.tour) return "";
+  return `<div class="tourbar">
+    <a class="tourbtn" href="${item.tour.href}" target="_blank" rel="noopener">${item.tour.label}</a>
+    <span class="tournote">${item.tour.note || ""} &middot; opens in a new tab</span>
+  </div>`;
+}
 function wirePlates(root, title){
   root.querySelectorAll(".plate").forEach(pl=>{
     pl.classList.add("zoomable");
@@ -542,6 +551,7 @@ function openItem(item){
     <div class="doc-title">${item.title}</div>
     <div class="doc-sub">${item.sub||""}</div>
     <div class="rule"></div>
+    ${tourLink(item)}
     <div class="doc-body">${item.body}</div>`);
   wirePlates(o, item.title);
 }
@@ -837,6 +847,7 @@ function drawRailRead(){
       <div class="doc-sub">${item.sub||""}</div>
       ${th ? `<div class="rr-where">Pinned to &ldquo;${th.title}&rdquo;</div>` : ""}
       <div class="rule"></div>
+      ${tourLink(item)}
       <div class="doc-body">${item.body}</div>
     </div>`;
   wirePlates(box, item.title);
