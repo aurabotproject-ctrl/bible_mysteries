@@ -432,16 +432,16 @@ const JM05_SCALES = {
     {id:"s1",  label:"1",  value:1}
   ],
   rounds:[
-    {n:1, word:"MENE", meaning:"a mina", target:60,
+    {id:"r1", n:1, word:"MENE", meaning:"a mina", target:60,
      prompt:"The first word on the wall. The table of weights gives a mina as sixty shekels — build sixty out of the stones in the box, however you like.",
      note:"Sixty shekels, balanced."},
-    {n:2, word:"MENE", meaning:"a mina, written a second time", target:60,
+    {id:"r2", n:2, word:"MENE", meaning:"a mina, written a second time", target:60,
      prompt:"The same word again. The scribes checked this twice against the wall because it looked like a copying error, and it was not. Weigh it again.",
      note:"Sixty shekels again — the same weight, said twice."},
-    {n:3, word:"TEKEL", meaning:"a shekel", target:1,
+    {id:"r3", n:3, word:"TEKEL", meaning:"a shekel", target:1,
      prompt:"The third word. A shekel is the unit itself: one.",
      note:"One shekel. The smallest weight in the box, and the heaviest word on the wall."},
-    {n:4, word:"PARSIN", meaning:"half-minas, or divisions", target:30,
+    {id:"r4", n:4, word:"PARSIN", meaning:"half-minas, or divisions", target:30,
      prompt:"The last word. A peres is half a mina — and PARSIN is its plural. Weigh one of them.",
      note:"Thirty shekels: a mina cut in two."}
   ],

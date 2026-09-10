@@ -49,6 +49,11 @@ EASY_FILES = {'jm33': 'part_case1.easy.js',
               'jm19': 'part_case3.easy.js',
               'jm08': 'part_case4.easy.js',
               'jm02': 'part_case5.easy.js',
+              'jm03': 'part_case6.easy.js',
+              'jm04': 'part_case7.easy.js',
+              'jm05': 'part_case8.easy.js',
+              'jm06': 'part_case9.easy.js',
+              'jm09': 'part_case10.easy.js',
               'jm20': 'part_case20.easy.js'}
 
 CASE_FILES = ['part_case1.js', 'part_case2.js', 'part_case3.js', 'part_case4.js',
