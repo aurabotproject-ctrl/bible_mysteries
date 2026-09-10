@@ -366,26 +366,25 @@ kbd{background:#3a2d23;border:1px solid #55432f;border-radius:4px;padding:1px 6p
 .shelfwrap{max-width:1240px;margin:0 auto;padding:34px 24px 70px;position:relative;z-index:1}
 
 .boardsign{
-  background:linear-gradient(#7a5732,#5e3f22);border:1px solid #3a2612;border-radius:4px;
-  padding:18px 26px 20px;text-align:center;position:relative;
-  box-shadow:0 14px 30px rgba(0,0,0,.55), inset 0 1px 0 rgba(255,225,180,.18);
-  max-width:720px;margin:0 auto 34px;
+  position:relative;max-width:1000px;margin:0 auto 30px;text-align:center;
 }
-.boardsign::before,.boardsign::after{
-  content:"";position:absolute;top:9px;width:11px;height:11px;border-radius:50%;
-  background:radial-gradient(circle at 34% 30%,#e8d9b0,#7a6647 60%,#3b3121);
-  box-shadow:0 1px 2px rgba(0,0,0,.6);
+.boardsign .bibsign{
+  display:block;width:100%;height:auto;border-radius:3px;
+  box-shadow:0 18px 38px rgba(0,0,0,.55);
 }
-.boardsign::before{left:12px} .boardsign::after{right:12px}
-.boardsign .kicker{font-size:10.5px;letter-spacing:.34em;text-transform:uppercase;color:#e0c9a0}
-.boardsign h1{font-family:var(--serif);font-size:clamp(22px,3.8vw,34px);color:#fdf1d8;margin:6px 0 2px;font-weight:700;
-  text-shadow:0 2px 0 rgba(0,0,0,.45)}
-.boardsign .kicker{font-weight:700}
-.boardsign .dept{
-  font-family:var(--serif);font-size:12.5px;letter-spacing:.16em;text-transform:uppercase;
-  color:#d8bd93;margin:0 0 10px;
+/* The artwork carries the strapline, but at phone size it is too small to
+   read, so the words come back as real text. */
+.signline{display:none}
+@media (max-width:720px){
+  .signline{
+    display:block;color:#e6d2ae;font-size:13px;line-height:1.5;
+    margin:10px auto 0;max-width:44ch;
+  }
 }
-.boardsign p{color:#e6d2ae;font-size:13.5px;line-height:1.55;margin:0 auto;max-width:560px}
+.sr-only{
+  position:absolute;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;
+  clip:rect(0 0 0 0);white-space:nowrap;border:0;
+}
 
 .cases{display:grid;grid-template-columns:repeat(auto-fill,minmax(268px,1fr));gap:34px 26px;margin-top:6px}
 .poster{
@@ -1025,7 +1024,7 @@ tr.ppmxf td{background:#efe9dc}
 </div>
 
 <div id="shelf"></div>
-<div id="buildTag" title="Which build of the app this is. If a new feature is missing, reload the page and check this changes.">build 20260910-0530</div>
+<div id="buildTag" title="Which build of the app this is. If a new feature is missing, reload the page and check this changes.">build 20260910-0542</div>
 
 <script>
 const SVG = {};
@@ -2114,10 +2113,12 @@ function renderShelf(){
 
   shelf.innerHTML = `<div class="shelfwrap">
     <div class="boardsign">
-      <div class="kicker">B &middot; I &middot; B</div>
-      <h1>The Bible Investigation Bureau</h1>
-      <div class="dept">Department of Unsolved Antiquities</div>
-      <p>Take down a case and work it. Read everything, break the locks, and throw out every explanation the evidence will not carry — then file what is left.</p>
+      <h1 class="sr-only">B.I.B. — The Bible Investigation Bureau. Take down a case and work it.
+        Read everything, break the locks, and throw out every explanation the evidence will not
+        carry — then file what is left.</h1>
+      <img class="bibsign" src="images/bibsign.jpg" alt="" decoding="async">
+      <p class="signline">Take down a case and work it. Read everything, break the locks, and throw
+        out every explanation the evidence will not carry &mdash; then file what is left.</p>
       <div class="lvl shelf-lvl" id="lvlShelf" title="Reading level — the same cases, in plainer words">
         <span class="lvl-cap">Reading level</span>
         <button class="lvl-b" data-lvl="easy">Easy</button>

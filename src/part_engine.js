@@ -124,10 +124,12 @@ function renderShelf(){
 
   shelf.innerHTML = `<div class="shelfwrap">
     <div class="boardsign">
-      <div class="kicker">B &middot; I &middot; B</div>
-      <h1>The Bible Investigation Bureau</h1>
-      <div class="dept">Department of Unsolved Antiquities</div>
-      <p>Take down a case and work it. Read everything, break the locks, and throw out every explanation the evidence will not carry — then file what is left.</p>
+      <h1 class="sr-only">B.I.B. — The Bible Investigation Bureau. Take down a case and work it.
+        Read everything, break the locks, and throw out every explanation the evidence will not
+        carry — then file what is left.</h1>
+      <img class="bibsign" src="__IMG_bibsign__" alt="" decoding="async">
+      <p class="signline">Take down a case and work it. Read everything, break the locks, and throw
+        out every explanation the evidence will not carry &mdash; then file what is left.</p>
       <div class="lvl shelf-lvl" id="lvlShelf" title="Reading level — the same cases, in plainer words">
         <span class="lvl-cap">Reading level</span>
         <button class="lvl-b" data-lvl="easy">Easy</button>
