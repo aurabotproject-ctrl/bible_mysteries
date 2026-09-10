@@ -122,7 +122,7 @@ function renderShelf(){
     </div>`;
   }).join("");
 
-  shelf.innerHTML = `<div class="shelfwrap">
+  shelf.innerHTML = `
     <div class="boardsign">
       <h1 class="sr-only">B.I.B. — The Bible Investigation Bureau. Take down a case and work it.
         Read everything, break the locks, and throw out every explanation the evidence will not
@@ -136,6 +136,7 @@ function renderShelf(){
         <button class="lvl-b" data-lvl="medium">Medium</button>
       </div>
     </div>
+    <div class="shelfwrap">
     <div class="cases">${posters}
       <div class="poster soon" style="--fc:#5c5346;--r:1.1deg">
         <div class="p-soc">B.I.B.</div>

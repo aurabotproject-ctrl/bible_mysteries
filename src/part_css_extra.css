@@ -17,21 +17,39 @@
 #shelf::after{content:"";position:fixed;inset:0;pointer-events:none;box-shadow:inset 0 0 240px rgba(0,0,0,.65)}
 .shelfwrap{max-width:1240px;margin:0 auto;padding:34px 24px 70px;position:relative;z-index:1}
 
+/* The sign runs the full width of the window and sits flush against the top.
+   It lives outside .shelfwrap so it is not held in by that padding. */
 .boardsign{
-  position:relative;max-width:1000px;margin:0 auto 30px;text-align:center;
+  position:relative;margin:0;padding:0 0 6px;text-align:center;
 }
 .boardsign .bibsign{
-  display:block;width:100%;height:auto;border-radius:3px;
-  box-shadow:0 18px 38px rgba(0,0,0,.55);
+  display:block;width:100%;
+  /* Grows with the window, then stops. Below the floor it would be too small
+     to read, so it holds its height and crops in on the middle instead. */
+  /* The artwork is 2.56:1 and its content sits in a band down the middle, so
+     the box grows with the window and crops the bare desk at top and bottom.
+     The vh term keeps it from swallowing a short window. */
+  height:clamp(200px, min(31vw, 48vh), 520px);
+  object-fit:cover;object-position:50% 47%;
+  box-shadow:0 14px 30px rgba(0,0,0,.55);
 }
-/* The artwork carries the strapline, but at phone size it is too small to
-   read, so the words come back as real text. */
-.signline{display:none}
-@media (max-width:720px){
-  .signline{
-    display:block;color:#e6d2ae;font-size:13px;line-height:1.5;
-    margin:10px auto 0;max-width:44ch;
-  }
+@media (max-width:640px){
+  .boardsign .bibsign{height:clamp(190px, 50vw, 250px)}
+}
+.shelfwrap{padding-top:22px}
+/* The artwork carries the strapline, but it is not always readable in it:
+   too small on a phone, and cropped off on a window that is very wide or
+   very short. In those cases the words come back as real text underneath. */
+.signline{
+  display:none;color:#e6d2ae;font-size:13.5px;line-height:1.55;
+  margin:12px auto 0;max-width:52ch;padding:0 18px;
+}
+@media (max-width:720px){ .signline{display:block;font-size:13px} }
+@media (min-width:2000px), (min-aspect-ratio:185/100){
+  .signline{display:block}
+  /* There is no room for the strip on a window this shape, so crop above it
+     cleanly rather than leaving half a line of type showing. */
+  .boardsign .bibsign{object-position:50% 30%}
 }
 .sr-only{
   position:absolute;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;
