@@ -548,4 +548,53 @@ tr.ppmxf td{background:#efe9dc}
 .overlay.fail .sheet{border-color:#8c2f1f}
 .overlay.fail .doc-title{color:#8c2f1f}
 @media print{ .tbtn.chip{display:none!important} }
+
+/* ---------- pin and string ---------- */
+#desk{z-index:0}
+#strings{
+  position:absolute;inset:0;z-index:6;pointer-events:none;overflow:visible;
+}
+#strings .str-shadow{fill:none;stroke:rgba(0,0,0,.42);stroke-width:4.5;
+  stroke-linecap:round;transform:translate(1px,2.5px)}
+#strings .str{fill:none;stroke:#a8322a;stroke-width:2.6;stroke-linecap:round}
+#strings .str.loose{stroke-dasharray:7 5;opacity:.85}
+#strings.cutting .str{pointer-events:stroke;cursor:crosshair}
+#strings.cutting .str:hover{stroke:#e0563f;stroke-width:4}
+#strings .pin-sh{fill:rgba(0,0,0,.45)}
+#strings .pin-a{fill:#c8452f;stroke:#6d1f14;stroke-width:1}
+#strings .pin-b{fill:rgba(255,255,255,.65)}
+#strings .snip{font-size:20px;animation:snipfx .6s ease-out both}
+@keyframes snipfx{
+  0%{opacity:0;transform:scale(.6)}
+  25%{opacity:1;transform:scale(1.15)}
+  100%{opacity:0;transform:scale(1) translateY(10px)}
+}
+#strings .cut-l{animation:cutL .6s ease-in both}
+#strings .cut-r{animation:cutR .6s ease-in both}
+@keyframes cutL{
+  0%{opacity:1}
+  30%{transform:translate(-3px,7px) rotate(-2deg)}
+  100%{opacity:0;transform:translate(-9px,26px) rotate(-7deg)}
+}
+@keyframes cutR{
+  0%{opacity:1}
+  30%{transform:translate(3px,7px) rotate(2deg)}
+  100%{opacity:0;transform:translate(9px,26px) rotate(7deg)}
+}
+.pinpt{position:absolute;left:50%;top:6px;width:1px;height:1px;pointer-events:none}
+
+#stringTools{
+  position:absolute;left:14px;bottom:14px;z-index:7;display:flex;gap:8px;
+}
+#stringTools.hidden{display:none}
+.stbtn{
+  background:rgba(20,14,10,.8);border:1px solid var(--ui-line);border-radius:999px;
+  padding:7px 14px;font:inherit;font-size:12px;color:#d8c8a8;cursor:pointer;
+}
+.stbtn:hover{background:#3a2d23;border-color:#7a5f42;color:#f0e2c6}
+.stbtn.on{background:var(--accent);border-color:#c26a4a;color:#fff;font-weight:700}
+#desk.mode-add .item{cursor:crosshair}
+#desk.mode-add .item .card{outline:1px dashed rgba(200,69,47,.55);outline-offset:2px}
+#desk.mode-add .item.strfrom .card{outline:2px solid #c8452f;outline-offset:2px}
+@media print{ #strings, #stringTools{display:none!important} }
 </style>

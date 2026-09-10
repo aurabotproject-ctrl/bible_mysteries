@@ -15,7 +15,7 @@ const caseById = id => CASE_REG[id] || CASES.find(c=>c.id===id);
 const NEW_CASE_STATE = () => ({
   opened:false, pos:{}, pins:{}, locked:{}, notes:"", hints:{},
   solved:false, reasoning:"", sheet:{}, cw:{}, ld:{},
-  wrong:0, failed:false, snapshot:null
+  wrong:0, failed:false, snapshot:null, strings:[]
 });
 
 /* How many wrong answers a team is allowed before the case is failed.
@@ -287,6 +287,7 @@ function renderDesk(){
     if(have.has(item.id)) return;
     desk.appendChild(makeItem(item, CS.pos[item.id]===undefined));
   });
+  drawStrings();
 }
 function makeItem(item, isNew){
   const p = CS.pos[item.id] || {x:item.x, y:item.y, rot:item.rot};
@@ -298,6 +299,7 @@ function makeItem(item, isNew){
   raise(n);
   n.innerHTML = `
     <div class="tape"></div>
+    <div class="pinpt"></div>
     <div class="card">
       <div class="kind">${item.kind}</div>
       <div class="ttl">${item.title}</div>
@@ -334,15 +336,177 @@ function attachDrag(n,item){
     p.x = Math.min(98, Math.max(2, ox + dx/r.width*100));
     p.y = Math.min(97, Math.max(3, oy + dy/r.height*100));
     place(n,p);
+    drawStrings();
   });
   n.addEventListener("pointerup", ()=>{
     if(id===null) return;
     n.classList.remove("dragging");
     try{ n.releasePointerCapture(id); }catch(err){}
     id=null;
-    if(moved) save(); else openItem(item);
+    if(moved){ save(); drawStrings(); return; }
+    if(strMode === "add"){ pickString(item.id); return; }
+    if(strMode === "cut") return;
+    openItem(item);
   });
   n.addEventListener("pointercancel", ()=>{ n.classList.remove("dragging"); id=null; });
+}
+
+
+/* ============================================================
+   PIN AND STRING
+   A string is just a pair of item ids. Everything about where it
+   is drawn is worked out from where the two cards are sitting at
+   that moment, so a string follows its cards around the desk.
+   ============================================================ */
+const strings = $("#strings");
+let strMode  = null;   // null | "add" | "cut"
+let strFrom  = null;   // the card the loose end is pinned to
+let strGhost = null;   // where the loose end is right now
+let cutFX    = [];     // the two halves of a string that has just been cut
+
+function strList(){ if(!CS) return []; if(!CS.strings) CS.strings = []; return CS.strings; }
+function strKey(a,b){ return [a,b].sort().join("~"); }
+function strHas(a,b){ return strList().some(s=>strKey(s.a,s.b) === strKey(a,b)); }
+
+/* Where the pin sits, in desk pixels. Read from the card itself, so
+   the card's rotation and size are already accounted for. */
+function anchorOf(id){
+  const n = desk.querySelector('.item[data-id="' + id + '"]');
+  if(!n) return null;
+  const pt = n.querySelector(".pinpt");
+  if(!pt) return null;
+  const r = pt.getBoundingClientRect(), d = desk.getBoundingClientRect();
+  return {x: r.left + r.width/2 - d.left, y: r.top + r.height/2 - d.top};
+}
+function curveOf(a,b){
+  const len = Math.hypot(b.x-a.x, b.y-a.y);
+  const sag = Math.min(90, 18 + len*0.16);         // longer string, deeper sag
+  // A quadratic only reaches halfway to its control point, so put the
+  // control twice as far down as the sag we actually want to see.
+  return {x:(a.x+b.x)/2, y:(a.y+b.y)/2 + sag};
+}
+function pathOf(a,b){ const c = curveOf(a,b); return `M${a.x} ${a.y} Q${c.x} ${c.y} ${b.x} ${b.y}`; }
+function pinSvg(p){
+  return `<g class="pin" transform="translate(${p.x} ${p.y})">
+    <circle class="pin-sh" cx="1.5" cy="3" r="5.4"/>
+    <circle class="pin-a" r="5.4"/>
+    <circle class="pin-b" cx="-1.7" cy="-1.9" r="1.9"/></g>`;
+}
+
+function drawStrings(){
+  if(!strings || !C || !CS) return;
+  const d = desk.getBoundingClientRect();
+  if(!d.width) return;
+  strings.setAttribute("viewBox", `0 0 ${d.width} ${d.height}`);
+  strings.setAttribute("width", d.width);
+  strings.setAttribute("height", d.height);
+
+  const live = strList().filter(s => anchorOf(s.a) && anchorOf(s.b));
+  if(live.length !== strList().length) CS.strings = live;   // a card went away
+
+  const pins = {};
+  let out = "";
+  live.forEach(s=>{
+    const a = anchorOf(s.a), b = anchorOf(s.b);
+    pins[s.a] = a; pins[s.b] = b;
+    const dpath = pathOf(a,b);
+    out += `<path class="str-shadow" d="${dpath}"/>`
+         + `<path class="str" d="${dpath}" data-k="${strKey(s.a,s.b)}"><title>`
+         + `${byId(s.a) ? byId(s.a).title : ""} — ${byId(s.b) ? byId(s.b).title : ""}</title></path>`;
+  });
+  if(strFrom && strGhost){
+    const a = anchorOf(strFrom);
+    if(a){ pins[strFrom] = a; out += `<path class="str loose" d="${pathOf(a, strGhost)}"/>`; }
+  }
+  cutFX.forEach(f=>{
+    if(f.snip) out += `<text class="snip" x="${f.snip.x}" y="${f.snip.y}" text-anchor="middle">✂</text>`;
+    else out += `<path class="str ${f.side}" d="${f.d}"/>`;
+  });
+  Object.keys(pins).forEach(id=>{ out += pinSvg(pins[id]); });
+  strings.innerHTML = out;
+}
+
+function pickString(id){
+  const n = desk.querySelector('.item[data-id="' + id + '"]');
+  if(!strFrom){
+    strFrom = id; strGhost = anchorOf(id);
+    if(n) n.classList.add("strfrom");
+    hintText();
+    drawStrings();
+    return;
+  }
+  if(strFrom !== id && !strHas(strFrom, id)){ strList().push({a:strFrom, b:id}); save(); }
+  clearPick();
+}
+function clearPick(){
+  desk.querySelectorAll(".item.strfrom").forEach(n=>n.classList.remove("strfrom"));
+  strFrom = null; strGhost = null;
+  hintText(); drawStrings();
+}
+
+/* Cut it in half, let both halves drop, then it is gone. */
+function cutString(key){
+  const list = strList();
+  const i = list.findIndex(s => strKey(s.a,s.b) === key);
+  if(i < 0) return;
+  const s = list[i], a = anchorOf(s.a), b = anchorOf(s.b);
+  if(a && b){
+    const c  = curveOf(a,b);
+    const m1 = {x:(a.x+c.x)/2,  y:(a.y+c.y)/2};
+    const m2 = {x:(c.x+b.x)/2,  y:(c.y+b.y)/2};
+    const md = {x:(m1.x+m2.x)/2, y:(m1.y+m2.y)/2};
+    cutFX = [{d:`M${a.x} ${a.y} Q${m1.x} ${m1.y} ${md.x} ${md.y}`, side:"cut-l"},
+             {d:`M${md.x} ${md.y} Q${m2.x} ${m2.y} ${b.x} ${b.y}`, side:"cut-r"},
+             {snip:md}];
+    setTimeout(()=>{ cutFX = []; drawStrings(); }, 640);
+  }
+  list.splice(i,1);
+  save(); drawStrings();
+}
+
+function setStrMode(m){
+  strMode = (strMode === m) ? null : m;
+  clearPick();
+  const sb = $("#btnString"), cb = $("#btnCut");
+  if(sb) sb.classList.toggle("on", strMode === "add");
+  if(cb) cb.classList.toggle("on", strMode === "cut");
+  desk.classList.toggle("mode-add", strMode === "add");
+  desk.classList.toggle("mode-cut", strMode === "cut");
+  strings.classList.toggle("cutting", strMode === "cut");
+  hintText();
+}
+function hintText(){
+  const h = $("#deskHint"); if(!h) return;
+  h.textContent =
+    strMode === "add"
+      ? (strFrom ? "Now click the card you want to join it to · click the same card again to cancel"
+                 : "Click a card to pin one end of the string to it")
+   : strMode === "cut"
+      ? "Click a string to cut it in half"
+      : "Drag items around the desk · click an item to read it";
+}
+
+if(strings){
+  desk.addEventListener("pointermove", e=>{
+    if(strMode !== "add" || !strFrom) return;
+    const d = desk.getBoundingClientRect();
+    strGhost = {x:e.clientX - d.left, y:e.clientY - d.top};
+    drawStrings();
+  });
+  desk.addEventListener("pointerdown", e=>{
+    if(strMode === "add" && strFrom && !e.target.closest(".item")) clearPick();
+  });
+  strings.addEventListener("click", e=>{
+    if(strMode !== "cut") return;
+    const p = e.target.closest("path.str");
+    if(p && p.dataset.k) cutString(p.dataset.k);
+  });
+  window.addEventListener("resize", drawStrings);
+  document.addEventListener("keydown", e=>{
+    if(e.key !== "Escape" || !strMode) return;
+    if(document.querySelector(".overlay")) return;   // the overlay handler has it
+    setStrMode(null);
+  });
 }
 
 /* ============================================================
@@ -573,7 +737,9 @@ function showBoard(show){
   board.classList.toggle("hidden", !show);
   $("#btnBoard").classList.toggle("on", show);
   $("#deskHint").classList.toggle("hidden", show);
-  if(show) renderBoard();
+  $("#stringTools").classList.toggle("hidden", show);
+  if(show && strMode) setStrMode(null);
+  if(show) renderBoard(); else drawStrings();
 }
 function renderBoard(){
   const allPinned = C.theories.every(t=>CS.locked[t.id]);
@@ -1334,6 +1500,8 @@ $("#btnRiddle").addEventListener("click", openTool);
 $("#btnMenu").addEventListener("click", teacherNotes);
 $("#btnBoard").addEventListener("click", ()=>showBoard(board.classList.contains("hidden")));
 $("#btnDesk").addEventListener("click", ()=>showBoard(false));
+$("#btnString").addEventListener("click", ()=>setStrMode("add"));
+$("#btnCut").addEventListener("click", ()=>setStrMode("cut"));
 $("#btnHome").addEventListener("click", showShelf);
 showShelf();
 paintLevel();
