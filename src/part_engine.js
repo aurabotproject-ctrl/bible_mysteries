@@ -524,6 +524,15 @@ function overlay(html, cls){
 document.addEventListener("keydown", e=>{
   if(e.key==="Escape"){ const os=document.querySelectorAll(".overlay"); if(os.length) os[os.length-1].remove(); }
 });
+function wirePlates(root, title){
+  root.querySelectorAll(".plate").forEach(pl=>{
+    pl.classList.add("zoomable");
+    pl.addEventListener("click", ()=>{
+      const g = pl.querySelector("svg,img");
+      if(g) overlay(`<div class="doc-kind">Enlarged</div><div class="doc-title">${title}</div><div class="plate">${g.outerHTML}</div>`, "wide");
+    });
+  });
+}
 function openItem(item){
   const o = overlay(`
     <div class="doc-kind">${item.kind}</div>
@@ -531,13 +540,7 @@ function openItem(item){
     <div class="doc-sub">${item.sub||""}</div>
     <div class="rule"></div>
     <div class="doc-body">${item.body}</div>`);
-  o.querySelectorAll(".plate").forEach(pl=>{
-    pl.classList.add("zoomable");
-    pl.addEventListener("click", ()=>{
-      const g = pl.querySelector("svg,img");
-      if(g) overlay(`<div class="doc-kind">Enlarged</div><div class="doc-title">${item.title}</div><div class="plate">${g.outerHTML}</div>`, "wide");
-    });
-  });
+  wirePlates(o, item.title);
 }
 
 /* ============================================================
@@ -733,6 +736,7 @@ function lockCard(L){
    THE ELIMINATION BOARD
    ============================================================ */
 let selChip = null;
+let readChip = null;   // the evidence opened out under the rail
 function showBoard(show){
   board.classList.toggle("hidden", !show);
   $("#btnBoard").classList.toggle("on", show);
@@ -741,7 +745,8 @@ function showBoard(show){
   if(show && strMode) setStrMode(null);
   if(show) renderBoard(); else drawStrings();
 }
-function renderBoard(){
+function renderBoard(keepScroll){
+  const sy = (keepScroll === false) ? 0 : board.scrollTop;
   const allPinned = C.theories.every(t=>CS.locked[t.id]);
   board.innerHTML = `<div class="inner">
     <div class="boardhead"><div>
@@ -753,6 +758,7 @@ function renderBoard(){
       <h5>Evidence available</h5>
       <div class="sub">Tap a piece of evidence, then tap the explanation it destroys. Tap a filled slot to take it back.</div>
       <div class="chips" id="chips"></div>
+      <div class="railread" id="railRead"></div>
     </div>
     <div class="boardbar">
       <button class="btn" id="checkBtn">Test the board</button>
@@ -782,16 +788,56 @@ function renderBoard(){
   const used = new Set(Object.values(CS.pins));
   const chips = board.querySelector("#chips");
   available().filter(i=>!i.notEvidence).forEach(i=>{
-    const ch = el("div","chip"+(used.has(i.id)?" used":"")+(selChip===i.id?" sel":""), i.title);
-    if(!used.has(i.id)) ch.addEventListener("click", ()=>{ selChip = (selChip===i.id?null:i.id); renderBoard(); });
+    const ch = el("div","chip"+(used.has(i.id)?" used":"")+(selChip===i.id?" sel":"")
+                        +(readChip===i.id?" reading":""), i.title);
+    ch.addEventListener("click", ()=>{
+      // Reading a piece of evidence is always free. Picking it up to pin
+      // only applies while it is still spare.
+      readChip = (readChip === i.id && !used.has(i.id) && selChip === i.id) ? null : i.id;
+      if(!used.has(i.id)) selChip = (selChip === i.id ? null : i.id);
+      renderBoard();
+      // If the reader has opened below the fold, bring it into view.
+      if(readChip){
+        const box = board.querySelector("#railRead");
+        if(box) requestAnimationFrame(()=>box.scrollIntoView({block:"nearest", behavior:"smooth"}));
+      }
+    });
     chips.appendChild(ch);
   });
+  drawRailRead();
   board.querySelector("#checkBtn").addEventListener("click", checkBoard);
+  board.scrollTop = sy;
   board.querySelector("#clearBtn").addEventListener("click", ()=>{
     C.theories.forEach(t=>{ if(!CS.locked[t.id]) delete CS.pins[t.id]; });
     selChip=null; save(); renderBoard();
   });
   if(allPinned) board.querySelector("#accuseBtn").addEventListener("click", openAccusation);
+}
+
+/* The evidence you have tapped, opened out under the rail so you can read
+   it without leaving the board. */
+function drawRailRead(){
+  const box = board.querySelector("#railRead");
+  if(!box) return;
+  const item = readChip && byId(readChip);
+  if(!item){
+    box.innerHTML = `<div class="rr-empty">Tap any piece of evidence to read it here without leaving the board.</div>`;
+    return;
+  }
+  const used = Object.entries(CS.pins).find(([t,v])=>v===item.id);
+  const th   = used && C.theories.find(t=>t.id===used[0]);
+  box.innerHTML = `
+    <div class="rr-paper">
+      <button class="rr-x" title="Close">&times;</button>
+      <div class="doc-kind">${item.kind}</div>
+      <div class="doc-title">${item.title}</div>
+      <div class="doc-sub">${item.sub||""}</div>
+      ${th ? `<div class="rr-where">Pinned to &ldquo;${th.title}&rdquo;</div>` : ""}
+      <div class="rule"></div>
+      <div class="doc-body">${item.body}</div>
+    </div>`;
+  wirePlates(box, item.title);
+  box.querySelector(".rr-x").addEventListener("click", ()=>{ readChip = null; renderBoard(); });
 }
 function checkBoard(){
   let right=0, wrong=0, empty=0;
