@@ -163,6 +163,12 @@ def stub_of(name, src):
     # The house style is always two locks and five explanations; the real case
     # replaces these the moment it is loaded, so they only shape the shelf label.
     stub['nlocks'], stub['ntheories'] = 2, 5
+    # Optional. A case may ask for a gilt trim on the shelf by declaring
+    # gold:true in its header. The shelf draws posters before any case is
+    # fetched, so the flag has to travel in the stub.
+    g = re.search(r'\bgold\s*:\s*(true|false)', head)
+    if g and g.group(1) == 'true':
+        stub['gold'] = True
     return stub
 
 

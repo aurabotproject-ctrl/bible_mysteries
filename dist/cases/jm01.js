@@ -477,6 +477,7 @@ const JM01_VERDICTS = [
 const CASE_JM01 = {
   id:"jm01", code:"CASE JM-01", title:"The Ransom",
   period:"A garden, then a hill · the oldest file we hold", colour:"#8c2f2a", poster:"poster_jm01",
+  gold:true,
   teaser:"The oldest file in the archive, and the only one with your name in it. An account opened in a garden, a ledger where every payment ever offered came back marked insufficient, and one page where the whole thing is marked PAID IN FULL — in the hand of somebody who did not owe a penny of it.",
   introSub:"The charge is real. The payment is real. What is left is what you do about it.",
   items:JM01_ITEMS, theories:JM01_THEORIES, locks:JM01_LOCKS, verdicts:JM01_VERDICTS,

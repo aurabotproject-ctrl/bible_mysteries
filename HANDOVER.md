@@ -166,6 +166,12 @@ rules to `.chips .chip`.
 stale tab is forced to refetch. If something "has disappeared", it is almost
 always an un-refreshed tab — check the build stamp bottom-right before hunting.
 
+**A gilt case.** A case can ask for a gold trim on the shelf with `gold:true`
+in its header. `build.py` copies the flag into the shelf stub (the shelf draws
+posters before any case is fetched) and `renderShelf` adds `.gold`. Only JM-01
+uses it, and it should stay that way — the trim means *this one is different*,
+and two of them means nothing.
+
 **Walk-in experiences (tours).** A card declares
 `tour:{href:"../tours/x.html", label:"…", note:"…"}`. The deploy build fetches
 the file on demand; the offline builds inline it into `window.__TOURS__` and
@@ -198,6 +204,7 @@ certificate seal). All labelled; the label wording is listed at the bottom of
 
 ## 8. Recent work, newest first
 
+- JM-01 — a gold trim on its shelf card, driven by a `gold:true` header flag.
 - JM-19 — the Zorah-to-Timnah interactive map wired to *The Road Down to Timnah*.
 - JM-01 — the six generated plates in, plaques measured and labelled, mirrored
   into the easy pack; the certificate seal replaced the typeset cross; print

@@ -101,7 +101,7 @@ function renderShelf(){
     const cdef = stubAtLevel(stub);
     const st = stateFor(cdef.id), p = progressLabel(cdef);
     const cls = p.cls || "new";
-    return `<div class="poster" style="--fc:${cdef.colour};--r:${tilt[i%tilt.length]}deg">
+    return `<div class="poster${cdef.gold ? " gold" : ""}" style="--fc:${cdef.colour};--r:${tilt[i%tilt.length]}deg">
       <div class="p-soc">B.I.B.</div>
       <div class="p-code">${cdef.code}</div>
       <div class="p-hr"></div>

@@ -786,4 +786,61 @@ button.tourbtn{cursor:pointer;font-family:var(--ui-font)}
   .dc-h{font-size:26px}
   .dc-name{font-size:28px;min-width:0;width:100%}
 }
+
+/* ---- the gilt case ------------------------------------------------------
+   One case on the shelf carries a gold trim, because it is not like the
+   others. Nothing here names a case: a case asks for it with gold:true in
+   its header, build.py puts the flag in the shelf stub, and renderShelf
+   adds .gold. The band is a gradient drawn into a border-shaped mask, so it
+   reads as leaf rather than as a flat coloured outline, and it drifts very
+   slowly so it catches the light without becoming a distraction in a room
+   full of Year 7s. ---------------------------------------------------- */
+.poster.gold{
+  background:
+    radial-gradient(circle at 14% 6%, rgba(186,146,66,.20), transparent 42%),
+    radial-gradient(circle at 86% 94%, rgba(158,118,48,.18), transparent 44%),
+    linear-gradient(#fbf3dd,#ecdcb6);
+  box-shadow:0 0 0 1px rgba(74,50,12,.7),
+             0 16px 30px rgba(0,0,0,.55), 0 0 30px 4px rgba(214,172,80,.30);
+}
+.poster.gold:hover{
+  box-shadow:0 0 0 1px rgba(74,50,12,.7),
+             0 24px 44px rgba(0,0,0,.6), 0 0 44px 6px rgba(230,190,100,.44);
+}
+.poster.gold::after{
+  content:"";position:absolute;inset:-7px;z-index:2;pointer-events:none;
+  border-radius:3px;padding:7px;
+  /* Many narrow bands rather than one long ramp: that is what makes the
+     edge read as polished metal instead of a flat gold outline. */
+  background:linear-gradient(112deg,
+    #a87f2a 0%,   #e2bb59 4%,  #fff7d8 7%,  #d5a940 11%, #96701f 15%,
+    #c99b34 19%,  #fbedb4 23%, #e8c76c 27%, #a87f2a 31%, #8d6a1e 35%,
+    #d3a844 40%,  #fff7d8 44%, #dbb352 48%, #a07828 52%, #c99b34 57%,
+    #f7e5a8 61%,  #e0b95a 65%, #9a741f 69%, #bf9130 74%, #fbeeb8 78%,
+    #d9b04c 82%,  #a87f2a 87%, #e2bb59 92%, #fff7d8 96%, #a87f2a 100%);
+  background-size:220% 100%;
+  -webkit-mask:linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+          mask:linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite:xor; mask-composite:exclude;
+  animation:giltdrift 11s linear infinite;
+  filter:drop-shadow(0 1px 2px rgba(40,26,4,.6));
+}
+/* the nail head sits above the band, not behind it */
+.poster.gold::before{z-index:3}
+@keyframes giltdrift{
+  from{background-position:0% 50%}
+  to  {background-position:200% 50%}
+}
+@media (prefers-reduced-motion:reduce){
+  .poster.gold::after{animation:none;background-position:22% 50%}
+}
+/* a hairline of the same metal inside, so the trim belongs to the card */
+.poster.gold .p-hr{
+  background:linear-gradient(90deg,transparent,#b8912f 18%,#f0d78e 50%,#b8912f 82%,transparent);
+  opacity:.85;
+}
+.poster.gold .art{
+  border-color:rgba(138,106,36,.75);
+  box-shadow:inset 0 0 22px rgba(90,64,30,.28), 0 0 0 1px rgba(240,215,142,.35);
+}
 </style>
