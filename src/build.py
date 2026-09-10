@@ -204,7 +204,12 @@ def main():
         for key in ('teaser', 'introSub'):
             m = re.search(r'\b%s\s*:\s*"((?:[^"\\]|\\.)*)"' % key, src)
             if m:
-                picked[key] = m.group(1).encode().decode('unicode_escape')
+                # Unescape by hand. .encode().decode('unicode_escape') would
+                # read the UTF-8 bytes as latin-1 and mangle every em dash.
+                picked[key] = re.sub(
+                    r'\\(.)',
+                    lambda e: {'n': '\n', 't': '\t'}.get(e.group(1), e.group(1)),
+                    m.group(1))
         if picked:
             easy_stubs[cid] = picked
 
