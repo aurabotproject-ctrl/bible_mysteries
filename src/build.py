@@ -41,7 +41,7 @@ ROOT = os.path.dirname(HERE)                 # the /investigate folder
 
 PARTS   = ['part_style.html', 'part_css_extra.css', 'part_shell.html']
 SCRIPTS = ['part_assets.js', 'part_registry.js', 'part_bible.js',
-           'part_print.js', 'part_engine.js']
+           'part_print.js', 'part_engine.js', 'part_invite.js']
 # Easy-level wording packs. One per case that has one; a case with no entry
 # here simply stays at the medium reading level.
 EASY_FILES = {'jm33': 'part_case1.easy.js',
@@ -56,12 +56,12 @@ EASY_FILES = {'jm33': 'part_case1.easy.js',
               'jm09': 'part_case10.easy.js',
               'jm20': 'part_case20.easy.js'}
 
-CASE_FILES = ['part_case1.js', 'part_case2.js', 'part_case3.js', 'part_case4.js',
+CASE_FILES = ['part_case0.js', 'part_case1.js', 'part_case2.js', 'part_case3.js', 'part_case4.js',
               'part_case5.js', 'part_case6.js', 'part_case7.js',
               'part_case8.js', 'part_case9.js', 'part_case10.js',
               'part_case11.js', 'part_case12.js', 'part_case13.js', 'part_case14.js', 'part_case15.js', 'part_case16.js', 'part_case18.js', 'part_case20.js']
 
-NAMES = ['bibsign',
+NAMES = ['bibsign', 'poster_jm01', 'j01hill',
          'map', 'tomb', 'stone', 'seal', 'roster', 'cipher', 'decoder',
          'j47map', 'j47chamber', 'j47disp', 'j47dothan',
          'poster_jm33', 'poster_jm47', 'poster_jm19', 'poster_jm08',

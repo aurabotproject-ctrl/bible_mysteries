@@ -1037,6 +1037,103 @@ button.tourbtn{cursor:pointer;font-family:var(--ui-font)}
 @media print{ .overlay.tourview{display:none!important} }
 .rr-paper .tourbar{background:linear-gradient(#3a2b1c,#2a1e13)}
 @media print{ .tourbar{display:none!important} }
+
+/* ============================================================
+   JM-01 — the invitation
+   ============================================================ */
+.inv{position:relative}
+.inv-kind{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--accent);font-weight:800}
+.inv-title{font-family:var(--serif);font-size:29px;line-height:1.15;margin:6px 0 4px}
+.inv-title.big{font-size:38px}
+.inv-sub{font-size:13.5px;color:var(--ink-soft);font-style:italic;margin-bottom:6px}
+.inv-q{
+  font-family:var(--serif);font-size:22px;line-height:1.35;margin:20px 0 10px;
+  color:#7a2a1f;font-weight:700;
+}
+.inv-lead{font-family:var(--serif);font-size:17.5px;line-height:1.65}
+.inv-small{font-size:12px;color:var(--ink-soft);line-height:1.5;font-family:var(--ui-font)}
+.inv-ref-in{font-size:11px;color:var(--ink-soft);font-family:var(--ui-font)}
+.inv-row{display:flex;gap:10px;flex-wrap:wrap;margin-top:20px;align-items:center}
+.btn.inv-yes{background:#8c2f2a;border-color:#a8443a;color:#fff;font-weight:800}
+.btn.inv-yes:hover{filter:brightness(1.14)}
+
+.inv-dots{display:flex;gap:7px;margin:12px 0 2px}
+.inv-dot{width:9px;height:9px;border-radius:50%;background:rgba(90,65,35,.28)}
+.inv-dot.done{background:#7a2a1f}
+.inv-dot.here{background:#c8452f;box-shadow:0 0 0 3px rgba(200,69,47,.25)}
+
+.inv-verse{
+  font-family:var(--serif);font-size:17px;line-height:1.6;font-style:italic;
+  border-left:3px solid #8c2f2a;padding:6px 0 6px 16px;margin:18px 0;color:#4a3826;
+}
+.inv-ref{font-family:var(--ui-font);font-size:11px;font-style:normal;
+  letter-spacing:.1em;text-transform:uppercase;color:var(--accent);margin-top:7px}
+.inv-prayer{
+  background:#f3e8ce;border:1px solid rgba(90,65,35,.4);border-radius:6px;
+  padding:20px 24px;margin:18px 0;font-family:var(--serif);font-size:17.5px;line-height:1.62;
+}
+.inv-prayer p{margin:0 0 12px}
+.inv-prayer p:last-child{margin:0}
+.inv-fields{margin:14px 0}
+.inv-fields label{display:block;font-family:var(--ui-font);font-size:12px;color:var(--ink-soft);margin-bottom:6px}
+.inv-fields input{
+  display:block;width:100%;max-width:420px;margin-top:5px;padding:9px 11px;
+  font-family:var(--serif);font-size:16px;color:var(--ink);
+  background:#fbf3e0;border:1px solid rgba(90,65,35,.45);border-radius:5px;
+}
+
+/* the door on the debrief */
+.inv-door{
+  margin-top:22px;padding:16px 18px;border-radius:10px;
+  background:linear-gradient(#3a2b1c,#2a1e13);border:1px solid #8c2f2a;
+}
+.inv-door-h{font-family:var(--ui-font);font-size:11px;letter-spacing:.18em;
+  text-transform:uppercase;color:#e0b8a4;font-weight:800}
+.inv-door p{color:#e6d2ae;font-size:13.5px;line-height:1.55;margin:8px 0 14px}
+
+/* certificate and note */
+.dc-prev{margin-top:16px}
+.deccert{
+  background:#fdf6e6;border:2px solid #8c2f2a;border-radius:4px;
+  padding:26px 30px;text-align:center;color:#3a2d1c;font-family:var(--serif);
+  box-shadow:0 8px 22px rgba(0,0,0,.18);
+}
+.dc-rule{height:3px;background:linear-gradient(90deg,transparent,#8c2f2a,transparent);margin:2px 0 14px}
+.deccert .dc-rule:last-child{margin:16px 0 2px}
+.dc-kind{font-family:var(--ui-font);font-size:10px;letter-spacing:.24em;
+  text-transform:uppercase;color:#8c2f2a;font-weight:800}
+.dc-h{font-size:34px;line-height:1.1;margin:6px 0 2px}
+.dc-sub{font-size:12px;font-style:italic;color:#7a6a52;margin-bottom:10px}
+.dc-seal{font-size:40px;color:#8c2f2a;line-height:1;margin:10px 0 12px}
+.dc-line{font-size:14.5px;line-height:1.6;max-width:44ch;margin:0 auto}
+.dc-name{font-family:var(--hand);font-size:36px;color:#2f2416;margin:12px 0 4px;
+  border-bottom:1px solid rgba(90,65,35,.35);display:inline-block;min-width:280px;padding:0 18px 4px}
+.dc-date{font-family:var(--hand);font-size:26px;color:#2f2416;margin:10px 0}
+.dc-verse{font-size:13.5px;font-style:italic;color:#5b4a35;margin:18px auto 4px;max-width:42ch;line-height:1.55}
+.dc-verse span{font-family:var(--ui-font);font-style:normal;font-size:10.5px;
+  letter-spacing:.14em;text-transform:uppercase;color:#8c2f2a}
+.dc-foot{display:flex;gap:36px;justify-content:center;margin:22px 0 6px;
+  font-family:var(--ui-font);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:#7a6a52}
+.dc-sig{display:block;width:190px;border-bottom:1px solid rgba(90,65,35,.5);height:26px;margin-bottom:5px}
+.dc-tiny{font-family:var(--ui-font);font-size:10px;color:#8d7c63;font-style:italic;margin-top:10px}
+
+.decnote{
+  background:#fdf6e6;border:1px solid rgba(90,65,35,.45);border-radius:4px;
+  padding:26px 30px;color:#3a2d1c;font-family:var(--serif);
+}
+.dn-h{font-size:26px;margin-bottom:12px;color:#8c2f2a}
+.dn-body p{font-size:15.5px;line-height:1.65;margin:0 0 12px}
+.dn-from{font-family:var(--hand);font-size:28px;margin-top:18px}
+.dn-note{margin-top:20px;padding-top:12px;border-top:1px solid rgba(90,65,35,.3);
+  font-family:var(--ui-font);font-size:11.5px;color:#7a6a52;font-style:italic}
+
+@media (max-width:640px){
+  .inv-title{font-size:24px}
+  .inv-title.big{font-size:29px}
+  .inv-q{font-size:19px}
+  .dc-h{font-size:26px}
+  .dc-name{font-size:28px;min-width:0;width:100%}
+}
 </style>
 
 <div id="app" class="hidden">
@@ -1078,7 +1175,7 @@ button.tourbtn{cursor:pointer;font-family:var(--ui-font)}
 </div>
 
 <div id="shelf"></div>
-<div id="buildTag" title="Which build of the app this is. If a new feature is missing, reload the page and check this changes.">build 20260910-1245</div>
+<div id="buildTag" title="Which build of the app this is. If a new feature is missing, reload the page and check this changes.">build 20260910-1314</div>
 
 <script>
 const SVG = {};
@@ -1100,7 +1197,7 @@ SVG.roster = `<svg viewBox="0 0 900 1200" xmlns="http://www.w3.org/2000/svg"><im
 SVG.finalSeal = `<svg class="seal-final" viewBox="0 0 100 100">
   <circle cx="50" cy="50" r="46" fill="#8c2f1f"/>
   <circle cx="50" cy="50" r="37" fill="none" stroke="#f2d9c9" stroke-width="2"/>
-  <text x="50" y="58" text-anchor="middle" font-family="Georgia,serif" font-size="26" fill="#f2d9c9">CS</text></svg>`;
+  <text x="50" y="57" text-anchor="middle" font-family="Georgia,serif" font-size="19" letter-spacing="1" fill="#f2d9c9">B.I.B.</text></svg>`;
 
 SVG.poster_jm33 = `<svg viewBox="0 0 1536 1024" xmlns="http://www.w3.org/2000/svg"><image href="images/poster_jm33.jpg" x="0" y="0" width="1536" height="1024"/></svg>`;
 
@@ -1130,6 +1227,7 @@ SVG.poster_jm15 = `<svg viewBox="0 0 1536 1024" xmlns="http://www.w3.org/2000/sv
 SVG.poster_jm16 = `<svg viewBox="0 0 1536 1024" xmlns="http://www.w3.org/2000/svg"><image href="images/poster_jm16.jpg" x="0" y="0" width="1536" height="1024"/></svg>`;
 SVG.poster_jm18 = `<svg viewBox="0 0 1536 1024" xmlns="http://www.w3.org/2000/svg"><image href="images/poster_jm18.jpg" x="0" y="0" width="1536" height="1024"/></svg>`;
 SVG.poster_jm20 = `<svg viewBox="0 0 1536 1024" xmlns="http://www.w3.org/2000/svg"><image href="images/poster_jm20.jpg" x="0" y="0" width="1536" height="1024"/></svg>`;
+SVG.poster_jm01 = `<svg viewBox="0 0 1536 1024" xmlns="http://www.w3.org/2000/svg"><image href="images/poster_jm01.jpg" x="0" y="0" width="1536" height="1024"/></svg>`;
 
 </script>
 <script>
@@ -1146,7 +1244,7 @@ SVG.poster_jm20 = `<svg viewBox="0 0 1536 1024" xmlns="http://www.w3.org/2000/sv
    run for all of them before anybody clicks anything and nothing is fetched.
    ============================================================ */
 
-const CASE_STUBS = [{"id": "jm33", "code": "CASE JM-33", "title": "The Empty Tomb", "period": "Jerusalem · c. AD 33", "colour": "#8c2f1f", "poster": "poster_jm33", "teaser": "A sealed tomb, four Roman guards on watch, and no body in the morning. Five explanations have been offered. Only one survives the file.", "nlocks": 2, "ntheories": 5}, {"id": "jm47", "code": "CASE JM-47", "title": "The Leak", "period": "Aram and Israel · c. 850 BC", "colour": "#2f5c7d", "poster": "poster_jm47", "teaser": "Five ambushes laid in secret. Five times the enemy simply did not come. The king of Aram is certain one of his own officers is talking — and he is about to be told something far stranger.", "nlocks": 2, "ntheories": 5}, {"id": "jm19", "code": "CASE JM-19", "title": "The Broken Riddle", "period": "Timnah, Philistia · c. 1100 BC", "colour": "#8a6a24", "poster": "poster_jm19", "teaser": "A riddle only one man on earth could answer — and thirty men answered it, perfectly, an hour before the deadline. Nobody saw. Nobody was told. Somebody is lying.", "nlocks": 2, "ntheories": 5}, {"id": "jm08", "code": "CASE JM-08", "title": "The Stolen Plunder", "period": "Jericho and Ai · c. 1400 BC", "colour": "#6b4a2a", "poster": "poster_jm08", "teaser": "Jericho fell in a week. Days later, a village stopped the same army dead and thirty-six men died running. Something is missing from the treasury, and the shortfall is exactly the size of one pair of hands.", "nlocks": 2, "ntheories": 5}, {"id": "jm02", "code": "CASE JM-02", "title": "The Missing Boy", "period": "Jerusalem · c. AD 8", "colour": "#5c7d8a", "poster": "poster_jm02", "teaser": "A family leaves the festival in a company of a hundred relatives. A full day out, a twelve-year-old is not among them. It takes two exhausted parents three days to find a child who was never hiding.", "nlocks": 2, "ntheories": 5}, {"id": "jm03", "code": "CASE JM-03", "title": "The Bush That Would Not Burn", "period": "Horeb · undated", "colour": "#7d5c2f", "poster": "poster_jm03", "teaser": "A shepherd turns aside to look at a burning bush — not because it is burning, but because it is still there. The site was surveyed afterwards. There is no ash on that hillside at all.", "nlocks": 2, "ntheories": 5}, {"id": "jm04", "code": "CASE JM-04", "title": "The Judgment", "period": "Jerusalem · c. 960 BC", "colour": "#7d6b4a", "poster": "poster_jm04", "teaser": "Two women, one living child, and not a single witness, document or mark to tell them apart. Both tell exactly the same story with the names reversed. The Bureau regards this as the hardest evidential problem in the archive.", "nlocks": 2, "ntheories": 5}, {"id": "jm05", "code": "CASE JM-05", "title": "The Writing on the Wall", "period": "Babylon · 539 BC", "colour": "#4a2f6b", "poster": "poster_jm05", "teaser": "A thousand nobles at a feast, and a hand that writes four words on the plaster and stops. The finest scholars in the empire can pronounce every word and cannot tell the king what any of it means. By morning he is dead.", "nlocks": 2, "ntheories": 5}, {"id": "jm06", "code": "CASE JM-06", "title": "The Walls", "period": "Jericho · c. 1400 BC", "colour": "#8a6a4a", "poster": "poster_jm06", "teaser": "For six days an army walks once around a walled city in complete silence and goes back to camp. On the seventh it walks round seven times, makes one sound, and the wall falls — outward, all the way round, except for one house.", "nlocks": 2, "ntheories": 5}, {"id": "jm09", "code": "CASE JM-09", "title": "The Mouldy Bread", "period": "Gibeon · c. 1400 BC", "colour": "#7d7a4a", "poster": "poster_jm09", "teaser": "Ambassadors arrive with split wineskins, worn-through sandals and dry crumbling bread as proof of a very long journey. A treaty is sworn. Three days later they turn out to live a day's walk away.", "nlocks": 2, "ntheories": 5}, {"id": "jm10", "code": "CASE JM-10", "title": "The Ten Blows", "period": "Egypt · c. 1450 BC", "colour": "#6b2f2f", "poster": "poster_jm10", "teaser": "Ten disasters strike Egypt inside a year. Pharaoh's own magicians reproduce the first two, fail at the third, and by the fourth something is happening that no chain of natural causes can account for.", "nlocks": 2, "ntheories": 5}, {"id": "jm11", "code": "CASE JM-11", "title": "The Cart That Chose Its Own Road", "period": "Philistia · c. 1100 BC", "colour": "#8a4a2f", "poster": "poster_jm11", "teaser": "Seven months after capturing Israel's ark, the Philistines are sick of it. Their own priests design a test to find out whether the chest is really the cause — and build it so that it could easily say no.", "nlocks": 2, "ntheories": 5}, {"id": "jm13", "code": "CASE JM-13", "title": "The Twelve Reports", "period": "Kadesh · c. 1445 BC", "colour": "#5c6b3a", "poster": "poster_jm13", "teaser": "Twelve men survey one country for forty days and come back with a bunch of grapes that takes two of them to carry — and two reports that cannot both be right. Except that every fact in them is identical.", "nlocks": 2, "ntheories": 5}, {"id": "jm14", "code": "CASE JM-14", "title": "The Crossing", "period": "The Sea of Reeds · c. 1446 BC", "colour": "#2f5c6b", "poster": "poster_jm14", "teaser": "A column of refugees is trapped between deep water and the fastest army in the world. By morning the refugees are across, and the army is not there at all.", "nlocks": 2, "ntheories": 5}, {"id": "jm15", "code": "CASE JM-15", "title": "The Witnesses Who Would Not Agree", "period": "Jerusalem · c. AD 30", "colour": "#5c3a3a", "poster": "poster_jm15", "teaser": "A court needs two witnesses whose accounts agree. It has plenty of witnesses, a whole night, and every advantage — and it cannot get two of them to say the same thing.", "nlocks": 2, "ntheories": 5}, {"id": "jm16", "code": "CASE JM-16", "title": "The Bread on the Ground", "period": "The wilderness of Sin · c. 1446 BC", "colour": "#8a7a4a", "poster": "poster_jm16", "teaser": "A substance appears on the ground each morning and feeds a nation for forty years. Every natural explanation fits — right up until the seventh day.", "nlocks": 2, "ntheories": 5}, {"id": "jm18", "code": "CASE JM-18", "title": "The Contest on Carmel", "period": "Mount Carmel · c. 860 BC", "colour": "#8a4a2f", "poster": "poster_jm18", "teaser": "One prophet against four hundred and fifty, one altar each, and a rule agreed in front of the whole nation. Then the challenger soaks his own altar until the trench around it overflows.", "nlocks": 2, "ntheories": 5}, {"id": "jm20", "code": "CASE JM-20", "title": "The Rock at Meribah", "period": "Kadesh · c. 1407 BC", "colour": "#6b5c4a", "poster": "poster_jm20", "teaser": "Water comes out of a rock in front of the whole nation, and the man who produced it is told he will not enter the country he has spent forty years walking toward. The Bureau is asked why.", "nlocks": 2, "ntheories": 5}];
+const CASE_STUBS = [{"id": "jm01", "code": "CASE JM-01", "title": "The Ransom", "period": "A garden, then a hill · the oldest file we hold", "colour": "#8c2f2a", "poster": "poster_jm01", "teaser": "The oldest file in the archive, and the only one with your name in it. An account opened in a garden, a ledger where every payment ever offered came back marked insufficient, and one page where the whole thing is marked PAID IN FULL — in the hand of somebody who did not owe a penny of it.", "nlocks": 2, "ntheories": 5}, {"id": "jm33", "code": "CASE JM-33", "title": "The Empty Tomb", "period": "Jerusalem · c. AD 33", "colour": "#8c2f1f", "poster": "poster_jm33", "teaser": "A sealed tomb, four Roman guards on watch, and no body in the morning. Five explanations have been offered. Only one survives the file.", "nlocks": 2, "ntheories": 5}, {"id": "jm47", "code": "CASE JM-47", "title": "The Leak", "period": "Aram and Israel · c. 850 BC", "colour": "#2f5c7d", "poster": "poster_jm47", "teaser": "Five ambushes laid in secret. Five times the enemy simply did not come. The king of Aram is certain one of his own officers is talking — and he is about to be told something far stranger.", "nlocks": 2, "ntheories": 5}, {"id": "jm19", "code": "CASE JM-19", "title": "The Broken Riddle", "period": "Timnah, Philistia · c. 1100 BC", "colour": "#8a6a24", "poster": "poster_jm19", "teaser": "A riddle only one man on earth could answer — and thirty men answered it, perfectly, an hour before the deadline. Nobody saw. Nobody was told. Somebody is lying.", "nlocks": 2, "ntheories": 5}, {"id": "jm08", "code": "CASE JM-08", "title": "The Stolen Plunder", "period": "Jericho and Ai · c. 1400 BC", "colour": "#6b4a2a", "poster": "poster_jm08", "teaser": "Jericho fell in a week. Days later, a village stopped the same army dead and thirty-six men died running. Something is missing from the treasury, and the shortfall is exactly the size of one pair of hands.", "nlocks": 2, "ntheories": 5}, {"id": "jm02", "code": "CASE JM-02", "title": "The Missing Boy", "period": "Jerusalem · c. AD 8", "colour": "#5c7d8a", "poster": "poster_jm02", "teaser": "A family leaves the festival in a company of a hundred relatives. A full day out, a twelve-year-old is not among them. It takes two exhausted parents three days to find a child who was never hiding.", "nlocks": 2, "ntheories": 5}, {"id": "jm03", "code": "CASE JM-03", "title": "The Bush That Would Not Burn", "period": "Horeb · undated", "colour": "#7d5c2f", "poster": "poster_jm03", "teaser": "A shepherd turns aside to look at a burning bush — not because it is burning, but because it is still there. The site was surveyed afterwards. There is no ash on that hillside at all.", "nlocks": 2, "ntheories": 5}, {"id": "jm04", "code": "CASE JM-04", "title": "The Judgment", "period": "Jerusalem · c. 960 BC", "colour": "#7d6b4a", "poster": "poster_jm04", "teaser": "Two women, one living child, and not a single witness, document or mark to tell them apart. Both tell exactly the same story with the names reversed. The Bureau regards this as the hardest evidential problem in the archive.", "nlocks": 2, "ntheories": 5}, {"id": "jm05", "code": "CASE JM-05", "title": "The Writing on the Wall", "period": "Babylon · 539 BC", "colour": "#4a2f6b", "poster": "poster_jm05", "teaser": "A thousand nobles at a feast, and a hand that writes four words on the plaster and stops. The finest scholars in the empire can pronounce every word and cannot tell the king what any of it means. By morning he is dead.", "nlocks": 2, "ntheories": 5}, {"id": "jm06", "code": "CASE JM-06", "title": "The Walls", "period": "Jericho · c. 1400 BC", "colour": "#8a6a4a", "poster": "poster_jm06", "teaser": "For six days an army walks once around a walled city in complete silence and goes back to camp. On the seventh it walks round seven times, makes one sound, and the wall falls — outward, all the way round, except for one house.", "nlocks": 2, "ntheories": 5}, {"id": "jm09", "code": "CASE JM-09", "title": "The Mouldy Bread", "period": "Gibeon · c. 1400 BC", "colour": "#7d7a4a", "poster": "poster_jm09", "teaser": "Ambassadors arrive with split wineskins, worn-through sandals and dry crumbling bread as proof of a very long journey. A treaty is sworn. Three days later they turn out to live a day's walk away.", "nlocks": 2, "ntheories": 5}, {"id": "jm10", "code": "CASE JM-10", "title": "The Ten Blows", "period": "Egypt · c. 1450 BC", "colour": "#6b2f2f", "poster": "poster_jm10", "teaser": "Ten disasters strike Egypt inside a year. Pharaoh's own magicians reproduce the first two, fail at the third, and by the fourth something is happening that no chain of natural causes can account for.", "nlocks": 2, "ntheories": 5}, {"id": "jm11", "code": "CASE JM-11", "title": "The Cart That Chose Its Own Road", "period": "Philistia · c. 1100 BC", "colour": "#8a4a2f", "poster": "poster_jm11", "teaser": "Seven months after capturing Israel's ark, the Philistines are sick of it. Their own priests design a test to find out whether the chest is really the cause — and build it so that it could easily say no.", "nlocks": 2, "ntheories": 5}, {"id": "jm13", "code": "CASE JM-13", "title": "The Twelve Reports", "period": "Kadesh · c. 1445 BC", "colour": "#5c6b3a", "poster": "poster_jm13", "teaser": "Twelve men survey one country for forty days and come back with a bunch of grapes that takes two of them to carry — and two reports that cannot both be right. Except that every fact in them is identical.", "nlocks": 2, "ntheories": 5}, {"id": "jm14", "code": "CASE JM-14", "title": "The Crossing", "period": "The Sea of Reeds · c. 1446 BC", "colour": "#2f5c6b", "poster": "poster_jm14", "teaser": "A column of refugees is trapped between deep water and the fastest army in the world. By morning the refugees are across, and the army is not there at all.", "nlocks": 2, "ntheories": 5}, {"id": "jm15", "code": "CASE JM-15", "title": "The Witnesses Who Would Not Agree", "period": "Jerusalem · c. AD 30", "colour": "#5c3a3a", "poster": "poster_jm15", "teaser": "A court needs two witnesses whose accounts agree. It has plenty of witnesses, a whole night, and every advantage — and it cannot get two of them to say the same thing.", "nlocks": 2, "ntheories": 5}, {"id": "jm16", "code": "CASE JM-16", "title": "The Bread on the Ground", "period": "The wilderness of Sin · c. 1446 BC", "colour": "#8a7a4a", "poster": "poster_jm16", "teaser": "A substance appears on the ground each morning and feeds a nation for forty years. Every natural explanation fits — right up until the seventh day.", "nlocks": 2, "ntheories": 5}, {"id": "jm18", "code": "CASE JM-18", "title": "The Contest on Carmel", "period": "Mount Carmel · c. 860 BC", "colour": "#8a4a2f", "poster": "poster_jm18", "teaser": "One prophet against four hundred and fifty, one altar each, and a rule agreed in front of the whole nation. Then the challenger soaks his own altar until the trench around it overflows.", "nlocks": 2, "ntheories": 5}, {"id": "jm20", "code": "CASE JM-20", "title": "The Rock at Meribah", "period": "Kadesh · c. 1407 BC", "colour": "#6b5c4a", "poster": "poster_jm20", "teaser": "Water comes out of a rock in front of the whole nation, and the man who produced it is told he will not enter the country he has spent forty years walking toward. The Bureau is asked why.", "nlocks": 2, "ntheories": 5}];
 
 const CASE_REG = {};        // id -> the case as the reader should see it
 const CASE_BASE = {};       // id -> the untouched medium-level case
@@ -2132,7 +2230,7 @@ function posterArt(cdef){
     <rect width="300" height="200" fill="#e4d5b4"/>
     <circle cx="150" cy="96" r="46" fill="${cdef.colour}" opacity=".85"/>
     <circle cx="150" cy="96" r="37" fill="none" stroke="#f4e7cd" stroke-width="2"/>
-    <text x="150" y="106" text-anchor="middle" font-family="Georgia,serif" font-size="27" fill="#f6ead2">CS</text>
+    <text x="150" y="106" text-anchor="middle" font-family="Georgia,serif" font-size="20" letter-spacing="1" fill="#f6ead2">B.I.B.</text>
     <text x="150" y="172" text-anchor="middle" font-family="Georgia,serif" font-size="13"
       fill="#7a6238" letter-spacing="3">${cdef.code}</text>
   </svg>`;
@@ -3006,11 +3104,18 @@ function debrief(){
       <h4>Read it for yourself</h4>
       <p>${C.debrief.refs}</p>
     </div>
+    ${C.invite ? `<div class="inv-door">
+      <div class="inv-door-h">Before you file this one</div>
+      <p>This file ends with a question, and it is not about the evidence. It is
+         about you, nobody can see your answer, and any answer you give is a real one.</p>
+      <button class="btn inv-yes" id="dbInvite">Open the last page</button>
+    </div>` : ""}
     <div style="margin-top:16px;display:flex;gap:10px;flex-wrap:wrap">
       <button class="btn" id="dbCert">🏅 Print your certificate</button>
       <button class="btn ghost" id="dbSheet">Open the answer sheet</button>
       <button class="btn ghost" id="dbHome">Back to the case shelf</button>
     </div>`, "wide");
+  if(C.invite) $("#dbInvite").addEventListener("click", openInvite);
   $("#dbCert").addEventListener("click", ()=>openCertificate(C));
   $("#dbSheet").addEventListener("click", answerSheet);
   $("#dbHome").addEventListener("click", ()=>{
@@ -3629,7 +3734,27 @@ const _bw = $("#btnWrong"); if(_bw) _bw.addEventListener("click", openWrong);
 $("#btnSheet").addEventListener("click", answerSheet);
 $("#btnBible").addEventListener("click", ()=>openBible());
 $("#btnRiddle").addEventListener("click", openTool);
-$("#btnMenu").addEventListener("click", teacherNotes);
+$("#btnMenu").addEventListener("click", ()=>{
+  // On the one case that asks a personal question, the menu offers the way
+  // back to it -- for the reader who said "not now" and changed their mind.
+  if(C && C.invite) return openMenuJM01();
+  teacherNotes();
+});
+function openMenuJM01(){
+  const o = overlay(`
+    <div class="doc-kind">${C.code}</div>
+    <div class="doc-title">This case</div>
+    <div class="rule"></div>
+    <div class="doc-body"><p>The last page of this file asks you a question about
+      your own life. You can open it whenever you like, as many times as you like,
+      and nobody can see what you answer.</p></div>
+    <div class="inv-row">
+      <button class="btn inv-yes" id="mnInv">Open the last page</button>
+      <button class="btn ghost" id="mnTeach">Teacher notes</button>
+    </div>`, "wide");
+  o.querySelector("#mnInv").addEventListener("click", ()=>{ o.remove(); openInvite(); });
+  o.querySelector("#mnTeach").addEventListener("click", ()=>{ o.remove(); teacherNotes(); });
+}
 $("#btnBoard").addEventListener("click", ()=>showBoard(board.classList.contains("hidden")));
 $("#btnDesk").addEventListener("click", ()=>showBoard(false));
 $("#btnString").addEventListener("click", ()=>setStrMode("add"));
@@ -3637,6 +3762,393 @@ $("#btnCut").addEventListener("click", ()=>setStrMode("cut"));
 $("#btnHome").addEventListener("click", showShelf);
 showShelf();
 paintLevel();
+
+</script>
+<script>
+"use strict";
+/* ============================================================
+   THE INVITATION
+   Only CASE JM-01 sets invite:true, and this only ever opens when
+   a reader chooses to open it.
+
+   Three rules this code exists to keep:
+     1. Nothing leaves the device. A decision is written to this
+        browser's own storage and nowhere else. There is no list,
+        no export, and no way for a teacher to see who pressed what.
+     2. "Not now" is a real answer, and it is answered warmly. It is
+        not a wrong turn to be nudged out of.
+     3. No step is a payment and no words are magic. The prayer is
+        offered, never required, and it says so.
+   ============================================================ */
+
+const DEC_KEY = "bib-decision";
+
+function decisionGet(){
+  try{ return JSON.parse(localStorage.getItem(DEC_KEY) || "null"); }
+  catch(e){ return null; }
+}
+function decisionSet(d){
+  try{ localStorage.setItem(DEC_KEY, JSON.stringify(d)); }catch(e){}
+}
+const DAYS   = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
+const MONTHS = ["January","February","March","April","May","June",
+                "July","August","September","October","November","December"];
+/* Written out by hand rather than by locale, so a school laptop set to
+   somebody else's country still gives a New Zealand date. */
+function todayLong(){
+  const d = new Date();
+  return DAYS[d.getDay()] + ", " + d.getDate() + " " + MONTHS[d.getMonth()] + " " + d.getFullYear();
+}
+function todayIso(){ return new Date().toISOString().slice(0,10); }
+
+/* A quiet way back in, for the reader who said "not now" and changed
+   their mind. Sits under the case menu once the case has been opened. */
+function inviteReopenable(){ return !!(C && C.invite); }
+
+/* ------------------------------------------------------------------ */
+/*  the door                                                          */
+/* ------------------------------------------------------------------ */
+function openInvite(){
+  const had = decisionGet();
+  const o = overlay(`
+    <div class="inv">
+      <div class="inv-kind">Not part of the case</div>
+      <div class="inv-title">One question, and it is yours</div>
+      <div class="rule"></div>
+      <div class="doc-body">
+        <p>Every other file in this archive is about somebody else. You have just spent an hour on the one file that has your name in it: a charge that is real, a ledger where nothing you could offer was ever accepted, and an account marked <b>paid in full</b> by somebody who did not owe it.</p>
+        <p>The record says that a gift, however completely it is paid for, is still not yours until you take it. So the file ends by asking you something, and then it stops asking.</p>
+        <p class="inv-q">Would you like to take that step yourself, today?</p>
+        <p class="inv-small">Nobody can see your answer. Nothing is sent anywhere. Your teacher cannot look it up, and there is no right answer to give to please anybody — which is exactly why it is worth answering honestly.</p>
+      </div>
+      <div class="inv-row">
+        <button class="btn inv-yes" id="invYes">Yes — I want to take this step</button>
+        <button class="btn ghost" id="invNot">Not now — I am still thinking</button>
+        <button class="btn ghost" id="invAlready">I already have</button>
+      </div>
+      ${had && had.made ? `<p class="inv-small" style="margin-top:14px">You opened this door before, on ${esc(had.dateLong || "")}. You are welcome back in it any time.</p>` : ""}
+    </div>`, "wide inviteview");
+  o.querySelector("#invYes").addEventListener("click", ()=>{ o.remove(); inviteSteps(0); });
+  o.querySelector("#invNot").addEventListener("click", ()=>{ o.remove(); inviteNotNow(); });
+  o.querySelector("#invAlready").addEventListener("click", ()=>{ o.remove(); inviteAlready(); });
+}
+
+/* ------------------------------------------------------------------ */
+/*  the four steps                                                    */
+/* ------------------------------------------------------------------ */
+const INV_STEPS = [
+  {
+    n:1, word:"Admit",
+    head:"That the charge sheet has my name on it too",
+    body:`<p>Not "I am as bad as anybody else" — that is a comparison, and the audit already closed comparisons. Just the plain thing the audit asked: <b>I have not always done what I myself knew was right.</b></p>
+          <p>This is the step people find hardest, and it is the one that costs nothing. You are not confessing to being a monster. You are agreeing with a ledger you have already read.</p>`,
+    verse:"“If we confess our sins, he is faithful and just to forgive us our sins, and to cleanse us from all unrighteousness.”",
+    ref:"1 John 1:9 · Romans 3:23",
+    tick:"I admit it. I have broken what I knew was right."
+  },
+  {
+    n:2, word:"Believe",
+    head:"That he died in my place, was buried, and rose again",
+    body:`<p>All three parts, because the record never gives two of them without the third. He died — the debt was actually paid, not waved away. He was buried — he was really dead. He rose on the third day — the payment was accepted, and there are named witnesses.</p>
+          <p>Believing this is not deciding to feel certain. It is deciding that you think it is <b>true</b>, the way you decided about every other case on that shelf.</p>`,
+    verse:"“God commends his own love toward us, in that while we were yet sinners, Christ died for us.”",
+    ref:"Romans 5:8 · 1 Corinthians 15:3–4",
+    tick:"I believe it. He died for me, was buried, and rose again."
+  },
+  {
+    n:3, word:"Receive",
+    head:"I stop trying to pay, and I take what he has paid",
+    body:`<p>This is the step in the file that everyone skips. Somebody has paid your fine in full and the money is sitting with the clerk — and if you never sign for it you walk out still owing, not because the payment was too small but because you never took it.</p>
+          <p>So: ask him. Ask him to forgive what is on the charge sheet, and ask him to be your Saviour — the one who paid it — and your Lord — the one you now follow. <b>And stop adding your own payments to a bill that is marked paid in full.</b></p>`,
+    verse:"“To as many as received him, to them he gave the right to become God’s children.”",
+    ref:"John 1:12 · Ephesians 2:8–9",
+    tick:"I receive him. I am not paying for this. I am taking it."
+  },
+  {
+    n:4, word:"Tell",
+    head:"Out loud, to a real person",
+    body:`<p>The record treats this as part of it rather than an extra, and there is a good reason: a decision nobody ever hears about is very easy to quietly un-decide next week.</p>
+          <p>It does not have to be a speech, and it does not have to be today. It has to be a real person — your teacher, a parent, somebody at church, somebody who follows Jesus and will be glad. <b>Say it in your own words.</b> You will be given something to help with that at the end.</p>`,
+    verse:"“If you will confess with your mouth that Jesus is Lord, and believe in your heart that God raised him from the dead, you will be saved.”",
+    ref:"Romans 10:9–10 · Matthew 10:32",
+    tick:"I will tell somebody. I am not keeping this to myself."
+  }
+];
+
+function inviteSteps(i){
+  const s = INV_STEPS[i];
+  const o = overlay(`
+    <div class="inv">
+      <div class="inv-kind">Step ${s.n} of 4</div>
+      <div class="inv-title">${s.word}</div>
+      <div class="inv-sub">${s.head}</div>
+      <div class="inv-dots">${INV_STEPS.map((x,k)=>
+        `<span class="inv-dot${k < i ? " done" : k === i ? " here" : ""}"></span>`).join("")}</div>
+      <div class="rule"></div>
+      <div class="doc-body">
+        ${s.body}
+        <div class="inv-verse">${s.verse}<div class="inv-ref">${s.ref}</div></div>
+      </div>
+      <div class="inv-row">
+        <button class="btn inv-yes" id="invNext">${s.tick}</button>
+        <button class="btn ghost" id="invBack">${i ? "Back a step" : "Not yet — take me back"}</button>
+      </div>
+      <p class="inv-small" style="margin-top:12px">You can stop at any step. Nothing is saved until the end, and stopping here is not a failure — it is you being honest, which is the whole point.</p>
+    </div>`, "wide inviteview");
+  o.querySelector("#invNext").addEventListener("click", ()=>{
+    o.remove();
+    if(i + 1 < INV_STEPS.length) inviteSteps(i + 1); else invitePrayer();
+  });
+  o.querySelector("#invBack").addEventListener("click", ()=>{
+    o.remove();
+    if(i) inviteSteps(i - 1); else openInvite();
+  });
+}
+
+/* ------------------------------------------------------------------ */
+/*  the prayer — offered, never required                              */
+/* ------------------------------------------------------------------ */
+function invitePrayer(){
+  const o = overlay(`
+    <div class="inv">
+      <div class="inv-kind">The four steps, said to him</div>
+      <div class="inv-title">You can use these words, or your own</div>
+      <div class="rule"></div>
+      <div class="doc-body">
+        <p><b>There is nothing magic in this prayer.</b> No sentence has power in it, and God is not listening for a particular form of words. He is listening for whether you mean it. If your own words are better, use your own words — they will be better, because they are yours.</p>
+        <div class="inv-prayer">
+          <p>Jesus,</p>
+          <p>I have not always done what I knew was right. I have broken it, and I am not going to pretend otherwise or argue that it is small.</p>
+          <p>I believe you died in my place, that you were buried, and that you rose again on the third day — and that this, and nothing I could bring, is what settles it.</p>
+          <p>I stop trying to pay. I take what you have paid. Please forgive me, and be my Saviour and my Lord from today.</p>
+          <p>I will tell somebody.</p>
+          <p>Thank you.</p>
+        </div>
+        <p class="inv-small">Read it slowly. Read it again if you want to. Nobody is timing you, and nobody is watching.</p>
+      </div>
+      <div class="inv-row">
+        <button class="btn inv-yes" id="invMean">I have prayed this, and I mean it</button>
+        <button class="btn ghost" id="invWait">I am not ready to say this yet</button>
+      </div>
+    </div>`, "wide inviteview");
+  o.querySelector("#invMean").addEventListener("click", ()=>{ o.remove(); inviteWelcome(true); });
+  o.querySelector("#invWait").addEventListener("click", ()=>{ o.remove(); inviteNotNow(); });
+}
+
+/* ------------------------------------------------------------------ */
+/*  welcome                                                           */
+/* ------------------------------------------------------------------ */
+function inviteWelcome(fresh){
+  const had = decisionGet();
+  if(fresh && !(had && had.made)){
+    decisionSet({made:true, date:todayIso(), dateLong:todayLong(), name:(had && had.name) || ""});
+  }
+  const d = decisionGet() || {};
+  const o = overlay(`
+    <div class="inv welcome">
+      ${SVG.finalSeal || ""}
+      <div class="inv-kind">${esc(d.dateLong || todayLong())}</div>
+      <div class="inv-title big">Welcome to the family</div>
+      <div class="rule"></div>
+      <div class="doc-body">
+        <p class="inv-lead">Whatever else is true about today, this is: you are not settling that account any more, because it is settled. That is not a feeling and it does not depend on how you feel tomorrow morning. It is a receipt with somebody else's name on the payment line.</p>
+        <div class="inv-verse">“To as many as received him, to them he gave the right to become God’s children.”<div class="inv-ref">John 1:12</div></div>
+        <p>The record says three things happen at this point, and none of them is about you trying harder.</p>
+        <ul>
+          <li><b>You are forgiven</b> — all of it, the whole page, not the parts you have owned up to. <span class="inv-ref-in">1 John 1:9 · Colossians 2:13–14</span></li>
+          <li><b>You are adopted.</b> The word the record uses is not <i>member</i> or <i>follower</i>. It is <i>child</i>, and it says you can speak to God the way a child speaks to a father. <span class="inv-ref-in">Romans 8:15–16 · Galatians 4:4–7</span></li>
+          <li><b>You are not alone in being glad.</b> The record says there is joy in heaven over one person turning round — over you, today. <span class="inv-ref-in">Luke 15:7, 15:10</span></li>
+        </ul>
+        <h4>What happens now</h4>
+        <p><b>Step four is still waiting, and it is the important one today: tell somebody.</b> A real person, out loud — your teacher, a parent, somebody at church. Not because it makes it more true, but because a decision nobody ever hears about is very easy to quietly un-decide. There is a note below you can print and hand to somebody if saying it out loud is hard.</p>
+        <p>After that, three ordinary things, none of them complicated: <b>talk to him</b> (that is all prayer is — no special voice), <b>read what he said</b> (the 📖 Bible is in the top bar of every case; John's account is a good place to start), and <b>find people who are doing the same</b>, because nobody keeps this up alone.</p>
+        <p class="margin-note">One last thing, because somebody should say it plainly. You will have a bad day, probably quite soon, and you will wonder whether today counted. It did. The account was not settled by how you were feeling — it was settled outside a city on a Friday, and your feelings on Tuesday do not reopen it.</p>
+      </div>
+      <div class="inv-row">
+        <button class="btn inv-yes" id="invCert">🏅 My certificate</button>
+        <button class="btn ghost" id="invNote">✉ A note I can give to somebody</button>
+        <button class="btn ghost" id="invClose">Close</button>
+      </div>
+    </div>`, "wide inviteview");
+  o.querySelector("#invCert").addEventListener("click", inviteCert);
+  o.querySelector("#invNote").addEventListener("click", inviteNote);
+  o.querySelector("#invClose").addEventListener("click", ()=>o.remove());
+}
+
+/* ------------------------------------------------------------------ */
+/*  the other two answers                                             */
+/* ------------------------------------------------------------------ */
+function inviteNotNow(){
+  const o = overlay(`
+    <div class="inv">
+      <div class="inv-kind">Answer received</div>
+      <div class="inv-title">That is an honest answer, and honest is what this file asked for</div>
+      <div class="rule"></div>
+      <div class="doc-body">
+        <p>We meant it when we said all three answers were real. Saying yes to something you do not yet believe would not make it true, and it would not fool anybody worth fooling. <b>Not yet is a better answer than a yes you do not mean.</b></p>
+        <p>So nothing is saved, nothing is marked, and nobody will be told. You worked the case, you weighed the evidence and you said what you actually think, which is exactly what every other file in this archive asks of you.</p>
+        <h4>If you want to keep going with it</h4>
+        <ul>
+          <li><b>Go back to the document that was hardest to get past.</b> Everyone has one. That is usually where the real question is hiding.</li>
+          <li><b>Work JM-33 — The Empty Tomb.</b> This file assumes the resurrection; that one puts it on trial properly, with every alternative explanation tested.</li>
+          <li><b>Read one of the accounts for yourself</b>, in the 📖 Bible at the top of any case. John's is short and it is the one that says most plainly what it is claiming.</li>
+          <li><b>Ask somebody the hard question</b> — the actual one, not a polite version of it. A question you are embarrassed to ask is usually the one worth asking.</li>
+        </ul>
+        <p class="margin-note">The door does not close and nobody is counting how long you take. When you want it again, open the ☰ menu in this case and it will be there, exactly as it is now.</p>
+      </div>
+      <div class="inv-row"><button class="btn ghost" id="invClose">Close</button></div>
+    </div>`, "wide inviteview");
+  o.querySelector("#invClose").addEventListener("click", ()=>o.remove());
+}
+
+function inviteAlready(){
+  const had = decisionGet() || {};
+  const o = overlay(`
+    <div class="inv">
+      <div class="inv-kind">Answer received</div>
+      <div class="inv-title">Then this file is your own story, told back to you</div>
+      <div class="rule"></div>
+      <div class="doc-body">
+        <p>Good. Then you have already seen the thing this case exists to show, and there is nothing here you need to do again — you cannot be adopted twice, and nothing on this screen adds to a receipt that already says <i>paid in full</i>.</p>
+        <p>Two things worth doing anyway. <b>Could you say why?</b> Not the feeling — the reasoning, the way you just did for five explanations on a board. Being able to say plainly what you believe and why is worth more than most of what school will teach you.</p>
+        <p>And <b>who told you?</b> Somebody did step four in your direction once. It is worth remembering that, and it is worth being that person for somebody else.</p>
+        <p>If you would like a certificate with the date you remember, put it in below. If you do not know the date, that does not matter in the slightest — plenty of people cannot name the day, and the receipt is not signed by your memory.</p>
+        <div class="inv-fields">
+          <label>The date, if you know it<input id="invDate" type="text" placeholder="e.g. sometime in Year 4, or 12 March 2023"></label>
+        </div>
+      </div>
+      <div class="inv-row">
+        <button class="btn inv-yes" id="invSave">Make my certificate</button>
+        <button class="btn ghost" id="invClose">Close</button>
+      </div>
+    </div>`, "wide inviteview");
+  o.querySelector("#invSave").addEventListener("click", ()=>{
+    const when = (o.querySelector("#invDate").value || "").trim();
+    decisionSet({made:true, date:todayIso(), dateLong: when || "a day I could not tell you the date of",
+                 name: had.name || "", earlier:true});
+    o.remove(); inviteCert();
+  });
+  o.querySelector("#invClose").addEventListener("click", ()=>o.remove());
+}
+
+/* ------------------------------------------------------------------ */
+/*  certificate and the note                                          */
+/* ------------------------------------------------------------------ */
+function decCertHtml(name, when){
+  return `
+  <div class="deccert">
+    <div class="dc-rule"></div>
+    <div class="dc-kind">B.I.B. &middot; The Bible Investigation Bureau</div>
+    <div class="dc-h">The Ransom</div>
+    <div class="dc-sub">Case JM-01 &middot; the file with your name in it</div>
+    <div class="dc-seal">✝</div>
+    <div class="dc-line">This is to record that</div>
+    <div class="dc-name">${esc(name) || "&nbsp;"}</div>
+    <div class="dc-line">read the charge, weighed the ledger, and on</div>
+    <div class="dc-date">${esc(when)}</div>
+    <div class="dc-line">stopped trying to pay, and received the gift of God
+      &mdash; forgiveness and eternal life through the death, burial and
+      resurrection of Jesus Christ.</div>
+    <div class="dc-verse">“To as many as received him, to them he gave the right to become God’s children.”<br><span>John 1:12</span></div>
+    <div class="dc-foot">
+      <div><span class="dc-sig"></span>Signed</div>
+      <div><span class="dc-sig"></span>Witnessed by</div>
+    </div>
+    <div class="dc-tiny">Not a certificate of achievement. Nothing on this page was earned, and that is the point of it.</div>
+    <div class="dc-rule"></div>
+  </div>`;
+}
+
+function inviteCert(){
+  const d = decisionGet() || {};
+  const o = overlay(`
+    <div class="inv">
+      <div class="inv-kind">For your case folder</div>
+      <div class="inv-title">Your certificate</div>
+      <div class="rule"></div>
+      <div class="doc-body">
+        <div class="inv-fields">
+          <label>Your name, as you want it written<input id="dcName" type="text" value="${esc(d.name||"")}" placeholder="Your name"></label>
+        </div>
+        <div id="dcPrev" class="dc-prev">${decCertHtml(d.name || "", d.dateLong || todayLong())}</div>
+      </div>
+      <div class="inv-row">
+        <button class="btn" id="dcPrint">Print it</button>
+        <button class="btn ghost" id="dcClose">Close</button>
+      </div>
+    </div>`, "wide inviteview");
+  const name = o.querySelector("#dcName"), prev = o.querySelector("#dcPrev");
+  const redraw = ()=>{
+    const dd = decisionGet() || {};
+    prev.innerHTML = decCertHtml(name.value, dd.dateLong || todayLong());
+    decisionSet(Object.assign({}, dd, {name:name.value}));
+  };
+  name.addEventListener("input", redraw);
+  o.querySelector("#dcPrint").addEventListener("click", ()=>{
+    const dd = decisionGet() || {};
+    printSheet("Certificate", decCertHtml(name.value, dd.dateLong || todayLong()));
+  });
+  o.querySelector("#dcClose").addEventListener("click", ()=>o.remove());
+}
+
+function decNoteHtml(name){
+  return `
+  <div class="decnote">
+    <div class="dn-h">I have something to tell you</div>
+    <div class="dn-body">
+      <p>I have been working <b>Case JM-01 — The Ransom</b>, and at the end of it I made a decision I would like you to know about.</p>
+      <p><b>Today I trusted Jesus Christ as my Saviour.</b> I admitted I had done wrong, I believe he died and rose again for me, and I have asked him to forgive me and to be my Lord.</p>
+      <p>The last of the four steps was to tell somebody. This is me doing that. I would like to talk about it when you have time.</p>
+      <div class="dn-from">— ${esc(name) || "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"}</div>
+    </div>
+    <div class="dn-note">If you are reading this and you are not sure what to say: “I’m really glad you told me” is enough to start with.</div>
+  </div>`;
+}
+
+function inviteNote(){
+  const d = decisionGet() || {};
+  const o = overlay(`
+    <div class="inv">
+      <div class="inv-kind">Step four</div>
+      <div class="inv-title">A note you can hand to somebody</div>
+      <div class="rule"></div>
+      <div class="doc-body">
+        <p>Saying it out loud is better, and you can still do that afterwards. But if the words will not come, print this, write your name on it, and give it to somebody you trust. That counts.</p>
+        <div class="inv-fields">
+          <label>Your name<input id="dnName" type="text" value="${esc(d.name||"")}" placeholder="Your name"></label>
+        </div>
+        <div id="dnPrev" class="dc-prev">${decNoteHtml(d.name || "")}</div>
+      </div>
+      <div class="inv-row">
+        <button class="btn" id="dnPrint">Print it</button>
+        <button class="btn ghost" id="dnClose">Close</button>
+      </div>
+    </div>`, "wide inviteview");
+  const name = o.querySelector("#dnName"), prev = o.querySelector("#dnPrev");
+  name.addEventListener("input", ()=>{
+    prev.innerHTML = decNoteHtml(name.value);
+    decisionSet(Object.assign({}, decisionGet() || {}, {name:name.value}));
+  });
+  o.querySelector("#dnPrint").addEventListener("click", ()=>
+    printSheet("A note", decNoteHtml(name.value)));
+  o.querySelector("#dnClose").addEventListener("click", ()=>o.remove());
+}
+
+/* One small print helper, so the certificate and the note do not depend on
+   the paper-edition machinery. */
+function printSheet(title, html){
+  const w = window.open("", "_blank", "width=900,height=1200");
+  if(!w){ alert("Your browser blocked the print window. Allow pop-ups for this page and try again."); return; }
+  const css = [...document.querySelectorAll("style")].map(s=>s.textContent).join("\n");
+  w.document.write(`<!doctype html><html><head><meta charset="utf-8"><title>${title}</title>
+    <style>${css}
+      body{background:#fff;margin:0;padding:26px;font-family:Georgia,serif}
+      .overlay,.topbar,#shelf{display:none!important}
+      @page{margin:14mm}
+    </style></head><body>${html}</body></html>`);
+  w.document.close();
+  setTimeout(()=>{ w.focus(); w.print(); }, 350);
+}
 
 </script>
 </body>

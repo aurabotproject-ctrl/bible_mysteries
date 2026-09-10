@@ -689,4 +689,101 @@ button.tourbtn{cursor:pointer;font-family:var(--ui-font)}
 @media print{ .overlay.tourview{display:none!important} }
 .rr-paper .tourbar{background:linear-gradient(#3a2b1c,#2a1e13)}
 @media print{ .tourbar{display:none!important} }
+
+/* ============================================================
+   JM-01 — the invitation
+   ============================================================ */
+.inv{position:relative}
+.inv-kind{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--accent);font-weight:800}
+.inv-title{font-family:var(--serif);font-size:29px;line-height:1.15;margin:6px 0 4px}
+.inv-title.big{font-size:38px}
+.inv-sub{font-size:13.5px;color:var(--ink-soft);font-style:italic;margin-bottom:6px}
+.inv-q{
+  font-family:var(--serif);font-size:22px;line-height:1.35;margin:20px 0 10px;
+  color:#7a2a1f;font-weight:700;
+}
+.inv-lead{font-family:var(--serif);font-size:17.5px;line-height:1.65}
+.inv-small{font-size:12px;color:var(--ink-soft);line-height:1.5;font-family:var(--ui-font)}
+.inv-ref-in{font-size:11px;color:var(--ink-soft);font-family:var(--ui-font)}
+.inv-row{display:flex;gap:10px;flex-wrap:wrap;margin-top:20px;align-items:center}
+.btn.inv-yes{background:#8c2f2a;border-color:#a8443a;color:#fff;font-weight:800}
+.btn.inv-yes:hover{filter:brightness(1.14)}
+
+.inv-dots{display:flex;gap:7px;margin:12px 0 2px}
+.inv-dot{width:9px;height:9px;border-radius:50%;background:rgba(90,65,35,.28)}
+.inv-dot.done{background:#7a2a1f}
+.inv-dot.here{background:#c8452f;box-shadow:0 0 0 3px rgba(200,69,47,.25)}
+
+.inv-verse{
+  font-family:var(--serif);font-size:17px;line-height:1.6;font-style:italic;
+  border-left:3px solid #8c2f2a;padding:6px 0 6px 16px;margin:18px 0;color:#4a3826;
+}
+.inv-ref{font-family:var(--ui-font);font-size:11px;font-style:normal;
+  letter-spacing:.1em;text-transform:uppercase;color:var(--accent);margin-top:7px}
+.inv-prayer{
+  background:#f3e8ce;border:1px solid rgba(90,65,35,.4);border-radius:6px;
+  padding:20px 24px;margin:18px 0;font-family:var(--serif);font-size:17.5px;line-height:1.62;
+}
+.inv-prayer p{margin:0 0 12px}
+.inv-prayer p:last-child{margin:0}
+.inv-fields{margin:14px 0}
+.inv-fields label{display:block;font-family:var(--ui-font);font-size:12px;color:var(--ink-soft);margin-bottom:6px}
+.inv-fields input{
+  display:block;width:100%;max-width:420px;margin-top:5px;padding:9px 11px;
+  font-family:var(--serif);font-size:16px;color:var(--ink);
+  background:#fbf3e0;border:1px solid rgba(90,65,35,.45);border-radius:5px;
+}
+
+/* the door on the debrief */
+.inv-door{
+  margin-top:22px;padding:16px 18px;border-radius:10px;
+  background:linear-gradient(#3a2b1c,#2a1e13);border:1px solid #8c2f2a;
+}
+.inv-door-h{font-family:var(--ui-font);font-size:11px;letter-spacing:.18em;
+  text-transform:uppercase;color:#e0b8a4;font-weight:800}
+.inv-door p{color:#e6d2ae;font-size:13.5px;line-height:1.55;margin:8px 0 14px}
+
+/* certificate and note */
+.dc-prev{margin-top:16px}
+.deccert{
+  background:#fdf6e6;border:2px solid #8c2f2a;border-radius:4px;
+  padding:26px 30px;text-align:center;color:#3a2d1c;font-family:var(--serif);
+  box-shadow:0 8px 22px rgba(0,0,0,.18);
+}
+.dc-rule{height:3px;background:linear-gradient(90deg,transparent,#8c2f2a,transparent);margin:2px 0 14px}
+.deccert .dc-rule:last-child{margin:16px 0 2px}
+.dc-kind{font-family:var(--ui-font);font-size:10px;letter-spacing:.24em;
+  text-transform:uppercase;color:#8c2f2a;font-weight:800}
+.dc-h{font-size:34px;line-height:1.1;margin:6px 0 2px}
+.dc-sub{font-size:12px;font-style:italic;color:#7a6a52;margin-bottom:10px}
+.dc-seal{font-size:40px;color:#8c2f2a;line-height:1;margin:10px 0 12px}
+.dc-line{font-size:14.5px;line-height:1.6;max-width:44ch;margin:0 auto}
+.dc-name{font-family:var(--hand);font-size:36px;color:#2f2416;margin:12px 0 4px;
+  border-bottom:1px solid rgba(90,65,35,.35);display:inline-block;min-width:280px;padding:0 18px 4px}
+.dc-date{font-family:var(--hand);font-size:26px;color:#2f2416;margin:10px 0}
+.dc-verse{font-size:13.5px;font-style:italic;color:#5b4a35;margin:18px auto 4px;max-width:42ch;line-height:1.55}
+.dc-verse span{font-family:var(--ui-font);font-style:normal;font-size:10.5px;
+  letter-spacing:.14em;text-transform:uppercase;color:#8c2f2a}
+.dc-foot{display:flex;gap:36px;justify-content:center;margin:22px 0 6px;
+  font-family:var(--ui-font);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:#7a6a52}
+.dc-sig{display:block;width:190px;border-bottom:1px solid rgba(90,65,35,.5);height:26px;margin-bottom:5px}
+.dc-tiny{font-family:var(--ui-font);font-size:10px;color:#8d7c63;font-style:italic;margin-top:10px}
+
+.decnote{
+  background:#fdf6e6;border:1px solid rgba(90,65,35,.45);border-radius:4px;
+  padding:26px 30px;color:#3a2d1c;font-family:var(--serif);
+}
+.dn-h{font-size:26px;margin-bottom:12px;color:#8c2f2a}
+.dn-body p{font-size:15.5px;line-height:1.65;margin:0 0 12px}
+.dn-from{font-family:var(--hand);font-size:28px;margin-top:18px}
+.dn-note{margin-top:20px;padding-top:12px;border-top:1px solid rgba(90,65,35,.3);
+  font-family:var(--ui-font);font-size:11.5px;color:#7a6a52;font-style:italic}
+
+@media (max-width:640px){
+  .inv-title{font-size:24px}
+  .inv-title.big{font-size:29px}
+  .inv-q{font-size:19px}
+  .dc-h{font-size:26px}
+  .dc-name{font-size:28px;min-width:0;width:100%}
+}
 </style>

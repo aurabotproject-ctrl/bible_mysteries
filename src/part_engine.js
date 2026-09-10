@@ -89,7 +89,7 @@ function posterArt(cdef){
     <rect width="300" height="200" fill="#e4d5b4"/>
     <circle cx="150" cy="96" r="46" fill="${cdef.colour}" opacity=".85"/>
     <circle cx="150" cy="96" r="37" fill="none" stroke="#f4e7cd" stroke-width="2"/>
-    <text x="150" y="106" text-anchor="middle" font-family="Georgia,serif" font-size="27" fill="#f6ead2">CS</text>
+    <text x="150" y="106" text-anchor="middle" font-family="Georgia,serif" font-size="20" letter-spacing="1" fill="#f6ead2">B.I.B.</text>
     <text x="150" y="172" text-anchor="middle" font-family="Georgia,serif" font-size="13"
       fill="#7a6238" letter-spacing="3">${cdef.code}</text>
   </svg>`;
@@ -963,11 +963,18 @@ function debrief(){
       <h4>Read it for yourself</h4>
       <p>${C.debrief.refs}</p>
     </div>
+    ${C.invite ? `<div class="inv-door">
+      <div class="inv-door-h">Before you file this one</div>
+      <p>This file ends with a question, and it is not about the evidence. It is
+         about you, nobody can see your answer, and any answer you give is a real one.</p>
+      <button class="btn inv-yes" id="dbInvite">Open the last page</button>
+    </div>` : ""}
     <div style="margin-top:16px;display:flex;gap:10px;flex-wrap:wrap">
       <button class="btn" id="dbCert">🏅 Print your certificate</button>
       <button class="btn ghost" id="dbSheet">Open the answer sheet</button>
       <button class="btn ghost" id="dbHome">Back to the case shelf</button>
     </div>`, "wide");
+  if(C.invite) $("#dbInvite").addEventListener("click", openInvite);
   $("#dbCert").addEventListener("click", ()=>openCertificate(C));
   $("#dbSheet").addEventListener("click", answerSheet);
   $("#dbHome").addEventListener("click", ()=>{
@@ -1586,7 +1593,27 @@ const _bw = $("#btnWrong"); if(_bw) _bw.addEventListener("click", openWrong);
 $("#btnSheet").addEventListener("click", answerSheet);
 $("#btnBible").addEventListener("click", ()=>openBible());
 $("#btnRiddle").addEventListener("click", openTool);
-$("#btnMenu").addEventListener("click", teacherNotes);
+$("#btnMenu").addEventListener("click", ()=>{
+  // On the one case that asks a personal question, the menu offers the way
+  // back to it -- for the reader who said "not now" and changed their mind.
+  if(C && C.invite) return openMenuJM01();
+  teacherNotes();
+});
+function openMenuJM01(){
+  const o = overlay(`
+    <div class="doc-kind">${C.code}</div>
+    <div class="doc-title">This case</div>
+    <div class="rule"></div>
+    <div class="doc-body"><p>The last page of this file asks you a question about
+      your own life. You can open it whenever you like, as many times as you like,
+      and nobody can see what you answer.</p></div>
+    <div class="inv-row">
+      <button class="btn inv-yes" id="mnInv">Open the last page</button>
+      <button class="btn ghost" id="mnTeach">Teacher notes</button>
+    </div>`, "wide");
+  o.querySelector("#mnInv").addEventListener("click", ()=>{ o.remove(); openInvite(); });
+  o.querySelector("#mnTeach").addEventListener("click", ()=>{ o.remove(); teacherNotes(); });
+}
 $("#btnBoard").addEventListener("click", ()=>showBoard(board.classList.contains("hidden")));
 $("#btnDesk").addEventListener("click", ()=>showBoard(false));
 $("#btnString").addEventListener("click", ()=>setStrMode("add"));

@@ -17,7 +17,7 @@ SVG.roster = `<svg viewBox="0 0 900 1200" xmlns="http://www.w3.org/2000/svg"><im
 SVG.finalSeal = `<svg class="seal-final" viewBox="0 0 100 100">
   <circle cx="50" cy="50" r="46" fill="#8c2f1f"/>
   <circle cx="50" cy="50" r="37" fill="none" stroke="#f2d9c9" stroke-width="2"/>
-  <text x="50" y="58" text-anchor="middle" font-family="Georgia,serif" font-size="26" fill="#f2d9c9">CS</text></svg>`;
+  <text x="50" y="57" text-anchor="middle" font-family="Georgia,serif" font-size="19" letter-spacing="1" fill="#f2d9c9">B.I.B.</text></svg>`;
 
 SVG.poster_jm33 = `<svg viewBox="0 0 1536 1024" xmlns="http://www.w3.org/2000/svg"><image href="__IMG_poster_jm33__" x="0" y="0" width="1536" height="1024"/></svg>`;
 
@@ -47,3 +47,4 @@ SVG.poster_jm15 = `<svg viewBox="0 0 1536 1024" xmlns="http://www.w3.org/2000/sv
 SVG.poster_jm16 = `<svg viewBox="0 0 1536 1024" xmlns="http://www.w3.org/2000/svg"><image href="__IMG_poster_jm16__" x="0" y="0" width="1536" height="1024"/></svg>`;
 SVG.poster_jm18 = `<svg viewBox="0 0 1536 1024" xmlns="http://www.w3.org/2000/svg"><image href="__IMG_poster_jm18__" x="0" y="0" width="1536" height="1024"/></svg>`;
 SVG.poster_jm20 = `<svg viewBox="0 0 1536 1024" xmlns="http://www.w3.org/2000/svg"><image href="__IMG_poster_jm20__" x="0" y="0" width="1536" height="1024"/></svg>`;
+SVG.poster_jm01 = `<svg viewBox="0 0 1536 1024" xmlns="http://www.w3.org/2000/svg"><image href="__IMG_poster_jm01__" x="0" y="0" width="1536" height="1024"/></svg>`;
