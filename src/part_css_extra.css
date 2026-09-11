@@ -569,7 +569,7 @@ tr.ppmxf td{background:#efe9dc}
 /* ---------- pin and string ---------- */
 #desk{z-index:0}
 #strings{
-  position:absolute;inset:0;z-index:6;pointer-events:none;overflow:visible;
+  position:absolute;inset:0;z-index:500;pointer-events:none;overflow:visible;
 }
 #strings .str-shadow{fill:none;stroke:rgba(0,0,0,.42);stroke-width:4.5;
   stroke-linecap:round;transform:translate(1px,2.5px)}
@@ -601,7 +601,7 @@ tr.ppmxf td{background:#efe9dc}
 .pinpt{position:absolute;left:50%;top:6px;width:1px;height:1px;pointer-events:none}
 
 #stringTools{
-  position:absolute;left:14px;bottom:14px;z-index:7;display:flex;gap:8px;
+  position:absolute;left:14px;bottom:26px;z-index:7;display:flex;gap:8px;
 }
 #stringTools.hidden{display:none}
 .stbtn{
@@ -926,4 +926,43 @@ button.tourbtn{cursor:pointer;font-family:var(--ui-font)}
   #topbar .spacer{display:none}
   #caseTitle{flex:1 1 auto}
 }
+
+/* ---------- zooming and panning the table ----------
+   The table is bigger than the window (see --tbl in the main stylesheet), so
+   there is room to spread the cards out. Zoomed in you can read a card;
+   zoomed out you see the whole table and can arrange things. Dragging an
+   empty patch of wood moves the table under the window. */
+#desk{cursor:grab}
+#desk.panning{cursor:grabbing}
+#desk.mode-add,#desk.mode-cut{cursor:default}
+#zoomTools{
+  position:absolute;right:14px;bottom:26px;z-index:7;
+  display:flex;gap:6px;align-items:center;
+  background:rgba(20,14,10,.8);border:1px solid var(--ui-line);
+  border-radius:999px;padding:4px;
+}
+#zoomTools.hidden{display:none}
+.zbtn{
+  min-width:44px;height:44px;padding:0 6px;
+  background:transparent;border:0;border-radius:999px;
+  font:inherit;font-size:20px;line-height:1;font-weight:700;
+  color:#e4d5b4;cursor:pointer;
+  display:inline-flex;align-items:center;justify-content:center;
+  -webkit-tap-highlight-color:transparent;
+}
+.zbtn.wide{min-width:62px;font-size:13px;font-weight:600;letter-spacing:.02em}
+.zbtn:hover{background:#3a2d23;color:#f7ecd4}
+.zbtn:disabled{opacity:.35;cursor:default}
+.zbtn:disabled:hover{background:transparent;color:#e4d5b4}
+/* The string tools sit bottom-left and the zoom cluster bottom-right, so on
+   anything narrower than a laptop the hint has to move up out of their row. */
+@media (max-width:1100px){
+  #deskHint{bottom:78px;font-size:11px;max-width:90%;text-align:center}
+}
+@media (max-width:760px){
+  #zoomTools{right:10px;bottom:22px}
+  #stringTools{left:10px;bottom:22px}
+}
+@media print{ #zoomTools{display:none!important} }
+
 </style>

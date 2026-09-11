@@ -26,13 +26,17 @@
     <button class="tbtn" id="btnMenu">☰</button>
   </div>
   <div id="stage">
-    <div id="desk"></div>
-    <svg id="strings" xmlns="http://www.w3.org/2000/svg"></svg>
+    <div id="desk"><svg id="strings" xmlns="http://www.w3.org/2000/svg"></svg></div>
+    <div id="zoomTools">
+      <button class="zbtn" id="btnZoomOut" title="Zoom out — more table to spread the cards on" aria-label="Zoom out">&minus;</button>
+      <button class="zbtn wide" id="btnZoomFit" title="Show the whole table">100%</button>
+      <button class="zbtn" id="btnZoomIn" title="Zoom in — close enough to read a card" aria-label="Zoom in">+</button>
+    </div>
     <div id="stringTools">
       <button class="stbtn" id="btnString" title="Pin a string between two cards">🧵 Add string</button>
       <button class="stbtn" id="btnCut" title="Snip a string in half">✂ Cut string</button>
     </div>
-    <div id="deskHint">Drag items around the desk · click an item to read it</div>
+    <div id="deskHint">Drag cards about · click one to read it · drag the bare wood to move the table</div>
     <div id="board" class="hidden"></div>
     <div id="notesPane" class="hidden">
       <h3>Case Notes</h3>

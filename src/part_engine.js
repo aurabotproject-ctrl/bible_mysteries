@@ -207,7 +207,7 @@ function openCase(cdef){
   $("#caseCode").textContent = C.code;
   $("#caseName").textContent = C.title;
   document.documentElement.style.setProperty("--accent", C.colour);
-  desk.innerHTML = ""; zTop = 10;
+  deskCards().forEach(n=>n.remove()); zTop = 10;   // #strings lives in here too
   board.classList.add("hidden");
   $("#btnBoard").classList.remove("on");
   $("#deskHint").classList.remove("hidden");
@@ -215,6 +215,7 @@ function openCase(cdef){
   $("#notesPane").classList.add("hidden");
   $("#notesArea").value = CS.notes || "";
   lockPip(); wrongPip();
+  migrateTable(); restoreView();
   if(CS.opened){ renderDesk(); }
   else { runIntro(); }
   paintLevel();
@@ -265,13 +266,213 @@ function runIntro(){
 /* ============================================================
    THE DESK
    ============================================================ */
-const desk = $("#desk");
+const desk  = $("#desk");
+const stage = $("#stage");
 const board = $("#board");
 let zTop = 10;
+
+/* ============================================================
+   THE TABLE - zoom and pan
+
+   The desk used to be exactly the size of the window, which on an iPad
+   meant eight cards and nowhere to put them. #desk is now a table TBL
+   windows wide and TBL windows tall, and #stage is the window onto it.
+   Zoomed in (100%) a card is comfortable to read and you can see a
+   quarter of the table; zoomed out you see the whole thing and can
+   spread things out. Dragging bare wood slides the table underneath.
+
+   Card positions stay percentages of the table, so nothing else in the
+   engine has to know about any of this. Positions saved before the
+   table grew are folded into the middle of the new one by migrateTable().
+   ============================================================ */
+const TBL   = 2;      // the table is 2 windows wide and 2 tall - four times the area
+const MAXZ  = 1.4;
+const ZSTEP = 1.25;
+const view  = {z:1, px:0, py:0};
+
+document.documentElement.style.setProperty("--tbl", TBL);
+
+/* An old position (a percentage of a one-window table) in the new table's
+   percentages: the same spot on the middle window of four. */
+function tmap(v){ return 50 + (v - 50) / TBL; }
+function migrateTable(){
+  if(!CS || CS.tv === TBL) return;
+  Object.keys(CS.pos || {}).forEach(k=>{
+    const p = CS.pos[k];
+    if(!p) return;
+    p.x = tmap(p.x); p.y = tmap(p.y);
+  });
+  CS.tv = TBL;
+  save();
+}
+
+function tableSize(){ return {w: desk.offsetWidth || 1, h: desk.offsetHeight || 1}; }
+function winSize(){ const r = stage.getBoundingClientRect(); return {w:r.width||1, h:r.height||1}; }
+/* Zoomed out any further than this and the table would be smaller than the
+   window, which just puts wood round the edges. */
+function minZ(){
+  const t = tableSize(), w = winSize();
+  return Math.min(1, Math.min(w.w/t.w, w.h/t.h));
+}
+function clampZ(z){ return Math.min(MAXZ, Math.max(minZ(), z)); }
+
+function applyView(){
+  const t = tableSize(), w = winSize();
+  const dw = t.w * view.z, dh = t.h * view.z;
+  view.px = dw <= w.w ? (w.w - dw)/2 : Math.min(0, Math.max(w.w - dw, view.px));
+  view.py = dh <= w.h ? (w.h - dh)/2 : Math.min(0, Math.max(w.h - dh, view.py));
+  desk.style.transform = `translate(${view.px}px,${view.py}px) scale(${view.z})`;
+  zoomBtns();
+  drawStrings();
+}
+function zoomBtns(){
+  const inB = $("#btnZoomIn"), outB = $("#btnZoomOut"), fit = $("#btnZoomFit");
+  if(!fit) return;
+  fit.textContent = Math.round(view.z*100) + "%";
+  const whole = view.z <= minZ() + 1e-3;
+  fit.title = whole ? "Back to reading size" : "Show the whole table";
+  if(inB)  inB.disabled  = view.z >= MAXZ - 1e-3;
+  if(outB) outB.disabled = whole;
+}
+
+/* Keep the point (sx,sy) - in window coordinates - over the same spot on the
+   table while the zoom changes. That is what makes a pinch feel right. */
+function zoomAt(z2, sx, sy, from){
+  const f = from || {z:view.z, px:view.px, py:view.py};
+  z2 = clampZ(z2);
+  const lx = (sx - f.px)/f.z, ly = (sy - f.py)/f.z;
+  view.z  = z2;
+  view.px = sx - lx*z2;
+  view.py = sy - ly*z2;
+  applyView();
+}
+function zoomStep(f){
+  const w = winSize(), mn = minZ();
+  let z = view.z * f;
+  // the last step out lands squarely on the whole table rather than a hair above it
+  if(f < 1 && z < mn*1.12) z = mn;
+  zoomAt(z, w.w/2, w.h/2);
+  saveView();
+}
+function toggleFit(){
+  const w = winSize();
+  const whole = view.z <= minZ() + 1e-3;
+  zoomAt(whole ? 1 : minZ(), w.w/2, w.h/2);
+  saveView();
+}
+
+/* The view is remembered as the table percentage sitting in the middle of the
+   window, so it survives a rotation or a different screen. */
+function saveView(){
+  if(!CS) return;
+  const t = tableSize(), w = winSize();
+  const dw = t.w*view.z, dh = t.h*view.z;
+  CS.view = {z:view.z, cx:(w.w/2 - view.px)/dw*100, cy:(w.h/2 - view.py)/dh*100};
+  save();
+}
+function centreOn(cx, cy){
+  const t = tableSize(), w = winSize();
+  view.px = w.w/2 - t.w*view.z*cx/100;
+  view.py = w.h/2 - t.h*view.z*cy/100;
+  applyView();
+}
+function restoreView(){
+  const v = (CS && CS.view) || {};
+  view.z = clampZ(v.z || 1);
+  centreOn(v.cx == null ? 50 : v.cx, v.cy == null ? 50 : v.cy);
+}
+
+/* --- dragging the bare wood, and pinching --- */
+const panPts = new Map();
+let panDrag = null, pinch = null;
+const ptDist = (a,b)=>Math.hypot(a.x-b.x, a.y-b.y);
+
+function onWood(e){
+  if(e.target.closest(".item")) return false;                          // a card handles itself
+  if(strMode === "cut" && e.target.closest("path.str")) return false;  // let the snip through
+  return true;
+}
+desk.addEventListener("pointerdown", e=>{
+  if(e.pointerType === "mouse" && e.button !== 0) return;
+  if(!onWood(e)) return;
+  panPts.set(e.pointerId, {x:e.clientX, y:e.clientY});
+  if(panPts.size === 2){
+    const [a,b] = [...panPts.values()];
+    const r = stage.getBoundingClientRect();
+    panDrag = null; desk.classList.remove("panning");
+    pinch = {d:ptDist(a,b), from:{z:view.z, px:view.px, py:view.py},
+             sx:(a.x+b.x)/2 - r.left, sy:(a.y+b.y)/2 - r.top};
+  }else if(panPts.size === 1){
+    panDrag = {id:e.pointerId, sx:e.clientX, sy:e.clientY,
+               px:view.px, py:view.py, moved:false};
+  }
+  e.preventDefault();
+});
+window.addEventListener("pointermove", e=>{
+  if(!panPts.has(e.pointerId)) return;
+  panPts.set(e.pointerId, {x:e.clientX, y:e.clientY});
+  if(pinch && panPts.size >= 2){
+    const [a,b] = [...panPts.values()];
+    const d = ptDist(a,b);
+    if(pinch.d > 8 && d > 8) zoomAt(pinch.from.z * d/pinch.d, pinch.sx, pinch.sy, pinch.from);
+    return;
+  }
+  if(panDrag && e.pointerId === panDrag.id){
+    const dx = e.clientX - panDrag.sx, dy = e.clientY - panDrag.sy;
+    if(!panDrag.moved){
+      if(Math.abs(dx) < 6 && Math.abs(dy) < 6) return;
+      panDrag.moved = true; desk.classList.add("panning");
+    }
+    view.px = panDrag.px + dx; view.py = panDrag.py + dy;
+    applyView();
+  }
+});
+function endPan(e){
+  if(!panPts.has(e.pointerId)) return;
+  panPts.delete(e.pointerId);
+  if(panPts.size < 2) pinch = null;
+  if(panDrag && e.pointerId === panDrag.id){
+    const moved = panDrag.moved;
+    panDrag = null; desk.classList.remove("panning");
+    // A tap on bare wood, not a drag: that is how you let a string go.
+    if(!moved && strMode === "add" && strFrom) clearPick();
+  }
+  if(panPts.size === 0) saveView();
+}
+window.addEventListener("pointerup", endPan);
+window.addEventListener("pointercancel", endPan);
+
+desk.addEventListener("wheel", e=>{
+  if(board && !board.classList.contains("hidden")) return;
+  e.preventDefault();
+  const r = stage.getBoundingClientRect();
+  zoomAt(view.z * (e.deltaY < 0 ? 1.1 : 1/1.1), e.clientX - r.left, e.clientY - r.top);
+  saveView();
+}, {passive:false});
+
+function wireZoom(){
+  const inB = $("#btnZoomIn"), outB = $("#btnZoomOut"), fit = $("#btnZoomFit");
+  if(inB)  inB.addEventListener("click",  ()=>zoomStep(ZSTEP));
+  if(outB) outB.addEventListener("click", ()=>zoomStep(1/ZSTEP));
+  if(fit)  fit.addEventListener("click",  toggleFit);
+  window.addEventListener("resize", ()=>applyView());
+  document.addEventListener("keydown", e=>{
+    if(document.querySelector(".overlay")) return;
+    if($("#app").classList.contains("hidden")) return;
+    if(board && !board.classList.contains("hidden")) return;
+    if(/^(INPUT|TEXTAREA)$/.test((e.target.tagName||"").toUpperCase())) return;
+    if(e.key === "+" || e.key === "="){ zoomStep(ZSTEP); e.preventDefault(); }
+    else if(e.key === "-" || e.key === "_"){ zoomStep(1/ZSTEP); e.preventDefault(); }
+    else if(e.key === "0"){ toggleFit(); e.preventDefault(); }
+  });
+}
+wireZoom();
+
+const deskCards = ()=>[...desk.querySelectorAll(":scope > .item")];
 function raise(n){
-  if(++zTop > 400){                       // keep desk cards below the pinboard
+  if(++zTop > 400){                       // keep desk cards below the strings
     zTop = 10;
-    [...desk.children].forEach(c=>c.style.zIndex = ++zTop);
+    deskCards().forEach(c=>c.style.zIndex = ++zTop);
   }
   n.style.zIndex = zTop;
 }
@@ -285,7 +486,7 @@ function stageNow(){
 function available(){ return C.items.filter(i=>i.stage<=stageNow()); }
 
 function renderDesk(){
-  const have = new Set([...desk.children].map(n=>n.dataset.id));
+  const have = new Set(deskCards().map(n=>n.dataset.id));
   available().forEach(item=>{
     if(have.has(item.id)) return;
     desk.appendChild(makeItem(item, CS.pos[item.id]===undefined));
@@ -293,7 +494,7 @@ function renderDesk(){
   drawStrings();
 }
 function makeItem(item, isNew){
-  const p = CS.pos[item.id] || {x:item.x, y:item.y, rot:item.rot};
+  const p = CS.pos[item.id] || {x:tmap(item.x), y:tmap(item.y), rot:item.rot};
   CS.pos[item.id] = p;
   // A card that carries a walk-in experience is faintly stained blue, so a
   // student can see at a glance which cards have something to walk into.
@@ -385,7 +586,8 @@ function anchorOf(id){
   const pt = n.querySelector(".pinpt");
   if(!pt) return null;
   const r = pt.getBoundingClientRect(), d = desk.getBoundingClientRect();
-  return {x: r.left + r.width/2 - d.left, y: r.top + r.height/2 - d.top};
+  // the desk is scaled, so divide it back out to get a point on the table itself
+  return {x:(r.left + r.width/2 - d.left)/view.z, y:(r.top + r.height/2 - d.top)/view.z};
 }
 function curveOf(a,b){
   const len = Math.hypot(b.x-a.x, b.y-a.y);
@@ -404,11 +606,11 @@ function pinSvg(p){
 
 function drawStrings(){
   if(!strings || !C || !CS) return;
-  const d = desk.getBoundingClientRect();
-  if(!d.width) return;
-  strings.setAttribute("viewBox", `0 0 ${d.width} ${d.height}`);
-  strings.setAttribute("width", d.width);
-  strings.setAttribute("height", d.height);
+  const tw = desk.offsetWidth, th = desk.offsetHeight;
+  if(!tw) return;
+  strings.setAttribute("viewBox", `0 0 ${tw} ${th}`);
+  strings.setAttribute("width", tw);
+  strings.setAttribute("height", th);
 
   const live = strList().filter(s => anchorOf(s.a) && anchorOf(s.b));
   if(live.length !== strList().length) CS.strings = live;   // a card went away
@@ -492,18 +694,15 @@ function hintText(){
                  : "Click a card to pin one end of the string to it")
    : strMode === "cut"
       ? "Click a string to cut it in half"
-      : "Drag items around the desk · click an item to read it";
+      : "Drag cards about · click one to read it · drag the bare wood to move the table";
 }
 
 if(strings){
   desk.addEventListener("pointermove", e=>{
     if(strMode !== "add" || !strFrom) return;
     const d = desk.getBoundingClientRect();
-    strGhost = {x:e.clientX - d.left, y:e.clientY - d.top};
+    strGhost = {x:(e.clientX - d.left)/view.z, y:(e.clientY - d.top)/view.z};
     drawStrings();
-  });
-  desk.addEventListener("pointerdown", e=>{
-    if(strMode === "add" && strFrom && !e.target.closest(".item")) clearPick();
   });
   strings.addEventListener("click", e=>{
     if(strMode !== "cut") return;
@@ -790,6 +989,7 @@ function showBoard(show){
   $("#btnBoard").classList.toggle("on", show);
   $("#deskHint").classList.toggle("hidden", show);
   $("#stringTools").classList.toggle("hidden", show);
+  $("#zoomTools").classList.toggle("hidden", show);
   if(show && strMode) setStrMode(null);
   if(show) renderBoard(); else drawStrings();
 }
