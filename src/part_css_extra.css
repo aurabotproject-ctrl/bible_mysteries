@@ -645,8 +645,8 @@ tr.ppmxf td{background:#efe9dc}
 /* a card with something to walk into keeps its blue paper here too. This
    sits ahead of the state rules below on purpose: being selected, used or
    open in the reader still has to win over the tint. */
-.chips .chip.walkin{background-color:#e4edf3;border-color:rgba(96,140,170,.55)}
-.chips .chip.walkin:hover{background-color:#d7e6ef}
+.chips .chip.walkin{background-color:var(--stain);border-color:var(--stain-line)}
+.chips .chip.walkin:hover{filter:brightness(.96)}
 .chips .chip.used{cursor:pointer}
 .chips .chip.reading{border-color:#6b4a2a;box-shadow:0 0 0 2px rgba(107,74,42,.35)}
 .chips .chip.used.reading{opacity:.7}
@@ -850,19 +850,80 @@ button.tourbtn{cursor:pointer;font-family:var(--ui-font)}
 }
 
 /* ---- cards with something to walk into ---------------------------------
-   A card that declares tour:{...} is on faintly blue paper, as though the
-   sheet had been lightly stained, so a student can see at a glance which
-   cards have something to walk into. It is the paper colour that changes,
-   not a wash laid over the card - the plate on the front keeps its own
-   colours, and the foxing and the shading underneath stay exactly as they
-   are on every other card. ---------------------------------------------- */
-.item.walkin .card{
-  background-color:#e4edf3;
-  box-shadow:inset 0 0 0 1px rgba(96,140,170,.30);
+   A card that declares tour:{...} is on faintly coloured paper, as though
+   the sheet had been lightly stained, so a student can see at a glance
+   which cards have something to walk into. It is the paper colour that
+   changes, not a wash laid over the card - the plate on the front keeps
+   its own colours, and the foxing and the shading underneath stay exactly
+   as they are on every other card.
+
+   Which colour is the teacher's choice, from the Tint switch in the top
+   bar. Everything below reads the four variables, so adding a fifth
+   colour means adding one more block up here and one more button.
+   ---------------------------------------------------------------------- */
+:root,
+:root[data-tint="red"]{
+  --stain:#f4e4df; --stain-line:rgba(150,78,64,.32); --stain-kind:#8c3a2a;
+  --stain-thumb:#ecd8d1; --stain-bar:rgba(74,26,18,.9); --stain-shadow:rgba(48,16,10,.45);
+  --stain-swatch:#c0655a;
 }
-.item.walkin .kind{color:#2f6486}
-.item.walkin .thumb{border-color:rgba(96,140,170,.45);background:#dde8ef}
-.item.walkin .open{background:rgba(28,56,76,.9)}
-.item.walkin{filter:drop-shadow(0 10px 14px rgba(12,32,48,.45))}
-.item.walkin.dragging{filter:drop-shadow(0 26px 30px rgba(12,32,48,.55))}
+:root[data-tint="blue"]{
+  --stain:#e4edf3; --stain-line:rgba(96,140,170,.32); --stain-kind:#2f6486;
+  --stain-thumb:#dde8ef; --stain-bar:rgba(28,56,76,.9); --stain-shadow:rgba(12,32,48,.45);
+  --stain-swatch:#5a92b6;
+}
+:root[data-tint="green"]{
+  --stain:#e4efe0; --stain-line:rgba(92,146,96,.32); --stain-kind:#3c6b36;
+  --stain-thumb:#dbe9d6; --stain-bar:rgba(26,56,26,.9); --stain-shadow:rgba(12,36,14,.45);
+  --stain-swatch:#63a05f;
+}
+:root[data-tint="yellow"]{
+  --stain:#f9e79c; --stain-line:rgba(170,134,24,.46); --stain-kind:#775910;
+  --stain-thumb:#f2dd94; --stain-bar:rgba(60,46,6,.9); --stain-shadow:rgba(44,34,4,.45);
+  --stain-swatch:#d6b03f;
+}
+.item.walkin .card{
+  background-color:var(--stain);
+  box-shadow:inset 0 0 0 1px var(--stain-line);
+}
+.item.walkin .kind{color:var(--stain-kind)}
+.item.walkin .thumb{border-color:var(--stain-line);background:var(--stain-thumb)}
+.item.walkin .open{background:var(--stain-bar)}
+.item.walkin{filter:drop-shadow(0 10px 14px var(--stain-shadow))}
+.item.walkin.dragging{filter:drop-shadow(0 26px 30px var(--stain-shadow))}
+
+/* the switch itself */
+.tint{
+  display:inline-flex;align-items:center;gap:4px;
+  background:#2c2119;border:1px solid #55432f;border-radius:8px;padding:3px 6px 3px 3px;
+}
+.tint-b{
+  width:17px;height:17px;padding:0;border-radius:50%;cursor:pointer;
+  background:var(--sw);border:1px solid rgba(0,0,0,.45);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.3);
+  transition:transform .12s, box-shadow .12s;
+}
+.tint-b[data-tint="red"]{--sw:#c0655a}
+.tint-b[data-tint="blue"]{--sw:#5a92b6}
+.tint-b[data-tint="green"]{--sw:#63a05f}
+.tint-b[data-tint="yellow"]{--sw:#d6b03f}
+.tint-b:hover{transform:scale(1.12)}
+.tint-b.on{
+  box-shadow:0 0 0 2px var(--brass), inset 0 1px 0 rgba(255,255,255,.4);
+  transform:scale(1.06);
+}
+@media (max-width:760px){ .tint .lvl-cap{display:none} }
+@media print{ .tint{display:none!important} }
+
+/* The top bar was one non-wrapping row, so on anything narrower than about
+   1180px the last few controls ran off the right edge with no way to reach
+   them - the reading switch and the menu included, before the tint switch
+   was ever added. Below that width it wraps onto a second row instead. The
+   spacer that pushes the tools right on a wide screen would eat the whole
+   first line, so it stands down. */
+@media (max-width:1180px){
+  #topbar{flex-wrap:wrap;row-gap:7px}
+  #topbar .spacer{display:none}
+  #caseTitle{flex:1 1 auto}
+}
 </style>

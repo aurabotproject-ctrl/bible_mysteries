@@ -1583,10 +1583,41 @@ document.addEventListener("click", e=>{
 });
 
 /* ============================================================
+   THE TINT ON A WALK-IN CARD
+
+   A card with something to walk into is drawn on faintly coloured paper.
+   Which colour is a matter of taste and of what shows up on the projector
+   in a particular room, so it is a switch rather than a decision. It is
+   saved on the device like the reading level, and it changes nothing but
+   the colour.
+   ============================================================ */
+const TINT_KEY = "bib-walkin-tint";
+const TINTS = ["red", "blue", "green", "yellow"];
+let TINT = "red";
+try{ const t = localStorage.getItem(TINT_KEY); if(TINTS.indexOf(t) >= 0) TINT = t; }catch(err){}
+
+function paintTint(){
+  document.documentElement.setAttribute("data-tint", TINT);
+  document.querySelectorAll(".tint-b").forEach(b=>
+    b.classList.toggle("on", b.dataset.tint === TINT));
+}
+function setTint(t){
+  if(TINTS.indexOf(t) < 0 || t === TINT) return;
+  TINT = t;
+  try{ localStorage.setItem(TINT_KEY, TINT); }catch(err){}
+  paintTint();
+}
+document.addEventListener("click", e=>{
+  const b = e.target.closest(".tint-b");
+  if(b) setTint(b.dataset.tint);
+});
+
+/* ============================================================
    BOOT
    ============================================================ */
 load();
 biblePrefLoad();
+paintTint();
 const notesArea = $("#notesArea");
 notesArea.addEventListener("input", ()=>{ if(CS){ CS.notes = notesArea.value; save(); } });
 $("#notesClose").addEventListener("click", ()=>$("#notesPane").classList.add("hidden"));

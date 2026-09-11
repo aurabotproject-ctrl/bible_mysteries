@@ -190,10 +190,14 @@ drop a self-contained HTML file into `tours/` and point a card at it. Five exist
 > bundled in with esbuild (`--bundle --format=iife --minify`) and the importmap
 > dropped. Check any new tour for external URLs before wiring it up. A tour survives
 the easy-level merge untouched, so it needs nothing in the easy pack. A card
-that declares one is drawn on faintly blue paper — `renderDesk` adds `.walkin`
-to the card and to its pinboard chip — so a student can see at a glance which
-cards have something to walk into. Nothing names a case or a card: the tint
-follows the `tour` key.
+that declares one is drawn on faintly coloured paper — `renderDesk` adds
+`.walkin` to the card and to its pinboard chip — so a student can see at a
+glance which cards have something to walk into. Which colour is the teacher's
+choice: a **Tint** switch in the top bar offers red (the default), blue, green
+and yellow, saved per device under `bib-walkin-tint`. Each colour is one block
+of CSS variables on `:root[data-tint="…"]`; adding a fifth means one more block
+and one more button. Nothing names a case or a card: the tint follows the
+`tour` key.
 
 ## 7. JM-01 — The Ransom (handle with care)
 
@@ -219,6 +223,9 @@ certificate seal). All labelled; the label wording is listed at the bottom of
 
 ## 8. Recent work, newest first
 
+- A Tint switch in the top bar picks the walk-in card colour; red is the default.
+  The top bar now wraps below 1180px, which also rescued the reading switch and
+  the menu — they had been running off the right edge on a 1024-wide screen.
 - JM-08 — The Merchant's Table, a 3D table of Achan's spoil, on the treasury card.
 - Cards carrying a walk-in experience are now on faintly blue paper.
 - JM-01 — the payment-test grid replaced by a crossword, The Clerk's Sheet.
