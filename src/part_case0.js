@@ -33,7 +33,7 @@ const JM01_ITEMS = [
     <ul>
       <li>Everything on the desk now is yours to read.</li>
       <li>Two parts of the file are <b>locked</b>. Both codes are hidden in the documents you already have.</li>
-      <li>The second lock opens on the <b>payment test</b> — the ⚖ button at the top — once the first is open.</li>
+      <li>The second lock opens on a keyword that is <b>written nowhere in this file</b>. You build it yourself on the <b>clerk’s sheet</b> — the 🧩 button at the top. Every answer on it is a word from a document you already hold.</li>
       <li>When all five explanations are closed, go to the <b>Pinboard</b>.</li>
     </ul>
     <p class="margin-note">One warning before you start. This file ends with a question, and it is not a question about the evidence. You are free to answer it either way, and nobody will ever know which — but read the evidence first, and answer it honestly.</p>
@@ -173,7 +173,7 @@ const JM01_ITEMS = [
     </table>
     <h4>How to work this case</h4>
     <p>Take each one and ask the question you would ask of any explanation in this archive: <b>which document makes it impossible?</b> Not which one you like least — which one it cannot survive.</p>
-    <p class="margin-note">Take these to the <b>payment test</b> when the ⚖ button appears. Five routes, five things the record says a payment has to be. Be strict, and see how many boxes you can honestly tick.</p>
+    <p class="margin-note">Every one of these five is closed by a single document you already hold — find the document first, then take it to the <b>Pinboard</b>. And as you go, ask the question the file keeps asking: on each of these roads, <b>who is doing the paying?</b></p>
     <div class="ref">Fictional summary sheet. The routes themselves are as old as the file.</div>`
 },
 
@@ -402,67 +402,54 @@ const JM01_LOCKS = [
       "The questions are in order. Question one gives the first digit. Every answer is a single digit.",
       "Question 1 is the charge sheet. Question 2 is the audit. Questions 3 and 4 are both in the three statements — count the men, then count how many were let in because of what they were carrying."
     ],
-    reward:"Field Chest B is open. The record of the payment, the note on the third day, the transfer and the one door are now on the desk. The ⚖ Payment test at the top is now working."
+    reward:"Field Chest B is open. The record of the payment, the note on the third day, the transfer and the one door are now on the desk — and the last two answers on the clerk’s sheet are in them."
   },
   {
     id:"l2", type:"word", code:"GRACE", len:5,
-    wrong:"Not quite. Fill in the payment test — the ⚖ button at the top — and look at the first column.",
+    wrong:"Not quite. The keyword is built on the clerk’s sheet — the 🧩 button at the top. Five numbered squares, collected in order.",
     name:"Sealed Pouch C — the name for it",
-    blurb:"A five-letter keyword. Take the five routes to the payment test and check each one honestly against what the record says a payment has to be. There is one word for a debt paid by somebody who did not owe it, handed to somebody who could never have paid — and the empty column will point you at it.",
+    blurb:"A five-letter keyword, and it is written nowhere in this file. You build it yourself on the clerk’s sheet. Every answer on that sheet is a word out of a document you already hold, and five of its squares carry a small number.",
     questions:[
-      "Open the ⚖ Payment test from the top bar.",
-      "Five routes down the side, five things a payment has to be across the top.",
-      "Tick a box only where that route honestly passes that test.",
-      "One column stays completely empty. What it asks for is the keyword."
+      "Open the 🧩 Clerk’s sheet from the top bar.",
+      "Every answer is a word from a document on your desk.",
+      "Five squares carry a small number, 1 to 5.",
+      "Collect those five letters in number order. That is the keyword."
     ],
     hints:[
-      "Be strict. Ask of each route: does this really do what the column says, or does it only feel like it does?",
-      "Look at what every one of the five routes has in common — they are all paid by <i>you</i>, and the audit already said what state your account is in."
+      "Fill in the ones you are sure of and let the crossing letters give you the rest. Two answers — the day, and what that day actually is — are in Field Chest B, so open the first lock before you expect to finish the sheet.",
+      "You are looking for the word for a debt paid by somebody who did not owe it, handed to somebody who could never have paid. Square 1 sits in the word for where the whole thing started, and it is the letter that word begins with."
     ],
     reward:"Sealed Pouch C is open. The word written across the account, why it had to be him, the part that is yours, and where the evidence stops are now on the desk."
   }
 ];
 
-const JM01_MATRIX = {
-  button:"⚖ Payment test",
-  title:"The Payment Test",
-  blurb:"Five routes people take down the side. Across the top, the five things this file says a payment has to be. Tick a box only where that route <b>honestly passes</b> that test — not where it feels like it might. Then look for the column nobody can tick.",
-  corner:"If this is what clears it…",
-  verify:"Check my test",
-  mark:"✔",
-  fromStage:1,
-  cols:[
-    {id:"clean",  label:"Paid by someone who owes nothing", note:"an empty account has nothing to give"},
-    {id:"covers", label:"Covers the whole charge",          note:"not just from today onwards"},
-    {id:"anyone", label:"Within reach of anyone",           note:"the weak, the dying, the young"},
-    {id:"final",  label:"Settles it for good",              note:"cannot come undone next week"},
-    {id:"agreed", label:"Accepted by the one who is owed",  note:"his opinion is the only one that counts"}
+const JM01_CROSSWORD = {
+  button:"\uD83E\uDDE9 Clerk's sheet",
+  title:"The Clerk's Sheet",
+  blurb:"Every answer is a word you can find in the documents on your desk. Five squares carry a small number \u2014 collect those five letters in number order and you have the keyword for the second lock. Two of the answers are in Field Chest B, so the first lock has to be open before you can finish it.",
+  W:11, H:11,
+  hidden:"GRACE",
+  entries:[
+    {n:1,d:"A",r:0,c:2,a:"CLEAN",q:"What not one account in the whole audit was found to be"},
+    {n:3,d:"A",r:1,c:7,a:"DOOR",q:"Three men came to it. Only one of them got in."},
+    {n:4,d:"A",r:3,c:1,a:"CRIMINAL",q:"The third of those three \u2014 nothing to offer, and no time left to fix it"},
+    {n:8,d:"A",r:5,c:6,a:"THIRD",q:"The day the record offers as proof the payment was accepted"},
+    {n:9,d:"A",r:6,c:0,a:"GARDEN",q:"Where the account was opened"},
+    {n:10,d:"A",r:8,c:4,a:"GIFT",q:"\u201cThe free ____ of God is eternal life\u201d \u2014 the half nobody earns"},
+    {n:11,d:"A",r:10,c:4,a:"RECEIPT",q:"Not decoration. What the third day actually is."},
+    {n:2,d:"D",r:0,c:5,a:"AUDIT",q:"The check that went through every account the Bureau holds"},
+    {n:3,d:"D",r:1,c:7,a:"DEATH",q:"\u201cThe wages of sin is ____\u201d"},
+    {n:5,d:"D",r:3,c:2,a:"REGRET",q:"Offered against the account and handed back \u2014 being sorry about a debt does not pay it"},
+    {n:6,d:"D",r:4,c:0,a:"WAGES",q:"\u201cThe ____ of sin is death\u201d \u2014 the half you earn"},
+    {n:7,d:"D",r:5,c:4,a:"LEDGER",q:"The book where every payment ever offered was written down"}
   ],
-  rows:[
-    {id:"nodebt",   label:"There was never a debt",   note:"ignore the charge sheet"},
-    {id:"deeds",    label:"Good deeds cancel it",     note:"outweigh the bad"},
-    {id:"religion", label:"Religion clears it",       note:"church, family, tradition"},
-    {id:"compare",  label:"I am better than most",    note:"measured against other people"},
-    {id:"overlook", label:"It will be overlooked",    note:"he is kind, so it is waived"}
-  ],
-  truth:[
-    "nodebt|anyone",
-    "deeds|anyone",
-    "religion|anyone",
-    "compare|anyone",
-    "overlook|anyone"
-  ],
-  foot:{
-    label:"What the file says is required",
-    note:"the ledger, the audit and the schedule together",
-    cells:{clean:"required", covers:"required", anyone:"required", final:"required", agreed:"required"}
-  },
-  note:"Be strict, and be fair. Anyone can take any of these five roads — that is a genuine tick, and it is the only one most of them earn. The interesting question is the first column: who is doing the paying on each of these roads, and what did the audit say about their account?",
-  reveal:{
-    lead:"Five ticks in twenty-five, all in the same column. Every one of these roads is open to anyone, and not one of them does anything else the file asks of a payment. Look hardest at the first column, because it is empty all the way down and it explains all the others: on every one of these roads the person paying is <b>you</b> — and the audit found no clean accounts, so there was never anything in the account to pay with. A debt cleared by somebody who did not owe it, handed to somebody who could never have paid it, has a name.",
-    answer:"GRACE",
-    caption:"Grace is not God lowering the standard, and it is not him pretending the account was clean. It is the bill being paid in full by the only person in the file who did not owe a penny of it."
-  }
+  marks:[
+    {i:1,r:6,c:0},
+    {i:2,r:10,c:4},
+    {i:3,r:0,c:5},
+    {i:4,r:3,c:1},
+    {i:5,r:2,c:7}
+  ]
 };
 
 const JM01_VERDICTS = [
@@ -481,7 +468,7 @@ const CASE_JM01 = {
   teaser:"The oldest file in the archive, and the only one with your name in it. An account opened in a garden, a ledger where every payment ever offered came back marked insufficient, and one page where the whole thing is marked PAID IN FULL — in the hand of somebody who did not owe a penny of it.",
   introSub:"The charge is real. The payment is real. What is left is what you do about it.",
   items:JM01_ITEMS, theories:JM01_THEORIES, locks:JM01_LOCKS, verdicts:JM01_VERDICTS,
-  matrix:JM01_MATRIX,
+  crossword:JM01_CROSSWORD,
   correct:"ransom",
   invite:true,
   boardTitle:"How the Debt Gets Cleared",
@@ -498,7 +485,7 @@ const CASE_JM01 = {
     refs:"Genesis 2:16–17 · Genesis 3:1–13 · Romans 3:10–12, 3:23 · Romans 5:8 · Romans 6:23 · Romans 10:9–13 · Ephesians 2:8–9 · John 1:12 · John 14:6 · John 19:30 · 1 Corinthians 15:3–8 · Luke 18:9–14 · Luke 23:39–43 · Acts 4:12 · 2 Corinthians 5:21"
   },
   teacher:{
-    answers:"Lock 1 code <b>1030</b> (1 command in the garden · 0 clean accounts in the audit · 3 statements at the door · 0 of them admitted on what they brought). Lock 2 keyword <b>GRACE</b>, from the ⚖ Payment test: every one of the five routes ticks only <i>within reach of anyone</i>, and the <i>paid by someone who owes nothing</i> column is empty all the way down, because on every one of those roads the payer is the student themselves.",
+    answers:"Lock 1 code <b>1030</b> (1 command in the garden · 0 clean accounts in the audit · 3 statements at the door · 0 of them admitted on what they brought). Lock 2 keyword <b>GRACE</b>, built on the Clerk’s Sheet crossword: the five numbered squares sit in GARDEN, RECEIPT, AUDIT, CRIMINAL and DEATH. Every answer on the sheet is a word out of a document on the desk; THIRD and RECEIPT are in Field Chest B, so the sheet cannot be finished before the first lock is open.",
     pairs:"There was never a debt → The Audit; good deeds cancel it → The Account, As Found; religion clears it → Three Who Came to the Door; I am better than most → The Audit (the same document, and worth discussing why); it will be overlooked → The Price Set Against It.",
     conclusion:"The debt is real and reaches everyone; no payment we offer has ever been accepted; it was paid in full by the one person who owed nothing; and it becomes yours when you receive it, not when you deserve it.",
     prompts:"\"Have you always done what YOU thought was right? Not what I think — what you thought at the time.\" · \"If good behaviour cancels bad, what happens to everything before today?\" · \"Two men brought something and one brought nothing. Which one got in?\" · \"Who is doing the paying on every road in that first column?\"",

@@ -1232,7 +1232,7 @@ button.tourbtn{cursor:pointer;font-family:var(--ui-font)}
 </div>
 
 <div id="shelf"></div>
-<div id="buildTag" title="Which build of the app this is. If a new feature is missing, reload the page and check this changes.">build 20260911-1054</div>
+<div id="buildTag" title="Which build of the app this is. If a new feature is missing, reload the page and check this changes.">build 20260911-1125</div>
 
 <script>
 const SVG = {};
@@ -3200,7 +3200,8 @@ function debrief(){
    ============================================================ */
 function caseTool(){
   if(!C) return null;
-  if(C.crossword) return {open:openCrossword, label:"\uD83E\uDDE9 Riddle", ready:true};
+  if(C.crossword) return {open:openCrossword,
+                          label:C.crossword.button || "\uD83E\uDDE9 Riddle", ready:true};
   if(C.ladder)    return {open:openLadder,   label:"\u2696 Enquiry",
                           ready:stageNow() >= 1};
   if(C.matrix)    return {open:openMatrix,   label:C.matrix.button || "\uD83D\uDCCA Grid",

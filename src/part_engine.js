@@ -988,7 +988,8 @@ function debrief(){
    ============================================================ */
 function caseTool(){
   if(!C) return null;
-  if(C.crossword) return {open:openCrossword, label:"\uD83E\uDDE9 Riddle", ready:true};
+  if(C.crossword) return {open:openCrossword,
+                          label:C.crossword.button || "\uD83E\uDDE9 Riddle", ready:true};
   if(C.ladder)    return {open:openLadder,   label:"\u2696 Enquiry",
                           ready:stageNow() >= 1};
   if(C.matrix)    return {open:openMatrix,   label:C.matrix.button || "\uD83D\uDCCA Grid",

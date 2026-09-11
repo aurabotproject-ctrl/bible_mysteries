@@ -121,7 +121,10 @@ Reusable mechanics, all in `part_engine.js`:
   testimony grid, object study, document comparison, payment test. Used by most
   cases.
 - **crossword** — answers are words from the documents; numbered squares spell
-  the lock-two keyword.
+  the lock-two keyword. A case may override the top-bar label with
+  `crossword.button`. Keep every answer inside the documents available at the
+  stage the student reaches it: an answer that only appears in a stage-2 card
+  makes the sheet unsolvable, because the sheet is how lock two opens.
 - **elimination ladder**
 - **balance scales**
 
@@ -205,6 +208,8 @@ certificate seal). All labelled; the label wording is listed at the bottom of
 
 ## 8. Recent work, newest first
 
+- JM-01 — the payment-test grid replaced by a crossword, The Clerk's Sheet.
+  The matrix was confusing in class. Same keyword, same lock, same documents.
 - JM-02 — the temple courts walk-in map on *Plan of the Temple Courts*.
 - JM-01 — a gold trim on its shelf card, driven by a `gold:true` header flag.
 - JM-19 — the Zorah-to-Timnah interactive map wired to *The Road Down to Timnah*.
