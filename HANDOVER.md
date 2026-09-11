@@ -3,8 +3,7 @@
 *Paste this at the start of a new chat. It is everything a fresh session needs
 to pick the project up without re-reading the whole archive.*
 
-Last updated: 11 September 2026, after making the walk-in experiences work on
-an iPad.
+Last updated: 11 September 2026, after giving the desk a zoom and a pan.
 
 ---
 
@@ -187,6 +186,23 @@ hard-fails otherwise.
 rules to `.chips .chip`. Chip state rules (`used`, `reading`, `sel`) must win
 over decoration, so put decoration *earlier* in the file, not later.
 
+**The desk is bigger than the window.** `#stage` is the window; `#desk` is a
+table `--tbl` (currently **2**) windows wide and 2 tall - four times the area -
+panned and scaled inside it by `applyView()`. Card positions are still
+percentages, but now of *the table*, so at 100% zoom, centred, the window shows
+exactly table% 25-75 and the layout is pixel-for-pixel what it always was.
+`tmap()` folds an old one-window percentage into that middle window;
+`migrateTable()` runs it once per case over a save made before the table grew
+and marks it `CS.tv = 2`. Anything that gives a card a default position must go
+through `tmap(item.x)`. Two things to remember: **`#strings` now lives inside
+`#desk`** so it is scaled with it (which is why `desk.innerHTML = ""` is gone -
+use `deskCards()`), and anything measured with `getBoundingClientRect()` on the
+desk is in *scaled* pixels, so a table coordinate needs `/ view.z`. Zoom floors
+at whole-table and ceilings at 140%; it is remembered per case in `CS.view` as
+the table percentage under the middle of the window, so a rotation keeps it.
+Bare wood drags the table, two fingers pinch it, the wheel zooms, and `+ - 0`
+do it from a keyboard.
+
 **Cache.** Every build stamps a version into the front door and the page, so a
 stale tab is forced to refetch. If something "has disappeared", it is almost
 always an un-refreshed tab — check the build stamp bottom-right before hunting.
@@ -307,6 +323,10 @@ certificate seal). The label wording is listed at the bottom of
 
 ## 11. Recent work, newest first
 
+- The desk zooms and pans. The table is four times the area it was, so on an
+  iPad the cards can actually be spread out instead of stacked; zoomed out you
+  see the whole table, zoomed in you can read a card. Bare wood drags it, two
+  fingers pinch it, and the zoom cluster sits bottom right.
 - The walk-in experiences work on an iPad: an on-screen pad for the three that
   were keyboard-only, touch CSS and a viewport meta for all of them, and a
   guard on the desk's pointer capture so an interrupted touch cannot leave a
