@@ -1322,7 +1322,7 @@ button.tourbtn{cursor:pointer;font-family:var(--ui-font)}
 </div>
 
 <div id="shelf"></div>
-<div id="buildTag" title="Which build of the app this is. If a new feature is missing, reload the page and check this changes.">build 20260911-2248</div>
+<div id="buildTag" title="Which build of the app this is. If a new feature is missing, reload the page and check this changes.">build 20260911-2315</div>
 
 <script>
 const SVG = {};
@@ -2629,7 +2629,11 @@ function attachDrag(n,item){
     n._r = desk.getBoundingClientRect();
     sx=e.clientX; sy=e.clientY;
     ox=CS.pos[item.id].x; oy=CS.pos[item.id].y;
-    n.setPointerCapture(id);
+    // On a tablet the system can take a gesture back mid-touch, and then
+    // capturing throws. It is not worth losing the rest of this handler
+    // over - without preventDefault below, iOS starts scrolling the page
+    // instead of moving the card.
+    try{ n.setPointerCapture(id); }catch(err){}
     n.classList.add("dragging");
     raise(n);
     e.preventDefault();

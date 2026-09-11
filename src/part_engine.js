@@ -327,7 +327,11 @@ function attachDrag(n,item){
     n._r = desk.getBoundingClientRect();
     sx=e.clientX; sy=e.clientY;
     ox=CS.pos[item.id].x; oy=CS.pos[item.id].y;
-    n.setPointerCapture(id);
+    // On a tablet the system can take a gesture back mid-touch, and then
+    // capturing throws. It is not worth losing the rest of this handler
+    // over - without preventDefault below, iOS starts scrolling the page
+    // instead of moving the card.
+    try{ n.setPointerCapture(id); }catch(err){}
     n.classList.add("dragging");
     raise(n);
     e.preventDefault();

@@ -3,8 +3,8 @@
 *Paste this at the start of a new chat. It is everything a fresh session needs
 to pick the project up without re-reading the whole archive.*
 
-Last updated: 10 September 2026, after wiring the real artwork into JM-01 and
-adding the Timnah walk-in map to JM-19.
+Last updated: 11 September 2026, after making the walk-in experiences work on
+an iPad.
 
 ---
 
@@ -24,7 +24,26 @@ Chromebook, offline, from a file on a USB stick.
 Written for a Year 7–8 New Zealand classroom. NZ spelling and date format
 throughout.
 
-## 2. Where it lives and how to change it
+## 2. How the students actually use it — read this before building anything
+
+**They open it in Chrome on an iPad.** That is the primary device, not a
+laptop. It sets a standing requirement on everything, and it is the easiest
+thing in this project to forget, because it all works fine on the machine you
+are building it on:
+
+- **Nothing may depend on a keyboard.** Three of the walk-in experiences moved
+  on the arrow keys only, which on a tablet means they did not move at all.
+- **Nothing may depend on hover.** There is no hover on a touch screen; a
+  hover-only affordance is invisible.
+- **Touch targets want to be ~44px or more**, and a drag must not turn into
+  the page scrolling underneath it.
+- **Test it on a touch device before calling it done.** Emulating a coarse
+  pointer catches almost everything; §7 has the harness.
+
+Chromebooks and laptops are still used, so a keyboard must keep working — the
+touch answer is *as well as*, never *instead of*.
+
+## 3. Where it lives and how to change it
 
 Everything is on the Mac at:
 
@@ -45,44 +64,47 @@ cd /Users/l.clark/Desktop/claude_auto/investigate
 anything in `dist/`, `single/`, `standalone/` or the root `index.html`** — the
 build rewrites all of them from `src/`. Edit `src/` and rebuild.
 
-Git auth is a fine-grained PAT read by a `credential.helper` shell function.
-The token file lives at `~/Desktop/claude_auto/github-token.txt`, **outside the
-repo**. Do not open it, print it, or paste it into a chat.
+Git auth is a fine-grained PAT read by a `credential.helper` shell function in
+`.git/config`, which tries `~/Desktop/claude_auto/github-token.txt` and then
+the sandbox mount path, so the same repo pushes from a Terminal or from a
+Claude session. The token file lives **outside the repo**. Do not open it,
+print it, or paste it into a chat.
 
-## 3. The four build outputs
+## 4. The four build outputs
 
 `python3 src/build.py` writes all four from the same source:
 
 | Output | What it is | Notes |
 |---|---|---|
-| `dist/` | **the deploy build** | `index.html` ~251 KB, plus one `.js` per case fetched on demand, plus `images/` and `bible.json`. Upload the *contents* of `dist/` to the repo root. Stays small as cases are added. |
-| `single/<case>.html` | one self-contained file per case | 3–6 MB. Hand out, email, USB stick. Works offline with no other files. |
-| `standalone/index.html` | the whole shelf in one file | ~52 MB. Gitignored — local use only. |
+| `dist/` | **the deploy build** | `index.html` ~259 KB, plus one `.js` per case fetched on demand, plus `images/` and `bible.json`. Upload the *contents* of `dist/` to the repo root. Stays small as cases are added. |
+| `single/<case>.html` | one self-contained file per case | 4–6 MB. Hand out, email, USB stick. Works offline with no other files. |
+| `standalone/index.html` | the whole shelf in one file | ~54 MB. Gitignored — local use only. |
 | `index.html` (root) | the front door | Redirects to `dist/`, falls back to `standalone/`. Carries the build stamp. |
 
 Not in the public repo (see `.gitignore`): `docs/` and `print/` — **they contain
 every lock code and answer key** — plus `single/`, `standalone/`, `_to_delete/`
 and the raw PNGs under `tobuild/`.
 
-## 4. Source layout
+## 5. Source layout
 
 ```
 src/
   build.py            the whole build
   part_style.html     main stylesheet + <title>
-  part_css_extra.css  everything added since: strings, reader, tours, sign, JM-01
-  part_shell.html     HTML skeleton
+  part_css_extra.css  everything added since: strings, reader, tours, sign, tint, JM-01
+  part_shell.html     HTML skeleton, including the top bar
   part_assets.js      SVG plates and every case's poster art
   part_registry.js    case stubs, lazy loader, reading-level merge
   part_bible.js       Bible reader + reference auto-linker
   part_print.js       paper edition, certificates, folder pack
-  part_engine.js      desk, locks, pinboard, strings, crossword, saves (~1600 lines)
+  part_engine.js      desk, locks, pinboard, strings, crossword, saves (~1650 lines)
   part_invite.js      JM-01 only — the invitation, welcome, certificate, note
   part_caseN.js       one per case
   part_caseN.easy.js  easy reading-level overlay for that case
   prompts.py          writes the image-prompt sheets into tobuild/
   gridgen.py          crossword grid generator
-  split4.py           cuts a 2×2 contact sheet into separate plates
+  split4.py           cuts a 2x2 contact sheet into separate plates
+  tools/patch_touch.py  adds touch controls to a walk-in experience (§8)
 ```
 
 Case file → case id (the numbering is historical, not sequential):
@@ -104,10 +126,10 @@ Case file → case id (the numbering is historical, not sequential):
 `NAMES` (its image names) and, if it has an easy pack, `EASY_FILES`.
 
 `tobuild/` holds 47 folders — one per case, each with an `image-prompts.md`
-carrying the ready-to-paste art prompts for that case. 28 of them are designed
-but not yet built.
+carrying the ready-to-paste art prompts for that case. 28 are designed but not
+yet built.
 
-## 5. How a case is put together
+## 6. How a case is put together
 
 A case is one big object: `items` (the documents on the desk), `theories` (the
 pinboard — each names the single item that closes it), `locks` (two, each with
@@ -117,9 +139,8 @@ lock one, 2 after lock two.
 
 Reusable mechanics, all in `part_engine.js`:
 
-- **matrix** — the workhorse. A grid the student fills in: hypothesis table,
-  testimony grid, object study, document comparison, payment test. Used by most
-  cases.
+- **matrix** — a grid the student fills in: hypothesis table, testimony grid,
+  object study, document comparison. The workhorse.
 - **crossword** — answers are words from the documents; numbered squares spell
   the lock-two keyword. A case may override the top-bar label with
   `crossword.button`. Keep every answer inside the documents available at the
@@ -128,7 +149,7 @@ Reusable mechanics, all in `part_engine.js`:
 - **elimination ladder**
 - **balance scales**
 
-## 6. Conventions that will bite you if you don't know them
+## 7. Conventions that will bite you if you don't know them
 
 **Reading levels.** Every case is written once at *medium*. An easy pack
 (`part_caseN.easy.js`) is **wording only**, keyed by the same ids, merged over
@@ -163,48 +184,78 @@ of thing that fails silently.
 hard-fails otherwise.
 
 **`.chip` is not yours.** It also matches the top-bar "Wrong" counter. Scope new
-rules to `.chips .chip`.
+rules to `.chips .chip`. Chip state rules (`used`, `reading`, `sel`) must win
+over decoration, so put decoration *earlier* in the file, not later.
 
 **Cache.** Every build stamps a version into the front door and the page, so a
 stale tab is forced to refetch. If something "has disappeared", it is almost
 always an un-refreshed tab — check the build stamp bottom-right before hunting.
 
-**A gilt case.** A case can ask for a gold trim on the shelf with `gold:true`
-in its header. `build.py` copies the flag into the shelf stub (the shelf draws
-posters before any case is fetched) and `renderShelf` adds `.gold`. Only JM-01
-uses it, and it should stay that way — the trim means *this one is different*,
-and two of them means nothing.
+**The top bar wraps below 1180px.** It used to be one non-wrapping row and the
+controls on the right ran off the edge unreachable. Anything added to it should
+be checked from 1600px down to 400px.
 
-**Walk-in experiences (tours).** A card declares
-`tour:{href:"../tours/x.html", label:"…", note:"…"}`. The deploy build fetches
-the file on demand; the offline builds inline it into `window.__TOURS__` and
-open it in an iframe with `srcdoc`. Adding one needs **nothing** in `build.py` —
-drop a self-contained HTML file into `tours/` and point a card at it. Five exist: `jerusalem-ad33.html` (JM-33),
-`aram-campaign.html` (JM-47), `timnah-road.html` (JM-19),
-`temple-courts.html` (JM-02) and `jericho-spoil.html` (JM-08).
+## 8. Walk-in experiences (the tours)
 
-> A tour file must be **genuinely self-contained**. The offline builds inline
-> it into an iframe with `srcdoc` and a handout may be opened from a USB stick
-> with no network at all, so a CDN `<script src>` or an importmap pointing at
-> unpkg leaves a blank page. `jericho-spoil.html` needed three.js: it was
-> bundled in with esbuild (`--bundle --format=iife --minify`) and the importmap
-> dropped. Check any new tour for external URLs before wiring it up. A tour survives
-the easy-level merge untouched, so it needs nothing in the easy pack. A card
-that declares one is drawn on faintly coloured paper — `renderDesk` adds
+A card declares `tour:{href:"../tours/x.html", label:"…", note:"…"}`. The deploy
+build fetches the file on demand; the offline builds inline it into
+`window.__TOURS__` and open it in an iframe with `srcdoc`. Adding one needs
+**nothing** in `build.py` — drop a self-contained HTML file into `tours/` and
+point a card at it. A tour survives the easy-level merge untouched, so it needs
+nothing in the easy pack.
+
+Five exist: `jerusalem-ad33.html` (JM-33), `aram-campaign.html` (JM-47),
+`timnah-road.html` (JM-19), `temple-courts.html` (JM-02) and
+`jericho-spoil.html` (JM-08).
+
+A card that declares one is drawn on faintly coloured paper — `renderDesk` adds
 `.walkin` to the card and to its pinboard chip — so a student can see at a
 glance which cards have something to walk into. Which colour is the teacher's
 choice: a **Tint** switch in the top bar offers red (the default), blue, green
 and yellow, saved per device under `bib-walkin-tint`. Each colour is one block
-of CSS variables on `:root[data-tint="…"]`; adding a fifth means one more block
-and one more button. Nothing names a case or a card: the tint follows the
-`tour` key.
+of CSS variables on `:root[data-tint="…"]`. Nothing names a case or a card: the
+tint follows the `tour` key.
 
-## 7. JM-01 — The Ransom (handle with care)
+### Two checks every new tour has to pass
+
+**1. It must be genuinely self-contained.** The offline builds inline it into a
+`srcdoc` iframe and a handout may be opened from a USB stick with no network at
+all, so a CDN `<script src>` or an importmap pointing at unpkg leaves a blank
+page — silently, with no error. `jericho-spoil.html` needed three.js: it was
+bundled in with esbuild (`--bundle --format=iife --minify`) and the importmap
+dropped. Grep any new tour for `http` before wiring it up.
+
+**2. It must be usable with a finger.** Run it through:
+
+```bash
+python3 src/tools/patch_touch.py tours/<new-tour>.html
+```
+
+That script is idempotent and does three things: adds a viewport meta (without
+one an iPad renders at desktop width and zooms out), adds page-level touch CSS
+(no rubber-band scroll, no long-press callout, `touch-action:none` on the
+canvas/stage), and — for a tour that moves on the arrow keys — adds an
+on-screen D-pad at bottom centre. The pad knows nothing about the tour it sits
+on: it dispatches the very same `keydown`/`keyup` the tour already listens for,
+so it works whatever the movement code looks like and the keyboard still works
+too. It also rewrites any "use the arrow keys" text on a touch device.
+
+The pad appears only under `@media (pointer:coarse)`, so a laptop sees nothing.
+Bottom centre because every one of these tours keeps its legend in a bottom
+corner. Two exceptions are encoded in the script: `jericho-spoil.html` is
+dragged rather than walked so it gets no pad, and `jerusalem-ad33.html` already
+carries a purpose-built touch layer of its own (joystick, look-drag, run and map
+buttons) and is skipped entirely.
+
+## 9. JM-01 — The Ransom (handle with care)
 
 The salvation case, and the one the whole archive is pointed at. Same machinery
 as the others — a debt opened in a garden, a ledger where every payment ever
-offered came back *insufficient*, a payment test whose "paid by someone who owes
-nothing" column is empty, and an account struck through.
+offered came back *insufficient*, and an account struck through. Its second lock
+opens on **The Clerk's Sheet**, a crossword whose five numbered squares spell
+the keyword. (It used to be a payment-test grid; that was confusing in class and
+was replaced.) It is also the only case with `gold:true` in its header, which
+gives it a gilt trim on the shelf.
 
 On the debrief there is a door: *one question, and it is yours.* Three answers —
 yes, not now, I already have. "Yes" walks four steps (Admit, Believe, Receive,
@@ -218,60 +269,67 @@ teacher notes explain the framing to use out loud. Keep it that way.
 
 Its art: `poster_jm01`, `j01hill` (The Payment), `j01gate` (The Charge),
 `j01ledger` (The Account), `j01paid` (The Word Written), `j01cert` (the
-certificate seal). All labelled; the label wording is listed at the bottom of
+certificate seal). The label wording is listed at the bottom of
 `tobuild/JM-01 — THE RANSOM/image-prompts.md`.
 
-## 8. Recent work, newest first
-
-- A Tint switch in the top bar picks the walk-in card colour; red is the default.
-  The top bar now wraps below 1180px, which also rescued the reading switch and
-  the menu — they had been running off the right edge on a 1024-wide screen.
-- JM-08 — The Merchant's Table, a 3D table of Achan's spoil, on the treasury card.
-- Cards carrying a walk-in experience are now on faintly blue paper.
-- JM-01 — the payment-test grid replaced by a crossword, The Clerk's Sheet.
-  The matrix was confusing in class. Same keyword, same lock, same documents.
-- JM-02 — the temple courts walk-in map on *Plan of the Temple Courts*.
-- JM-01 — a gold trim on its shelf card, driven by a `gold:true` header flag.
-- JM-19 — the Zorah-to-Timnah interactive map wired to *The Road Down to Timnah*.
-- JM-01 — the six generated plates in, plaques measured and labelled, mirrored
-  into the easy pack; the certificate seal replaced the typeset cross; print
-  window given a `<base href>` so a printed certificate keeps its seal.
-- JM-01 built from scratch, medium and easy, with the invitation.
-- Walk-in tours inlined for offline handouts.
-- The banner sign artwork, bleeding to the screen edges with a floor size.
-- Pinboard evidence reader — tap a chip, read the whole card below.
-- Pin and string on the desk, with cut-with-scissors.
-- Strikes: five wrong answers fails the case. Two hints per lock (the third was
-  removed — it gave too much away).
-- Easy packs completed for the first ten cases on the shelf.
-
-## 9. Working notes for the assistant
+## 10. Working notes for the assistant
 
 - The Mac is reached over the device bridge. **Each `device_bash` call is its
   own fresh sandbox — background jobs do not survive between calls.** Long
   pushes run in the foreground with a raised timeout.
 - Do the work on the Mac where the files are. Only stage a file into the cloud
   container when you need to *look* at an image, or need a library that is not
-  on the Mac.
+  on the Mac (esbuild and PIL, for instance, live there).
+- **Deleting is not permitted on the Mac by default.** `build.py` no longer
+  needs it, but git does — if a commit leaves `.git/index.lock` behind, every
+  later git command fails until it is removed, which needs a delete-permission
+  request.
 - **Verify, don't trust.** The habit that has caught nearly every bug on this
   project: a headless-Chromium test that drives the real interface end to end.
   The test rig lives in the cloud container, which is ephemeral — a new session
   starts without it. Rebuilding it is quick: serve the folder
-  (`python3 -m http.server`), drive it with Playwright against
+  (`python3 -m http.server 8899`), drive it with Playwright against
   `/opt/pw-browsers/chromium`, and assert on real state (`C`, `CS`, the DOM),
   not on screenshots alone. Always listen for `pageerror` and 4xx responses.
+- **Touch testing.** A Playwright context with
+  `{hasTouch:true, isMobile:true, viewport:{width:1024,height:768}}` reports a
+  coarse pointer, which is what the pad and the CSS key off. Use
+  `page.touchscreen.tap(x, y)` for real taps — `element.click()` does **not**
+  produce a `pointerup`, and cards open on `pointerup`, so a click-based test
+  will report a false failure. For 3D scenes launch Chromium with
+  `--use-gl=swiftshader --enable-unsafe-swiftshader`.
 - Test-rig drift is a recurring false alarm: several scripts pick a case by
   poster **index**, and adding a case to the front of the shelf shifts every
   one. If a test suddenly fails on the wrong case, check the index first.
 - `docs/chronicle-society-production-guide.md` (1,484 lines, local only) is the
-  design bible: every case's design, lock codes and answers. `docs/case-builder.md`
-  is the how-to for building a new one.
+  design bible: every case's design, lock codes and answers.
+  `docs/case-builder.md` is the how-to for building a new one.
 
-## 10. What is worth doing next
+## 11. Recent work, newest first
+
+- The walk-in experiences work on an iPad: an on-screen pad for the three that
+  were keyboard-only, touch CSS and a viewport meta for all of them, and a
+  guard on the desk's pointer capture so an interrupted touch cannot leave a
+  card stuck.
+- A Tint switch in the top bar picks the walk-in card colour; red is the
+  default. The top bar now wraps below 1180px, which also rescued the reading
+  switch and the menu.
+- Cards carrying a walk-in experience are drawn on faintly coloured paper.
+- JM-08 — The Merchant's Table, a 3D table of Achan's spoil, on the treasury card.
+- JM-01 — the payment-test grid replaced by a crossword, The Clerk's Sheet.
+- A gilt trim on The Ransom's shelf card.
+- JM-02 — the temple courts walk-in map.
+- JM-19 — the Zorah-to-Timnah walk-in map.
+- JM-01 — the six generated plates in, plaques measured and labelled.
+- JM-01 built from scratch, medium and easy, with the invitation.
+- Strikes: five wrong answers fails the case. Two hints per lock.
+- Pin and string on the desk; the pinboard evidence reader.
+
+## 12. What is worth doing next
 
 - **More cases.** 28 designed folders sit in `tobuild/` with their prompts
   already written. That is the main road.
 - **README refresh.** It still describes eighteen cases and does not mention
-  strikes, reading levels, tours or JM-01.
+  strikes, reading levels, tours, the tint, or JM-01.
 - **Production guide.** Same gaps.
 - Not planned: any more easy packs.
