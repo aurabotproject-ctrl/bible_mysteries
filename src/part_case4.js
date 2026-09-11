@@ -100,6 +100,8 @@ const JM08_ITEMS = [
 {
   id:"j08treasury", stage:0, kind:"Treasury record", title:"Treasury Inventory — Spoil of Jericho",
   sub:"Weighed in by the treasury clerks", thumb:"j08spoil",
+  tour:{href:"../tours/jericho-spoil.html", label:"\ud83d\udd90 Handle the spoil",
+        note:"A merchant's table \u2014 lift the mantle, weigh the silver and the gold"},
   prev:"Everything weighed in. The count is short — and short in a very particular way.",
   x:56, y:52, rot:-2, w:220,
   body:`

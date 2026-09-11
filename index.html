@@ -17,7 +17,7 @@ a{color:#6b4a2a}</style>
   <p><a href="dist/index.html">B.I.B. &mdash; The Bible Investigation Bureau</a></p>
 </div>
 <script>
-var V = "?v=20260911-2157";
+var V = "?v=20260911-2231";
 fetch("dist/index.html" + V, {method:"HEAD", cache:"no-store"})
   .then(function(r){ location.replace((r.ok ? "dist/index.html" : "standalone/index.html") + V); })
   .catch(function(){ location.replace("standalone/index.html" + V); });

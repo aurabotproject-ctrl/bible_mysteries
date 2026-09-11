@@ -179,9 +179,16 @@ and two of them means nothing.
 `tour:{href:"../tours/x.html", label:"…", note:"…"}`. The deploy build fetches
 the file on demand; the offline builds inline it into `window.__TOURS__` and
 open it in an iframe with `srcdoc`. Adding one needs **nothing** in `build.py` —
-drop a self-contained HTML file into `tours/` and point a card at it. Four exist:
-`jerusalem-ad33.html` (JM-33), `aram-campaign.html` (JM-47),
-`timnah-road.html` (JM-19) and `temple-courts.html` (JM-02). A tour survives
+drop a self-contained HTML file into `tours/` and point a card at it. Five exist: `jerusalem-ad33.html` (JM-33),
+`aram-campaign.html` (JM-47), `timnah-road.html` (JM-19),
+`temple-courts.html` (JM-02) and `jericho-spoil.html` (JM-08).
+
+> A tour file must be **genuinely self-contained**. The offline builds inline
+> it into an iframe with `srcdoc` and a handout may be opened from a USB stick
+> with no network at all, so a CDN `<script src>` or an importmap pointing at
+> unpkg leaves a blank page. `jericho-spoil.html` needed three.js: it was
+> bundled in with esbuild (`--bundle --format=iife --minify`) and the importmap
+> dropped. Check any new tour for external URLs before wiring it up. A tour survives
 the easy-level merge untouched, so it needs nothing in the easy pack. A card
 that declares one is drawn on faintly blue paper — `renderDesk` adds `.walkin`
 to the card and to its pinboard chip — so a student can see at a glance which
@@ -212,6 +219,7 @@ certificate seal). All labelled; the label wording is listed at the bottom of
 
 ## 8. Recent work, newest first
 
+- JM-08 — The Merchant's Table, a 3D table of Achan's spoil, on the treasury card.
 - Cards carrying a walk-in experience are now on faintly blue paper.
 - JM-01 — the payment-test grid replaced by a crossword, The Clerk's Sheet.
   The matrix was confusing in class. Same keyword, same lock, same documents.
