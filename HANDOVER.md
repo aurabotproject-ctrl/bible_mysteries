@@ -176,9 +176,10 @@ and two of them means nothing.
 `tour:{href:"../tours/x.html", label:"…", note:"…"}`. The deploy build fetches
 the file on demand; the offline builds inline it into `window.__TOURS__` and
 open it in an iframe with `srcdoc`. Adding one needs **nothing** in `build.py` —
-drop a self-contained HTML file into `tours/` and point a card at it. Three
-exist: `jerusalem-ad33.html` (JM-33), `aram-campaign.html` (JM-47),
-`timnah-road.html` (JM-19).
+drop a self-contained HTML file into `tours/` and point a card at it. Four exist:
+`jerusalem-ad33.html` (JM-33), `aram-campaign.html` (JM-47),
+`timnah-road.html` (JM-19) and `temple-courts.html` (JM-02). A tour survives
+the easy-level merge untouched, so it needs nothing in the easy pack.
 
 ## 7. JM-01 — The Ransom (handle with care)
 
@@ -204,6 +205,7 @@ certificate seal). All labelled; the label wording is listed at the bottom of
 
 ## 8. Recent work, newest first
 
+- JM-02 — the temple courts walk-in map on *Plan of the Temple Courts*.
 - JM-01 — a gold trim on its shelf card, driven by a `gold:true` header flag.
 - JM-19 — the Zorah-to-Timnah interactive map wired to *The Road Down to Timnah*.
 - JM-01 — the six generated plates in, plaques measured and labelled, mirrored

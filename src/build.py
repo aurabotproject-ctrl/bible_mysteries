@@ -320,11 +320,20 @@ def main():
     #     that case and only its own artwork is inlined - so each file is a few
     #     megabytes rather than forty, and stays that way however many cases the
     #     archive grows to. This is the copy to hand out, upload or put on a USB.
-    if os.path.isdir(SINGLE):
-        for old in os.listdir(SINGLE):
-            if old.endswith('.html'):
-                os.remove(os.path.join(SINGLE, old))
+    # Each file below is rewritten in place, so nothing here needs deleting
+    # except a leftover from a case that is no longer built. Some machines
+    # (and some sandboxes) refuse deletes outright, and a stale handout is not
+    # worth failing a build over - say so and carry on.
     os.makedirs(SINGLE, exist_ok=True)
+    keep = {s['id'] + '.html' for s in stubs}
+    for old in os.listdir(SINGLE):
+        if old.endswith('.html') and old not in keep:
+            try:
+                os.remove(os.path.join(SINGLE, old))
+            except OSError:
+                print('  note: single/%s belongs to a case that is no longer '
+                      'built and could not be removed here - delete it by hand.'
+                      % old)
     single_sizes = []
     for stub, (_, src) in zip(stubs, cases):
         one = "<script>\n" + src + "\n</script>"

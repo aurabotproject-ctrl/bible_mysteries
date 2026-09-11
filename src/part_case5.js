@@ -153,6 +153,8 @@ const JM02_ITEMS = [
 {
   id:"j02courts", stage:0, kind:"Plan", title:"Plan of the Temple Courts",
   sub:"The largest single space in the city", thumb:"j02courts",
+  tour:{href:"../tours/temple-courts.html", label:"\ud83d\udeb6 Walk the temple courts",
+        note:"Jerusalem at Passover, as a twelve-year-old would have seen it"},
   prev:"Colonnades, courts, and the place where the teachers sat.",
   x:40, y:76, rot:-5, w:214,
   body:`
