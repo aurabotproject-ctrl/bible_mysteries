@@ -182,7 +182,11 @@ open it in an iframe with `srcdoc`. Adding one needs **nothing** in `build.py` �
 drop a self-contained HTML file into `tours/` and point a card at it. Four exist:
 `jerusalem-ad33.html` (JM-33), `aram-campaign.html` (JM-47),
 `timnah-road.html` (JM-19) and `temple-courts.html` (JM-02). A tour survives
-the easy-level merge untouched, so it needs nothing in the easy pack.
+the easy-level merge untouched, so it needs nothing in the easy pack. A card
+that declares one is drawn on faintly blue paper — `renderDesk` adds `.walkin`
+to the card and to its pinboard chip — so a student can see at a glance which
+cards have something to walk into. Nothing names a case or a card: the tint
+follows the `tour` key.
 
 ## 7. JM-01 — The Ransom (handle with care)
 
@@ -208,6 +212,7 @@ certificate seal). All labelled; the label wording is listed at the bottom of
 
 ## 8. Recent work, newest first
 
+- Cards carrying a walk-in experience are now on faintly blue paper.
 - JM-01 — the payment-test grid replaced by a crossword, The Clerk's Sheet.
   The matrix was confusing in class. Same keyword, same lock, same documents.
 - JM-02 — the temple courts walk-in map on *Plan of the Temple Courts*.

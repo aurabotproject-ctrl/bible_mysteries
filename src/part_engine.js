@@ -295,7 +295,9 @@ function renderDesk(){
 function makeItem(item, isNew){
   const p = CS.pos[item.id] || {x:item.x, y:item.y, rot:item.rot};
   CS.pos[item.id] = p;
-  const n = el("div","item"+(isNew?" new":""));
+  // A card that carries a walk-in experience is faintly stained blue, so a
+  // student can see at a glance which cards have something to walk into.
+  const n = el("div","item"+(isNew?" new":"")+(item.tour?" walkin":""));
   n.dataset.id = item.id;
   n.style.width = (item.w||200)+"px";
   place(n,p);
@@ -831,7 +833,7 @@ function renderBoard(keepScroll){
   const chips = board.querySelector("#chips");
   available().filter(i=>!i.notEvidence).forEach(i=>{
     const ch = el("div","chip"+(used.has(i.id)?" used":"")+(selChip===i.id?" sel":"")
-                        +(readChip===i.id?" reading":""), i.title);
+                        +(readChip===i.id?" reading":"")+(i.tour?" walkin":""), i.title);
     ch.addEventListener("click", ()=>{
       // Reading a piece of evidence is always free. Picking it up to pin
       // only applies while it is still spare.
