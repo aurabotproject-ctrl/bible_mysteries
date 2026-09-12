@@ -1371,7 +1371,7 @@ button.tourbtn{cursor:pointer;font-family:var(--ui-font)}
 </div>
 
 <div id="shelf"></div>
-<div id="buildTag" title="Which build of the app this is. If a new feature is missing, reload the page and check this changes.">build 20260912-0508</div>
+<div id="buildTag" title="Which build of the app this is. If a new feature is missing, reload the page and check this changes.">build 20260912-0519</div>
 
 <script>
 const SVG = {};
@@ -2029,12 +2029,12 @@ function printPack(cdef){
 
   <!-- ============ PREPARING ============ -->
   <section class="pp-page">
-    <div class="pp-h">Before the lesson — preparing the pack</div>
+    <div class="pp-h">Before you play — preparing the pack</div>
     <p class="pp-lead">Ten minutes with a pair of scissors and four envelopes, and this case runs with no screen at all.</p>
     <div class="pp-step"><b>1</b><div><h5>Print the whole pack</h5>
       <p>Single sided is easiest for cutting. Card stock makes better evidence but ordinary paper is fine.</p></div></div>
     <div class="pp-step"><b>2</b><div><h5>Remove the answer key</h5>
-      <p>The last page is the teacher's answer key. Take it out before anything else, or the case is over before it starts.</p></div></div>
+      <p>The last page is the answer key, for whoever is running the case. Take it out before anything else, or the case is over before it starts.</p></div></div>
     <div class="pp-step"><b>3</b><div><h5>Cut out the open evidence</h5>
       <p>The ${s0.length} cards marked <b>OPEN FILE</b> go loose into the case folder. These are what the team starts with.</p></div></div>
     <div class="pp-step"><b>4</b><div><h5>Make up the sealed bundles</h5>
@@ -2047,7 +2047,7 @@ function printPack(cdef){
       <p>Every envelope should look the same from the outside. That is the whole point.</p></div></div>
     <div class="pp-step"><b>5</b><div><h5>Set the desk</h5>
       <p>Put the folder, the eight envelopes, the elimination board sheet, the evidence tags, the accusation form and a case record sheet on the table. Give each team scissors, a pen and a glue stick.</p></div></div>
-    <div class="pp-note"><b>Time:</b> 60–100 minutes, or two lessons. <b>Teams of two or three.</b> Any more and somebody stops reading.</div>
+    <div class="pp-note"><b>Time:</b> 60–100 minutes, or two sittings. <b>Teams of two or three.</b> Any more and somebody stops reading.</div>
   </section>
 
   <!-- ============ WALKTHROUGH ============ -->
@@ -2091,7 +2091,7 @@ function printPack(cdef){
     ${step(8,"File the conclusion",
       `<p>Fill in the accusation form. Choose one conclusion and write your reasoning, naming at least two pieces of evidence. Then complete the case record and hand it in.</p>`)}
     ${step(9,"Close the case",
-      `<p>Your teacher will check the board and sign the certificate. Put the certificate, your case record and anything else you want to keep into your case folder.</p>`)}
+      `<p>Whoever is running the case checks the board and signs the certificate. Put the certificate, your case record and anything else you want to keep into your case folder.</p>`)}
   </section>
 
   <!-- ============ OPEN EVIDENCE ============ -->
@@ -2319,7 +2319,7 @@ function folderPack(){
         <div><span>Class</span><div class="pp-rule"></div></div>
         <div><span>Year</span><div class="pp-rule"></div></div>
       </div>
-      <p class="pp-teaser" style="margin-top:26px">Every case you finish adds three things to this folder: the case record in your own handwriting, the certificate your teacher signs, and whatever evidence you decide is worth keeping. By the end of the year it is the record of everything you worked out.</p>
+      <p class="pp-teaser" style="margin-top:26px">Every case you finish adds three things to this folder: the case record in your own handwriting, the certificate signed off at the end, and whatever evidence you decide is worth keeping. Case by case it becomes the record of everything you worked out.</p>
       <div class="pp-stamp">CONFIDENTIAL — PROPERTY OF THE INVESTIGATOR NAMED ABOVE</div>
     </section>
     <section class="pp-page">
