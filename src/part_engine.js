@@ -520,6 +520,20 @@ function place(n,p){
   n.style.left = p.x+"%"; n.style.top = p.y+"%";
   n.style.transform = `translate(-50%,-50%) rotate(${p.rot}deg)`;
 }
+/* A card opens on pointerup, and on a touch screen the browser then sends a
+   click for the same finger. By that moment the reader is on top, so the click
+   is delivered to whatever the overlay has put under that point: usually a
+   plate, which opens enlarged over the document the student wanted, and
+   sometimes the backdrop, which shuts the reader again before they have read a
+   word. The card is already handled, so the click that follows it has no work
+   left to do: swallow exactly one, and only for a moment. */
+function eatNextClick(){
+  const kill = e=>{ e.stopPropagation(); e.preventDefault(); done(); };
+  const done = ()=>{ clearTimeout(tm); document.removeEventListener("click", kill, true); };
+  document.addEventListener("click", kill, true);
+  const tm = setTimeout(done, 400);
+}
+
 function attachDrag(n,item){
   let sx=0, sy=0, ox=0, oy=0, moved=false, id=null;
   n.addEventListener("pointerdown", e=>{
@@ -556,6 +570,7 @@ function attachDrag(n,item){
     if(moved){ save(); drawStrings(); return; }
     if(strMode === "add"){ pickString(item.id); return; }
     if(strMode === "cut") return;
+    eatNextClick();
     openItem(item);
   });
   n.addEventListener("pointercancel", ()=>{ n.classList.remove("dragging"); id=null; });

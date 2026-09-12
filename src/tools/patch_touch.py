@@ -139,11 +139,17 @@ def patch(path, pad=True):
         return 'already done'
     out = []
 
-    # 1. a viewport meta, or an iPad renders it at desktop width and zooms out
+    # 1. a viewport meta, or an iPad renders it at desktop width and zooms out.
+    #    A tour that brought its own weak one is upgraded, not left alone: without
+    #    user-scalable=no a double tap zooms the page while the student is trying
+    #    to turn the scene.
     if 'name="viewport"' not in s:
         s = s.replace('<meta charset="UTF-8">', '<meta charset="UTF-8">\n' + VIEWPORT, 1)
         s = s.replace('<meta charset="utf-8">', '<meta charset="utf-8">\n' + VIEWPORT, 1)
         out.append('viewport')
+    elif 'user-scalable=no' not in s:
+        s = re.sub(r'<meta name="viewport"[^>]*>', VIEWPORT, s, count=1)
+        out.append('viewport upgraded')
 
     # 2. the touch stylesheet, at the end of the head so it wins
     if '</head>' not in s:
@@ -162,7 +168,7 @@ def patch(path, pad=True):
 
 if __name__ == '__main__':
     # dragged rather than walked, so the pad would have nothing to do
-    NO_PAD = {'jericho-spoil.html'}
+    NO_PAD = {'jericho-spoil.html', 'book-of-life.html'}   # both are dragged, not walked
     # already carries a purpose-built touch layer of its own - a joystick,
     # look-drag, run and map buttons. Leave it alone.
     SKIP = {'jerusalem-ad33.html'}

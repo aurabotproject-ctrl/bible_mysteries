@@ -3,7 +3,7 @@
 *Paste this at the start of a new chat. It is everything a fresh session needs
 to pick the project up without re-reading the whole archive.*
 
-Last updated: 11 September 2026, after giving the desk a zoom and a pan.
+Last updated: 12 September 2026, after adding the Book of Life to JM-01.
 
 ---
 
@@ -220,9 +220,17 @@ build fetches the file on demand; the offline builds inline it into
 point a card at it. A tour survives the easy-level merge untouched, so it needs
 nothing in the easy pack.
 
-Five exist: `jerusalem-ad33.html` (JM-33), `aram-campaign.html` (JM-47),
-`timnah-road.html` (JM-19), `temple-courts.html` (JM-02) and
-`jericho-spoil.html` (JM-08).
+Six exist: `jerusalem-ad33.html` (JM-33), `aram-campaign.html` (JM-47),
+`timnah-road.html` (JM-19), `temple-courts.html` (JM-02),
+`jericho-spoil.html` (JM-08) and `book-of-life.html` (JM-01).
+
+**Weigh a tour before you wire it in.** The others are 0.5-1.9 MB. A scene
+handed over as a 30 MB file is almost always eight AI textures saved as
+full-size PNG: they sit on 3D surfaces a metre away, so 1024px JPEG at q82
+costs nothing visible and took `book-of-life.html` from 30 MB to 2.5 MB. Keep
+any texture with real alpha as a PNG (its seal does), give back the resolution
+of the one texture a student leans in to read (its ledger spread), and remember
+every byte is inlined into that case's offline handout.
 
 A card that declares one is drawn on faintly coloured paper — `renderDesk` adds
 `.walkin` to the card and to its pinboard chip — so a student can see at a
@@ -322,6 +330,14 @@ certificate seal). The label wording is listed at the bottom of
   `docs/case-builder.md` is the how-to for building a new one.
 
 ## 11. Recent work, newest first
+
+- The Book of Life on JM-01's *The Account, As Found* - a table you can turn
+  round, with the ledger, the four payments that came back, and the seal.
+  Bundled and recompressed from 30 MB to 2.5 MB.
+- A tap on a card used to send a second, ghost click into the reader that had
+  just opened on top of it. On an iPad that meant a plate flew open over the
+  document, or the backdrop was hit and the reader shut again before a word was
+  read - some cards simply would not open. `eatNextClick()` swallows it.
 
 - The desk zooms and pans. The table is four times the area it was, so on an
   iPad the cards can actually be spread out instead of stacked; zoomed out you

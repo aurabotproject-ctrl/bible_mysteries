@@ -112,6 +112,8 @@ const JM01_ITEMS = [
 {
   id:"j01ledger", stage:0, kind:"Ledger", title:"The Account, As Found",
   sub:"Every payment ever offered against this debt", thumb:"j01ledger",
+  tour:{href:"../tours/book-of-life.html", label:"\ud83d\udcd6 Open the Book of Life",
+        note:"The ledger itself \u2014 open the book, take up each payment that was offered, and look at the one mark that settled it"},
   prev:"Column after column of payments offered. Every one returned.",
   x:56, y:52, rot:-2, w:212,
   body:`
