@@ -138,6 +138,8 @@ const JM03_ITEMS = [
 {
   id:"j03mount", stage:0, kind:"Plan", title:"The Mountain and the Grazing Grounds",
   sub:"Horeb, and the ground he brought the flock over", thumb:"j03mount",
+  tour:{href:"../tours/horeb-walk.html", label:"\ud83d\udd25 Walk up to Horeb",
+        note:"Dusk on the mountain road \u2014 climb the path, look down over the grazing ground, and go as near the fire as you dare"},
   prev:"He knew this ground. He had been grazing it for forty years.",
   x:14, y:44, rot:2, w:218,
   body:`

@@ -3,7 +3,7 @@
 *Paste this at the start of a new chat. It is everything a fresh session needs
 to pick the project up without re-reading the whole archive.*
 
-Last updated: 12 September 2026, after adding the Book of Life to JM-01.
+Last updated: 12 September 2026, after adding the walk up to Horeb to JM-03.
 
 ---
 
@@ -220,9 +220,25 @@ build fetches the file on demand; the offline builds inline it into
 point a card at it. A tour survives the easy-level merge untouched, so it needs
 nothing in the easy pack.
 
-Six exist: `jerusalem-ad33.html` (JM-33), `aram-campaign.html` (JM-47),
+Seven exist: `jerusalem-ad33.html` (JM-33), `aram-campaign.html` (JM-47),
 `timnah-road.html` (JM-19), `temple-courts.html` (JM-02),
-`jericho-spoil.html` (JM-08) and `book-of-life.html` (JM-01).
+`jericho-spoil.html` (JM-08), `book-of-life.html` (JM-01) and
+`horeb-walk.html` (JM-03).
+
+**A walked tour needs more than the pad.** `horeb-walk.html` arrived using
+pointer lock for mouse-look, which does not exist on iOS — so the intro card
+could never be dismissed and the tour was unusable on the device it is meant
+for. Any tour built that way needs three things adding inside its own script,
+not just the pad: a `COARSE` check that skips `requestPointerLock`, a first tap
+that opens the scene directly, and a one-finger drag on the canvas that turns
+`yaw`/`pitch`. Rewrite its intro card too — the pad only rewrites the words
+"arrow keys", so "move the mouse" and "click anywhere" survive it.
+
+**Match the three revision.** Bundle the revision the scene was written
+against, not the newest. `horeb-walk.html` is tuned for r128; r152 turned
+colour management on by default and r155 changed light intensities, so a newer
+build would quietly relight the whole scene. r128 ships a UMD `three.min.js`
+that can simply be inlined — no esbuild needed.
 
 **Weigh a tour before you wire it in.** The others are 0.5-1.9 MB. A scene
 handed over as a 30 MB file is almost always eight AI textures saved as
@@ -330,6 +346,11 @@ certificate seal). The label wording is listed at the bottom of
   `docs/case-builder.md` is the how-to for building a new one.
 
 ## 11. Recent work, newest first
+
+- The walk up to Horeb on JM-03's *The Mountain and the Grazing Grounds* - dusk
+  on the mountain road, sheep grazing in the valley below, and a bush that
+  burns without being consumed. Three r128 inlined, and a touch layer added so
+  it works on an iPad at all.
 
 - The Book of Life on JM-01's *The Account, As Found* - a table you can turn
   round, with the ledger, the four payments that came back, and the seal.
