@@ -18,3 +18,6 @@ tobuild/**/*.png
 # ---- scratch ---------------------------------------------------------------
 _to_delete/
 .DS_Store
+
+# social art - big PNGs, and nothing the app needs
+social/

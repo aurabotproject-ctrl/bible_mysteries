@@ -1,0 +1,186 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>B.I.B. — The Bible Investigation Bureau</title>
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="description" content="Bible mystery-box investigations for Years 7–8. Free, and staying free.">
+<meta property="og:title" content="B.I.B. — The Bible Investigation Bureau">
+<meta property="og:description" content="Bible mystery-box investigations for Years 7–8. Free, and staying free.">
+<meta property="og:image" content="https://bible-mysteries.vercel.app/images/bibsign.jpg">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#3f2a1b">
+<style>
+/* The Bureau's own palette, lifted from src/part_style.html so this page and
+   the app are unmistakably the same place. Single visual world on purpose -
+   dark timber - so every colour here is painted, none inherited. */
+:root{
+  --wood-1:#5a3d28; --wood-2:#3f2a1b; --wood-3:#6b4a30;
+  --paper:#efe3cb; --paper-2:#e4d5b7; --ink:#2e2419; --ink-soft:#5b4a35;
+  --accent:#8c2f1f; --brass:#c9a227;
+  --serif:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif;
+  --ui-font:"Avenir Next",Avenir,"Segoe UI",system-ui,sans-serif;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+/* The timber goes on <html> so it paints the whole canvas however long the
+   page gets. background-attachment:fixed would do it too, but it is unreliable
+   on iOS Safari and this page is opened from a phone almost every time. */
+html{
+  min-height:100%;
+  background:
+    radial-gradient(ellipse at 50% 0%, rgba(255,220,160,.13), transparent 58%),
+    repeating-linear-gradient(96deg, rgba(0,0,0,.05) 0 2px, transparent 2px 7px),
+    linear-gradient(160deg,var(--wood-3),var(--wood-1) 42%,var(--wood-2) 85%);
+  background-repeat:no-repeat;
+  background-color:var(--wood-2);
+}
+body{
+  margin:0;min-height:100%;
+  font-family:var(--ui-font);color:#f0e6d6;
+  background:transparent;
+}
+
+.wrap{
+  max-width:470px;margin:0 auto;
+  padding-inline:18px;
+  padding-block:0 40px;
+  display:flex;flex-direction:column;
+}
+
+/* the board sign, run to the edges the way it is in the app */
+.sign{
+  margin-inline:-18px;
+  display:block;width:calc(100% + 36px);
+  aspect-ratio:16/7;object-fit:cover;object-position:50% 42%;
+  border-bottom:1px solid rgba(0,0,0,.35);
+  box-shadow:0 10px 26px rgba(0,0,0,.42);
+}
+.strap{
+  font-size:11px;letter-spacing:.22em;text-transform:uppercase;
+  color:#c8ab77;text-align:center;margin:16px 0 4px;
+}
+.lede{
+  font-family:var(--serif);font-size:17px;line-height:1.5;
+  color:#e8d9bd;text-align:center;margin:0 6px 26px;
+  text-wrap:balance;
+}
+
+/* Each link is a slip of paper pinned to the board, not a button. */
+.notes{display:flex;flex-direction:column;gap:18px}
+.note{
+  position:relative;display:block;text-decoration:none;
+  background:var(--paper);color:var(--ink);
+  border:1px solid rgba(90,65,35,.4);border-radius:3px;
+  padding:20px 20px 18px;
+  box-shadow:0 10px 16px rgba(0,0,0,.4);
+  background-image:
+    radial-gradient(circle at 10% 6%, rgba(139,105,60,.15), transparent 40%),
+    radial-gradient(circle at 90% 94%, rgba(120,90,50,.13), transparent 42%);
+  transform:rotate(var(--rot,0deg));
+  transition:transform .14s ease, box-shadow .14s ease;
+}
+.note:nth-child(odd){--rot:-.5deg}
+.note:nth-child(even){--rot:.55deg}
+.note:hover,.note:focus-visible{
+  transform:rotate(0deg) translateY(-2px);
+  box-shadow:0 16px 24px rgba(0,0,0,.5);
+}
+.note:focus-visible{outline:3px solid var(--brass);outline-offset:3px}
+.note:active{transform:rotate(0deg) translateY(1px);box-shadow:0 6px 12px rgba(0,0,0,.45)}
+
+/* the brass pin holding it up */
+.note::before{
+  content:"";position:absolute;top:-7px;left:50%;
+  width:14px;height:14px;border-radius:50%;
+  background:radial-gradient(circle at 34% 30%, #f2d98a, var(--brass) 55%, #8a6c15);
+  box-shadow:0 2px 4px rgba(0,0,0,.55);
+  transform:translateX(-50%);
+}
+.kind{
+  font-size:9.5px;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--accent);font-weight:800;
+}
+.ttl{
+  font-family:var(--serif);font-size:22px;line-height:1.18;
+  font-weight:700;margin:5px 0 0;
+}
+.say{
+  font-size:13.5px;line-height:1.5;color:var(--ink-soft);margin:7px 0 0;
+}
+.go{
+  display:inline-block;margin-top:12px;
+  font-size:10px;letter-spacing:.16em;text-transform:uppercase;font-weight:800;
+  color:#fff;background:var(--accent);
+  border-radius:999px;padding:6px 13px;
+}
+.note.coffee .go{background:#6b4a2a}
+.note.social .go{background:#3f2a1b}
+
+.foot{
+  margin-top:32px;text-align:center;
+  font-size:12.5px;line-height:1.65;color:#c3ab86;
+}
+.foot b{color:#e2cfa8;font-weight:600}
+.foot .rule{
+  width:60px;height:2px;background:rgba(201,162,39,.5);
+  margin:0 auto 18px;
+}
+@media (prefers-reduced-motion:reduce){.note{transition:none}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <img class="sign" src="/images/bibsign.jpg"
+       alt="B.I.B. — The Bible Investigation Bureau">
+
+  <div class="strap">Department of Unsolved Antiquities</div>
+  <p class="lede">Bible mystery-box investigations for Years&nbsp;7&ndash;8.<br>Nineteen cases open. Free, and staying free.</p>
+
+  <div class="notes">
+
+    <a class="note" href="/">
+      <div class="kind">The case archive</div>
+      <h2 class="ttl">Take down a case</h2>
+      <p class="say">Nineteen cases on the shelf. Read the evidence, break two locks, rule out what doesn&rsquo;t hold, and name what actually happened. No account, nothing to install.</p>
+      <span class="go">Open the archive</span>
+    </a>
+
+    <a class="note social" href="https://www.instagram.com/faith_chalk_code/" target="_blank" rel="noopener">
+      <div class="kind">Instagram</div>
+      <h2 class="ttl">@faith_chalk_code</h2>
+      <p class="say">New cases as they&rsquo;re built, plus teaching in a Christian school and making classroom tools with AI.</p>
+      <span class="go">Follow along</span>
+    </a>
+
+    <a class="note coffee" href="https://buymeacoffee.com/ldbbclark8" target="_blank" rel="noopener">
+      <div class="kind">Support the work</div>
+      <h2 class="ttl">Buy me a coffee</h2>
+      <p class="say">The app is free and always will be. Every case still needs artwork and a good many evenings &mdash; roughly one coffee is one more case.</p>
+      <span class="go">Buy a coffee</span>
+    </a>
+
+    <!-- To add another, copy one block and change the four lines. Keep them
+         in the order you want them read; the pins and the slight tilt sort
+         themselves out.
+    <a class="note social" href="https://x.com/YOURHANDLE" target="_blank" rel="noopener">
+      <div class="kind">X</div>
+      <h2 class="ttl">@YOURHANDLE</h2>
+      <p class="say">One line about it.</p>
+      <span class="go">Read the posts</span>
+    </a>
+    -->
+
+  </div>
+
+  <div class="foot">
+    <div class="rule"></div>
+    <b>Why it is free.</b><br>
+    The message this carries was given to us free of charge,<br>
+    so it is not mine to put a price on.
+  </div>
+
+</div>
+</body>
+</html>
