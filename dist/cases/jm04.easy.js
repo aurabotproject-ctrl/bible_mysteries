@@ -113,7 +113,7 @@ j04note:{
 j04first:{
   prev:"“This woman and I live in one house. I had a baby, and three days later so did she.”",
   body:`
-    <div class="plate">${SVG.j04sheets}<div class="cap">Click to make it bigger. Both statements as they were written down.</div></div>
+    <div class="plate">${SVG.j04sheetsAe}<div class="cap">Click to make it bigger. Her statement, written down for the court. The other sheet is the second woman&rsquo;s.</div></div>
     <div class="doc-body">
       <p>"My lord, this woman and I live in one house, and I had a baby son while she was in the house with me.</p>
       <p>Three days after I gave birth, she had a baby too. We were together. <b>There was nobody else in the house with us — just the two of us.</b></p>
@@ -127,6 +127,7 @@ j04first:{
 j04second:{
   prev:"“No — the living one is my son, and the dead one is yours.”",
   body:`
+    <div class="plate">${SVG.j04sheetsBe}<div class="cap">Click to make it bigger. Her statement, on the second sheet, written down straight after the first.</div></div>
     <div class="doc-body">
       <p>"My lord, that is not what happened, and she knows it.</p>
       <p>We live in one house, the two of us, and there was nobody else with us. She had her baby first and I had mine three days later. <b>Only the two of us were there.</b></p>

@@ -3,7 +3,7 @@
 *Paste this at the start of a new chat. It is everything a fresh session needs
 to pick the project up without re-reading the whole archive.*
 
-Last updated: 12 September 2026, after adding the walk up to Horeb to JM-03.
+Last updated: 12 September 2026, after writing the statements onto JM-04's two sheets.
 
 ---
 
@@ -172,6 +172,24 @@ bold label in `#4a3520`, italic sub-line in `#7d4a24`. One type size per plate.
 The house style prompt block is already folded into every `image-prompts.md`.
 Say "no text" twice, and for ledger plates add "illegible scribble" — models
 badly want to write real words on an account page.
+
+**One photograph, several plates.** JM-04 needs the same picture of two blank
+sheets four times over, with different words written on it each time (each
+woman's statement, at each reading level). Don't copy the plate - derive it:
+
+```js
+SVG.j04sheetsA = SVG.j04sheets.replace('</svg>', `…<text …>…</text></svg>`);
+```
+
+`__IMG_j04sheets__` then appears once in the source, so `build.py` inlines the
+JPEG once and the variants cost only their own text. Worth remembering: the
+naive version would have put four copies of a 221 KB photograph into the
+offline handout.
+
+**A written plate needs an easy twin.** The reading-level merge does not touch
+`SVG.*`, so a plate carrying prose has to be generated at both levels
+(`j04sheetsA` / `j04sheetsAe`) or the paper and the transcript beneath it
+disagree for easy readers.
 
 **Where an SVG plate is defined matters.** If a plate's `SVG.x` lives in the
 shared `part_assets.js`, `build.py` has to know the case wants it, or the
@@ -346,6 +364,10 @@ certificate seal). The label wording is listed at the bottom of
   `docs/case-builder.md` is the how-to for building a new one.
 
 ## 11. Recent work, newest first
+
+- JM-04 - each woman's statement is now written onto her own sheet, in the
+  registrar's hand, at both reading levels. The Second Woman's card had no
+  plate at all before.
 
 - The walk up to Horeb on JM-03's *The Mountain and the Grazing Grounds* - dusk
   on the mountain road, sheep grazing in the valley below, and a bush that
