@@ -89,6 +89,8 @@ const JM04_ITEMS = [
 {
   id:"j04house", stage:0, kind:"Plan", title:"Plan of the House",
   sub:"Two rooms, one door", thumb:"j04house",
+  tour:{href:"../tours/house-investigation.html", label:"\ud83d\udd6f\ufe0f Walk through the house",
+        note:"Night in the two rooms \u2014 the one door, both mats, both cradles, and every corner a woman could have crossed in the dark"},
   prev:"One door in or out, and nobody else on the other side of it.",
   x:26, y:56, rot:5, w:216,
   body:`

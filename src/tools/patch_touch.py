@@ -171,7 +171,7 @@ if __name__ == '__main__':
     NO_PAD = {'jericho-spoil.html', 'book-of-life.html'}   # both are dragged, not walked
     # already carries a purpose-built touch layer of its own - a joystick,
     # look-drag, run and map buttons. Leave it alone.
-    SKIP = {'jerusalem-ad33.html'}
+    SKIP = {'jerusalem-ad33.html', 'house-investigation.html'}
     for p in sys.argv[1:]:
         n = os.path.basename(p)
         if n in SKIP:

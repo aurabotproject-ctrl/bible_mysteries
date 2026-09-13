@@ -276,10 +276,21 @@ build fetches the file on demand; the offline builds inline it into
 point a card at it. A tour survives the easy-level merge untouched, so it needs
 nothing in the easy pack.
 
-Seven exist: `jerusalem-ad33.html` (JM-33), `aram-campaign.html` (JM-47),
+Eight exist: `jerusalem-ad33.html` (JM-33), `aram-campaign.html` (JM-47),
 `timnah-road.html` (JM-19), `temple-courts.html` (JM-02),
-`jericho-spoil.html` (JM-08), `book-of-life.html` (JM-01) and
-`horeb-walk.html` (JM-03).
+`jericho-spoil.html` (JM-08), `book-of-life.html` (JM-01),
+`horeb-walk.html` (JM-03) and `house-investigation.html` (JM-04, *Plan of the
+House*).
+
+**A tour that brings its own touch controls still needs reading.**
+`house-investigation.html` arrived with a joystick, a look-drag and an Examine
+button already built, so it goes in `patch_touch.py`'s `SKIP` set beside
+`jerusalem-ad33.html` — the pad would only duplicate what it has. What it did
+still need was the wording: every standing hint named a keyboard and a mouse,
+and the Examine disc sat on top of its own Case Notes button. Both are fixed in
+a clearly marked block appended at the end of the file rather than edited into
+the scene, so a new version of the scene stays easy to diff. Check those two
+things on every handover, whatever touch layer it claims to have.
 
 **A walked tour needs more than the pad.** `horeb-walk.html` arrived using
 pointer lock for mouse-look, which does not exist on iOS — so the intro card
@@ -402,6 +413,9 @@ certificate seal). The label wording is listed at the bottom of
   `docs/case-builder.md` is the how-to for building a new one.
 
 ## 11. Recent work, newest first
+
+- A walk through the two-room house on JM-04's *Plan of the House* - one door,
+  both mats, both cradles, eight exhibits to examine.
 
 - The case-card buttons are painted plaques now, stacked vertically instead of
   in a row.
