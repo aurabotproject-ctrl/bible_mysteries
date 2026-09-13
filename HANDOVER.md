@@ -280,6 +280,16 @@ a clearly marked block appended at the end of the file rather than edited into
 the scene, so a new version of the scene stays easy to diff. Check those two
 things on every handover, whatever touch layer it claims to have.
 
+**Never make the mouse click its way back into look mode.** The same tour
+released pointer lock every time an exhibit opened, so reading one and closing
+it left the mouse out of look mode and cost a click to get back in — once per
+exhibit, eight exhibits a visit. A second marked block holds the lock through
+`openPanel()` (it swaps `document.exitPointerLock` for a no-op for the length of
+the call), makes a second press of **E** close the panel, and freezes the look
+with a capturing `mousemove` listener so the view does not swing about behind
+what is being read. The pattern is worth copying: a walk-in scene should take
+the lock once, at the door, and keep it until the visitor presses Esc.
+
 **A walked tour needs more than the pad.** `horeb-walk.html` arrived using
 pointer lock for mouse-look, which does not exist on iOS — so the intro card
 could never be dismissed and the tour was unusable on the device it is meant
@@ -401,6 +411,9 @@ certificate seal). The label wording is listed at the bottom of
   `docs/case-builder.md` is the how-to for building a new one.
 
 ## 11. Recent work, newest first
+
+- The house walk holds mouse-look through an exhibit: E opens it, E closes it,
+  and there is no clicking back in.
 
 - A walk through the two-room house on JM-04's *Plan of the House* - one door,
   both mats, both cradles, eight exhibits to examine.

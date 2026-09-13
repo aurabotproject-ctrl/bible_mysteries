@@ -1094,5 +1094,58 @@ animate();
   if(go) go.textContent = 'Tap to enter the house \u2192';
 })();
 </script>
+
+<!-- ===== BUREAU LOOK PATCH ==================================================
+     Reading an exhibit used to cost you a click. openPanel() called
+     document.exitPointerLock(), so every time you pressed E, read the HUD and
+     closed it, the mouse was out of look mode and you had to click the scene
+     to get back in. Now the lock is simply never dropped for an exhibit: E
+     opens the panel, E closes it again, and the mouse stays in look mode the
+     whole way through. Look is frozen while the panel is open so the view
+     does not swing about behind what you are reading.
+     Patched out here rather than inside the scene so the original stays easy
+     to diff against a new version.
+     ======================================================================= -->
+<script>
+(function(){
+  if(document.body.classList.contains('is-touch')) return;   // touch has its own path
+  var panel = document.getElementById('panel');
+  var canvas = document.querySelector('canvas');
+  var inner = window.tryInteract;
+  if(!panel || !inner) return;
+
+  window.tryInteract = function(){
+    if(panel.classList.contains('open')){ panel.classList.remove('open'); return; }
+    var realExit = document.exitPointerLock;
+    document.exitPointerLock = function(){};          // hold the lock through openPanel
+    try { inner.apply(this, arguments); }
+    finally { document.exitPointerLock = realExit; }
+  };
+
+  /* The scene turns the camera from a mousemove listener on document. A
+     capturing listener gets there first, so the view holds still while an
+     exhibit is up. */
+  window.addEventListener('mousemove', function(e){
+    if(panel.classList.contains('open')) e.stopPropagation();
+  }, true);
+
+  /* Esc still releases the lock, as the browser insists. If that happened
+     while an exhibit was open, put the click-to-look card back once it is
+     closed rather than leaving the mouse in limbo. */
+  var wasOpen = false;
+  setInterval(function(){
+    var open = panel.classList.contains('open');
+    if(wasOpen && !open && document.pointerLockElement !== canvas){
+      document.getElementById('lockOverlay').classList.remove('hidden');
+    }
+    wasOpen = open;
+  }, 250);
+
+  var hint = document.getElementById('hint');
+  if(hint) hint.innerHTML = 'Mouse to look &nbsp;\u00b7&nbsp; WASD or arrow keys to move &nbsp;\u00b7&nbsp; E to examine, E again to close';
+  var card = document.querySelector('#lockOverlay .lock-card p');
+  if(card) card.innerHTML = 'WASD or arrow keys to walk &nbsp;\u00b7&nbsp; mouse to look &nbsp;\u00b7&nbsp; E to examine, E again to close &nbsp;\u00b7&nbsp; Esc to let the cursor go';
+})();
+</script>
 </body>
 </html>
