@@ -674,6 +674,7 @@ a.bref:hover{background:rgba(201,162,39,.22);border-bottom-style:solid}
 
 /* the certificate */
 .pp-cert{padding:0;border:0}
+.pp-cert .seal-final{width:104px;height:104px;margin:0 auto 8px}
 .cert{display:flex;flex-direction:column;justify-content:center}
 .cert-in{width:100%}
 .cert{border:3px double var(--accent);padding:8px}
@@ -755,8 +756,30 @@ a.bref:hover{background:rgba(201,162,39,.22);border-bottom-style:solid}
   .pp-card.sheet .doc-body h4{margin-top:14px}
   .pp-card.sheet .ref{margin-top:10px;padding-top:6px;break-before:avoid;page-break-before:avoid}
   .pp-card.sheet{position:relative}
-  .pp-cert{break-after:page;page-break-after:always}
-  .pp-cert .cert{min-height:255mm}
+  /* The certificate is the one page anybody keeps, so it gets a page of its
+     own, turned on its side. A named page is the only way to mix orientations
+     inside one document: everything else stays A4 portrait. */
+  @page cert{size:A4 landscape;margin:12mm}
+  .pp-cert{page:cert;break-after:page;page-break-after:always}
+  /* 210mm short edge less the 12mm margins = 186mm of page. Hold the frame
+     just inside it so the certificate is one page and never spills onto a
+     second, empty one. */
+  .pp-cert .cert{height:185mm;min-height:0;justify-content:center;overflow:hidden}
+  .pp-cert .cert-in{height:100%;min-height:0;padding:11mm 16mm;
+    display:flex;flex-direction:column;justify-content:center}
+  .pp-cert .seal-final{width:32mm;height:32mm;margin:0 auto 3mm}
+  .pp-cert .cert-soc{font-size:10.5px;letter-spacing:.3em}
+  .pp-cert .cert-h{font-size:42px;margin:4mm 0 2mm}
+  .pp-cert .cert-sub{font-size:14px}
+  /* a flex item with auto side margins shrinks to fit, and this one is
+     empty, so the ruled line needs a width of its own to draw at all */
+  .pp-cert .cert-names{font-size:36px;width:150mm;max-width:100%;margin:7mm auto 2mm;min-height:14mm}
+  .pp-cert .cert-case{margin-top:6mm;font-size:12px}
+  .pp-cert .cert-title{font-size:31px}
+  .pp-cert .cert-where{font-size:13px}
+  .pp-cert .cert-verdict{font-size:14px;width:195mm;max-width:100%;margin:5mm auto 0}
+  .pp-cert .cert-sign{margin:auto auto 0;padding-top:8mm;gap:24mm;width:100%;max-width:215mm}
+  .pp-cert .cert-line{height:30px;font-size:19px}
   .cert-in{padding:40px 34px}
 }
 /* ---------- the elimination ladder (the enquiry) ---------- */
@@ -1371,7 +1394,7 @@ button.tourbtn{cursor:pointer;font-family:var(--ui-font)}
 </div>
 
 <div id="shelf"></div>
-<div id="buildTag" title="Which build of the app this is. If a new feature is missing, reload the page and check this changes.">build 20260912-0934</div>
+<div id="buildTag" title="Which build of the app this is. If a new feature is missing, reload the page and check this changes.">build 20260913-1011</div>
 
 <script>
 const SVG = {};
@@ -1390,10 +1413,7 @@ SVG.decoder = `<svg viewBox="0 0 2172 724" xmlns="http://www.w3.org/2000/svg"><i
 
 SVG.roster = `<svg viewBox="0 0 900 1200" xmlns="http://www.w3.org/2000/svg"><image href="images/roster.jpg" x="0" y="0" width="900" height="1200"/><text x="450" y="175" text-anchor="middle" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="52" font-weight="600" fill="#3d2c18" letter-spacing="10">WATCH ORDER</text><text x="450" y="218" text-anchor="middle" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="21" font-weight="500" fill="#3d2c18" letter-spacing="3">GARDEN TOMB &#183; JOSEPH&#8217;S GROUND</text><line x1="180" y1="248" x2="720" y2="248" stroke="#3d2c18" stroke-width="2" opacity=".6"/><text x="450" y="300" text-anchor="middle" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="20" font-weight="500" fill="#3d2c18" font-style="italic">Posted at the eleventh hour, the Day of Preparation,</text><text x="450" y="330" text-anchor="middle" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="20" font-weight="500" fill="#3d2c18" font-style="italic">at the request of the chief priests, by authority of the Prefect.</text><text x="160" y="410" text-anchor="start" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="19" font-weight="600" fill="#3d2c18" letter-spacing="4">SIGNED ON WATCH</text><text x="160" y="480" text-anchor="start" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="33" font-weight="600" fill="#3d2c18">LUCIUS VARO</text><text x="160" y="506" text-anchor="start" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="17" font-weight="500" fill="#3d2c18" font-style="italic" opacity=".75">decanus, in command</text><path d="M636 474 q18 -14 36 4 q14 16 30 -2 q16 -18 34 6 q10 14 26 2" fill="none" stroke="#5a3a20" stroke-width="2.3" opacity=".72" stroke-linecap="round" stroke-linejoin="round"/><text x="160" y="585" text-anchor="start" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="33" font-weight="600" fill="#3d2c18">GAIUS PETRONIUS</text><text x="160" y="611" text-anchor="start" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="17" font-weight="500" fill="#3d2c18" font-style="italic" opacity=".75">legionary</text><path d="M640 582 q24 14 44 -8 q18 -18 38 2 q14 14 32 -6" fill="none" stroke="#5a3a20" stroke-width="2.3" opacity=".72" stroke-linecap="round" stroke-linejoin="round"/><text x="160" y="690" text-anchor="start" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="33" font-weight="600" fill="#3d2c18">MARCUS SILVANUS</text><text x="160" y="716" text-anchor="start" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="17" font-weight="500" fill="#3d2c18" font-style="italic" opacity=".75">legionary</text><path d="M634 686 q14 -16 32 0 q20 20 40 -4 q16 -16 36 4 q12 12 24 0" fill="none" stroke="#5a3a20" stroke-width="2.3" opacity=".72" stroke-linecap="round" stroke-linejoin="round"/><text x="160" y="795" text-anchor="start" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="33" font-weight="600" fill="#3d2c18">TIBERIUS RUFUS</text><text x="160" y="821" text-anchor="start" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="17" font-weight="500" fill="#3d2c18" font-style="italic" opacity=".75">legionary</text><path d="M640 790 q20 -18 40 2 q16 16 34 -4 q14 -14 30 4" fill="none" stroke="#5a3a20" stroke-width="2.3" opacity=".72" stroke-linecap="round" stroke-linejoin="round"/><line x1="160" y1="860" x2="740" y2="860" stroke="#3d2c18" stroke-width="1.5" opacity=".45"/><text x="450" y="910" text-anchor="middle" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="20" font-weight="500" fill="#3d2c18" font-style="italic">The seal is not to be broken. The watch does not sleep.</text><text x="450" y="942" text-anchor="middle" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="18" font-weight="500" fill="#3d2c18" font-style="italic" opacity=".85">Any man who leaves his post before relief answers for it with his life.</text><text x="450" y="1080" text-anchor="middle" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="17" font-weight="500" fill="#3d2c18" font-style="italic" opacity=".7">Each man signed for himself at the posting of the watch.</text></svg>`;
 
-SVG.finalSeal = `<svg class="seal-final" viewBox="0 0 100 100">
-  <circle cx="50" cy="50" r="46" fill="#8c2f1f"/>
-  <circle cx="50" cy="50" r="37" fill="none" stroke="#f2d9c9" stroke-width="2"/>
-  <text x="50" y="57" text-anchor="middle" font-family="Georgia,serif" font-size="19" letter-spacing="1" fill="#f2d9c9">B.I.B.</text></svg>`;
+SVG.finalSeal = `<img class="seal-final" src="images/bibseal.png" alt="The seal of the Bible Investigation Bureau">`;
 
 SVG.poster_jm33 = `<svg viewBox="0 0 1536 1024" xmlns="http://www.w3.org/2000/svg"><image href="images/poster_jm33.jpg" x="0" y="0" width="1536" height="1024"/></svg>`;
 

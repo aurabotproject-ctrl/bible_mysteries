@@ -62,7 +62,18 @@ CASE_FILES = ['part_case0.js', 'part_case1.js', 'part_case2.js', 'part_case3.js'
               'part_case8.js', 'part_case9.js', 'part_case10.js',
               'part_case11.js', 'part_case12.js', 'part_case13.js', 'part_case14.js', 'part_case15.js', 'part_case16.js', 'part_case18.js', 'part_case20.js']
 
-NAMES = ['bibsign', 'poster_jm01', 'j01hill', 'j01gate', 'j01ledger', 'j01paid', 'j01cert',
+
+# Most plates are photographs and ship as JPEG. The wax seal has to keep its
+# transparent surround, so it is a PNG - look the extension up rather than
+# assume one, and any future asset with an alpha channel just works.
+MIME = {'.jpg': 'image/jpeg', '.png': 'image/png'}
+def img_ext(n):
+    for e in ('.jpg', '.png'):
+        if os.path.exists(os.path.join(IMAGES, n + e)):
+            return e
+    sys.exit('images/%s: expected a .jpg or a .png' % n)
+
+NAMES = ['bibsign', 'bibseal', 'poster_jm01', 'j01hill', 'j01gate', 'j01ledger', 'j01paid', 'j01cert',
          'map', 'tomb', 'stone', 'seal', 'roster', 'cipher', 'decoder',
          'j47map', 'j47chamber', 'j47disp', 'j47dothan',
          'poster_jm33', 'poster_jm47', 'poster_jm19', 'poster_jm08',
@@ -271,8 +282,9 @@ def main():
 
     b64 = {}
     for n in NAMES:
-        with open(os.path.join(IMAGES, n + '.jpg'), 'rb') as f:
-            b64[n] = 'data:image/jpeg;base64,' + base64.b64encode(f.read()).decode()
+        e = img_ext(n)
+        with open(os.path.join(IMAGES, n + e), 'rb') as f:
+            b64[n] = 'data:%s;base64,' % MIME[e] + base64.b64encode(f.read()).decode()
 
     # ---- walk-in experiences -------------------------------------------
     # A card declares  tour:{href:"../tours/x.html"}.  The deploy build fetches
@@ -351,7 +363,7 @@ def main():
         need = ({n for n in NAMES
                  if ('__IMG_%s__' % n) in src
                  or re.search(r'SVG\.%s\b' % re.escape(n), src)}
-                | {stub['poster'], 'bibsign', 'j01cert'})
+                | {stub['poster'], 'bibsign', 'bibseal', 'j01cert'})
         body = swap(body, lambda n: b64[n] if n in need else BLANK_PIXEL)
         body = body.replace('<title>B.I.B. \u2014 The Bible Investigation Bureau</title>',
                             '<title>%s &mdash; %s</title>' % (stub['code'], stub['title']))
@@ -366,15 +378,16 @@ def main():
     os.makedirs(os.path.join(DIST, 'images'), exist_ok=True)
     os.makedirs(os.path.join(DIST, 'cases'), exist_ok=True)
     with open(os.path.join(DIST, 'index.html'), 'w', encoding='utf-8') as f:
-        f.write(wrap(swap(main_bundle, lambda n: 'images/%s.jpg' % n)))
+        f.write(wrap(swap(main_bundle, lambda n: 'images/%s%s' % (n, img_ext(n)))))
     for stub, (_, src) in zip(stubs, cases):
         with open(os.path.join(DIST, 'cases', stub['id'] + '.js'), 'w', encoding='utf-8') as f:
-            f.write(swap(src, lambda n: 'images/%s.jpg' % n))
+            f.write(swap(src, lambda n: 'images/%s%s' % (n, img_ext(n))))
     for cid, src in easy.items():
         with open(os.path.join(DIST, 'cases', cid + '.easy.js'), 'w', encoding='utf-8') as f:
-            f.write(swap(src, lambda n: 'images/%s.jpg' % n))
+            f.write(swap(src, lambda n: 'images/%s%s' % (n, img_ext(n))))
     for n in NAMES:
-        shutil.copy(os.path.join(IMAGES, n + '.jpg'), os.path.join(DIST, 'images', n + '.jpg'))
+        shutil.copy(os.path.join(IMAGES, n + img_ext(n)),
+                    os.path.join(DIST, 'images', n + img_ext(n)))
     shutil.copy(BIBLE_JSON, os.path.join(DIST, 'bible.json'))
     open(os.path.join(DIST, '.nojekyll'), 'w').close()
 

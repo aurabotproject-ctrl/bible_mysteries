@@ -320,6 +320,7 @@ a.bref:hover{background:rgba(201,162,39,.22);border-bottom-style:solid}
 
 /* the certificate */
 .pp-cert{padding:0;border:0}
+.pp-cert .seal-final{width:104px;height:104px;margin:0 auto 8px}
 .cert{display:flex;flex-direction:column;justify-content:center}
 .cert-in{width:100%}
 .cert{border:3px double var(--accent);padding:8px}
@@ -401,8 +402,30 @@ a.bref:hover{background:rgba(201,162,39,.22);border-bottom-style:solid}
   .pp-card.sheet .doc-body h4{margin-top:14px}
   .pp-card.sheet .ref{margin-top:10px;padding-top:6px;break-before:avoid;page-break-before:avoid}
   .pp-card.sheet{position:relative}
-  .pp-cert{break-after:page;page-break-after:always}
-  .pp-cert .cert{min-height:255mm}
+  /* The certificate is the one page anybody keeps, so it gets a page of its
+     own, turned on its side. A named page is the only way to mix orientations
+     inside one document: everything else stays A4 portrait. */
+  @page cert{size:A4 landscape;margin:12mm}
+  .pp-cert{page:cert;break-after:page;page-break-after:always}
+  /* 210mm short edge less the 12mm margins = 186mm of page. Hold the frame
+     just inside it so the certificate is one page and never spills onto a
+     second, empty one. */
+  .pp-cert .cert{height:185mm;min-height:0;justify-content:center;overflow:hidden}
+  .pp-cert .cert-in{height:100%;min-height:0;padding:11mm 16mm;
+    display:flex;flex-direction:column;justify-content:center}
+  .pp-cert .seal-final{width:32mm;height:32mm;margin:0 auto 3mm}
+  .pp-cert .cert-soc{font-size:10.5px;letter-spacing:.3em}
+  .pp-cert .cert-h{font-size:42px;margin:4mm 0 2mm}
+  .pp-cert .cert-sub{font-size:14px}
+  /* a flex item with auto side margins shrinks to fit, and this one is
+     empty, so the ruled line needs a width of its own to draw at all */
+  .pp-cert .cert-names{font-size:36px;width:150mm;max-width:100%;margin:7mm auto 2mm;min-height:14mm}
+  .pp-cert .cert-case{margin-top:6mm;font-size:12px}
+  .pp-cert .cert-title{font-size:31px}
+  .pp-cert .cert-where{font-size:13px}
+  .pp-cert .cert-verdict{font-size:14px;width:195mm;max-width:100%;margin:5mm auto 0}
+  .pp-cert .cert-sign{margin:auto auto 0;padding-top:8mm;gap:24mm;width:100%;max-width:215mm}
+  .pp-cert .cert-line{height:30px;font-size:19px}
   .cert-in{padding:40px 34px}
 }
 /* ---------- the elimination ladder (the enquiry) ---------- */

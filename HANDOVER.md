@@ -169,6 +169,32 @@ stay crisp at any zoom and can be re-lettered (te reo, say) without regenerating
 art. House pattern: `font-family:'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif`,
 bold label in `#4a3520`, italic sub-line in `#7d4a24`. One type size per plate.
 
+**Image files may be `.jpg` or `.png`.** `build.py` looks for either and picks
+whichever exists (`img_ext()`), so a name in `NAMES` carries no extension. Use a
+JPEG for photographs and plates; keep PNG only where alpha matters, as the wax
+seal does. Two files with the same stem and different extensions is a mistake
+waiting to happen — there is only ever one.
+
+**The certificate prints landscape, on its own page.** `@page cert{size:A4
+landscape}` plus `page:cert` on `.pp-cert` — a *named page* is the only way to
+mix orientations in one document, and Chromium honours it with
+`preferCSSPageSize`. Two traps, both already paid for: give `.pp-cert .cert` a
+fixed `height` inside the 186 mm short edge (a `min-height` that overshoots
+silently spills onto a second, blank landscape page), and do **not** add
+`break-before:page` — `.pp-page` already breaks after, so a second forced break
+opens an empty page. Inside `.cert-in` the children are flex items, so an empty
+ruled line like `.cert-names` needs a real `width`, not `max-width`, or it
+shrinks to nothing and the rule disappears.
+
+**Nothing in a printable may span two pages.** Cutting is fine; taping two
+halves together is not. Every cut-out carries `break-inside:avoid`, which the
+browser can only honour if the piece actually fits one page — so the audit is
+that no `.pp-card:not(.sheet)`, `.pp-theory`, `.pp-env`, `.pp-slip`, `.pp-tag`,
+`.pp-step`, `.pp-spine`, `.pp-ldr`, `table.ppmx` or `.ppcw` exceeds 1039 px
+(275 mm) tall under `emulateMedia({media:'print'})` at A4 content width. All 19
+cases were clean as of this pass; re-run it after adding a long document.
+`.pp-card.sheet` is the deliberate exception — a read-aloud sheet may flow.
+
 The house style prompt block is already folded into every `image-prompts.md`.
 Say "no text" twice, and for ledger plates add "illegible scribble" — models
 badly want to write real words on an account page.
@@ -364,6 +390,11 @@ certificate seal). The label wording is listed at the bottom of
   `docs/case-builder.md` is the how-to for building a new one.
 
 ## 11. Recent work, newest first
+
+- A new wax seal (`images/bibseal.png`, `SVG.finalSeal`) replaces the old
+  B.I.B. stamp on the certificate, and the certificate is now a full A4
+  landscape page of its own. Every printable was audited for cut-outs that
+  cross a page break; none do.
 
 - JM-04 - each woman's statement is now written onto her own sheet, in the
   registrar's hand, at both reading levels. The Second Woman's card had no

@@ -21,3 +21,6 @@ _to_delete/
 
 # social art - big PNGs, and nothing the app needs
 social/
+
+# python bytecode from build.py
+__pycache__/
