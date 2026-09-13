@@ -73,7 +73,7 @@ def img_ext(n):
             return e
     sys.exit('images/%s: expected a .jpg or a .png' % n)
 
-NAMES = ['bibsign', 'bibseal', 'btncontinue', 'btntake', 'btnprint', 'btnrestart', 'poster_jm01', 'j01hill', 'j01gate', 'j01ledger', 'j01paid', 'j01cert',
+NAMES = ['bibsign', 'bibseal', 'poster_jm01', 'j01hill', 'j01gate', 'j01ledger', 'j01paid', 'j01cert',
          'map', 'tomb', 'stone', 'seal', 'roster', 'cipher', 'decoder',
          'j47map', 'j47chamber', 'j47disp', 'j47dothan',
          'poster_jm33', 'poster_jm47', 'poster_jm19', 'poster_jm08',
@@ -363,8 +363,7 @@ def main():
         need = ({n for n in NAMES
                  if ('__IMG_%s__' % n) in src
                  or re.search(r'SVG\.%s\b' % re.escape(n), src)}
-                | {stub['poster'], 'bibsign', 'bibseal', 'j01cert',
-                   'btncontinue', 'btntake', 'btnprint', 'btnrestart'})
+                | {stub['poster'], 'bibsign', 'bibseal', 'j01cert'})
         body = swap(body, lambda n: b64[n] if n in need else BLANK_PIXEL)
         body = body.replace('<title>B.I.B. \u2014 The Bible Investigation Bureau</title>',
                             '<title>%s &mdash; %s</title>' % (stub['code'], stub['title']))

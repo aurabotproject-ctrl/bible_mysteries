@@ -115,13 +115,9 @@ function renderShelf(){
       ${LEVEL === "easy" && !hasEasy(cdef.id)
         ? `<div class="p-easysoon">Medium only &middot; this one reads at full strength</div>` : ""}
       <div class="p-acts">
-        <button class="p-imgbtn" data-case="${cdef.id}"
-          aria-label="${st.opened ? "Continue this case" : "Take this case"}">
-          <img src="${st.opened ? "__IMG_btncontinue__" : "__IMG_btntake__"}" alt="" decoding="async"></button>
-        <button class="p-imgbtn" data-pp="${cdef.id}" aria-label="Print this case to run on paper"
-          title="Print this case to run on paper"><img src="__IMG_btnprint__" alt="" decoding="async"></button>
-        ${st.opened ? `<button class="p-imgbtn" data-restart="${cdef.id}" aria-label="Clear this case and start again"
-          title="Clear this case and start again"><img src="__IMG_btnrestart__" alt="" decoding="async"></button>` : ""}
+        <button class="p-open" data-case="${cdef.id}">${st.opened ? "Continue" : "Take this case"}</button>
+        <button class="p-restart" data-pp="${cdef.id}" title="Print this case to run on paper">🖨</button>
+        ${st.opened ? `<button class="p-restart" data-restart="${cdef.id}" title="Clear this case and start again">Restart</button>` : ""}
       </div>
     </div>`;
   }).join("");
@@ -167,7 +163,7 @@ function renderShelf(){
 
   shelf.querySelectorAll("[data-case]").forEach(b=>
     b.addEventListener("click", ()=>{
-      b.disabled = true; b.classList.add("busy");
+      b.disabled = true; b.textContent = "Opening…";
       withCase(b.dataset.case, openCase).catch(()=>{
         b.disabled = false; renderShelf();
       });

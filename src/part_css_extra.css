@@ -99,32 +99,17 @@
 .p-stamp.wip{color:#8a5518;border-color:#8a5518}
 .p-stamp.done{color:#2f6b3d;border-color:#2f6b3d}
 .p-sub{text-align:center;font-size:10.5px;color:var(--ink-soft);font-style:italic;margin-top:5px}
-/* The shelf buttons are painted plaques. Every PNG is the same canvas with the
-   plaque in the same place, so however many a card shows they line up down the
-   left and right edges; the negative margin closes the transparent overhang the
-   ornaments (magnifier, wax seal, rope) need around each one. Percentages here
-   resolve against the card's width, so the rhythm holds at every card size. */
-.p-acts{display:flex;flex-direction:column;margin-top:9px}
-.p-imgbtn{
-  display:block;width:100%;padding:0;border:0;background:transparent;
-  margin-block:-3.4%;position:relative;cursor:pointer;-webkit-tap-highlight-color:transparent;
-  transition:transform .14s ease, filter .14s ease;
+.p-acts{display:flex;gap:8px;margin-top:12px;align-items:stretch}
+.p-open{
+  flex:1;background:var(--fc);color:#fff;border:0;border-radius:5px;padding:11px 12px;
+  font-size:13.5px;font-weight:700;font-family:var(--ui-font);
 }
-/* the last plaque keeps its own bottom overhang, so the rope and the paper
-   under Restart stay inside the card */
-.p-imgbtn:last-child{margin-bottom:0}
-.p-imgbtn img{display:block;width:100%;height:auto;
-  filter:drop-shadow(0 5px 8px rgba(0,0,0,.42))}
-.p-imgbtn:hover{transform:translateY(-2px);filter:brightness(1.07)}
-.p-imgbtn:active{transform:translateY(1px);filter:brightness(.94)}
-.p-imgbtn:focus-visible{outline:3px solid var(--brass);outline-offset:-8px;border-radius:8px}
-.p-imgbtn.busy{pointer-events:none;filter:grayscale(.45) brightness(.9)}
-.p-imgbtn.busy::after{
-  content:"Opening\2026";position:absolute;inset:0;display:grid;place-items:center;
-  font-family:var(--ui-font);font-size:13px;font-weight:800;letter-spacing:.12em;
-  text-transform:uppercase;color:#2e2419;
+.p-open:hover{filter:brightness(1.12)}
+.p-restart{
+  background:transparent;border:1px solid rgba(90,65,35,.5);color:var(--ink-soft);
+  border-radius:5px;padding:11px 12px;font-size:12.5px;font-weight:600;font-family:var(--ui-font);
 }
-@media (prefers-reduced-motion:reduce){.p-imgbtn{transition:none}}
+.p-restart:hover{border-color:var(--no);color:var(--no)}
 .poster.soon{opacity:.42;filter:saturate(.45)}
 .poster.soon:hover{transform:rotate(var(--r,0deg));box-shadow:0 16px 30px rgba(0,0,0,.5)}
 .boardfoot{margin-top:38px;display:flex;gap:16px;align-items:center;flex-wrap:wrap;justify-content:center}

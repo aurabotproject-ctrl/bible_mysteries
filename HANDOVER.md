@@ -169,18 +169,6 @@ stay crisp at any zoom and can be re-lettered (te reo, say) without regenerating
 art. House pattern: `font-family:'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif`,
 bold label in `#4a3520`, italic sub-line in `#7d4a24`. One type size per plate.
 
-**The shelf buttons are painted plaques** (`images/btncontinue.png`, `btntake`,
-`btnprint`, `btnrestart`), stacked down each case card. They are normalised so
-they line up: every PNG is the same canvas, the plaque frame is the same size
-and sits at the same place inside it, and the transparent margin around it
-carries the ornament that hangs off the left (magnifier, folder stack, wax seal).
-Add another and it must be built to that canvas or the stack goes ragged. The
-CSS closes the overhang with `margin-block:-3.4%` — a percentage, so the rhythm
-holds at every card width — and the last one keeps its bottom margin so the rope
-under *Restart* stays inside the card. They are shelf art, not case art, so
-`build.py` has to ask for them by name in the single-file `need` set the way
-`bibsign` does.
-
 **Image files may be `.jpg` or `.png`.** `build.py` looks for either and picks
 whichever exists (`img_ext()`), so a name in `NAMES` carries no extension. Use a
 JPEG for photographs and plates; keep PNG only where alpha matters, as the wax
@@ -416,9 +404,6 @@ certificate seal). The label wording is listed at the bottom of
 
 - A walk through the two-room house on JM-04's *Plan of the House* - one door,
   both mats, both cradles, eight exhibits to examine.
-
-- The case-card buttons are painted plaques now, stacked vertically instead of
-  in a row.
 
 - A new wax seal (`images/bibseal.png`, `SVG.finalSeal`) replaces the old
   B.I.B. stamp on the certificate, and the certificate is now a full A4
