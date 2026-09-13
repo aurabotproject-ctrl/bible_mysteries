@@ -38,6 +38,8 @@ const JM05_ITEMS = [
 {
   id:"j05wall", stage:0, kind:"Site survey", title:"The Wall Report",
   sub:"The panel, the lampstand and the floor beneath", thumb:"j05wall",
+  tour:{href:"../tours/writing-on-the-wall.html", label:"\ud83d\udd6f\ufe0f Carry the lampstand to the wall",
+        note:"The hall as the surveyors found it \u2014 lift the lamp to the plaster and read what is written there for yourself"},
   prev:"Writing four metres up, on smooth plaster, with nothing underneath it.",
   x:52, y:22, rot:3, w:216,
   body:`

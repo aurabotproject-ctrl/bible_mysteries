@@ -168,7 +168,8 @@ def patch(path, pad=True):
 
 if __name__ == '__main__':
     # dragged rather than walked, so the pad would have nothing to do
-    NO_PAD = {'jericho-spoil.html', 'book-of-life.html'}   # both are dragged, not walked
+    NO_PAD = {'jericho-spoil.html', 'book-of-life.html',
+              'writing-on-the-wall.html'}              # all dragged, not walked
     # already carries a purpose-built touch layer of its own - a joystick,
     # look-drag, run and map buttons. Leave it alone.
     SKIP = {'jerusalem-ad33.html', 'house-investigation.html'}
