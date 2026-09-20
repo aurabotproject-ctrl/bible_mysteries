@@ -269,7 +269,15 @@ Eight exist: `jerusalem-ad33.html` (JM-33), `aram-campaign.html` (JM-47),
 `jericho-spoil.html` (JM-08), `book-of-life.html` (JM-01),
 `horeb-walk.html` (JM-03), `house-investigation.html` (JM-04, *Plan of the
 House*) and `writing-on-the-wall.html` (JM-05, *The Wall Report* — pick up the
-lampstand, carry it across the plaster, and the four words light as you go).
+lampstand, carry it across the plaster, and the four words light as you go) and
+`jericho-march.html` (JM-06, *Plan of the Ruins* — beat the drum left and right
+for seven laps of the circuit, then shout).
+
+**Recompress the bump maps.** A handed-over scene often carries a bump map for
+every colour map at the same size and in full colour, and a bump map only needs
+height: greyscale at half the resolution reads identically. Doing that to the
+four in `jericho-march.html` took it from 2.7 MB to 2.0 MB without touching what
+you see. Colour maps re-save at q78 progressive for a few per cent more.
 
 **A tour that brings its own touch controls still needs reading.**
 `house-investigation.html` arrived with a joystick, a look-drag and an Examine
@@ -412,6 +420,9 @@ certificate seal). The label wording is listed at the bottom of
   `docs/case-builder.md` is the how-to for building a new one.
 
 ## 11. Recent work, newest first
+
+- The march around Jericho on JM-06's *Plan of the Ruins* - seven laps beaten
+  out a step at a time, then the shout and the wall goes flat.
 
 - The lampstand and the plaster on JM-05's *The Wall Report* - carry the lamp
   across the wall and MENE, MENE, TEKEL, PARSIN lights a word at a time.

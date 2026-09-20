@@ -172,7 +172,8 @@ if __name__ == '__main__':
               'writing-on-the-wall.html'}              # all dragged, not walked
     # already carries a purpose-built touch layer of its own - a joystick,
     # look-drag, run and map buttons. Leave it alone.
-    SKIP = {'jerusalem-ad33.html', 'house-investigation.html'}
+    SKIP = {'jerusalem-ad33.html', 'house-investigation.html',
+            'jericho-march.html'}
     for p in sys.argv[1:]:
         n = os.path.basename(p)
         if n in SKIP:

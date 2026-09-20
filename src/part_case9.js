@@ -139,6 +139,8 @@ const JM06_ITEMS = [
 {
   id:"j06ruins", stage:0, kind:"Plan", title:"Plan of the Ruins",
   sub:"The circuit of the wall, as it lies", thumb:"j06ruins",
+  tour:{href:"../tours/jericho-march.html", label:"\ud83e\udd41 March around the city",
+        note:"Seven laps on the circuit, a beat at a time \u2014 then the trumpets, the shout, and the ring of wall goes flat except for one house"},
   prev:"A ring of collapse all the way round — and one short piece that did not fall.",
   x:40, y:76, rot:-5, w:216,
   body:`
