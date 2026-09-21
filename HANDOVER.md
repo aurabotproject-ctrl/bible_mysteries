@@ -431,6 +431,14 @@ certificate seal). The label wording is listed at the bottom of
 
 ## 11. Recent work, newest first
 
+- The certificate prints with the Case Closed file on its back: a second A4
+  landscape page (`caseBackHtml` in part_print.js) carrying the debrief lead,
+  the team's filed reasoning, all five eliminations, the questions and the
+  references, in two columns. The frame is held at 273 x 185mm on screen too,
+  and `fitCaseBack` steps the type down until it fits, so it is always one
+  page; every case currently fits at 11-12px. Print double-sided, flipping on
+  the short edge. The paper edition's blank certificate is unchanged.
+
 - The Case Supervisor is **Mordecai ben Jair** (Esther 2:5), the man who
   overheard the plot against the king and got it onto the record (Esther
   2:21-23) — replacing "A. Thorne" on every briefing letter, both reading

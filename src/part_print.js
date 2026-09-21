@@ -68,18 +68,69 @@ function certificateHtml(cdef, names, dateStr, verdict){
   </section>`;
 }
 
+/* ---------------- the back of the certificate ----------------
+   The Case Closed file, with the team's own reasoning in it, sized to print
+   on the back of the certificate: the same A4 landscape page, so printing
+   double-sided lines the two up. The file runs long (five eliminations), so
+   fitCaseBack() shrinks the type until the whole thing sits on one page. */
+function caseBackHtml(cdef, reasoning){
+  const verdicts = cdef.theories.map(t=>`<div class="cb-v"><h5>${t.title}</h5><p>${t.verdict}</p></div>`).join("");
+  const qs = cdef.debrief.questions.map(q=>`<li>${q}</li>`).join("");
+  const mine = (reasoning||"").trim();
+  return `<section class="pp-page pp-back">
+    <div class="cb-frame"><div class="cb-fit">
+      <div class="cb-head">
+        <div class="cb-kind">Case closed · ${cdef.code}</div>
+        <div class="cb-title">${cdef.title} — Conclusion Filed</div>
+      </div>
+      <p class="cb-lead">${cdef.debrief.lead}</p>
+      <div class="cb-mine">
+        <h4>Our reasoning, as filed</h4>
+        ${mine ? `<p class="cb-hand">${esc(mine)}</p>`
+               : `<div class="cb-lines"><i></i><i></i><i></i><i></i></div>`}
+      </div>
+      <h4>The full elimination</h4>
+      ${verdicts}
+      <h4>Now think about it</h4>
+      <ul class="cb-qs">${qs}</ul>
+      <h4>Read it for yourself</h4>
+      <p class="cb-refs">${cdef.debrief.refs}</p>
+    </div></div>
+  </section>`;
+}
+function fitCaseBack(root){
+  const box = root.querySelector(".pp-back .cb-fit");
+  if(!box) return;
+  const frame = box.parentNode;
+  // a little room to spare, because a printer lays text out very slightly
+  // differently from the screen it was measured on
+  const cs = getComputedStyle(frame);
+  const room = (frame.clientHeight - parseFloat(cs.paddingTop) - parseFloat(cs.paddingBottom)) * 0.96;
+  let size = 12;
+  box.style.fontSize = size + "px";
+  while(box.scrollHeight > room && size > 6){
+    size -= 0.25;
+    box.style.fontSize = size + "px";
+  }
+}
+
 function openCertificate(cdef){
   const st = stateFor(cdef.id);
   const names = (st.sheet && st.sheet.names) ? st.sheet.names : "";
   const d = new Date();
   const date = `${d.getDate()} ${["January","February","March","April","May","June","July",
     "August","September","October","November","December"][d.getMonth()]} ${d.getFullYear()}`;
-  const o = overlay(`<div class="ppdoc">${certificateHtml(cdef, names, date)}</div>
+  const o = overlay(`<div class="ppdoc">${certificateHtml(cdef, names, date)}
+      <div class="noprint cb-note">On the back: your case file, with your reasoning in it.</div>
+      <div class="cb-scroll">${caseBackHtml(cdef, st.reasoning)}</div></div>
     <div class="noprint" style="margin-top:16px;display:flex;gap:10px;flex-wrap:wrap;align-items:center">
       <button class="btn" id="certPrint">Print the certificate</button>
-      <span class="small">It fills in the names from your answer sheet. Print it and put it in your case folder.</span>
+      <span class="small">It fills in the names from your answer sheet. Print <b>double-sided, flipping on the short edge</b>, and the case file lands on the back. Put it in your case folder.</span>
     </div>`, "wide bibsheet");
   o.classList.add("printme");
+  // after layout, and again once any late font has arrived
+  requestAnimationFrame(()=>fitCaseBack(o));
+  if(document.fonts && document.fonts.ready) document.fonts.ready.then(()=>fitCaseBack(o));
   o.querySelector("#certPrint").addEventListener("click", ()=>window.print());
 }
 
