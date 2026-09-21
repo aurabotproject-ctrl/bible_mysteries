@@ -1019,7 +1019,7 @@ function renderBoard(keepScroll){
     <div class="theories" id="theories"></div>
     <div class="rail">
       <h5>Evidence available</h5>
-      <div class="sub">Tap a piece of evidence, then tap the explanation it destroys. Tap a filled slot to take it back.</div>
+      <div class="sub">One piece of evidence for each explanation. Tap a piece of evidence, then tap the explanation it destroys. Tap a filled slot to take it back.</div>
       <div class="chips" id="chips"></div>
       <div class="railread" id="railRead"></div>
     </div>
@@ -1050,7 +1050,11 @@ function renderBoard(keepScroll){
   });
   const used = new Set(Object.values(CS.pins));
   const chips = board.querySelector("#chips");
-  available().filter(i=>!i.notEvidence).forEach(i=>{
+  // Only the evidence that answers one of the explanations goes on the rail -
+  // five chips, one per explanation. The rest of the file stays on the desk
+  // for reading, but a class should not have to guess among a dozen here.
+  const answers = new Set(C.theories.map(t=>t.answer));
+  available().filter(i=>!i.notEvidence && answers.has(i.id)).forEach(i=>{
     const ch = el("div","chip"+(used.has(i.id)?" used":"")+(selChip===i.id?" sel":"")
                         +(readChip===i.id?" reading":"")+(i.tour?" walkin":""), i.title);
     ch.addEventListener("click", ()=>{

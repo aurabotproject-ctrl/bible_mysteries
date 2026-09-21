@@ -189,6 +189,21 @@ def main():
     if missing:
         sys.exit('missing source parts: ' + ', '.join(missing))
 
+    # The pinboard shows only the cards that answer an explanation, and a card
+    # can be pinned once. So every explanation needs its own card, and that
+    # card has to exist - otherwise one explanation can never be closed and the
+    # case cannot be finished (JM-01 shipped like that once).
+    for cf in CASE_FILES:
+        text = read(cf)
+        items = set(re.findall(r'\bid:"([^"]+)",\s*stage:', text))
+        answers = [a for a in re.findall(r'\banswer:"([^"]+)"', text)
+                   if a.islower() and not a.isupper()]
+        missing_cards = [a for a in answers if a not in items]
+        twice = sorted({a for a in answers if answers.count(a) > 1})
+        if missing_cards or twice or len(answers) != len(set(answers)) or len(answers) < 5:
+            sys.exit('%s: pinboard dead end - answers %s; missing cards %s; used twice %s'
+                     % (cf, answers, missing_cards, twice))
+
     # A CSS part is pasted into the page raw, inside a <style> element the parts
     # open and close between them. Anything after the last </style> lands in the
     # body as plain text and is silently never applied - which has happened once,

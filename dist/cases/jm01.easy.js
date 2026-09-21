@@ -324,7 +324,7 @@ theories:{
   nodebt:{
     title:"1. There was never a real debt",
     claim:"Sin is just an old word for ordinary human mistakes. There is no account, so there is nothing to clear.",
-    verdict:"The audit proves this wrong. Not because we did a survey and decided people are wicked, but because of the one question we actually ask: <i>have you always done what you yourself thought was right?</i> Nobody has ever said yes to that honestly — not one investigator in this building. You do not need a religious word for it. Something is owed, and you knew it was owed at the time, which is why the first two people in the file hid."
+    verdict:"The charge sheet proves this wrong. A mistake is something you did not mean to do. Look at what the garden record shows: <b>one</b> command, said clearly; the penalty told to them first, so nobody was tricked; the command broken anyway; and then they <i>hid</i>, and each blamed somebody else. Nobody hides from an honest mistake. That is a real charge, with a rule and a price, and the two people in the garden knew it was real before anyone told them. You do not need a religious word for it. Something is owed, and they knew it at the time."
   },
   deeds:{
     title:"2. Good deeds cancel it out",
@@ -339,7 +339,7 @@ theories:{
   compare:{
     title:"4. I am better than most, so mine is small",
     claim:"Compared with the people you read about in the news, my account is nearly clean. It will round down.",
-    verdict:"The audit proves this one wrong too, and it is worth seeing why it is the same document. Comparing yourself feels like evidence but it measures nothing: the audit is not a league table, it is a straight question about whether any account is <b>clean</b>. None were. Being nearer the front of a queue that is going the wrong way is not progress — and the second man in the statements is exactly this idea, said out loud in a prayer."
+    verdict:"The audit proves this wrong. Comparing yourself feels like evidence but it measures nothing: the audit is not a league table, it is a straight question about whether any account is <b>clean</b>. None were. Being nearer the front of a queue that is going the wrong way is not progress — and the second man in the statements is exactly this idea, said out loud in a prayer."
   },
   overlook:{
     title:"5. God is kind, so he will just ignore it",

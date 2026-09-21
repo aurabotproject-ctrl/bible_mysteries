@@ -431,6 +431,13 @@ certificate seal). The label wording is listed at the bottom of
 
 ## 11. Recent work, newest first
 
+- The pinboard rail shows only the five cards that answer an explanation, not
+  the whole file (the rest stay on the desk to read). A card pins once, so
+  every explanation needs its own card: JM-01 had The Audit answering both
+  "never a real debt" and "better than most", which left one unclosable.
+  "Never a real debt" now takes *The Charge, As Laid*. `build.py` refuses a
+  case whose explanations share a card or point at a card that is missing.
+
 - The microscope bench on JM-10's *River Water — Three Samples* - pour each
   jar, carry the tray over and look at the three samples down the eyepiece.
 
