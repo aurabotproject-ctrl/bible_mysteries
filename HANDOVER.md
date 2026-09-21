@@ -431,6 +431,14 @@ certificate seal). The label wording is listed at the bottom of
 
 ## 11. Recent work, newest first
 
+- Teacher notes and both "Teacher: restore" buttons sit behind a password
+  (`teacherGate` in part_engine.js). Only a hash is in the page
+  (`TEACHER_HASH`, made by `teacherHash`), so the password is not in the
+  public repo and cannot be found by searching the page. To change it, run
+  `teacherHash("new password")` in the browser console and paste the result
+  into `TEACHER_HASH`. Once given it holds for ten minutes on that page.
+  The printed paper edition still carries its answer key as the last page.
+
 - The certificate prints with the Case Closed file on its back: a second A4
   landscape page (`caseBackHtml` in part_print.js) carrying the debrief lead,
   the team's filed reasoning, all five eliminations, the questions and the

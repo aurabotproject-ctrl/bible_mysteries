@@ -174,7 +174,7 @@ function renderShelf(){
     b.addEventListener("click", e=>{ e.stopPropagation(); restartCase(b.dataset.restart); }));
   shelf.querySelector("#shelfBible").addEventListener("click", ()=>openBible());
   shelf.querySelector("#shelfFolder").addEventListener("click", folderPack);
-  shelf.querySelector("#shelfTeacher").addEventListener("click", teacherNotes);
+  shelf.querySelector("#shelfTeacher").addEventListener("click", ()=>teacherGate(teacherNotes));
 }
 
 function restartCase(id){
@@ -744,6 +744,55 @@ function overlay(html, cls){
   if(!(cls||"").includes("bibsheet")) linkifyRefs(o.querySelector(".body"));
   return o;
 }
+/* ============================================================
+   THE TEACHER PASSWORD
+   Teacher notes carry every answer, and the restore buttons undo the
+   five-wrong-answers rule, so both sit behind a password. Only a hash of it
+   is in the page, so it cannot be found by searching the file for it. Once
+   given it holds for ten minutes on this page, then asks again, so a device
+   left open does not stay unlocked for a class.
+   ============================================================ */
+const TEACHER_HASH = "yarwhzlaoy";
+function teacherHash(str){
+  let h1 = 0xdeadbeef, h2 = 0x41c6ce57;
+  for(let i=0;i<str.length;i++){
+    const ch = str.charCodeAt(i);
+    h1 = Math.imul(h1 ^ ch, 2654435761); h2 = Math.imul(h2 ^ ch, 1597334677);
+  }
+  h1 = Math.imul(h1 ^ (h1>>>16), 2246822507) ^ Math.imul(h2 ^ (h2>>>13), 3266489909);
+  h2 = Math.imul(h2 ^ (h2>>>16), 2246822507) ^ Math.imul(h1 ^ (h1>>>13), 3266489909);
+  return (4294967296 * (2097151 & h2) + (h1>>>0)).toString(36);
+}
+let teacherUntil = 0;
+function teacherGate(then){
+  if(Date.now() < teacherUntil){ then(); return; }
+  const o = overlay(`
+    <div class="doc-kind">Teachers only</div>
+    <div class="doc-title">Password</div>
+    <div class="doc-sub">This part holds the answers.</div>
+    <div class="rule"></div>
+    <form id="tgForm" autocomplete="off" style="display:flex;gap:10px;flex-wrap:wrap;align-items:center">
+      <input id="tgPw" type="password" autocapitalize="off" autocorrect="off" spellcheck="false"
+        style="flex:1;min-width:200px;font-size:18px;padding:10px 12px;border:1px solid #b9a27a;border-radius:4px;background:#fffdf7">
+      <button class="btn" type="submit">Open</button>
+    </form>
+    <div class="msg" id="tgMsg" style="margin-top:10px;min-height:1.2em"></div>`);
+  o.classList.add("tgate");
+  const pw = o.querySelector("#tgPw");
+  setTimeout(()=>pw.focus(), 50);
+  o.querySelector("#tgForm").addEventListener("submit", e=>{
+    e.preventDefault();
+    if(teacherHash(pw.value.trim()) === TEACHER_HASH){
+      teacherUntil = Date.now() + 10*60*1000;
+      o.remove(); then();
+    } else {
+      const m = o.querySelector("#tgMsg");
+      m.className = "msg bad"; m.textContent = "That is not the password.";
+      pw.value = ""; pw.focus();
+    }
+  });
+}
+
 document.addEventListener("keydown", e=>{
   if(e.key==="Escape"){ const os=document.querySelectorAll(".overlay"); if(os.length) os[os.length-1].remove(); }
 });
@@ -852,14 +901,14 @@ function openWrong(){
   const row = o.querySelector("#wrongRow");
   if(CS.snapshot){
     const b = el("button","btn ghost","Teacher: restore earlier progress");
-    b.addEventListener("click", ()=>{
+    b.addEventListener("click", ()=>teacherGate(()=>{
       if(!confirm("Restore this team's earlier progress and give them five more wrong answers?\n\nThis is a teacher decision \u2014 it puts back every document, pin and code they had before the case was failed.")) return;
       const snap = CS.snapshot;
       S.cases[C.id] = Object.assign(NEW_CASE_STATE(), snap,
                                     {wrong:0, failed:false, snapshot:null});
       CS = stateFor(C.id); save();
       o.remove(); openCase(CASE_REG[C.id] || C);
-    });
+    }));
     row.appendChild(b);
   }
 }
@@ -916,7 +965,7 @@ function failCase(){
     CS = stateFor(C.id); save();
     o.remove(); showShelf();
   });
-  o.querySelector("#failTeacher").addEventListener("click", ()=>{
+  o.querySelector("#failTeacher").addEventListener("click", ()=>teacherGate(()=>{
     if(!confirm("Restore this team's progress and give them five more wrong answers?\n\nThis is a teacher decision \u2014 it puts back every document, pin and code they had before the case was failed.")) return;
     const snap = CS.snapshot;
     if(snap){
@@ -927,7 +976,7 @@ function failCase(){
     }
     CS = stateFor(C.id); save();
     o.remove(); openCase(CASE_REG[C.id] || C);
-  });
+  }));
 }
 
 function openLocks(){
@@ -1869,7 +1918,7 @@ function openMenuJM01(){
       <button class="btn ghost" id="mnTeach">Teacher notes</button>
     </div>`, "wide");
   o.querySelector("#mnInv").addEventListener("click", ()=>{ o.remove(); openInvite(); });
-  o.querySelector("#mnTeach").addEventListener("click", ()=>{ o.remove(); teacherNotes(); });
+  o.querySelector("#mnTeach").addEventListener("click", ()=>{ o.remove(); teacherGate(teacherNotes); });
 }
 $("#btnBoard").addEventListener("click", ()=>showBoard(board.classList.contains("hidden")));
 $("#btnDesk").addEventListener("click", ()=>showBoard(false));
