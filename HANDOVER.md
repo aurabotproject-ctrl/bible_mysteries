@@ -271,7 +271,17 @@ Eight exist: `jerusalem-ad33.html` (JM-33), `aram-campaign.html` (JM-47),
 House*) and `writing-on-the-wall.html` (JM-05, *The Wall Report* — pick up the
 lampstand, carry it across the plaster, and the four words light as you go) and
 `jericho-march.html` (JM-06, *Plan of the Ruins* — beat the drum left and right
-for seven laps of the circuit, then shout).
+for seven laps of the circuit, then shout) and `river-evidence-lab.html` (JM-10,
+*River Water — Three Samples* — press 1, 2 or 3, the jar pours into a tray, the
+tray goes to the microscope and the eyepiece opens on that sample).
+
+**Check the overlays sit on the screen.** `river-evidence-lab.html` arrived with
+its microscope Exit button, sample caption and zoom buttons positioned relative
+to the full-screen overlay (`top:-46px`, `bottom:-112px`), so all three were off
+the screen and the only ways out were Esc or tapping the black. Its marked block
+at the end of the file stacks them under the eyepiece and pins Exit top-right.
+The scene also keeps everything in a closure, so the block cannot reach the
+camera: pinch-to-zoom is sent as the `wheel` events the scene already zooms on.
 
 **Recompress the bump maps.** A handed-over scene often carries a bump map for
 every colour map at the same size and in full colour, and a bump map only needs
@@ -420,6 +430,9 @@ certificate seal). The label wording is listed at the bottom of
   `docs/case-builder.md` is the how-to for building a new one.
 
 ## 11. Recent work, newest first
+
+- The microscope bench on JM-10's *River Water — Three Samples* - pour each
+  jar, carry the tray over and look at the three samples down the eyepiece.
 
 - The march around Jericho on JM-06's *Plan of the Ruins* - seven laps beaten
   out a step at a time, then the shout and the wall goes flat.

@@ -148,6 +148,8 @@ const JM10_ITEMS = [
 {
   id:"j10water", stage:0, kind:"Comparison plate", title:"River Water — Three Samples",
   sub:"Before, during, and the court's own jar", thumb:"j10water",
+  tour:{href:"../tours/river-evidence-lab.html", label:"\ud83d\udd2c Put the samples under the microscope",
+        note:"Pour each jar into a tray and look down the eyepiece \u2014 the river before, the river in the first blow, and the court's own jar"},
   prev:"The court could colour a jar. Nobody coloured the river.",
   x:40, y:76, rot:-5, w:212,
   body:`
