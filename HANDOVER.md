@@ -431,6 +431,12 @@ certificate seal). The label wording is listed at the bottom of
 
 ## 11. Recent work, newest first
 
+- The Case Supervisor is **Luke** (Luke 1:1-4: he went back over everything
+  carefully from the beginning), replacing "A. Thorne" on every briefing
+  letter, both reading levels, and the house walk. The certificate is
+  pre-signed by Luke and has no teacher line any more — just Luke and the date.
+  Daniel was the other candidate but he is the subject of JM-05.
+
 - The pinboard rail shows only the five cards that answer an explanation, not
   the whole file (the rest stay on the desk to read). A card pins once, so
   every explanation needs its own card: JM-01 had The Audit answering both

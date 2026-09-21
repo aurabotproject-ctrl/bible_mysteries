@@ -33,7 +33,7 @@ letter:{
       <li>Only then does the accusation form open.</li>
     </ul>
     <p class="margin-note">Detectives get one thing right and one thing wrong. Right: they follow the evidence. Wrong: they fall in love with an idea before they have read the file.</p>
-    <div class="sig">A. Thorne</div>
+    <div class="sig">Luke</div>
     <div class="small" style="color:#5b4a35">Case Supervisor</div>
     <div class="ref">This case uses the four gospel accounts (Matthew 27–28, Mark 15–16, Luke 23–24, John 19–20), plus what historians know about Roman burials, seals and guards.</div>`
 },

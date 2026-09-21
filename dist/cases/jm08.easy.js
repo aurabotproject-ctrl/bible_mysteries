@@ -36,7 +36,7 @@ j08letter:{
       <li>When you have everything, go to the <b>Pinboard</b> and close off each explanation in turn.</li>
     </ul>
     <p class="margin-note">Thirty-six men are dead because of something that happened at a city they had already won.</p>
-    <div class="sig">A. Thorne</div>
+    <div class="sig">Luke</div>
     <div class="small" style="color:#5b4a35">Case Supervisor</div>
     <div class="ref">This case is put together from Joshua 6:17–19, Joshua 7 and Joshua 8:1–29.</div>`
 },

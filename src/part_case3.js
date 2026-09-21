@@ -33,7 +33,7 @@ const JM19_ITEMS = [
       <li>Then take it to the <b>Pinboard</b> and eliminate.</li>
     </ul>
     <p class="margin-note">A secret has no legs. If it moved, somebody carried it — and somebody had a reason to.</p>
-    <div class="sig">A. Thorne</div>
+    <div class="sig">Luke</div>
     <div class="small" style="color:#5b4a35">Case Supervisor</div>
     <div class="ref">Reconstructed from Judges 14, with background from Judges 13 and 15.</div>`
 },

@@ -34,7 +34,7 @@ j20letter:{
       <li>When all five explanations are closed, go to the <b>Pinboard</b>.</li>
     </ul>
     <p class="margin-note">Read the two orders slowly, side by side, with a finger on each line. That is the whole trick to this one.</p>
-    <div class="sig">A. Thorne</div>
+    <div class="sig">Luke</div>
     <div class="small" style="color:#5b4a35">Case Supervisor</div>
     <div class="ref">This case is put together from Numbers 20:1–13 and Exodus 17:1–7.</div>`
 },

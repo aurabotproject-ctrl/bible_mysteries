@@ -33,7 +33,7 @@ j03letter:{
       <li>When you have everything, go to the <b>Pinboard</b>.</li>
     </ul>
     <p class="margin-note">Every explanation says something should be there. Work out what each one says should be there, then go and look for it.</p>
-    <div class="sig">A. Thorne</div>
+    <div class="sig">Luke</div>
     <div class="small" style="color:#5b4a35">Case Supervisor</div>
     <div class="ref">This case is put together from Exodus 3:1 – 4:17.</div>`
 },

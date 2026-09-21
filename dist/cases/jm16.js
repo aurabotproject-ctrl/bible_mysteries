@@ -31,7 +31,7 @@ const JM16_ITEMS = [
       <li>When all five explanations are closed, go to the <b>Pinboard</b>.</li>
     </ul>
     <p class="margin-note">The whole case is in one column of that table, and the column is empty. Let your team find it themselves.</p>
-    <div class="sig">A. Thorne</div>
+    <div class="sig">Luke</div>
     <div class="small" style="color:#5b4a35">Case Supervisor</div>
     <div class="ref">This case is reconstructed from Exodus 16, with Numbers 11 and Joshua 5.</div>`
 },

@@ -31,7 +31,7 @@ const JM13_ITEMS = [
       <li>When all five explanations are closed, go to the <b>Pinboard</b>.</li>
     </ul>
     <p class="margin-note">This is the cleanest case in the archive on the difference between a fact and a conclusion. Do it early with a new team.</p>
-    <div class="sig">A. Thorne</div>
+    <div class="sig">Luke</div>
     <div class="small" style="color:#5b4a35">Case Supervisor</div>
     <div class="ref">This case is reconstructed from Numbers 13–14.</div>`
 },

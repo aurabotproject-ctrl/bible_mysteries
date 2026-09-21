@@ -1394,7 +1394,7 @@ button.tourbtn{cursor:pointer;font-family:var(--ui-font)}
 </div>
 
 <div id="shelf"></div>
-<div id="buildTag" title="Which build of the app this is. If a new feature is missing, reload the page and check this changes.">build 20260921-0610</div>
+<div id="buildTag" title="Which build of the app this is. If a new feature is missing, reload the page and check this changes.">build 20260921-0635</div>
 
 <script>
 const SVG = {};
@@ -1973,8 +1973,7 @@ function certificateHtml(cdef, names, dateStr, verdict){
         <div class="cert-where">${cdef.period}</div>
         <div class="cert-verdict"><b>Conclusion filed:</b> ${verdict || cdef.teacher.conclusion}</div>
         <div class="cert-sign">
-          <div><div class="cert-line"></div><span>A. Thorne · Case Supervisor</span></div>
-          <div><div class="cert-line"></div><span>Teacher</span></div>
+          <div><div class="cert-line">Luke</div><span>Luke · Case Supervisor</span></div>
           <div><div class="cert-line">${dateStr||""}</div><span>Date closed</span></div>
         </div>
       </div>
@@ -2111,7 +2110,7 @@ function printPack(cdef){
     ${step(8,"File the conclusion",
       `<p>Fill in the accusation form. Choose one conclusion and write your reasoning, naming at least two pieces of evidence. Then complete the case record and hand it in.</p>`)}
     ${step(9,"Close the case",
-      `<p>Whoever is running the case checks the board and signs the certificate. Put the certificate, your case record and anything else you want to keep into your case folder.</p>`)}
+      `<p>Whoever is running the case checks the board and dates the certificate. Put the certificate, your case record and anything else you want to keep into your case folder.</p>`)}
   </section>
 
   <!-- ============ OPEN EVIDENCE ============ -->

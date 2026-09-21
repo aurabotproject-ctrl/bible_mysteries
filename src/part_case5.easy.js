@@ -35,7 +35,7 @@ j02letter:{
       <li>When you have everything, go to the <b>Pinboard</b>.</li>
     </ul>
     <p class="margin-note">A search is a list of places, in an order. Somebody chose that order.</p>
-    <div class="sig">A. Thorne</div>
+    <div class="sig">Luke</div>
     <div class="small" style="color:#5b4a35">Case Supervisor</div>
     <div class="ref">This case is put together from Luke 2:41–52.</div>`
 },
