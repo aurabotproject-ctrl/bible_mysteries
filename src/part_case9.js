@@ -31,7 +31,7 @@ const JM06_ITEMS = [
       <li>When you have everything, go to the <b>Pinboard</b>.</li>
     </ul>
     <p class="margin-note">Walls fall down. That is not the strange part. Which way they fall, and what is left standing when they do — that is the strange part.</p>
-    <div class="sig">Luke</div>
+    <div class="sig">Mordecai ben Jair</div>
     <div class="small" style="color:#5b4a35">Case Supervisor</div>
     <div class="ref">This case is reconstructed from Joshua 6, with background from Joshua 2.</div>`
 },

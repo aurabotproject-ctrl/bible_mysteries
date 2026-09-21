@@ -33,7 +33,7 @@ j09letter:{
       <li>When you have everything, go to the <b>Pinboard</b>.</li>
     </ul>
     <p class="margin-note">Nobody in this file lies to Israel about anything except how far away they live. That is worth noticing early on.</p>
-    <div class="sig">Luke</div>
+    <div class="sig">Mordecai ben Jair</div>
     <div class="small" style="color:#5b4a35">Case Supervisor</div>
     <div class="ref">This case is put together from Joshua 9.</div>`
 },

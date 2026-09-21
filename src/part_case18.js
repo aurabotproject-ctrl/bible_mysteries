@@ -30,7 +30,7 @@ const JM18_ITEMS = [
       <li>When all five explanations are closed, go to the <b>Pinboard</b>.</li>
     </ul>
     <p class="margin-note">Keep a running list of every advantage he gives away. It gets longer than students expect, and the list is the case.</p>
-    <div class="sig">Luke</div>
+    <div class="sig">Mordecai ben Jair</div>
     <div class="small" style="color:#5b4a35">Case Supervisor</div>
     <div class="ref">This case is reconstructed from 1 Kings 17–18.</div>`
 },

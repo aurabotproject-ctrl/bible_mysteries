@@ -31,7 +31,7 @@ const JM11_ITEMS = [
       <li>When all five explanations are closed, go to the <b>Pinboard</b>.</li>
     </ul>
     <p class="margin-note">Read the priests' written conditions early, and read them slowly. Almost nobody notices what they have done.</p>
-    <div class="sig">Luke</div>
+    <div class="sig">Mordecai ben Jair</div>
     <div class="small" style="color:#5b4a35">Case Supervisor</div>
     <div class="ref">This case is reconstructed from 1 Samuel 5–6.</div>`
 },

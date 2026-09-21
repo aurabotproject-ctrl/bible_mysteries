@@ -31,7 +31,7 @@ const JM20_ITEMS = [
       <li>When all five explanations are closed, go to the <b>Pinboard</b>.</li>
     </ul>
     <p class="margin-note">Read the two orders slowly, side by side, with a finger on each line. That is the whole method here.</p>
-    <div class="sig">Luke</div>
+    <div class="sig">Mordecai ben Jair</div>
     <div class="small" style="color:#5b4a35">Case Supervisor</div>
     <div class="ref">This case is reconstructed from Numbers 20:1–13, with Exodus 17:1–7.</div>`
 },

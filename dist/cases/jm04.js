@@ -40,7 +40,7 @@ const JM04_ITEMS = [
       <li>When you have everything, go to the <b>Pinboard</b>.</li>
     </ul>
     <p class="margin-note">A note before you begin. A baby died in this case. The file treats that plainly and without detail, and so should we.</p>
-    <div class="sig">Luke</div>
+    <div class="sig">Mordecai ben Jair</div>
     <div class="small" style="color:#5b4a35">Case Supervisor</div>
     <div class="ref">This case is reconstructed from 1 Kings 3:16–28.</div>`
 },

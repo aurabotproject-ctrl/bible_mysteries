@@ -60,7 +60,7 @@ function certificateHtml(cdef, names, dateStr, verdict){
         <div class="cert-where">${cdef.period}</div>
         <div class="cert-verdict"><b>Conclusion filed:</b> ${verdict || cdef.teacher.conclusion}</div>
         <div class="cert-sign">
-          <div><div class="cert-line">Luke</div><span>Luke · Case Supervisor</span></div>
+          <div><div class="cert-line">Mordecai ben Jair</div><span>Case Supervisor</span></div>
           <div><div class="cert-line">${dateStr||""}</div><span>Date closed</span></div>
         </div>
       </div>

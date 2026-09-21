@@ -34,7 +34,7 @@ j05letter:{
       <li>When you have everything, go to the <b>Pinboard</b>.</li>
     </ul>
     <p class="margin-note">Four words. Every scribe in the hall could say them out loud. Not one could say what they meant.</p>
-    <div class="sig">Luke</div>
+    <div class="sig">Mordecai ben Jair</div>
     <div class="small" style="color:#5b4a35">Case Supervisor</div>
     <div class="ref">This case is put together from Daniel 5, with background from 2 Kings 25:8–15 and Jeremiah 52:17–19.</div>`
 },

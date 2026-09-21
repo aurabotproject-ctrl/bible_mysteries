@@ -31,7 +31,7 @@ const JM15_ITEMS = [
       <li>The second lock opens with the <b>testimony grid</b> — the 📑 button in the top bar, once the first lock is open.</li>
       <li>When all five explanations are closed, go to the <b>Pinboard</b>.</li>
     </ul>
-    <div class="sig">Luke</div>
+    <div class="sig">Mordecai ben Jair</div>
     <div class="small" style="color:#5b4a35">Case Supervisor</div>
     <div class="ref">This case is reconstructed from Mark 14:53–65, with Matthew 26:57–68 and Luke 22:66–71.</div>`
 },

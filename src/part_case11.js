@@ -31,7 +31,7 @@ const JM10_ITEMS = [
       <li>When you have everything, go to the <b>Pinboard</b>.</li>
     </ul>
     <p class="margin-note">A cascade goes where physics takes it. Ask whether this one did.</p>
-    <div class="sig">Luke</div>
+    <div class="sig">Mordecai ben Jair</div>
     <div class="small" style="color:#5b4a35">Case Supervisor</div>
     <div class="ref">This case is reconstructed from Exodus 7–12.</div>`
 },

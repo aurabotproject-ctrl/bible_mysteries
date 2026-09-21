@@ -33,7 +33,7 @@ j04letter:{
       <li>When you have everything, go to the <b>Pinboard</b>.</li>
     </ul>
     <p class="margin-note">One thing before you start. A baby died in this case. The file says so plainly and does not go into detail, and neither should we.</p>
-    <div class="sig">Luke</div>
+    <div class="sig">Mordecai ben Jair</div>
     <div class="small" style="color:#5b4a35">Case Supervisor</div>
     <div class="ref">This case is put together from 1 Kings 3:16–28.</div>`
 },

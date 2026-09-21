@@ -35,7 +35,7 @@ const JM47_ITEMS = [
       <li>When you have everything, go to the <b>Pinboard</b> and close off each route in turn.</li>
     </ul>
     <p class="margin-note">A leak is not a person. A leak is a route. Find the route and the person follows.</p>
-    <div class="sig">Luke</div>
+    <div class="sig">Mordecai ben Jair</div>
     <div class="small" style="color:#5b4a35">Case Supervisor</div>
     <div class="ref">This case is reconstructed from 2 Kings 6:8–23, with background from 2 Kings 5 (Naaman) and 2 Kings 8 (Hazael).</div>`
 },
