@@ -38,6 +38,8 @@ const JM09_ITEMS = [
 {
   id:"j09props", stage:0, kind:"Object study", title:"The Props, Laid Out",
   sub:"Everything the delegation carried, as received", thumb:"j09props",
+  tour:{href:"../tours/gibeon-bench.html", label:"\ud83d\udd0d Examine the kit on the bench",
+        note:"The sacks, skins, sandals and bread, laid out under the lamp \u2014 look closely, handle them, smell them, and fill your notebook"},
   prev:"Sacks, wineskins, sandals and bread — all of it worn, and none of it right.",
   x:52, y:22, rot:3, w:216,
   body:`
