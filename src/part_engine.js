@@ -95,13 +95,47 @@ function posterArt(cdef){
   </svg>`;
 }
 
+/* Shelf filter + search (redesign, Sept 2026). Kept only for this visit. */
+let shelfFilter = "all", shelfFind = "";
+const RANKS = [
+  [0,  "Probationer",           "Take down your first file."],
+  [1,  "Junior Investigator",   "The archive has noticed."],
+  [3,  "Field Investigator",    "You read before you decide."],
+  [6,  "Senior Investigator",   "The evidence has learned to trust you."],
+  [10, "Inspector",             "Half an archive behind you."],
+  [15, "Chief Inspector",       "Few investigators get this far."],
+  [19, "Keeper of the Archive", "Every file on the shelf, closed."]
+];
+function shelfRank(n){ let r = RANKS[0]; RANKS.forEach(x=>{ if(n >= x[0]) r = x; }); return r; }
+function applyShelfFilter(){
+  const q = shelfFind.trim().toLowerCase();
+  let shown = 0;
+  shelf.querySelectorAll(".poster[data-status]").forEach(p=>{
+    const ok = (shelfFilter==="all" || p.dataset.status===shelfFilter) && (!q || p.dataset.find.includes(q));
+    p.classList.toggle("filtered", !ok);
+    if(ok) shown++;
+  });
+  const soon = shelf.querySelector(".poster.soon");
+  if(soon) soon.classList.toggle("filtered", shelfFilter!=="all" || !!q);
+  const none = shelf.querySelector("#shelfNone");
+  if(none) none.classList.toggle("hidden", shown > 0);
+  shelf.querySelectorAll(".sf-tab").forEach(b=>b.classList.toggle("on", b.dataset.f===shelfFilter));
+}
+
 function renderShelf(){
   const tilt = [-1.6, 1.3, -0.9, 1.8, -1.2];
+  let nDone = 0, nWip = 0;
   const posters = CASES.map((stub,i)=>{
     const cdef = stubAtLevel(stub);
     const st = stateFor(cdef.id), p = progressLabel(cdef);
     const cls = p.cls || "new";
-    return `<div class="poster${cdef.gold ? " gold" : ""}" style="--fc:${cdef.colour};--r:${tilt[i%tilt.length]}deg">
+    const status = cls==="done" ? "done" : cls==="wip" ? "wip" : "new";
+    if(status==="done") nDone++; else if(status==="wip") nWip++;
+    const pct = status==="done" ? 100 : status==="wip"
+      ? Math.round(100*(locksDone(cdef,st)+pinsDone(cdef,st))/(nLocks(cdef)+nTheories(cdef))) : 0;
+    const find = (cdef.code+" "+cdef.title+" "+cdef.period+" "+cdef.teaser).toLowerCase().replace(/<[^>]+>/g,"").replace(/"/g,"");
+    return `<div class="poster${cdef.gold ? " gold" : ""} st-${status}" data-status="${status}" data-find="${find}" style="--fc:${cdef.colour};--r:${tilt[i%tilt.length]}deg;--i:${i};--pct:${pct}%">
+      ${status==="done" ? `<div class="p-closed" aria-hidden="true">Case<br>Closed</div>` : ""}
       <div class="p-soc">B.I.B.</div>
       <div class="p-code">${cdef.code}</div>
       <div class="p-hr"></div>
@@ -111,6 +145,7 @@ function renderShelf(){
       <div class="p-hr thin"></div>
       <div class="p-teaser">${cdef.teaser}</div>
       <div class="p-stamp ${cls}">${p.txt}</div>
+      ${status==="wip" ? `<div class="p-prog" title="${pct}% of the file worked"><i></i></div>` : ""}
       ${p.detail?`<div class="p-sub">${p.detail}</div>`:""}
       ${LEVEL === "easy" && !hasEasy(cdef.id)
         ? `<div class="p-easysoon">Medium only &middot; this one reads at full strength</div>` : ""}
@@ -121,8 +156,15 @@ function renderShelf(){
       </div>
     </div>`;
   }).join("");
+  const total = CASES.length, nNew = total - nDone - nWip;
+  const rank = shelfRank(nDone);
+  const next = RANKS.find(x=>x[0] > nDone);
+  const motes = Array.from({length:18},(_,k)=>`<i style="--x:${(k*53)%100}%;--d:${(k*1.7)%12}s;--s:${9+(k*7)%9}s;--z:${2+(k%3)}px"></i>`).join("");
 
   shelf.innerHTML = `
+    <div class="motes" aria-hidden="true">${motes}</div>
+    <div class="lampglow" aria-hidden="true"></div>`
+    + `
     <div class="boardsign">
       <h1 class="sr-only">B.I.B. — The Bible Investigation Bureau. Take down a case and work it.
         Read everything, break the locks, and throw out every explanation the evidence will not
@@ -137,6 +179,32 @@ function renderShelf(){
       </div>
     </div>
     <div class="shelfwrap">
+    <div class="bureau">
+      <div class="b-rank">
+        ${SVG.finalSeal.replace('class="seal-final"','class="b-seal"').replace(/alt="[^"]*"/,'alt=""')}
+        <div><div class="b-cap">Your rank on this device</div>
+          <div class="b-title">${rank[1]}</div>
+          <div class="b-note">${nDone ? `${nDone} file${nDone===1?"":"s"} closed. ` : ""}${rank[2]}${next ? ` <span>${next[0]-nDone} more to ${next[1]}.</span>` : ""}</div></div>
+      </div>
+      <div class="b-stats">
+        <div class="b-stat done"><b>${nDone}</b><span>Closed</span></div>
+        <div class="b-stat wip"><b>${nWip}</b><span>On the desk</span></div>
+        <div class="b-stat new"><b>${nNew}</b><span>Unopened</span></div>
+      </div>
+      <div class="b-tabs" style="--n:${total}" title="${nDone} of ${total} files closed">
+        ${CASES.map((stub,i)=>{ const s = stateFor(stub.id); return `<i class="${s.solved?"done":s.opened?"wip":""}"></i>`; }).join("")}
+      </div>
+    </div>
+    <div class="shelfbar">
+      <div class="sf-tabs" role="tablist">
+        <button class="sf-tab" data-f="all">All files <span>${total}</span></button>
+        <button class="sf-tab" data-f="new">Unopened <span>${nNew}</span></button>
+        <button class="sf-tab" data-f="wip">On the desk <span>${nWip}</span></button>
+        <button class="sf-tab" data-f="done">Closed <span>${nDone}</span></button>
+      </div>
+      <label class="sf-find"><span aria-hidden="true">🔍</span><input id="shelfFind" type="search" placeholder="Search the archive — a name, a place, a book…" value="${shelfFind.replace(/"/g,"&quot;")}"></label>
+    </div>
+    <div id="shelfNone" class="shelf-none hidden">No file in the archive matches that. <button class="btn ghost" id="shelfReset">Show every file</button></div>
     <div class="cases">${posters}
       <div class="poster soon" style="--fc:#5c5346;--r:1.1deg">
         <div class="p-soc">B.I.B.</div>
@@ -175,6 +243,11 @@ function renderShelf(){
   shelf.querySelector("#shelfBible").addEventListener("click", ()=>openBible());
   shelf.querySelector("#shelfFolder").addEventListener("click", folderPack);
   shelf.querySelector("#shelfTeacher").addEventListener("click", ()=>teacherGate(teacherNotes));
+  shelf.querySelectorAll(".sf-tab").forEach(b=>b.addEventListener("click", ()=>{ shelfFilter = b.dataset.f; applyShelfFilter(); }));
+  const fi = shelf.querySelector("#shelfFind");
+  fi.addEventListener("input", ()=>{ shelfFind = fi.value; applyShelfFilter(); });
+  shelf.querySelector("#shelfReset").addEventListener("click", ()=>{ shelfFilter = "all"; shelfFind = ""; fi.value = ""; applyShelfFilter(); });
+  applyShelfFilter();
 }
 
 function restartCase(id){
@@ -1029,12 +1102,14 @@ function lockCard(L){
     if(v === L.code){
       CS[L.id] = true; save();
       msg.className="msg good"; msg.textContent = "Open. " + L.reward;
+      c.classList.add("unlocking");
       renderDesk(); lockPip(); toolBtn();
       setTimeout(()=>c.replaceWith(lockCard(L)), 1400);
     } else {
       const dead = strike();
       msg.className="msg bad";
       msg.textContent = L.wrong + (dead ? "" : wrongTail());
+      c.classList.remove("rattle"); void c.offsetWidth; c.classList.add("rattle");
       inp.select();
     }
   };
@@ -1082,7 +1157,7 @@ function renderBoard(keepScroll){
   const tw = board.querySelector("#theories");
   C.theories.forEach(t=>{
     const done = CS.locked[t.id], pinned = CS.pins[t.id];
-    const c = el("div","theory");
+    const c = el("div","theory"+(done?" cleared":""));
     c.innerHTML = `<div class="pin"></div>
       <h4>${t.title}</h4>
       <div class="claim">${t.claim}</div>
