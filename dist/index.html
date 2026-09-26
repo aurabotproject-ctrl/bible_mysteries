@@ -1375,6 +1375,375 @@ button.tourbtn{cursor:pointer;font-family:var(--ui-font)}
 }
 @media print{ #zoomTools{display:none!important} }
 
+
+/* =====================================================================
+   REDESIGN — "the lamplit archive" (Sept 2026)
+   A visual layer over everything above. Nothing here changes how a case
+   works: same ids, same classes, same touch sizes. Delete this block and the
+   app falls back to the previous look exactly.
+   ===================================================================== */
+:root{
+  --lamp:#ffcf8a;
+  --oxblood:#8c2f1f;
+  --brass-hi:#f0cf6a;
+  --brass-lo:#8a6a1c;
+  --leather:#2b1d14;
+  --leather-2:#3a271a;
+  --type:"American Typewriter","Courier New",Courier,monospace;
+}
+
+/* ---------- the shelf: lamplight and dust ---------- */
+#shelf{
+  background:
+    radial-gradient(ellipse 70% 40% at 50% 0%, rgba(255,196,120,.22), transparent 70%),
+    repeating-linear-gradient(90deg,
+      rgba(0,0,0,.22) 0 2px, rgba(255,255,255,.03) 2px 5px,
+      rgba(0,0,0,.05) 5px 148px, rgba(0,0,0,.30) 148px 154px),
+    repeating-linear-gradient(88deg, rgba(0,0,0,.05) 0 3px, transparent 3px 11px),
+    linear-gradient(175deg,#5b3f27,#3a2615 50%,#1f1307);
+  scroll-behavior:smooth;
+}
+.lampglow{
+  position:fixed;left:50%;top:-18vh;width:120vw;height:90vh;transform:translateX(-50%);
+  pointer-events:none;z-index:0;
+  background:radial-gradient(ellipse at 50% 30%, rgba(255,200,120,.16), transparent 60%);
+  animation:lampflicker 7s ease-in-out infinite;
+}
+@keyframes lampflicker{
+  0%,100%{opacity:1} 47%{opacity:.86} 49%{opacity:1} 51%{opacity:.9} 70%{opacity:.97}
+}
+.motes{position:fixed;inset:0;pointer-events:none;z-index:2;overflow:hidden}
+.motes i{
+  position:absolute;left:var(--x);bottom:-10px;width:var(--z);height:var(--z);border-radius:50%;
+  background:rgba(255,226,170,.55);box-shadow:0 0 6px rgba(255,210,140,.6);
+  animation:mote var(--s) linear infinite;animation-delay:calc(var(--d) * -1);opacity:0;
+}
+@keyframes mote{
+  0%{transform:translate(0,0);opacity:0} 10%{opacity:.7}
+  50%{transform:translate(30px,-50vh)} 90%{opacity:.5}
+  100%{transform:translate(-20px,-105vh);opacity:0}
+}
+.boardsign{z-index:1}
+.boardsign .bibsign{animation:signIn .9s cubic-bezier(.2,.9,.3,1) both}
+@keyframes signIn{from{opacity:0;transform:translateY(-14px) scale(1.02)}}
+
+/* ---------- the Bureau desk strip: rank + progress ---------- */
+.bureau{
+  display:grid;grid-template-columns:1.3fr 1fr 1.2fr;gap:18px;align-items:center;
+  background:linear-gradient(180deg,rgba(43,29,20,.92),rgba(27,18,12,.92));
+  border:1px solid #5a4230;border-radius:16px;padding:16px 20px;margin:4px 0 18px;
+  box-shadow:0 18px 40px rgba(0,0,0,.45), inset 0 1px 0 rgba(255,220,170,.08);
+  position:relative;overflow:hidden;animation:rise .7s .15s cubic-bezier(.2,.9,.3,1) both;
+}
+.bureau::before{ /* stitched leather edge */
+  content:"";position:absolute;inset:6px;border:1.5px dashed rgba(201,162,39,.28);border-radius:11px;pointer-events:none;
+}
+@keyframes rise{from{opacity:0;transform:translateY(18px)}}
+.b-rank{display:flex;gap:14px;align-items:center}
+.b-seal{width:66px;height:66px;object-fit:contain;flex:none;filter:drop-shadow(0 6px 10px rgba(0,0,0,.6));
+  animation:sealSpin 1.1s .3s cubic-bezier(.3,1.5,.5,1) both}
+@keyframes sealSpin{from{transform:scale(.3) rotate(-160deg);opacity:0}}
+.b-cap{font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:#a8906a;font-weight:700}
+.b-title{font-family:var(--serif);font-size:24px;font-weight:700;color:#f6e7c8;line-height:1.1;margin-top:2px}
+.b-note{font-size:12.5px;color:#cdb68f;margin-top:3px;line-height:1.4}
+.b-note span{color:var(--brass-hi);font-weight:700}
+.b-stats{display:flex;gap:10px;justify-content:center}
+.b-stat{
+  min-width:84px;text-align:center;padding:9px 8px;border-radius:12px;
+  background:rgba(255,240,210,.05);border:1px solid rgba(255,220,170,.12);
+}
+.b-stat b{display:block;font-family:var(--serif);font-size:28px;line-height:1;color:#f6e7c8}
+.b-stat span{font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:#a8906a;font-weight:700}
+.b-stat.done b{color:#8fd3a3} .b-stat.wip b{color:var(--brass-hi)}
+.b-tabs{display:grid;grid-template-columns:repeat(var(--n,19),1fr);gap:4px}
+.b-tabs i{
+  height:26px;border-radius:3px 3px 1px 1px;background:linear-gradient(#5a4632,#3d2e20);
+  box-shadow:inset 0 -2px 0 rgba(0,0,0,.35);display:block;
+}
+.b-tabs i.wip{background:linear-gradient(#e9c35a,#a57f22)}
+.b-tabs i.done{background:linear-gradient(#7cc796,#3f7d4e);box-shadow:0 0 10px rgba(127,199,150,.35), inset 0 -2px 0 rgba(0,0,0,.3)}
+@media (max-width:900px){
+  .bureau{grid-template-columns:1fr;gap:14px}
+  .b-stats{justify-content:flex-start}
+}
+
+/* ---------- filter tabs + search ---------- */
+.shelfbar{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin:0 0 26px;position:relative;z-index:1}
+.sf-tabs{display:flex;gap:6px;flex-wrap:wrap;background:rgba(20,13,8,.7);border:1px solid #4d3826;border-radius:999px;padding:5px}
+.sf-tab{
+  background:transparent;border:0;color:#d9c49e;font-weight:700;font-size:13px;
+  padding:9px 15px;border-radius:999px;min-height:40px;transition:background .2s,color .2s,transform .2s;
+}
+.sf-tab span{display:inline-block;min-width:20px;margin-left:5px;padding:1px 6px;border-radius:999px;background:rgba(255,230,190,.1);font-size:11px}
+.sf-tab:hover{color:#fff;background:rgba(255,230,190,.08)}
+.sf-tab.on{background:linear-gradient(var(--brass-hi),#b38a26);color:#2a1c0c;box-shadow:0 4px 12px rgba(201,162,39,.35)}
+.sf-tab.on span{background:rgba(42,28,12,.18)}
+.sf-find{
+  flex:1;min-width:230px;display:flex;align-items:center;gap:8px;
+  background:#f4e9d2;border:1px solid rgba(90,65,35,.5);border-radius:999px;padding:0 16px;min-height:48px;
+  box-shadow:inset 0 2px 5px rgba(90,64,30,.18), 0 6px 16px rgba(0,0,0,.3);
+}
+.sf-find input{flex:1;border:0;background:transparent;font:inherit;font-size:15px;color:var(--ink);outline:none;min-width:0;padding:12px 0}
+.sf-find:focus-within{box-shadow:0 0 0 3px rgba(201,162,39,.55), 0 6px 16px rgba(0,0,0,.3)}
+.shelf-none{
+  text-align:center;color:#e6d2ae;background:rgba(20,13,8,.6);border:1px dashed #6b5238;
+  border-radius:14px;padding:22px;margin:0 0 20px;font-family:var(--serif);font-size:17px;
+}
+.shelf-none .btn{margin-left:10px}
+.poster.filtered{display:none}
+
+/* ---------- posters: nailed up, swinging, stamped ---------- */
+.cases{gap:40px 28px}
+.poster{
+  transform-origin:50% 0;
+  animation:hangIn .8s cubic-bezier(.25,1.4,.45,1) backwards;
+  animation-delay:calc(min(var(--i,0), 12) * 55ms + .25s);
+  transition:transform .35s cubic-bezier(.25,1.4,.45,1), box-shadow .35s;
+}
+@keyframes hangIn{
+  0%{opacity:0;transform:translateY(-40px) rotate(calc(var(--r,0deg) * 4))}
+  60%{opacity:1}
+}
+.poster:hover{transform:rotate(calc(var(--r,0deg) * -1.4)) translateY(-8px);box-shadow:0 30px 50px rgba(0,0,0,.62)}
+.poster .art{position:relative}
+.poster .art svg,.poster .art img{transition:transform 1.2s cubic-bezier(.2,.8,.2,1)}
+.poster:hover .art svg,.poster:hover .art img{transform:scale(1.08)}
+.poster .art::after{
+  content:"";position:absolute;inset:0;pointer-events:none;
+  background:linear-gradient(180deg,transparent 55%,rgba(40,24,10,.28)), radial-gradient(ellipse at 50% 40%,transparent 55%,rgba(60,38,14,.35));
+}
+.poster .p-code{font-family:var(--type);letter-spacing:.2em}
+.p-stamp{font-family:var(--type)}
+.p-stamp.wip{animation:stampPulse 2.6s ease-in-out infinite}
+@keyframes stampPulse{50%{transform:rotate(-4deg) scale(1.06)}}
+/* a solved file gets a big red stamp slammed across its picture */
+.p-closed{
+  position:absolute;z-index:4;left:50%;top:140px;transform:translate(-50%,-50%) rotate(-14deg);
+  border:5px double #a3301c;color:#a3301c;background:rgba(252,242,222,.9);
+  padding:8px 20px;border-radius:6px;text-align:center;line-height:1.05;
+  font-family:var(--type);font-weight:900;font-size:24px;letter-spacing:.2em;text-transform:uppercase;
+  box-shadow:0 6px 16px rgba(0,0,0,.35);pointer-events:none;
+  animation:slam .5s calc(min(var(--i,0), 12) * 55ms + .9s) cubic-bezier(.3,1.6,.5,1) both;
+}
+@keyframes slam{from{opacity:0;transform:translate(-50%,-50%) rotate(-14deg) scale(2.4)}}
+.poster.st-done{box-shadow:0 16px 30px rgba(0,0,0,.5), 0 0 0 2px rgba(63,125,78,.55)}
+.p-prog{height:7px;border-radius:999px;background:rgba(90,65,35,.18);margin:8px 12px 0;overflow:hidden}
+.p-prog i{display:block;height:100%;width:var(--pct);background:linear-gradient(90deg,#c98d2a,#e9c35a);border-radius:999px;
+  animation:growbar 1s calc(min(var(--i,0), 12) * 55ms + .8s) cubic-bezier(.2,.8,.2,1) both}
+@keyframes growbar{from{width:0}}
+.p-open{
+  position:relative;overflow:hidden;letter-spacing:.02em;min-height:44px;
+  box-shadow:0 4px 0 rgba(0,0,0,.25), inset 0 1px 0 rgba(255,255,255,.2);
+  transition:transform .15s, box-shadow .15s, filter .15s;
+}
+.p-open:hover{transform:translateY(-2px);box-shadow:0 6px 0 rgba(0,0,0,.25), inset 0 1px 0 rgba(255,255,255,.2)}
+.p-open:active{transform:translateY(2px);box-shadow:0 1px 0 rgba(0,0,0,.25)}
+.p-open::after{
+  content:"";position:absolute;top:0;bottom:0;width:40%;left:-60%;
+  background:linear-gradient(100deg,transparent,rgba(255,255,255,.28),transparent);transform:skewX(-20deg);
+  transition:left .6s;
+}
+.p-open:hover::after{left:120%}
+.boardfoot .btn.ghost{border-color:#6b5238;color:#e6d2ae;background:rgba(20,13,8,.5);min-height:44px}
+.boardfoot .btn.ghost:hover{background:rgba(201,162,39,.16);border-color:var(--brass)}
+
+/* ---------- top bar: a leather strip with brass tabs ---------- */
+#topbar{
+  background:
+    repeating-linear-gradient(90deg, rgba(255,255,255,.015) 0 2px, transparent 2px 5px),
+    linear-gradient(#3a271a,#21150d);
+  border-bottom:0;
+  box-shadow:0 1px 0 #6b5238, 0 3px 0 #1a100a, 0 10px 24px rgba(0,0,0,.45);
+}
+#caseTitle{font-family:var(--type);letter-spacing:.18em}
+.tbtn{
+  background:linear-gradient(#45311f,#33241a);border:1px solid #6b5238;
+  box-shadow:inset 0 1px 0 rgba(255,220,170,.12), 0 2px 0 rgba(0,0,0,.35);
+  border-radius:10px;transition:transform .15s, background .2s, border-color .2s;
+}
+.tbtn:hover{background:linear-gradient(#56402a,#3f2d1f);border-color:var(--brass);transform:translateY(-1px)}
+.tbtn.on{
+  background:linear-gradient(#a53a26,#7c2616);border-color:#e0876a;color:#fff;
+  box-shadow:0 0 0 2px rgba(224,135,106,.25), inset 0 1px 0 rgba(255,255,255,.2);
+}
+.tbtn .pip{background:linear-gradient(var(--brass-hi),#b38a26);box-shadow:inset 0 -1px 0 rgba(0,0,0,.25)}
+#btnHome{background:linear-gradient(#5a4230,#3f2d1f)}
+
+/* ---------- the desk: a pool of lamplight ---------- */
+#stage::before{
+  content:"";position:absolute;inset:0;z-index:6;pointer-events:none;
+  background:radial-gradient(ellipse 60% 55% at 50% 42%, transparent 55%, rgba(12,7,3,.45));
+}
+#stage::after{
+  content:"";position:absolute;left:50%;top:-30%;width:90%;height:90%;transform:translateX(-50%);
+  z-index:6;pointer-events:none;
+  background:radial-gradient(ellipse at 50% 50%, rgba(255,210,140,.10), transparent 62%);
+  animation:lampflicker 8s ease-in-out infinite;
+}
+#board,#notesPane{z-index:500}
+.item{transition:filter .2s, transform .2s}
+@media (hover:hover){
+  .item:not(.dragging):hover{filter:drop-shadow(0 18px 22px rgba(0,0,0,.55)) brightness(1.03)}
+}
+.item .open{background:linear-gradient(90deg,rgba(46,36,25,.95),rgba(80,48,28,.95))}
+.item .kind{font-family:var(--type)}
+#deskHint{backdrop-filter:blur(6px);box-shadow:0 8px 20px rgba(0,0,0,.4)}
+#zoomTools,.stbtn{backdrop-filter:blur(6px)}
+
+/* ---------- reading sheets: paper with a taped corner ---------- */
+.overlay{background:radial-gradient(ellipse at 50% 40%, rgba(40,26,14,.78), rgba(8,5,3,.9))}
+.sheet{
+  border-radius:4px;
+  box-shadow:0 40px 90px rgba(0,0,0,.75), 0 0 0 1px rgba(90,65,35,.25), inset 0 0 60px rgba(139,105,60,.12);
+  animation:sheetIn .38s cubic-bezier(.2,1.25,.35,1) both;
+}
+@keyframes sheetIn{from{transform:translateY(24px) rotate(-1.2deg) scale(.96);opacity:0}}
+.doc-kind{font-family:var(--type);letter-spacing:.22em}
+.doc-title{letter-spacing:-.005em}
+.rule{height:2px;background:linear-gradient(90deg,rgba(140,47,31,.55),rgba(90,65,35,.25) 40%,transparent)}
+.sheet .x{
+  background:radial-gradient(circle at 35% 30%,#5a4230,#2e2419);box-shadow:0 4px 10px rgba(0,0,0,.4);
+  width:40px;height:40px;transition:transform .2s;
+}
+.sheet .x:hover{transform:rotate(90deg)}
+.plate{box-shadow:inset 0 0 24px rgba(90,64,30,.18)}
+
+/* ---------- locks: iron strongboxes with brass padlocks ---------- */
+.lockcard{
+  position:relative;border-radius:14px;padding:20px 20px 18px 92px;
+  background:
+    radial-gradient(circle at 12px 12px, #7a6a52 0 3px, transparent 4px),
+    radial-gradient(circle at calc(100% - 12px) 12px, #7a6a52 0 3px, transparent 4px),
+    radial-gradient(circle at 12px calc(100% - 12px), #7a6a52 0 3px, transparent 4px),
+    radial-gradient(circle at calc(100% - 12px) calc(100% - 12px), #7a6a52 0 3px, transparent 4px),
+    repeating-linear-gradient(135deg, rgba(255,255,255,.015) 0 3px, transparent 3px 7px),
+    linear-gradient(160deg,#35291f,#1f1812);
+  border:1px solid #5a4632;
+  box-shadow:inset 0 1px 0 rgba(255,220,170,.08), inset 0 -3px 0 rgba(0,0,0,.35), 0 10px 26px rgba(0,0,0,.4);
+}
+/* the padlock, drawn: a shackle and a body */
+.lockcard::before{
+  content:"";position:absolute;left:28px;top:22px;width:28px;height:26px;
+  border:6px solid #b8a276;border-bottom:0;border-radius:16px 16px 0 0;
+  transform-origin:100% 100%;transition:transform .6s cubic-bezier(.3,1.6,.5,1);
+}
+.lockcard::after{
+  content:"";position:absolute;left:20px;top:44px;width:52px;height:42px;border-radius:9px;
+  background:
+    radial-gradient(circle at 50% 42%, #2a1d0f 0 5px, transparent 6px),
+    linear-gradient(#2a1d0f,#2a1d0f) 50% 62% / 4px 11px no-repeat,
+    linear-gradient(160deg,var(--brass-hi),#c9a227 45%,var(--brass-lo));
+  box-shadow:0 6px 12px rgba(0,0,0,.5), inset 0 1px 0 rgba(255,255,255,.5);
+}
+.lockcard.done::before{transform:translateY(-8px) rotate(-38deg);border-color:#9fd4af}
+.lockcard.done::after{background:
+    radial-gradient(circle at 50% 42%, #173020 0 5px, transparent 6px),
+    linear-gradient(#173020,#173020) 50% 62% / 4px 11px no-repeat,
+    linear-gradient(160deg,#a9e2b9,#5fa674 50%,#2f6b3d)}
+.lockcard.done{border-color:#4f8a5d;background:
+    radial-gradient(ellipse at 10% 0%, rgba(127,199,150,.14), transparent 60%),
+    linear-gradient(160deg,#233125,#16201a)}
+.lockcard.unlocking::before{transform:translateY(-10px) rotate(-40deg)}
+.lockcard.unlocking{animation:unlockGlow 1.3s ease-out both}
+@keyframes unlockGlow{
+  0%{box-shadow:0 0 0 0 rgba(143,211,163,.7)} 60%{box-shadow:0 0 0 14px rgba(143,211,163,0)}
+  100%{box-shadow:0 10px 26px rgba(0,0,0,.4)}
+}
+.lockcard.rattle{animation:rattle .45s}
+.lockcard.rattle::after{animation:rattleLock .45s}
+@keyframes rattle{20%,60%{transform:translateX(-6px)}40%,80%{transform:translateX(6px)}}
+@keyframes rattleLock{25%{transform:rotate(-10deg)}75%{transform:rotate(10deg)}}
+.lockcard h3{font-family:var(--serif);font-size:19px}
+.lockcard .st{font-family:var(--type)}
+.codebox input{
+  background:
+    repeating-linear-gradient(90deg, transparent 0 calc(1ch + .4em - 1px), rgba(201,162,39,.2) calc(1ch + .4em - 1px) calc(1ch + .4em)),
+    linear-gradient(#0e0a07,#1c140e);
+  border:2px solid #8a6a1c;border-radius:10px;min-height:52px;font-size:22px;
+  box-shadow:inset 0 3px 8px rgba(0,0,0,.6), 0 0 0 3px rgba(201,162,39,.12);
+  color:var(--brass-hi);
+}
+.codebox .btn{min-height:48px}
+.hint{animation:rise .35s both}
+@media (max-width:600px){
+  .lockcard{padding-left:20px;padding-top:86px}
+  .lockcard::before{left:auto;right:auto;left:calc(50% - 14px)}
+  .lockcard::after{left:calc(50% - 26px)}
+}
+
+/* ---------- the pinboard: real cork, eliminated stamps ---------- */
+#board{
+  background:
+    radial-gradient(ellipse at 50% -10%, rgba(255,226,170,.25), transparent 55%),
+    radial-gradient(circle at 20% 30%, rgba(90,50,20,.25) 0 1.2px, transparent 1.6px) 0 0 / 9px 9px,
+    radial-gradient(circle at 70% 60%, rgba(255,230,190,.18) 0 1px, transparent 1.4px) 0 0 / 7px 7px,
+    radial-gradient(circle at 40% 80%, rgba(60,30,10,.2) 0 1.5px, transparent 2px) 0 0 / 13px 13px,
+    linear-gradient(160deg,#c9975c,#ab773f 55%,#8a5a2b);
+  box-shadow:inset 0 0 0 12px #5a3b20, inset 0 0 0 14px #3a2412, inset 0 0 80px rgba(0,0,0,.4);
+}
+.boardhead h2{font-size:28px}
+.theory{
+  transform:rotate(var(--tr,0deg));transition:transform .3s, box-shadow .3s;
+  background-image:linear-gradient(transparent 0 97%, rgba(140,47,31,.18) 97%), radial-gradient(circle at 90% 10%, rgba(139,105,60,.12), transparent 40%);
+  background-size:100% 24px, auto;
+}
+.theory:nth-child(3n+1){--tr:-.8deg} .theory:nth-child(3n+2){--tr:.6deg} .theory:nth-child(3n){--tr:-.3deg}
+.theory .pin{width:22px;height:22px;background:radial-gradient(circle at 34% 30%,#ff9a7b,#c2381c 55%,#6d1a0b)}
+.theory.cleared{--tr:0deg;box-shadow:0 8px 18px rgba(0,0,0,.35), 0 0 0 2px rgba(63,125,78,.6)}
+.theory.cleared::after{
+  content:"Eliminated";position:absolute;right:-8px;top:-16px;transform:rotate(9deg);z-index:2;box-shadow:0 3px 8px rgba(0,0,0,.25);
+  border:3px double rgba(63,125,78,.8);color:rgba(47,107,61,.9);padding:3px 10px;border-radius:4px;
+  font-family:var(--type);font-weight:900;font-size:12px;letter-spacing:.18em;text-transform:uppercase;
+  background:#eef7ee;pointer-events:none;
+}
+.theory.cleared h4{text-decoration:line-through;text-decoration-color:rgba(140,47,31,.7);text-decoration-thickness:2px}
+.slot{transition:border-color .2s, background .2s, transform .2s}
+.slot.hot{animation:slotPulse 1.2s ease-in-out infinite}
+@keyframes slotPulse{50%{box-shadow:0 0 0 5px rgba(180,85,47,.22)}}
+.chips .chip{
+  transition:transform .2s, box-shadow .2s;box-shadow:0 3px 0 rgba(0,0,0,.25);min-height:40px;
+  background-image:linear-gradient(90deg,rgba(140,47,31,.5) 0 4px,transparent 4px);
+}
+.chips .chip.sel{transform:translateY(-3px) rotate(-1deg);box-shadow:0 10px 18px rgba(0,0,0,.35)}
+.rail{border:1px solid rgba(255,220,170,.12);box-shadow:0 12px 30px rgba(0,0,0,.35)}
+
+/* ---------- accusation & debrief choices ---------- */
+.choice{transition:transform .15s, border-color .15s, background .15s;position:relative}
+.choice:hover{transform:translateX(3px)}
+.choice.sel{transform:translateX(5px)}
+.choice.sel::before{content:"✔";position:absolute;right:14px;top:50%;transform:translateY(-50%);color:var(--accent);font-weight:900}
+.seal-final{animation:sealSpin 1.1s cubic-bezier(.3,1.5,.5,1) both;filter:drop-shadow(0 8px 14px rgba(0,0,0,.35))}
+
+/* ---------- the case-file intro: dust in the lamplight ---------- */
+#intro{
+  background:
+    radial-gradient(ellipse 50% 40% at 50% 35%, rgba(255,205,130,.22), transparent 70%),
+    radial-gradient(ellipse at 50% 42%, #4a3423, #140d08 75%);
+}
+#intro h1{text-shadow:0 4px 30px rgba(255,190,110,.25);animation:rise .8s .1s both}
+#intro .kicker{font-family:var(--type);animation:rise .8s both}
+#intro .sub{animation:rise .8s .2s both}
+.folder{animation:folderIn .9s .25s cubic-bezier(.25,1.3,.4,1) both}
+@keyframes folderIn{from{opacity:0;transform:translateY(40px) rotate(-4deg) scale(.92)}}
+#intro .tap{animation:tapBlink 2.2s ease-in-out infinite}
+@keyframes tapBlink{50%{opacity:.45}}
+
+
+#btnWrong{color:#e9dcc4}
+#btnWrong.warn{color:#fff}
+#caseTitle{font-size:11.5px;letter-spacing:.12em;white-space:nowrap}
+#topbar .lvl,#topbar .tint{flex:none}
+#board .inner{padding:30px 32px 46px}
+@media (max-width:760px){ #board .inner{padding:26px 22px 40px} }
+@media (prefers-reduced-motion: reduce){
+  .motes,.lampglow{display:none}
+  .poster,.p-closed,.p-prog i,.bureau,.b-seal,.folder,.sheet,#intro *,.lockcard,.hint,.boardsign .bibsign{animation:none!important}
+  #stage::after{animation:none}
+}
+@media print{
+  .motes,.lampglow,.bureau,.shelfbar,.shelf-none{display:none!important}
+  #stage::before,#stage::after{display:none!important}
+}
 </style>
 
 <div id="app" class="hidden">
@@ -1427,7 +1796,7 @@ button.tourbtn{cursor:pointer;font-family:var(--ui-font)}
 </div>
 
 <div id="shelf"></div>
-<div id="buildTag" title="Which build of the app this is. If a new feature is missing, reload the page and check this changes.">build 20260921-0951</div>
+<div id="buildTag" title="Which build of the app this is. If a new feature is missing, reload the page and check this changes.">build 20260926-1102</div>
 
 <script>
 const SVG = {};
@@ -2549,13 +2918,47 @@ function posterArt(cdef){
   </svg>`;
 }
 
+/* Shelf filter + search (redesign, Sept 2026). Kept only for this visit. */
+let shelfFilter = "all", shelfFind = "";
+const RANKS = [
+  [0,  "Probationer",           "Take down your first file."],
+  [1,  "Junior Investigator",   "The archive has noticed."],
+  [3,  "Field Investigator",    "You read before you decide."],
+  [6,  "Senior Investigator",   "The evidence has learned to trust you."],
+  [10, "Inspector",             "Half an archive behind you."],
+  [15, "Chief Inspector",       "Few investigators get this far."],
+  [19, "Keeper of the Archive", "Every file on the shelf, closed."]
+];
+function shelfRank(n){ let r = RANKS[0]; RANKS.forEach(x=>{ if(n >= x[0]) r = x; }); return r; }
+function applyShelfFilter(){
+  const q = shelfFind.trim().toLowerCase();
+  let shown = 0;
+  shelf.querySelectorAll(".poster[data-status]").forEach(p=>{
+    const ok = (shelfFilter==="all" || p.dataset.status===shelfFilter) && (!q || p.dataset.find.includes(q));
+    p.classList.toggle("filtered", !ok);
+    if(ok) shown++;
+  });
+  const soon = shelf.querySelector(".poster.soon");
+  if(soon) soon.classList.toggle("filtered", shelfFilter!=="all" || !!q);
+  const none = shelf.querySelector("#shelfNone");
+  if(none) none.classList.toggle("hidden", shown > 0);
+  shelf.querySelectorAll(".sf-tab").forEach(b=>b.classList.toggle("on", b.dataset.f===shelfFilter));
+}
+
 function renderShelf(){
   const tilt = [-1.6, 1.3, -0.9, 1.8, -1.2];
+  let nDone = 0, nWip = 0;
   const posters = CASES.map((stub,i)=>{
     const cdef = stubAtLevel(stub);
     const st = stateFor(cdef.id), p = progressLabel(cdef);
     const cls = p.cls || "new";
-    return `<div class="poster${cdef.gold ? " gold" : ""}" style="--fc:${cdef.colour};--r:${tilt[i%tilt.length]}deg">
+    const status = cls==="done" ? "done" : cls==="wip" ? "wip" : "new";
+    if(status==="done") nDone++; else if(status==="wip") nWip++;
+    const pct = status==="done" ? 100 : status==="wip"
+      ? Math.round(100*(locksDone(cdef,st)+pinsDone(cdef,st))/(nLocks(cdef)+nTheories(cdef))) : 0;
+    const find = (cdef.code+" "+cdef.title+" "+cdef.period+" "+cdef.teaser).toLowerCase().replace(/<[^>]+>/g,"").replace(/"/g,"");
+    return `<div class="poster${cdef.gold ? " gold" : ""} st-${status}" data-status="${status}" data-find="${find}" style="--fc:${cdef.colour};--r:${tilt[i%tilt.length]}deg;--i:${i};--pct:${pct}%">
+      ${status==="done" ? `<div class="p-closed" aria-hidden="true">Case<br>Closed</div>` : ""}
       <div class="p-soc">B.I.B.</div>
       <div class="p-code">${cdef.code}</div>
       <div class="p-hr"></div>
@@ -2565,6 +2968,7 @@ function renderShelf(){
       <div class="p-hr thin"></div>
       <div class="p-teaser">${cdef.teaser}</div>
       <div class="p-stamp ${cls}">${p.txt}</div>
+      ${status==="wip" ? `<div class="p-prog" title="${pct}% of the file worked"><i></i></div>` : ""}
       ${p.detail?`<div class="p-sub">${p.detail}</div>`:""}
       ${LEVEL === "easy" && !hasEasy(cdef.id)
         ? `<div class="p-easysoon">Medium only &middot; this one reads at full strength</div>` : ""}
@@ -2575,8 +2979,15 @@ function renderShelf(){
       </div>
     </div>`;
   }).join("");
+  const total = CASES.length, nNew = total - nDone - nWip;
+  const rank = shelfRank(nDone);
+  const next = RANKS.find(x=>x[0] > nDone);
+  const motes = Array.from({length:18},(_,k)=>`<i style="--x:${(k*53)%100}%;--d:${(k*1.7)%12}s;--s:${9+(k*7)%9}s;--z:${2+(k%3)}px"></i>`).join("");
 
   shelf.innerHTML = `
+    <div class="motes" aria-hidden="true">${motes}</div>
+    <div class="lampglow" aria-hidden="true"></div>`
+    + `
     <div class="boardsign">
       <h1 class="sr-only">B.I.B. — The Bible Investigation Bureau. Take down a case and work it.
         Read everything, break the locks, and throw out every explanation the evidence will not
@@ -2591,6 +3002,32 @@ function renderShelf(){
       </div>
     </div>
     <div class="shelfwrap">
+    <div class="bureau">
+      <div class="b-rank">
+        ${SVG.finalSeal.replace('class="seal-final"','class="b-seal"').replace(/alt="[^"]*"/,'alt=""')}
+        <div><div class="b-cap">Your rank on this device</div>
+          <div class="b-title">${rank[1]}</div>
+          <div class="b-note">${nDone ? `${nDone} file${nDone===1?"":"s"} closed. ` : ""}${rank[2]}${next ? ` <span>${next[0]-nDone} more to ${next[1]}.</span>` : ""}</div></div>
+      </div>
+      <div class="b-stats">
+        <div class="b-stat done"><b>${nDone}</b><span>Closed</span></div>
+        <div class="b-stat wip"><b>${nWip}</b><span>On the desk</span></div>
+        <div class="b-stat new"><b>${nNew}</b><span>Unopened</span></div>
+      </div>
+      <div class="b-tabs" style="--n:${total}" title="${nDone} of ${total} files closed">
+        ${CASES.map((stub,i)=>{ const s = stateFor(stub.id); return `<i class="${s.solved?"done":s.opened?"wip":""}"></i>`; }).join("")}
+      </div>
+    </div>
+    <div class="shelfbar">
+      <div class="sf-tabs" role="tablist">
+        <button class="sf-tab" data-f="all">All files <span>${total}</span></button>
+        <button class="sf-tab" data-f="new">Unopened <span>${nNew}</span></button>
+        <button class="sf-tab" data-f="wip">On the desk <span>${nWip}</span></button>
+        <button class="sf-tab" data-f="done">Closed <span>${nDone}</span></button>
+      </div>
+      <label class="sf-find"><span aria-hidden="true">🔍</span><input id="shelfFind" type="search" placeholder="Search the archive — a name, a place, a book…" value="${shelfFind.replace(/"/g,"&quot;")}"></label>
+    </div>
+    <div id="shelfNone" class="shelf-none hidden">No file in the archive matches that. <button class="btn ghost" id="shelfReset">Show every file</button></div>
     <div class="cases">${posters}
       <div class="poster soon" style="--fc:#5c5346;--r:1.1deg">
         <div class="p-soc">B.I.B.</div>
@@ -2629,6 +3066,11 @@ function renderShelf(){
   shelf.querySelector("#shelfBible").addEventListener("click", ()=>openBible());
   shelf.querySelector("#shelfFolder").addEventListener("click", folderPack);
   shelf.querySelector("#shelfTeacher").addEventListener("click", ()=>teacherGate(teacherNotes));
+  shelf.querySelectorAll(".sf-tab").forEach(b=>b.addEventListener("click", ()=>{ shelfFilter = b.dataset.f; applyShelfFilter(); }));
+  const fi = shelf.querySelector("#shelfFind");
+  fi.addEventListener("input", ()=>{ shelfFind = fi.value; applyShelfFilter(); });
+  shelf.querySelector("#shelfReset").addEventListener("click", ()=>{ shelfFilter = "all"; shelfFind = ""; fi.value = ""; applyShelfFilter(); });
+  applyShelfFilter();
 }
 
 function restartCase(id){
@@ -3483,12 +3925,14 @@ function lockCard(L){
     if(v === L.code){
       CS[L.id] = true; save();
       msg.className="msg good"; msg.textContent = "Open. " + L.reward;
+      c.classList.add("unlocking");
       renderDesk(); lockPip(); toolBtn();
       setTimeout(()=>c.replaceWith(lockCard(L)), 1400);
     } else {
       const dead = strike();
       msg.className="msg bad";
       msg.textContent = L.wrong + (dead ? "" : wrongTail());
+      c.classList.remove("rattle"); void c.offsetWidth; c.classList.add("rattle");
       inp.select();
     }
   };
@@ -3536,7 +3980,7 @@ function renderBoard(keepScroll){
   const tw = board.querySelector("#theories");
   C.theories.forEach(t=>{
     const done = CS.locked[t.id], pinned = CS.pins[t.id];
-    const c = el("div","theory");
+    const c = el("div","theory"+(done?" cleared":""));
     c.innerHTML = `<div class="pin"></div>
       <h4>${t.title}</h4>
       <div class="claim">${t.claim}</div>
