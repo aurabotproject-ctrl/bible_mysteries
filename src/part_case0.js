@@ -12,6 +12,18 @@
    ============================================================ */
 
 
+/* ---- persons of interest: long-lens photographs and one evidence table ----
+   The photographs sit in polaroid frames (.poi, part_css_fx.css); the markers
+   on the evidence table are blank in the photograph and numbered here. */
+SVG.j01poi = `<svg viewBox="0 0 1536 1024" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1536" height="1024" fill="#2e2015"/>
+  <g transform="translate(40 120) rotate(-6)"><rect width="480" height="560" fill="#efe6d2"/><image href="__IMG_p01ruler__" x="26" y="26" width="428" height="428" preserveAspectRatio="xMidYMid slice"/></g>
+  <g transform="translate(530 70) rotate(3)"><rect width="480" height="560" fill="#efe6d2"/><image href="__IMG_p01pharisee__" x="26" y="26" width="428" height="428" preserveAspectRatio="xMidYMid slice"/></g>
+  <g transform="translate(1020 150) rotate(-2)"><rect width="480" height="560" fill="#efe6d2"/><image href="__IMG_p01collector__" x="26" y="26" width="428" height="428" preserveAspectRatio="xMidYMid slice"/></g>
+  <image href="__IMG_e01payments__" x="430" y="660" width="540" height="360" transform="rotate(-2 700 840)"/>
+</svg>`;
+SVG.e01payments = `<svg viewBox="0 0 1536 1024" xmlns="http://www.w3.org/2000/svg"><image href="__IMG_e01payments__" x="0" y="0" width="1536" height="1024"/><g font-family="Arial,Helvetica,sans-serif" font-weight="700" font-size="74" fill="#1a1a1a" text-anchor="middle"><text x="160" y="533">1</text><text x="676" y="320">2</text><text x="1384" y="438">3</text><text x="813" y="772">4</text></g></svg>`;
+
 const JM01_ITEMS = [
 
 /* ---------------- STAGE 0 ---------------- */
@@ -157,6 +169,31 @@ const JM01_ITEMS = [
       </ul>
     </div>
     <div class="ref">Background: Mark 10:17–22 · Luke 18:9–14 · Luke 23:39–43.</div>`
+},
+{
+  id:"j01poi", stage:0, kind:"Surveillance photographs", title:"Persons of Interest",
+  sub:"Taken from cover, without their knowledge", thumb:"j01poi",
+  prev:"Two men who came to the door, one who stood at the back — and what was carried in.",
+  x:68, y:80, rot:3, w:230,
+  body:`
+    <p>Field photographs from the Bureau's file on <b>Three Who Came to the Door</b>. Read the statements first; these show who was there.</p>
+    <div class="poi-grid">
+      <figure class="plate poi"><img src="__IMG_p01ruler__" alt="A rich young man in fine robes walking away down a market street, carrying a heavy purse"><figcaption>The first. A good man, and rich. Walking away.</figcaption></figure>
+      <figure class="plate poi"><img src="__IMG_p01pharisee__" alt="A religious man in a prayer shawl standing at the front of a temple court with his hands raised"><figcaption>The second. At the front, hands raised.</figcaption></figure>
+      <figure class="plate poi"><img src="__IMG_p01collector__" alt="A man standing alone at the back of a temple court, head bowed, hand on his chest"><figcaption>Not a statement. The man at the back.</figcaption></figure>
+    </div>
+    <p class="margin-note">No photograph of the third. He was on a cross, and the Bureau does not photograph that.</p>
+    <h4>Exhibit A — what was brought to the door</h4>
+    <div class="plate">${SVG.e01payments}<div class="cap">Click the photograph to enlarge it.</div></div>
+    <table class="ledger">
+      <tr><th>Marker</th><th>Item</th><th>Offered as</th></tr>
+      <tr><td class="n">1</td><td>Silver, given away</td><td>Giving to the poor</td></tr>
+      <tr><td class="n">2</td><td>The law, kept to the letter</td><td>Religious observance</td></tr>
+      <tr><td class="n">3</td><td>Two doves for the altar</td><td>Religious observance</td></tr>
+      <tr><td class="n">4</td><td>A fine robe</td><td>A good life, and a comfortable one</td></tr>
+    </table>
+    <p>Check each marker against <b>The Account, As Found</b>. Every one of these was offered. Look up what the ledger wrote beside it.</p>
+    <div class="ref">Background: Mark 10:17–22 · Luke 18:9–14.</div>`
 },
 {
   id:"j01routes", stage:0, kind:"Bureau note", title:"The Five Routes People Take",

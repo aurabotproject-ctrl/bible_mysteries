@@ -127,6 +127,29 @@ j01ledger:{
     <div class="ref">Background: Isaiah 64:6 · Ephesians 2:8–9 · Titus 3:5 · Galatians 2:16.</div>`
 },
 
+j01poi:{
+  prev:"Two men who came to the door, one who stood at the back — and what they brought.",
+  body:`
+    <p>Photos from the Bureau's file on <b>Three Who Came to the Door</b>. Read the statements first. These show who was there.</p>
+    <div class="poi-grid">
+      <figure class="plate poi"><img src="__IMG_p01ruler__" alt="A rich young man in fine robes walking away down a market street, carrying a heavy purse"><figcaption>The first. Good, and rich. Walking away.</figcaption></figure>
+      <figure class="plate poi"><img src="__IMG_p01pharisee__" alt="A religious man in a prayer shawl standing at the front of a temple court with his hands raised"><figcaption>The second. At the front, hands up.</figcaption></figure>
+      <figure class="plate poi"><img src="__IMG_p01collector__" alt="A man standing alone at the back of a temple court, head bowed, hand on his chest"><figcaption>Not a statement. The man at the back.</figcaption></figure>
+    </div>
+    <p class="margin-note">No photo of the third. He was on a cross, and the Bureau does not photograph that.</p>
+    <h4>Exhibit A — what they brought</h4>
+    <div class="plate">${SVG.e01payments}<div class="cap">Click the photo to enlarge it.</div></div>
+    <table class="ledger">
+      <tr><th>Marker</th><th>Item</th><th>Offered as</th></tr>
+      <tr><td class="n">1</td><td>Silver, given away</td><td>Giving to the poor</td></tr>
+      <tr><td class="n">2</td><td>The law, kept exactly</td><td>Being religious</td></tr>
+      <tr><td class="n">3</td><td>Two doves for the altar</td><td>Being religious</td></tr>
+      <tr><td class="n">4</td><td>A fine robe</td><td>A good, comfortable life</td></tr>
+    </table>
+    <p>Check each marker against <b>The Account, As Found</b>. Every one of these was offered. Look at what the ledger wrote next to it.</p>
+    <div class="ref">Background: Mark 10:17–22 · Luke 18:9–14.</div>`
+},
+
 j01three:{
   prev:"A good man, a religious man, and a man with nothing. Only one of them got in.",
   body:`

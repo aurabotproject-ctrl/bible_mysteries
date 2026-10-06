@@ -431,6 +431,19 @@ certificate seal). The label wording is listed at the bottom of
 
 ## 11. Recent work, newest first
 
+- **Persons of Interest (facelift part 2), JM-01 first.** A new stage-0 card,
+  `j01poi`, holds the long-lens photographs in polaroid frames
+  (`<figure class="plate poi">`, styles in part_css_fx.css) and Exhibit A, the
+  evidence table, as an SVG plate whose blank yellow markers are numbered in
+  SVG text. Image names are `p01*` (people) and `e01*` (exhibit), listed in
+  build.py under NAMES. The card thumbnail `SVG.j01poi` is a collage of the
+  same images. In JM-01 the three at the door are the rich ruler, the
+  Pharisee and the criminal on the cross; the tax collector is pictured as
+  "the man at the back", not as a statement, and the third man is not
+  photographed. Index-card paper now keeps its red rule inside the fixed top
+  slice of the border image (86px), so it can no longer run through a
+  card's heading.
+
 - **The investigation kit (facelift part 1).** Fifteen photographed materials,
   cut out and shipped as `images/fx_*` (WebP where they need transparency),
   all listed in `FX` in build.py and inlined into every handout. Styles live

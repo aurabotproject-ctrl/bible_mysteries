@@ -52,7 +52,7 @@
 .item .card::after{content:none}
 .item.paper-ledger    .card{border-image-source:url(__IMG_fx_paper_ledger__)}
 .item.paper-statement .card{border-image-source:url(__IMG_fx_paper_statement__)}
-.item.paper-index     .card{border-image:url(__IMG_fx_paper_index__) 58 fill / 12px stretch}
+.item.paper-index     .card{border-width:18px 12px 12px;border-image:url(__IMG_fx_paper_index__) 86 58 58 fill / 18px 12px 12px stretch}
 .item.paper-ledger .card{padding-left:10px}
 .item .kind{font-family:"Courier New",Courier,monospace;letter-spacing:.14em;font-size:8.5px}
 .item .thumb{background:#f2ead6;border:5px solid #f6f0e1;border-bottom-width:9px;
@@ -100,7 +100,7 @@
 }
 .sheet.doc.paper-ledger{border-image-source:url(__IMG_fx_paper_ledger__)}
 .sheet.doc.paper-statement{border-image-source:url(__IMG_fx_paper_statement__)}
-.sheet.doc.paper-index{border-image:url(__IMG_fx_paper_index__) 58 fill / 22px stretch}
+.sheet.doc.paper-index{border-width:33px 22px 22px;border-image:url(__IMG_fx_paper_index__) 86 58 58 fill / 33px 22px 22px stretch}
 .sheet.doc .body{padding:18px 26px 40px;
   background:url(__IMG_fx_ring2__) right 6px bottom 4px/120px no-repeat}
 .sheet.doc.paper-ledger .body{padding-left:34px}
@@ -160,8 +160,8 @@
 }
 .theory{
   background:none;border-radius:0;box-shadow:none;
-  border:12px solid transparent;border-image:url(__IMG_fx_paper_index__) 58 fill / 12px stretch;
-  padding:12px 8px 6px;filter:drop-shadow(0 9px 10px rgba(0,0,0,.45));
+  border:12px solid transparent;border-width:18px 12px 12px;border-image:url(__IMG_fx_paper_index__) 86 58 58 fill / 18px 12px 12px stretch;
+  padding:10px 8px 6px;filter:drop-shadow(0 9px 10px rgba(0,0,0,.45));
 }
 .theory:nth-child(3n+1){transform:rotate(-.7deg)}
 .theory:nth-child(3n+2){transform:rotate(.6deg)}
@@ -197,6 +197,41 @@
 .chips .chip.walkin{background-color:transparent}
 .chips .chip.reading{box-shadow:none;filter:drop-shadow(0 0 5px rgba(240,220,170,.7)) drop-shadow(0 6px 6px rgba(0,0,0,.45))}
 .chips .chip.used{opacity:.4}
+
+/* ---------- persons of interest: photographs in polaroid frames ---------- */
+.poi-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:18px 16px;margin:14px 0 6px}
+.plate.poi{
+  position:relative;width:100%;margin:0;padding:0;border:0;border-radius:0;box-shadow:none;
+  aspect-ratio:600/643;background:url(__IMG_fx_polaroid__) center/100% 100% no-repeat;
+  filter:drop-shadow(0 6px 8px rgba(0,0,0,.35));
+}
+.poi-grid .poi:nth-child(odd){transform:rotate(-2.5deg)}
+.poi-grid .poi:nth-child(even){transform:rotate(2deg) translateY(6px)}
+/* the frame is photographed slightly turned; the photograph turns with it */
+.plate.poi img{
+  position:absolute;left:50.4%;top:42.6%;width:75.5%;height:61.5%;
+  transform:translate(-50%,-50%) rotate(4.3deg);object-fit:cover;border-radius:0;
+  box-shadow:inset 0 0 0 1px rgba(0,0,0,.2);
+}
+.plate.poi figcaption{
+  position:absolute;left:10%;right:12%;top:78%;bottom:4%;
+  display:flex;align-items:center;justify-content:center;text-align:center;
+  font:14px/1.12 var(--hand);color:#2c2014;transform:rotate(3.5deg);overflow:hidden;
+}
+.plate.poi::before{
+  content:"";position:absolute;left:50%;top:-12px;width:22px;height:32px;margin-left:-6px;z-index:2;
+  background:url(__IMG_fx_pin_red__) center/contain no-repeat;filter:drop-shadow(2px 4px 2px rgba(0,0,0,.4));
+}
+@media print{
+  /* the sheet rule centres plates with auto margins, which shrinks a frame
+     whose contents are all positioned to nothing - give it its width back */
+  .pp-card .plate.poi,.pp-card.sheet .plate.poi{width:100%;max-width:none;margin:0}
+  .plate.poi::before{display:none}
+  .poi-grid{grid-template-columns:repeat(3,44mm);justify-content:center;gap:4mm 8mm;margin:3mm 0}
+  .plate.poi figcaption{font-size:10px}
+  /* a page holding the polaroids as well needs its exhibit photo a little smaller */
+  .pp-card.sheet .poi-grid ~ .plate.wideplate{max-width:132mm}
+}
 
 @media print{
   .fxprop{display:none!important}
