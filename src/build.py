@@ -39,7 +39,7 @@ import base64, gzip, json, os, re, shutil, sys
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(HERE)                 # the /investigate folder
 
-PARTS   = ['part_style.html', 'part_css_extra.css', 'part_shell.html']
+PARTS   = ['part_style.html', 'part_css_extra.css', 'part_css_fx.css', 'part_shell.html']
 SCRIPTS = ['part_assets.js', 'part_registry.js', 'part_bible.js',
            'part_print.js', 'part_engine.js', 'part_invite.js']
 # Easy-level wording packs. One per case that has one; a case with no entry
@@ -66,12 +66,12 @@ CASE_FILES = ['part_case0.js', 'part_case1.js', 'part_case2.js', 'part_case3.js'
 # Most plates are photographs and ship as JPEG. The wax seal has to keep its
 # transparent surround, so it is a PNG - look the extension up rather than
 # assume one, and any future asset with an alpha channel just works.
-MIME = {'.jpg': 'image/jpeg', '.png': 'image/png'}
+MIME = {'.jpg': 'image/jpeg', '.png': 'image/png', '.webp': 'image/webp'}
 def img_ext(n):
-    for e in ('.jpg', '.png'):
+    for e in ('.jpg', '.png', '.webp'):
         if os.path.exists(os.path.join(IMAGES, n + e)):
             return e
-    sys.exit('images/%s: expected a .jpg or a .png' % n)
+    sys.exit('images/%s: expected a .jpg, .png or .webp' % n)
 
 NAMES = ['bibsign', 'bibseal', 'poster_jm01', 'j01hill', 'j01gate', 'j01ledger', 'j01paid', 'j01cert',
          'map', 'tomb', 'stone', 'seal', 'roster', 'cipher', 'decoder',
@@ -94,6 +94,19 @@ NAMES = ['bibsign', 'bibseal', 'poster_jm01', 'j01hill', 'j01gate', 'j01ledger',
          'j16jar', 'j16camp', 'j16log',
          'j18altar', 'j18mount', 'j18stones',
          'j20orders', 'j20rock', 'j20map']
+
+# The investigation kit: the desk, cork, papers, clips, pins, tape, stamps and
+# stains the whole app is dressed in. Every case uses all of them, so every
+# single-case handout carries them too. The cut-outs are WebP because they
+# need transparency and PNG would be four or five times the size.
+FX = ['fx_desk', 'fx_cork', 'fx_folder_open', 'fx_folder_shut',
+      'fx_paper_report', 'fx_paper_index', 'fx_paper_ledger', 'fx_paper_statement',
+      'fx_polaroid', 'fx_tag', 'fx_props_left', 'fx_props_right',
+      'fx_clip', 'fx_binder', 'fx_pin_red', 'fx_pin_red2', 'fx_pin_brass',
+      'fx_tape1', 'fx_tape2', 'fx_tape3',
+      'fx_stamp_rect', 'fx_stamp_round', 'fx_stamp_long',
+      'fx_ring1', 'fx_ring2', 'fx_ink', 'fx_print_dark', 'fx_print_light']
+NAMES += FX
 
 BIBLE_JSON = os.path.join(ROOT, 'bible.json')
 IMAGES     = os.path.join(ROOT, 'images')
@@ -378,7 +391,7 @@ def main():
         need = ({n for n in NAMES
                  if ('__IMG_%s__' % n) in src
                  or re.search(r'SVG\.%s\b' % re.escape(n), src)}
-                | {stub['poster'], 'bibsign', 'bibseal', 'j01cert'})
+                | {stub['poster'], 'bibsign', 'bibseal', 'j01cert'} | set(FX))
         body = swap(body, lambda n: b64[n] if n in need else BLANK_PIXEL)
         body = body.replace('<title>B.I.B. \u2014 The Bible Investigation Bureau</title>',
                             '<title>%s &mdash; %s</title>' % (stub['code'], stub['title']))

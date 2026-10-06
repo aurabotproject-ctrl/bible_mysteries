@@ -431,6 +431,21 @@ certificate seal). The label wording is listed at the bottom of
 
 ## 11. Recent work, newest first
 
+- **The investigation kit (facelift part 1).** Fifteen photographed materials,
+  cut out and shipped as `images/fx_*` (WebP where they need transparency),
+  all listed in `FX` in build.py and inlined into every handout. Styles live
+  in their own part, `src/part_css_fx.css`. The wood is on `#stage` and the
+  table slides over it, so the corner props (`.fxprop`) stay at the screen
+  edges and under every card. Each card's paper comes from its kind
+  (`paperOf()` in part_engine.js: statement, ledger, index card or report)
+  and is drawn with `border-image`, so torn edges and punch holes keep their
+  shape at any size; `fastenerOf()` adds a clip, a pin or one of three tape
+  strips. The opened document uses the same paper. The intro is the
+  photographed folder (label and stamps typeset over it), the pinboard is
+  real cork with index cards and red pins, and the evidence rail is a row
+  of luggage tags. The image brief and the prompts for part 2 (persons of
+  interest) are in `tobuild/facelift/image-prompts.md`.
+
 - Teacher notes and both "Teacher: restore" buttons sit behind a password
   (`teacherGate` in part_engine.js). Only a hash is in the page
   (`TEACHER_HASH`, made by `teacherHash`), so the password is not in the

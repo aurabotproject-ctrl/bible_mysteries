@@ -301,18 +301,16 @@ function runIntro(){
         <div class="kicker">${C.code} &middot; ${C.period}</div>
         <h1>${C.title}</h1>
         <div class="sub">${C.introSub}</div>
-        <div class="folder" id="folder">
-          <div class="back"></div>
-          <div class="stack"><i></i><i></i><i></i><i></i><i></i><i></i></div>
-          <div class="cover" style="--fc:${C.colour}">
-            <div class="f-label">
-              <div class="l1">B.I.B. &middot; Bible Investigation Bureau</div>
-              <div class="l2">${C.title}</div>
-              <div class="l3">${C.code} &middot; ${C.period}</div>
+        <div class="fxfolder" id="folder">
+          <div class="fx-open">
+            <div class="fx-round"><span>B.I.B.</span><b>Opened</b><span>${C.code.replace("CASE ","")}</span></div>
+          </div>
+          <div class="fx-shut">
+            <div class="fx-label">
+              <div class="l3">${C.code}</div>
+              <div class="l2${C.title.length > 20 ? " long" : ""}">${C.title}</div>
             </div>
-            <div class="f-stamp">CONFIDENTIAL</div>
-            <div class="f-string"></div>
-            <div class="f-button"></div>
+            <div class="fx-stamp">Confidential</div>
           </div>
         </div>
         <div class="tap" id="tapLine">Click the file to untie it</div>
@@ -566,18 +564,38 @@ function renderDesk(){
   });
   drawStrings();
 }
+/* Which paper a document is printed on, read from its kind. Statements are
+   onionskin, anything with columns is ledger paper, plans and plates sit on
+   an index card, and everything else is a typed report sheet. */
+function paperOf(item){
+  const k = (item.kind||"").toLowerCase();
+  if(/statement|deposition|testimony|confession|statements/.test(k)) return "statement";
+  if(/ledger|register|inventory|accounts?\b|log\b|roster|record|schedule|muster|tally|calendar|timetable|weights|rolls|list/.test(k)) return "ledger";
+  if(/plan|map|plate|chart|object|sample|diagram|section|photograph|drawing|study|survey|sheet/.test(k)) return "index";
+  return "report";
+}
+/* What holds it to the desk: a clip on a statement, a pin through a card,
+   tape on everything else - one of three strips, picked by the card's id so
+   it is the same strip every time the desk is drawn. */
+function fastenerOf(item, paper){
+  if(paper === "statement") return "clip";
+  if(paper === "index") return "pin";
+  let h = 0; for(const ch of item.id) h = (h*31 + ch.charCodeAt(0)) >>> 0;
+  return "tape t" + (1 + h % 3);
+}
 function makeItem(item, isNew){
   const p = CS.pos[item.id] || {x:tmap(item.x), y:tmap(item.y), rot:item.rot};
   CS.pos[item.id] = p;
   // A card that carries a walk-in experience is faintly stained blue, so a
   // student can see at a glance which cards have something to walk into.
-  const n = el("div","item"+(isNew?" new":"")+(item.tour?" walkin":""));
+  const paper = paperOf(item);
+  const n = el("div","item paper-"+paper+(isNew?" new":"")+(item.tour?" walkin":""));
   n.dataset.id = item.id;
   n.style.width = (item.w||200)+"px";
   place(n,p);
   raise(n);
   n.innerHTML = `
-    <div class="tape"></div>
+    <div class="${fastenerOf(item, paper)}"></div>
     <div class="pinpt"></div>
     <div class="card">
       <div class="kind">${item.kind}</div>
@@ -923,7 +941,7 @@ function openItem(item){
     <div class="doc-sub">${item.sub||""}</div>
     <div class="rule"></div>
     ${tourLink(item)}
-    <div class="doc-body">${item.body}</div>`);
+    <div class="doc-body">${item.body}</div>`, "doc paper-" + paperOf(item));
   wirePlates(o, item.title);
 }
 
