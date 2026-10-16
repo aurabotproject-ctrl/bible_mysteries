@@ -109,6 +109,7 @@ timeline:{
 mary:{
   prev:"“I did not go on my own. There were three of us.”",
   body:`
+    <figure class="plate poi poi-clip"><img src="images/p33mary.jpg" alt="A woman in a dark head covering carrying a jar of spices along a garden path toward an open rock tomb, at first light"><figcaption>Before first light, with the spices.</figcaption></figure>
     <div class="doc-body">
       <p>“I watched them bury him. Write that down first, because people keep asking me if I am sure which tomb it was. I sat right across from it on the Friday until the stone was closed. I know that tomb. I could find it in the dark — and I did.</p>
       <p>I did not go on my own. <b>Mary the mother of James came, and Salome. Three of us</b> set off before it was light, carrying the spices we had got ready. The whole way there we argued about the same problem: who is going to roll that stone back for us? Not one of us thought we could shift it ourselves.</p>
@@ -122,6 +123,7 @@ mary:{
 guards:{
   prev:"“We were not asleep. The only people who say that are the men who paid us to say it.”",
   body:`
+    <figure class="plate poi poi-clip"><img src="images/p33guards.jpg" alt="A Roman soldier sitting by a fire at night beside the great round stone of the tomb"><figcaption>On watch. The stone in place.</figcaption></figure>
     <div class="doc-body">
       <p>“The stone was in place when we started our watch. The cord was whole and the wax was unbroken. I checked it myself, because if that seal breaks it is my neck on the line, not anybody else's.</p>
       <p>Some time before dawn the ground shook. When we could stand up again, the stone was out of its groove and the tomb was open. I sent two men in with a torch. There was linen on the shelf and nothing else. No body. Nobody carrying a body. Nobody had come past us up the path — and there is no other way in, because there is solid rock behind the tomb.</p>
@@ -185,6 +187,8 @@ tombsketch:{
 inventory:{
   prev:"Nothing valuable was taken. Everything valuable was left behind.",
   body:`
+    <div class="plate">${SVG.e33linen}<div class="cap">Click the photograph to enlarge it.</div></div>
+    <p class="margin-note">1 — the wrappings, lying where the body had been. 2 — the face cloth, folded, set apart.</p>
     <table class="ledger">
       <tr><th>Item</th><th>Found</th><th>Worth</th></tr>
       <tr><td>Linen burial wrappings</td><td>Still there, on the shelf</td><td>A lot — fine linen</td></tr>
@@ -216,6 +220,7 @@ stone:{
 peterjohn:{
   prev:"“If we had taken him, I would know. I was the one hiding behind a locked door.”",
   body:`
+    <figure class="plate poi poi-clip"><img src="images/p33running.jpg" alt="Two men running along a stony garden path toward an open tomb, the younger one ahead"><figcaption>Running. The younger one is ahead.</figcaption></figure>
     <div class="doc-body">
       <p>“She came shouting that the tomb was open, and we both ran. The younger one got there first and stopped in the doorway. I went straight in.</p>
       <p>The linen was lying there. The cloth from his head was folded and set apart from the rest. That is the bit I keep coming back to. It was <b>tidy</b>. Nothing about that night was tidy.</p>
@@ -230,6 +235,7 @@ peterjohn:{
 ledger:{
   prev:"A big pile of money, and a story to go with it.",
   body:`
+    <figure class="plate poi poi-clip"><img src="images/p33payment.jpg" alt="Close on hands: a ringed hand in a fine robe passing a leather purse to a soldier in a doorway"><figcaption>The handover, in a doorway.</figcaption></figure>
     <table class="ledger">
       <tr><th>Entry</th><th>Details</th><th class="n">Paid out</th></tr>
       <tr><td>To the soldiers who guarded the garden</td><td>“a large sum” — handed over directly, not through the treasury</td><td class="n">▮▮▮▮</td></tr>
@@ -247,6 +253,7 @@ ledger:{
 joseph:{
   prev:"“It was my own tomb. I never went back to it.”",
   body:`
+    <figure class="plate poi poi-clip"><img src="images/p33joseph.jpg" alt="An older councillor in rich robes walking through a street carrying a bundle of clean linen"><figcaption>Friday, late. Carrying linen.</figcaption></figure>
     <div class="doc-body">
       <p>“The tomb was mine. Brand new, cut for me, never used. I gave it because it was close by, the sun was going down, and there was no time to do anything else properly.</p>
       <p>People ask whether I moved him later, to a permanent grave. Think about what you are asking.</p>

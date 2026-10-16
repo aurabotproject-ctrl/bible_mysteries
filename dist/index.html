@@ -1970,11 +1970,20 @@ button.tourbtn{cursor:pointer;font-family:var(--ui-font)}
   content:"";position:absolute;left:50%;top:-12px;width:22px;height:32px;margin-left:-6px;z-index:2;
   background:url(images/fx_pin_red.webp) center/contain no-repeat;filter:drop-shadow(2px 4px 2px rgba(0,0,0,.4));
 }
+/* a single photograph clipped to the corner of its own document */
+.plate.poi.poi-clip{float:right;width:min(44%,230px);margin:-4px -6px 10px 16px;transform:rotate(3deg)}
+.plate.poi.poi-clip::before{content:none}
+.plate.poi.poi-clip::after{
+  content:"";position:absolute;left:8%;top:-16px;width:44px;height:40px;z-index:2;transform:rotate(-14deg);
+  background:url(images/fx_clip.webp) center/contain no-repeat;filter:drop-shadow(1px 2px 1px rgba(0,0,0,.4));
+}
+
 @media print{
   /* the sheet rule centres plates with auto margins, which shrinks a frame
      whose contents are all positioned to nothing - give it its width back */
   .pp-card .plate.poi,.pp-card.sheet .plate.poi{width:100%;max-width:none;margin:0}
-  .plate.poi::before{display:none}
+  .plate.poi::before,.plate.poi::after{display:none}
+  .pp-card .plate.poi.poi-clip{width:40mm;margin:0 0 3mm 5mm;float:right}
   .poi-grid{grid-template-columns:repeat(3,44mm);justify-content:center;gap:4mm 8mm;margin:3mm 0}
   .plate.poi figcaption{font-size:10px}
   /* a page holding the polaroids as well needs its exhibit photo a little smaller */
@@ -2039,7 +2048,7 @@ button.tourbtn{cursor:pointer;font-family:var(--ui-font)}
 </div>
 
 <div id="shelf"></div>
-<div id="buildTag" title="Which build of the app this is. If a new feature is missing, reload the page and check this changes.">build 20261006-0210</div>
+<div id="buildTag" title="Which build of the app this is. If a new feature is missing, reload the page and check this changes.">build 20261016-1030</div>
 
 <script>
 const SVG = {};

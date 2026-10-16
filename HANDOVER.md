@@ -431,6 +431,16 @@ certificate seal). The label wording is listed at the bottom of
 
 ## 11. Recent work, newest first
 
+- **JM-33 photographs.** Where a case's people turn up in documents that open
+  at different stages, the photographs are clipped to their own documents
+  (`<figure class="plate poi poi-clip">`, floated, with a paper clip) rather
+  than gathered into one stage-0 card, which would give the later evidence
+  away. Each of those cards also gets the photo as its desk thumbnail
+  (`thumbOf()` in part_case1.js; the `__IMG_x__` token must be written out in
+  full or the build never swaps it). The shelf photograph is Exhibit A on the
+  Evidence Inventory, with its two markers drawn in SVG. The watch photo was
+  cropped to keep the stone in place, as the guards' report says it was.
+
 - **Persons of Interest (facelift part 2), JM-01 first.** A new stage-0 card,
   `j01poi`, holds the long-lens photographs in polaroid frames
   (`<figure class="plate poi">`, styles in part_css_fx.css) and Exhibit A, the

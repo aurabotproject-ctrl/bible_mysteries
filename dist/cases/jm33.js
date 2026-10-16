@@ -1,3 +1,16 @@
+/* ---- long-lens photographs (clipped to their own documents) and the
+   evidence photograph of the shelf, with its blank markers numbered here */
+const thumbOf = (src, y) => `<svg viewBox="0 0 820 520" xmlns="http://www.w3.org/2000/svg"><image href="${src}" x="0" y="${-y}" width="820" height="820"/></svg>`;
+SVG.p33mary    = thumbOf("images/p33mary.jpg",    170);
+SVG.p33guards  = thumbOf("images/p33guards.jpg",  150);
+SVG.p33running = thumbOf("images/p33running.jpg", 260);
+SVG.p33payment = thumbOf("images/p33payment.jpg", 160);
+SVG.p33joseph  = thumbOf("images/p33joseph.jpg",  200);
+SVG.e33linen = `<svg viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg"><image href="images/e33linen.jpg" x="0" y="0" width="1200" height="800"/>
+  <g transform="translate(790 365)"><path d="M0 70 L14 0 L76 0 L90 70 Z" fill="#f2c230" stroke="#9a7a10" stroke-width="2"/><text x="45" y="55" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-weight="700" font-size="44" fill="#1a1a1a">1</text></g>
+  <g transform="translate(1080 382)"><path d="M0 70 L14 0 L76 0 L90 70 Z" fill="#f2c230" stroke="#9a7a10" stroke-width="2"/><text x="45" y="55" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-weight="700" font-size="44" fill="#1a1a1a">2</text></g>
+</svg>`;
+
 const JM33_ITEMS = [
 
 /* ---------------- STAGE 0 ---------------- */
@@ -101,10 +114,11 @@ const JM33_ITEMS = [
 },
 {
   id:"mary", stage:0, kind:"Witness statement", title:"Statement — Mary of Magdala",
-  sub:"Taken at the garden, first day of the week",
+  sub:"Taken at the garden, first day of the week", thumb:"p33mary",
   prev:"“I did not go alone. There were three of us.”",
   x:20, y:66, rot:-5, w:204,
   body:`
+    <figure class="plate poi poi-clip"><img src="images/p33mary.jpg" alt="A woman in a dark head covering carrying a jar of spices along a garden path toward an open rock tomb, at first light"><figcaption>Before first light, with the spices.</figcaption></figure>
     <div class="doc-body">
       <p>"I watched them bury him. I want that written down first, because people keep asking me if I am sure of the place. I sat opposite the tomb on the Friday until the stone was closed. I know which tomb it was. I could walk to it in the dark — and I did.</p>
       <p>I did not go alone. <b>Mary the mother of James came, and Salome. Three of us</b> set out before the light with the spices we had prepared, and the whole way we were arguing about the same problem: who is going to roll the stone back for us? Not one of us thought we could shift it ourselves.</p>
@@ -116,10 +130,11 @@ const JM33_ITEMS = [
 },
 {
   id:"guards", stage:0, kind:"Witness statement", title:"Sworn Report of the Watch",
-  sub:"Lucius Varo, decanus, for the detail",
+  sub:"Lucius Varo, decanus, for the detail", thumb:"p33guards",
   prev:"“We were not asleep. Nobody says that but the men who paid us to say it.”",
   x:70, y:70, rot:6, w:200,
   body:`
+    <figure class="plate poi poi-clip"><img src="images/p33guards.jpg" alt="A Roman soldier sitting by a fire at night beside the great round stone of the tomb"><figcaption>On watch. The stone in place.</figcaption></figure>
     <div class="doc-body">
       <p>"The stone was in place when we came on. The cord was sound and the wax was whole; I checked it myself, because if that seal breaks it is my neck, not anyone else's.</p>
       <p>Between the middle watch and the light there was a shaking of the ground. When we could stand again the stone was off its channel and the mouth was open. I sent two men in with a torch. There was linen on the shelf and nothing else. No body. No man carrying a body. Nobody had come past us up the path — you cannot get to that tomb another way, the rock is behind it.</p>
@@ -193,10 +208,12 @@ const JM33_ITEMS = [
 },
 {
   id:"inventory", stage:1, kind:"Inventory", title:"Evidence Inventory — Tomb Interior",
-  sub:"Evidence Bag B",
+  sub:"Evidence Bag B", thumb:"e33linen",
   prev:"Nothing of value was taken. Everything of value was left.",
   x:58, y:22, rot:3, w:200,
   body:`
+    <div class="plate">${SVG.e33linen}<div class="cap">Click the photograph to enlarge it.</div></div>
+    <p class="margin-note">1 — the wrappings, lying where the body had been. 2 — the face cloth, folded, set apart.</p>
     <table class="ledger">
       <tr><th>Item</th><th>Found</th><th>Value</th></tr>
       <tr><td>Linen burial wrappings</td><td>Present, on the shelf</td><td>High — fine linen</td></tr>
@@ -228,10 +245,11 @@ const JM33_ITEMS = [
 },
 {
   id:"peterjohn", stage:1, kind:"Witness statement", title:"Statement — the Two Who Ran",
-  sub:"Evidence Bag B",
+  sub:"Evidence Bag B", thumb:"p33running",
   prev:"“If we had taken him, I would know. I was the one hiding behind a locked door.”",
   x:66, y:64, rot:5, w:198,
   body:`
+    <figure class="plate poi poi-clip"><img src="images/p33running.jpg" alt="Two men running along a stony garden path toward an open tomb, the younger one ahead"><figcaption>Running. The younger one is ahead.</figcaption></figure>
     <div class="doc-body">
       <p>"She came shouting that the tomb was open and we ran, both of us. The younger one got there first and stopped at the mouth. I went straight in.</p>
       <p>The linen was lying there. The cloth from his head was folded and set apart from the rest. That is what I keep coming back to. It was <b>tidy</b>. Nothing about that night was tidy.</p>
@@ -246,10 +264,11 @@ const JM33_ITEMS = [
 /* ---------------- STAGE 2 — released by the keyword lock ---------------- */
 {
   id:"ledger", stage:2, kind:"Financial record", title:"Council Ledger — Payment to the Watch",
-  sub:"Archive pouch C",
+  sub:"Archive pouch C", thumb:"p33payment",
   prev:"A large sum of money, and a story to go with it.",
   x:24, y:24, rot:-3, w:206,
   body:`
+    <figure class="plate poi poi-clip"><img src="images/p33payment.jpg" alt="Close on hands: a ringed hand in a fine robe passing a leather purse to a soldier in a doorway"><figcaption>The handover, in a doorway.</figcaption></figure>
     <table class="ledger">
       <tr><th>Entry</th><th>Detail</th><th class="n">Out</th></tr>
       <tr><td>To the soldiers of the garden watch</td><td>"a large sum" — paid direct, not through the treasury</td><td class="n">▮▮▮▮</td></tr>
@@ -265,10 +284,11 @@ const JM33_ITEMS = [
 },
 {
   id:"joseph", stage:2, kind:"Deposition", title:"Deposition — Joseph of Arimathea",
-  sub:"Archive pouch C · owner of the tomb",
+  sub:"Archive pouch C · owner of the tomb", thumb:"p33joseph",
   prev:"“It was my own tomb. I never touched it again.”",
   x:56, y:28, rot:4, w:202,
   body:`
+    <figure class="plate poi poi-clip"><img src="images/p33joseph.jpg" alt="An older councillor in rich robes walking through a street carrying a bundle of clean linen"><figcaption>Friday, late. Carrying linen.</figcaption></figure>
     <div class="doc-body">
       <p>"The tomb was mine. New, cut for me, never used. I gave it because it was close and the sun was going down and there was no time to do anything else properly.</p>
       <p>I am asked whether I moved him afterwards to a permanent place. Consider what you are asking.</p>

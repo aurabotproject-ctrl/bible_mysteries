@@ -109,7 +109,8 @@ FX = ['fx_desk', 'fx_cork', 'fx_folder_open', 'fx_folder_shut',
 NAMES += FX
 
 # Persons of interest: long-lens photographs and the evidence table, per case.
-NAMES += ['p01ruler', 'p01pharisee', 'p01collector', 'e01payments']
+NAMES += ['p01ruler', 'p01pharisee', 'p01collector', 'e01payments',
+          'p33mary', 'p33guards', 'p33running', 'p33payment', 'p33joseph', 'e33linen']
 
 BIBLE_JSON = os.path.join(ROOT, 'bible.json')
 IMAGES     = os.path.join(ROOT, 'images')
