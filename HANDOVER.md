@@ -431,6 +431,16 @@ certificate seal). The label wording is listed at the bottom of
 
 ## 11. Recent work, newest first
 
+- **The Ridge Post** (`tours/ekron-road.html`, JM-11, on *What the Watchers
+  Saw*). Built here, not handed over: the road out of Ekron, the fork, the
+  calves' pen, the valley of grain to Beth Shemesh and the great rock. Students
+  run "ordinary cow" trials first (weighted outcomes: back to the calves, into
+  the grain, stalled, off the road), keep a tally, then release the cart as
+  recorded and watch the log fill in to entry xi. It sits on the stage-2 card
+  because the run shows the result the hypothesis table asks them to predict.
+  Three r128 inlined; its own touch controls, so it is in patch_touch's SKIP.
+  Source with a `__THREE__` placeholder is not kept; edit the tour file.
+
 - **JM-19 photographs.** Samson, his parents, the thirty and the bride clipped
   to their own statements (the bride only on her stage-2 statement), and a
   close photograph of the carcass paired with the existing site plate on

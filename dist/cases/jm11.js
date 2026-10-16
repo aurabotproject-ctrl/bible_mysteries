@@ -253,6 +253,8 @@ const JM11_ITEMS = [
 {
   id:"j11result", stage:2, kind:"Watch log", title:"What the Watchers Saw",
   sub:"Sealed Pouch C · the rest of the page",
+  tour:{href:"../tours/ekron-road.html", label:"\ud83d\udc04 Watch from the ridge post",
+        note:"Run the test with ordinary cows first and keep the tally \u2014 then release the cart as the watchers recorded it"},
   prev:"Straight past the fork, up the valley, into Israel — and the lords followed all the way.",
   x:26, y:28, rot:-3, w:210,
   body:`
