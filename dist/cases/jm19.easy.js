@@ -83,6 +83,7 @@ j19feast:{
 j19samson:{
   prev:"“I went off the road on my own. Both times.”",
   body:`
+    <figure class="plate poi poi-clip"><img src="images/p19samson.jpg" alt="Samson, long braids down his back, walking alone along a vineyard road eating from a piece of honeycomb"><figcaption>On the road, eating as he walked.</figcaption></figure>
     <div class="doc-body">
       <p>“I went down to Timnah twice before the feast. The first time was to see the woman. <b>A young lion came roaring at me out of the vineyards</b>, off the road, and I killed it with nothing in my hands. There was nobody with me. My father and mother were down on the road, and they never saw it.</p>
       <p>I did not tell them. I did not tell anybody. Not that day, and not afterwards.</p>
@@ -97,6 +98,7 @@ j19samson:{
 j19parents:{
   prev:"“He never told us what he had done.”",
   body:`
+    <figure class="plate poi poi-clip"><img src="images/p19parents.jpg" alt="An older man and woman walking a hill road toward a walled town, the woman glancing back"><figcaption>His father and mother, on the road.</figcaption></figure>
     <div class="doc-body">
       <p>“We were on that road with him both times. We did not want this marriage and we said so, and he went anyway.</p>
       <p>On the first journey he left us for a while up among the vineyards, then came back down and said nothing at all. We did not know a lion had come near him until long afterwards. <b>He never told us what he had done.</b></p>
@@ -125,6 +127,7 @@ j19road:{
 j19thirty:{
   prev:"“We worked it out. That is what riddles are for.”",
   body:`
+    <figure class="plate poi poi-clip"><img src="images/p19thirty.jpg" alt="Young Philistine men in feathered headbands huddled at the end of the feast table, talking low"><figcaption>The thirty, heads together.</figcaption></figure>
     <div class="doc-body">
       <p>“We worked it out. That is what a riddle is for.</p>
       <p>He set it on the first day and we sat with it. Thirty men, seven days, plenty of wine and nothing else to do. In the end somebody says the right thing and everyone goes quiet. That is how it always happens.</p>
@@ -139,7 +142,10 @@ j19thirty:{
 j19carcass:{
   prev:"Dry bones, a bees' nest, and nobody else's footprints.",
   body:`
-    <div class="plate">${SVG.j19carcass}<div class="cap">Click to make it bigger. The site as the Bureau recorded it.</div></div>
+    <div class="plate-pair">
+      <div class="plate">${SVG.j19carcass}<div class="cap">Click to make it bigger. The site as the Bureau recorded it.</div></div>
+      <div class="plate">${SVG.e19honey}<div class="cap">Click to make it bigger. Close up, from the bushes.</div></div>
+    </div>
     <p>The Bureau went to the site and examined what was left.</p>
     <table class="ledger">
       <tr><th>What we looked at</th><th>What we found</th></tr>
@@ -230,6 +236,7 @@ j19threat:{
 j19wife:{
   prev:"“I cried in front of him for the rest of the feast.”",
   body:`
+    <figure class="plate poi poi-clip"><img src="images/p19wife.jpg" alt="A young bride in fine dress sitting by a window at dusk with her face in her hands"><figcaption>The bride, the seventh evening.</figcaption></figure>
     <div class="doc-body">
       <p>“They came to me when I was on my own. You already know what they said. I am not going to say it again.</p>
       <p>My father's house is in this town. Their fathers' houses are in this town. Samson's is not.</p>

@@ -431,6 +431,11 @@ certificate seal). The label wording is listed at the bottom of
 
 ## 11. Recent work, newest first
 
+- **JM-19 photographs.** Samson, his parents, the thirty and the bride clipped
+  to their own statements (the bride only on her stage-2 statement), and a
+  close photograph of the carcass paired with the existing site plate on
+  *Report on the Carcass*.
+
 - **JM-47 photographs.** Same pattern as JM-33: the king, Naaman, Hazael and
   Elisha clipped to their own documents (Elisha only on *The Man at Dothan*, a
   stage-2 card, so the answer is not shown early), and the returned dispatch as

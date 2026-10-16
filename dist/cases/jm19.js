@@ -10,6 +10,15 @@ SVG.j19carcass = `<svg viewBox="0 0 1536 1024" xmlns="http://www.w3.org/2000/svg
 
 SVG.j19linen = `<svg viewBox="0 0 1536 1024" xmlns="http://www.w3.org/2000/svg"><image href="images/j19linen.jpg" x="0" y="0" width="1536" height="1024"/><text x="888" y="104" text-anchor="middle" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="22" font-weight="600" fill="#4a3520" textLength="212" lengthAdjust="spacingAndGlyphs">THIRTY LINEN GARMENTS</text></svg>`;
 
+/* ---- long-lens photographs (clipped to their own documents) and a close
+   photograph of the carcass, paired with the site plate */
+const thumb19 = (src, y) => `<svg viewBox="0 0 820 520" xmlns="http://www.w3.org/2000/svg"><image href="${src}" x="0" y="${-y}" width="820" height="820"/></svg>`;
+SVG.p19samson  = thumb19("images/p19samson.jpg",  170);
+SVG.p19parents = thumb19("images/p19parents.jpg", 200);
+SVG.p19thirty  = thumb19("images/p19thirty.jpg",  220);
+SVG.p19wife    = thumb19("images/p19wife.jpg",    160);
+SVG.e19honey = `<svg viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg"><image href="images/e19honey.jpg" x="0" y="0" width="1200" height="800"/></svg>`;
+
 const JM19_ITEMS = [
 
 /* ---------------- STAGE 0 ---------------- */
@@ -83,10 +92,11 @@ const JM19_ITEMS = [
 },
 {
   id:"j19samson", stage:0, kind:"Statement", title:"Statement — Samson of Zorah",
-  sub:"The bridegroom, and the only man who knew",
+  sub:"The bridegroom, and the only man who knew", thumb:"p19samson",
   prev:"“I turned aside on my own. Both times.”",
   x:20, y:64, rot:-6, w:206,
   body:`
+    <figure class="plate poi poi-clip"><img src="images/p19samson.jpg" alt="Samson, long braids down his back, walking alone along a vineyard road eating from a piece of honeycomb"><figcaption>On the road, eating as he walked.</figcaption></figure>
     <div class="doc-body">
       <p>"I went down to Timnah twice before the feast. The first time was to see the woman. <b>A young lion came roaring at me out of the vineyards</b>, off the road, and I killed it with nothing in my hands. There was no one with me. My father and mother were on the road, and they never saw it.</p>
       <p>I did not tell them. I did not tell anybody. Not that day, not after.</p>
@@ -99,10 +109,11 @@ const JM19_ITEMS = [
 },
 {
   id:"j19parents", stage:0, kind:"Statement", title:"Statement — Samson's Father and Mother",
-  sub:"Taken separately, at Zorah",
+  sub:"Taken separately, at Zorah", thumb:"p19parents",
   prev:"“He never told us what he had done.”",
   x:73, y:58, rot:5, w:202,
   body:`
+    <figure class="plate poi poi-clip"><img src="images/p19parents.jpg" alt="An older man and woman walking a hill road toward a walled town, the woman glancing back"><figcaption>His father and mother, on the road.</figcaption></figure>
     <div class="doc-body">
       <p>"We were on that road with him both times. We did not want the marriage and we said so, and he went anyway.</p>
       <p>The first journey he left us for a while among the vineyards and came back to us and said nothing at all. We did not know a lion had come near him until long afterwards. <b>He never told us what he had done.</b></p>
@@ -133,10 +144,11 @@ const JM19_ITEMS = [
 },
 {
   id:"j19thirty", stage:0, kind:"Statement", title:"Statement — One of the Thirty",
-  sub:"Name withheld at his own request",
+  sub:"Name withheld at his own request", thumb:"p19thirty",
   prev:"“We worked it out. Riddles are made to be worked out.”",
   x:64, y:78, rot:6, w:200,
   body:`
+    <figure class="plate poi poi-clip"><img src="images/p19thirty.jpg" alt="Young Philistine men in feathered headbands huddled at the end of the feast table, talking low"><figcaption>The thirty, heads together.</figcaption></figure>
     <div class="doc-body">
       <p>"We worked it out. That is what a riddle is for.</p>
       <p>He set it on the first day and we sat with it. Thirty men, seven days, plenty of wine and nothing else to do. Eventually somebody says the right thing and everybody goes quiet. That is how it always happens.</p>
@@ -155,7 +167,10 @@ const JM19_ITEMS = [
   prev:"Dry bones, a bees' nest, and nobody else's footprints.", thumb:"j19carcass",
   x:28, y:26, rot:-4, w:206,
   body:`
-    <div class="plate">${SVG.j19carcass}<div class="cap">Click to enlarge. The site as the Bureau recorded it.</div></div>
+    <div class="plate-pair">
+      <div class="plate">${SVG.j19carcass}<div class="cap">Click to enlarge. The site as the Bureau recorded it.</div></div>
+      <div class="plate">${SVG.e19honey}<div class="cap">Click to enlarge. Close up, from the thicket.</div></div>
+    </div>
     <p>The Bureau examined the site and what was left of it.</p>
     <table class="ledger">
       <tr><th>Finding</th><th>Detail</th></tr>
@@ -254,10 +269,11 @@ const JM19_ITEMS = [
 },
 {
   id:"j19wife", stage:2, kind:"Statement", title:"Statement — Samson's Wife",
-  sub:"Sealed Bundle C · taken at Timnah",
+  sub:"Sealed Bundle C · taken at Timnah", thumb:"p19wife",
   prev:"“I wept in front of him for the rest of the feast.”",
   x:57, y:30, rot:4, w:206,
   body:`
+    <figure class="plate poi poi-clip"><img src="images/p19wife.jpg" alt="A young bride in fine dress sitting by a window at dusk with her face in her hands"><figcaption>The bride, the seventh evening.</figcaption></figure>
     <div class="doc-body">
       <p>"They came to me on my own. You already know what they said to me; I am not going to say it again.</p>
       <p>My father's house is in this town. Their fathers' houses are in this town. Samson's is not.</p>
