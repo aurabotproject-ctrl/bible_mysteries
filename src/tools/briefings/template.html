@@ -1,0 +1,258 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>@@TITLE@@ — the Supervisor's briefing</title>
+<style>
+html,body{margin:0;height:100%;background:#120c08;overflow:hidden;font-family:"Avenir Next",Avenir,"Segoe UI",system-ui,sans-serif;-webkit-tap-highlight-color:transparent}
+#wrap{position:fixed;inset:0;display:flex;align-items:center;justify-content:center}
+#stage{position:relative;aspect-ratio:16/9;width:min(100vw,calc(100vh*16/9));max-height:100vh;box-shadow:0 0 70px rgba(0,0,0,.75);background:#efe3cb}
+canvas{width:100%;height:100%;display:block}
+#ov{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;text-align:center;background:radial-gradient(ellipse at center,rgba(239,227,203,.78),rgba(228,213,183,.93));color:#2e2419;font-family:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif}
+#ov h1{font-size:clamp(20px,4.2vw,46px);margin:0 0 .25em;font-style:italic;letter-spacing:.01em}
+#ov p{margin:0 0 1.1em;color:#5b4a35;font-size:clamp(12px,1.7vw,18px)}
+.kick{font-family:"Avenir Next",Avenir,system-ui,sans-serif;font-size:clamp(9px,1.2vw,13px);letter-spacing:.28em;text-transform:uppercase;color:#8c2f1f;font-weight:800;margin-bottom:.8em}
+button{font-family:"Avenir Next",Avenir,"Segoe UI",system-ui,sans-serif;cursor:pointer}
+.go{background:#8c2f1f;color:#fff;font-weight:800;font-size:clamp(13px,1.8vw,18px);letter-spacing:.03em;padding:.75em 1.6em;border-radius:999px;border:1px solid #c26a4a;box-shadow:0 3px 0 rgba(0,0,0,.35);min-height:44px}
+.go:active{transform:translateY(2px);box-shadow:0 1px 0 rgba(0,0,0,.35)}
+.quiet{display:block;margin:.9em auto 0;background:none;border:0;color:#6b4a2a;text-decoration:underline;font-size:clamp(11px,1.4vw,14px);min-height:36px}
+.ctl{position:absolute;top:2.6%;right:2.2%;display:none;gap:8px}
+.ctl button{background:rgba(46,36,25,.1);border:1px solid rgba(90,65,35,.45);color:#4a3520;border-radius:999px;font-size:clamp(12px,1.5vw,16px);font-weight:700;padding:.35em .9em;min-height:38px;min-width:42px}
+.ctl button:active{background:rgba(46,36,25,.22)}
+</style></head><body>
+<div id="wrap"><div id="stage">
+<canvas id="c"></canvas>
+<div class="ctl" id="ctl"><button id="mute" aria-label="Sound on or off">🔊</button><button id="again" aria-label="Watch again">↻ Again</button></div>
+<div id="ov"><div>
+<div class="kick">@@KICK@@</div>
+<h1>The Supervisor’s briefing</h1>
+<p>The letter on your desk, in forty seconds.</p>
+<button class="go" id="go">▶&nbsp; Watch with sound</button>
+<button class="quiet" id="mutego">watch without sound</button>
+</div></div>
+</div></div>
+<script>
+(function(){
+"use strict";
+let K=1.5;const W=1280,H=720,D=30,P=Math.PI,SC=4/3,DF=1.16; /* SC stretches the 30-beat script to 40 seconds; DF makes each picture's lines draw a little quicker than their slot, so it then rests */
+const INK='#2e2419',SOFT='#5b4a35',RED='#8c2f1f',RUST='#b4552f',BRASS='#c9a227',GREEN='#3f7d4e',BLUE='#3d5a73',OCHRE='#c9a56a',CORK='#b98a52',WOOD='#5a3d28';
+const SERIF='"Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif';
+const clamp=(x,a=0,b=1)=>Math.min(b,Math.max(a,x)),seg=(t,a,b)=>clamp((t-a)/(b-a)),ease=x=>x<.5?2*x*x:1-Math.pow(-2*x+2,2)/2,lerp=(a,b,k)=>a+(b-a)*k;
+const rnd=(i,s=0)=>{const v=Math.sin(i*12.9898+s*78.233)*43758.5453;return v-Math.floor(v)};
+const cv=document.getElementById('c');cv.width=W*K;cv.height=H*K;let ctx=cv.getContext('2d');const mainCtx=ctx;let inSprite=false;
+
+/* ---------- geometry ---------- */
+const arc=(cx,cy,r,a0,a1,n=28)=>{const o=[];for(let i=0;i<=n;i++){const a=a0+(a1-a0)*i/n;o.push([cx+r*Math.cos(a),cy+r*Math.sin(a)])}return o};
+const ell=(cx,cy,rx,ry,a0=0,a1=2*P,n=32)=>{const o=[];for(let i=0;i<=n;i++){const a=a0+(a1-a0)*i/n;o.push([cx+rx*Math.cos(a),cy+ry*Math.sin(a)])}return o};
+const bez=(a,b,c,d,n=20)=>{const o=[];for(let i=0;i<=n;i++){const t=i/n,u=1-t;o.push([u*u*u*a[0]+3*u*u*t*b[0]+3*u*t*t*c[0]+t*t*t*d[0],u*u*u*a[1]+3*u*u*t*b[1]+3*u*t*t*c[1]+t*t*t*d[1]])}return o};
+const rect=(x,y,w,h)=>[[x,y],[x+w,y],[x+w,y+h],[x,y+h],[x,y]];
+const cat=(...a)=>[].concat(...a);
+const L=(...p)=>p;
+/* hand-drawn wobble, fixed per shape so it never flickers */
+let SEED=1;
+function sk(p,amp=.9){const o=[];for(let i=0;i<p.length-1;i++){const a=p[i],b=p[i+1],d=Math.hypot(b[0]-a[0],b[1]-a[1]),n=Math.max(1,Math.round(d/10));for(let j=0;j<n;j++){const u=j/n;o.push([a[0]+(b[0]-a[0])*u+(rnd(SEED++)-.5)*amp*2,a[1]+(b[1]-a[1])*u+(rnd(SEED++)-.5)*amp*2])}}o.push(p[p.length-1]);return o}
+const S=(p,c,w,wob)=>{const q=wob===0?p:sk(p,wob||.8);q.c=c||INK;q.w=w||1;return q};
+const F=(p,c,a)=>({p,c,a:a==null?.4:a});
+
+/* ---------- little pictures: each returns {s:[strokes], f:[washes]} around (0,0) ---------- */
+const M={};
+M.shelf=k=>{const w=k.w||1000;return{s:[S(rect(-w/2,0,w,18),INK,1.3),S([[-w/2+30,18],[-w/2+30,44],[-w/2+60,18]],SOFT,.8),S([[w/2-30,18],[w/2-30,44],[w/2-60,18]],SOFT,.8),S([[-w/2,6],[w/2,6]],SOFT,.5)],f:[F(rect(-w/2,0,w,18),WOOD,.55)]}};
+M.folder=k=>{const o=[[-70,-90],[-70,92],[70,92],[70,-90],[20,-90],[10,-104],[-42,-104],[-48,-90],[-70,-90]];
+  return{s:[S(o,INK,1.25),S([[-70,-80],[70,-80]],SOFT,.55),S(rect(-48,56,96,26),SOFT,.6),S([[-56,-70],[-56,86]],SOFT,.4)],f:[F(o,k.c||OCHRE,.7)]}};
+M.coinbag=()=>{const l=bez([-20,-48],[-82,-20],[-76,56],[0,58]),r=bez([0,58],[76,56],[82,-20],[20,-48]),t=[[-20,-48],[-28,-66],[-8,-57],[0,-68],[8,-57],[28,-66],[20,-48]];
+  return{s:[S(cat(l,r),INK,1.2),S(t,INK,1),S([[-23,-44],[23,-44]],SOFT,.8),S(ell(0,12,20,20),RUST,.9),S([[0,-2],[0,26]],RUST,.6)],f:[F(cat(l,r),OCHRE,.6),F(ell(0,12,20,20),BRASS,.55)]}};
+M.wall=k=>{const s=[],f=[];const W0=96,rows=5,bh=22;s.push(S(rect(-W0,-60,2*W0,rows*bh),INK,1.1));
+  for(let r=1;r<rows;r++)s.push(S([[-W0,-60+r*bh],[W0,-60+r*bh]],SOFT,.55));
+  for(let r=0;r<rows;r++)for(let c=1;c<6;c++){const x=-W0+c*32+(r%2?16:0);if(x<W0-4)s.push(S([[x,-60+r*bh],[x,-60+(r+1)*bh]],SOFT,.5))}
+  s.push(S([[-8,-60],[6,-36],[-10,-18],[8,4],[-4,26],[6,50]],RED,1.3));
+  s.push(S(cat(rect(104,50,26,16),[]),INK,.9),S(rect(88,72,26,16),INK,.9));
+  f.push(F(rect(-W0,-60,2*W0,rows*bh),OCHRE,.45),F(rect(104,50,26,16),OCHRE,.6),F(rect(88,72,26,16),OCHRE,.6));return{s,f}};
+M.plaster=k=>{const s=[S(rect(-90,-62,180,124),INK,1.1),S(arc(-20,-50,12,P*.9,P*1.9,8),SOFT,.4)];
+  if(!k.clean)[-40,-14,12,38].forEach((y,i)=>{const p=[];for(let x=-62;x<=62;x+=6)p.push([x,y+(i%2?1:-1)*Math.sin(x*.4+i)*4]);s.push(S(p,RED,.95,.3))});
+  return{s,f:[F(rect(-90,-62,180,124),'#d9c7a0',.55)]}};
+M.hand=()=>{const s=[S(ell(0,10,18,24),INK,1)];[[-18,-8,-26,-40],[-8,-14,-9,-52],[3,-14,5,-54],[13,-8,20,-46]].forEach(q=>s.push(S([[q[0],q[1]],[q[2],q[3]]],INK,1)));s.push(S([[-14,22],[-22,40]],INK,1),S([[14,22],[22,40]],INK,1));return{s,f:[F(ell(0,10,18,24),'#e8c9a0',.5)]}};
+M.bigfolder=M.folder;
+M.stamp=k=>{const w=k.w||260,h=k.h||70;return{s:[S(rect(-w/2,-h/2,w,h),k.col||RED,2.2,.6),S(rect(-w/2+7,-h/2+7,w-14,h-14),k.col||RED,.9,.5)],f:[]}};
+M.gate=()=>{const s=[],f=[];const a=arc(0,-10,64,P,2*P,22);
+  s.push(S(cat([[-64,86],[-64,-10]],a,[[64,-10],[64,86]]),INK,1.4));
+  for(let x=-44;x<=44;x+=22)s.push(S([[x,-10-Math.sqrt(Math.max(0,64*64-x*x))+4],[x,86]],INK,.8));
+  s.push(S(rect(-84,-26,20,112),INK,1.1),S(rect(64,-26,20,112),INK,1.1),S(ell(-74,-34,13,10),INK,1),S(ell(74,-34,13,10),INK,1));
+  s.push(S([[-64,34],[64,34]],SOFT,.7),S(ell(0,34,7,7),RED,1.1));
+  s.push(S([[-130,86],[130,86]],SOFT,.9));
+  f.push(F(rect(-84,-26,20,112),OCHRE,.5),F(rect(64,-26,20,112),OCHRE,.5));return{s,f}};
+M.tree=()=>{const s=[],f=[];const tr=cat(bez([-14,92],[-10,50],[-18,20],[-24,-10],8),bez([-24,-10],[-10,0],[10,0],[24,-10],6),bez([24,-10],[18,20],[10,50],[16,92],8));
+  const can=[];for(let i=0;i<=44;i++){const a=P+P*2*i/44,r=70+9*Math.sin(5*a+1);can.push([Math.cos(a)*r*1.08,-70+Math.sin(a)*r*.78])}
+  s.push(S(tr,INK,1.2),S(can,GREEN,1.3),S([[-30,92],[-14,92]],INK,.8),S([[16,92],[34,92]],INK,.8));
+  s.push(S(ell(26,-52,9,10),RED,1.4),S([[26,-62],[28,-70]],INK,.8));
+  [[-34,-84,-20,-70],[0,-96,12,-84],[-48,-50,-36,-38],[40,-90,50,-78]].forEach(q=>s.push(S([[q[0],q[1]],[q[2],q[3]]],GREEN,.5)));
+  f.push(F(can,GREEN,.38),F(tr,'#8a6a45',.6),F(ell(26,-52,9,10),RED,.85));return{s,f}};
+M.ledger=k=>{const s=[],f=[];const lp=[[0,-70],[-130,-60],[-130,70],[0,80]],rp=[[0,-70],[130,-60],[130,70],[0,80]];
+  s.push(S(cat(lp,[[0,-70]]),INK,1.3),S(cat(rp,[[0,-70]]),INK,1.3),S([[0,-70],[0,80]],INK,1.1));
+  for(let i=0;i<8;i++){const y=-42+i*15,wob=rnd(i,3)*14;s.push(S([[-118,y-4],[-18,y+2]],SOFT,.5),S([[18,y+2],[118,y-4]],SOFT,.5));
+    if(k.rows!==false){s.push(S([[-116,y-4],[-116+30+wob,y-2]],INK,.7,.5),S([[26,y+3],[52+wob,y+2]],INK,.7,.5),S([[90,y-2],[110,y-3]],SOFT,.7,.4))}}
+  s.push(S([[-60,-52],[-30,-48],[-70,-56]],RED,.7));
+  f.push(F(cat(lp,[[0,-70]]),'#f3ead6',.8),F(cat(rp,[[0,-70]]),'#f3ead6',.8));return{s,f}};
+M.fig=k=>{const s=[S(ell(0,-52,12,12),INK,1.2),S([[0,-40],[0,10]],INK,1.2),S([[0,-30],[-20,-8]],INK,1.1),S([[0,-30],[20,-8]],INK,1.1),S([[0,10],[-14,56]],INK,1.2),S([[0,10],[14,56]],INK,1.2)];return{s,f:[F(ell(0,-52,12,12),k.c||'#e8c9a0',.7)]}};
+M.card=k=>{const w=k.w||200,h=k.h||90;return{s:[S(rect(-w/2,-h/2,w,h),INK,1.1)],f:[F(rect(-w/2,-h/2,w,h),'#f6eed9',.9)]}};
+M.rays=k=>{const s=[];const n=k.n||16,rx1=k.rx1||150,ry1=k.ry1||150,rx2=k.rx2||220,ry2=k.ry2||220;for(let i=0;i<n;i++){const a=2*P*i/n,c=Math.cos(a),sn=Math.sin(a),e=i%2?0:.09;s.push(S([[c*rx1,sn*ry1],[c*rx2*(1+e),sn*ry2*(1+e)]],BRASS,1.2,.3))}return{s,f:[]}};
+M.board=()=>{const o=rect(-150,-102,300,204),i=rect(-138,-90,276,180);return{s:[S(o,INK,1.6),S(i,SOFT,.6)],f:[F(rect(-150,-102,300,12),WOOD,.9),F(rect(-150,90,300,12),WOOD,.9),F(rect(-150,-90,12,180),WOOD,.9),F(rect(138,-90,12,180),WOOD,.9),F(i,'#e2b87a',.9)]}};
+M.pcard=k=>{const s=[S(rect(-36,-24,72,48),INK,1)];[-10,2,14].forEach((y,i)=>s.push(S([[-26,y],[26-i*8,y]],SOFT,.5,.4)));s.push(S(ell(0,-24,4.2,4.2),RED,1.3));return{s,f:[F(rect(-36,-24,72,48),'#f6eed9',.95),F(ell(0,-24,4.2,4.2),RED,.95)]}};
+M.xmark=()=>({s:[S([[-32,-24],[32,24]],RED,2.4,.6),S([[32,-24],[-32,24]],RED,2.4,.6)],f:[]});
+M.string=k=>({s:[S(k.pts,RED,.8,.5)],f:[]});
+M.magnifier=()=>({s:[S(ell(0,-20,38,38),INK,1.5),S(ell(0,-20,32,32),SOFT,.5),S([[26,6],[64,56]],INK,2.8,.4)],f:[F(ell(0,-20,38,38),'#bfd4dd',.35),F(rect(24,10,10,0),INK,0)]});
+M.lock=()=>{const b=[[-40,-6],[40,-6],[40,62],[-40,62],[-40,-6]];return{s:[S(b,INK,1.3),S(arc(0,-6,26,P,2*P,16),INK,1.8),S([[-26,-6],[-26,-30]],INK,1.4),S([[26,-6],[26,-30]],INK,1.4),S(ell(0,24,7,7),INK,1.1),S([[0,28],[0,44]],INK,1.1)],f:[F(b,BRASS,.6)]}};
+M.grid=k=>{const c=34,n=5,s=[],f=[];const blk=new Set(['0,0','4,0','0,4','4,4','2,2']),hl=new Set(['1,1','2,1','3,1']);
+  for(let r=0;r<n;r++)for(let q=0;q<n;q++){const x=-n*c/2+q*c,y=-n*c/2+r*c,key=q+','+r;s.push(S(rect(x,y,c,c),INK,.9,.5));if(blk.has(key))f.push(F(rect(x,y,c,c),INK,.75));else if(hl.has(key))f.push(F(rect(x,y,c,c),BRASS,.55));else f.push(F(rect(x,y,c,c),'#f6eed9',.9))}
+  s.push(S([[-n*c/2+4,-n*c/2+9],[-n*c/2+9,-n*c/2+9]],SOFT,.5));return{s,f}};
+M.qmark=()=>{const q=cat(bez([-30,-40],[-30,-90],[40,-100],[44,-48],16),bez([44,-48],[46,-14],[0,-8],[0,28],14));return{s:[S(q,RED,3.2,.8),S(ell(0,64,6,6),RED,2.2)],f:[]}};
+M.seal=k=>{const p=[];for(let i=0;i<=40;i++){const a=2*P*i/40,r=70+(i%2?0:7);p.push([Math.cos(a)*r,Math.sin(a)*r])}const q=ell(0,0,52,52,0,2*P,28);
+  return{s:[S(p,RED,1.6,.4),S(q,'#5f1d12',1),S(ell(0,0,40,40,0,2*P,24),'#5f1d12',.7)],f:[F(p,RED,.92)]}};
+
+/*@@MOTIFS@@*/
+
+/* ---------- parchment ---------- */
+const bg=document.createElement('canvas');
+function buildBg(){bg.width=W*K;bg.height=H*K;const g=bg.getContext('2d');g.scale(K,K);
+  let gr=g.createLinearGradient(0,0,W,H);gr.addColorStop(0,'#f0e5cd');gr.addColorStop(.5,'#ecdfc3');gr.addColorStop(1,'#e2d1ad');g.fillStyle=gr;g.fillRect(0,0,W,H);
+  for(let i=0;i<9;i++){const x=rnd(i,1)*W,y=rnd(i,2)*H,r=80+rnd(i,3)*170;gr=g.createRadialGradient(x,y,0,x,y,r);gr.addColorStop(0,'rgba(150,110,55,'+(.05+rnd(i,4)*.07)+')');gr.addColorStop(1,'rgba(150,110,55,0)');g.fillStyle=gr;g.fillRect(0,0,W,H)}
+  for(let i=0;i<1600;i++){g.fillStyle='rgba(90,60,30,'+(rnd(i,5)*.07)+')';g.fillRect(rnd(i,6)*W,rnd(i,7)*H,1+rnd(i,8)*1.6,1+rnd(i,9)*1.6)}
+  gr=g.createRadialGradient(W/2,H/2,H*.38,W/2,H/2,H*.95);gr.addColorStop(0,'rgba(120,80,35,0)');gr.addColorStop(1,'rgba(120,80,35,.42)');g.fillStyle=gr;g.fillRect(0,0,W,H);
+  g.strokeStyle='rgba(120,85,45,.16)';g.lineWidth=2;[[W/2,0,W/2,H],[0,H/2,W,H/2]].forEach(l=>{g.beginPath();g.moveTo(l[0],l[1]);g.lineTo(l[2],l[3]);g.stroke()});
+  g.strokeStyle='rgba(255,250,235,.25)';g.lineWidth=2;[[W/2+2,0,W/2+2,H],[0,H/2+2,W,H/2+2]].forEach(l=>{g.beginPath();g.moveTo(l[0],l[1]);g.lineTo(l[2],l[3]);g.stroke()})}
+buildBg();
+
+/* ---------- drawing ---------- */
+const plen=p=>{let n=0;for(let i=1;i<p.length;i++)n+=Math.hypot(p[i][0]-p[i-1][0],p[i][1]-p[i-1][1]);return n};
+function drawStrokes(list,p,lw,alpha){if(p<=0)return;const ls=list.map(plen);let rem=p*ls.reduce((a,b)=>a+b,0);ctx.lineCap=ctx.lineJoin='round';
+  for(let k=0;k<list.length&&rem>0;k++){const Q=list[k];if(Q.length<2)continue;ctx.strokeStyle=Q.c;ctx.lineWidth=lw*Q.w;ctx.globalAlpha=alpha;ctx.beginPath();ctx.moveTo(Q[0][0],Q[0][1]);let r=rem;
+    for(let i=1;i<Q.length;i++){const d=Math.hypot(Q[i][0]-Q[i-1][0],Q[i][1]-Q[i-1][1]);if(r>=d){ctx.lineTo(Q[i][0],Q[i][1]);r-=d}else{const f=d?r/d:0;ctx.lineTo(lerp(Q[i-1][0],Q[i][0],f),lerp(Q[i-1][1],Q[i][1],f));break}}ctx.stroke();rem-=ls[k]}}
+function wash(p,c,a){if(a<=0)return;ctx.save();ctx.globalCompositeOperation='multiply';ctx.globalAlpha*=a;ctx.fillStyle=c;ctx.beginPath();p.forEach((q,i)=>i?ctx.lineTo(q[0],q[1]):ctx.moveTo(q[0],q[1]));ctx.closePath();ctx.fill();ctx.restore()}
+let writing=false;
+const LS=new Map(),XM=new Map();
+function writeLine(str,cx,y,size,p,fp,hl,dc,italic){if(p<=0)return;hl=hl||{};
+  const key=str+'|'+size+'|'+dc+'|'+italic+'|'+JSON.stringify(hl);
+  ctx.font=(italic===false?'700 ':'italic 700 ')+size+'px '+SERIF;ctx.textBaseline='alphabetic';
+  let m=XM.get(key);if(!m){const xs=[];for(let i=0;i<str.length;i++)xs.push(ctx.measureText(str.slice(0,i)).width);m={w:ctx.measureText(str).width,xs};XM.set(key,m)}
+  const w=m.w;
+  if(p>=1&&fp>=1&&!inSprite){let sp=LS.get(key+'|'+K);const pad=size*.3,y0=size*1.2;
+    if(!sp){const c=document.createElement('canvas');c.width=Math.ceil((w+2*pad)*K);c.height=Math.ceil(size*1.7*K);const old=ctx;ctx=c.getContext('2d');ctx.setTransform(K,0,0,K,0,0);inSprite=true;writeLine(str,pad+w/2,y0,size,1,1,hl,dc,italic);inSprite=false;ctx=old;sp={c,w:w+2*pad,h:size*1.7};LS.set(key+'|'+K,sp)}
+    ctx.drawImage(sp.c,cx-w/2-pad,y-y0,sp.w,sp.h);return}
+  const left=cx-w/2,n=str.length,Ld=size*10;if(p<1&&!inSprite)writing=true;
+  const cl=[];let pos=0;str.split(' ').forEach(wd=>{const k2=wd.replace(/[,.;:!?“”"'‘’—…()-]/g,'').toLowerCase(),c=hl[k2]||dc||INK;for(let k=0;k<wd.length;k++)cl[pos+k]=c;pos+=wd.length+1});
+  for(let i=0;i<n;i++){const ch=str[i];if(ch===' ')continue;const x=left+m.xs[i],pi=clamp((p-i/n*.75)/.25);if(pi<=0)continue;
+    ctx.save();if(pi<1){ctx.setLineDash([Ld,Ld*2]);ctx.lineDashOffset=Ld*(1-pi)}ctx.strokeStyle=cl[i];ctx.lineWidth=Math.max(1.3,size/28);ctx.lineJoin='round';ctx.strokeText(ch,x,y);
+    ctx.setLineDash([]);if(fp>0){ctx.globalAlpha*=fp;ctx.fillStyle=cl[i];ctx.fillText(ch,x,y)}ctx.restore()}}
+
+/* ---------- the script: what appears, where, and when ---------- */
+const I=(m,x,y,s,a0,a1,o)=>Object.assign({m,x,y,s,a:[a0,a1]},o||{});
+const T=(str,x,y,size,a0,a1,o)=>Object.assign({m:'txt',str,x,y,size,a:[a0,a1]},o||{});
+const Pp=(m,x,y,s,a0,o)=>Object.assign({m,x,y,s,a:[a0,a0+.2],pop:1},o||{});
+const OUT=(b)=>({o:[b-.6,b]});
+/* shared scene clock for the other briefings: six scenes, then the seal */
+const A=[.5,5.4,10.2,15.9,20.4,24.5],E=[5.3,10.0,15.6,20.2,24.4,27.9],PTS=[[.9,5.0],[5.5,9.9],[10.3,15.4],[16.0,20.0],[20.5,24.3],[24.6,27.7]],OO=n=>OUT(E[n-1]);
+const Q=(sc,m,x,y,s,d0,d1,o)=>I(m,x,y,s,A[sc-1]+d0,A[sc-1]+d1,Object.assign({},OO(sc),o||{}));
+const Tx=(sc,str,x,y,size,d0,d1,o)=>T(str,x,y,size,A[sc-1]+d0,A[sc-1]+d1,Object.assign({},OO(sc),o||{}));
+const Pq=(sc,m,x,y,s,d,o)=>Pp(m,x,y,s,A[sc-1]+d,Object.assign({},OO(sc),o||{}));
+const pg=(n,lines,hl)=>[PTS[n-1][0],PTS[n-1][1],lines,hl||{}];
+const BOARD=(sc,t0,cx,cy,s,nx)=>{cx=cx||640;cy=cy||325;s=s||2;nx=nx==null?4:nx;const c=[[-95,-45],[0,-52],[95,-45],[-48,36],[48,36]];return[Q(sc,'board',cx,cy,s,t0,t0+1.5,{h:1}),
+  ...c.map((q,i)=>Q(sc,'pcard',cx+q[0]*s,cy+q[1]*s,s,t0+1.0+i*.22,t0+1.6+i*.22)),
+  ...c.slice(0,nx).map((q,i)=>Q(sc,'xmark',cx+q[0]*s,cy+q[1]*s+4,1,t0+2.0+i*.45,t0+2.35+i*.45))]};
+const FIN=()=>[Pp('seal',640,300,2.1,28.0,{}),T('Mordecai ben Jair',640,520,58,28.4,29.5,{col:INK}),T('Case Supervisor',640,566,28,29.2,29.9,{col:SOFT})];
+
+/*@@CASE@@*/
+ITEMS.forEach(it=>{if(!it.pop&&!it.h&&!(typeof HERO==='function'&&HERO(it)))it.ap=true});
+
+/* header + frame, drawn in as the page opens */
+function frame(t){const a=ease(seg(t,.1,1.6));ctx.save();ctx.globalAlpha=1;
+  drawStrokes([S(rect(22,22,W-44,H-44),'#7a5a35',1,0),S(rect(30,30,W-60,H-60),'#7a5a35',.5,0)],a,2.4,.8);
+  drawStrokes([S([[150,106],[W-150,106]],'#7a5a35',.7,0),S([[150,111],[W-150,111]],'#7a5a35',.35,0)],ease(seg(t,.9,2.2)),2.2,.8);
+  ctx.restore();
+  writeLine('THE BIBLE INVESTIGATION BUREAU',W/2,66,26,seg(t,.2,1.6),seg(t,1.4,2.2),{},SOFT,false);
+  writeLine('Department of Unsolved Antiquities',W/2,92,17,seg(t,1.0,2.0),seg(t,1.8,2.6),{},SOFT)}
+/* geometry is built once */
+ITEMS.forEach(it=>{if(M[it.m]&&!it.cache){SEED=(it.x*7+it.y*13+it.a[0]*31)|0;it.cache=M[it.m](it.k||{})}});
+const PG=[];function layout(){PG.length=0;PAGES.forEach(([s,e,lines,hl])=>{const n=lines.length;let size=n===1?52:46;ctx.font='italic 700 '+size+'px '+SERIF;lines.forEach(l=>{size=Math.min(size,1120/(ctx.measureText(l).width/100))});size=Math.floor(Math.min(size,n===1?52:46));
+  const gap=size*1.16,tot=lines.reduce((a,l)=>a+l.length,0),Wt=Math.min((e-s)*.7,tot*.085);let acc=0;
+  PG.push({s,e,hl,L:lines.map((str,i)=>{const t0=s+acc/tot*Wt,t1=s+(acc+str.length)/tot*Wt;acc+=str.length;return{str,y:H-50-(n-1-i)*gap,size,t0,t1}})})})}
+function itemSprite(it,g,s){if(it.sp&&it.spK===K)return it.sp;
+  let x0=1e9,y0=1e9,x1=-1e9,y1=-1e9;const pt=q=>{x0=Math.min(x0,q[0]);x1=Math.max(x1,q[0]);y0=Math.min(y0,q[1]);y1=Math.max(y1,q[1])};
+  g.s.forEach(a=>a.forEach(pt));g.f.forEach(f=>f.p.forEach(pt));if(x0>x1)return null;const pad=10;
+  const w=(x1-x0)*s+2*pad,h=(y1-y0)*s+2*pad,c=document.createElement('canvas');c.width=Math.ceil(w*K);c.height=Math.ceil(h*K);
+  const old=ctx;ctx=c.getContext('2d');ctx.setTransform(K,0,0,K,0,0);ctx.translate(pad-x0*s,pad-y0*s);ctx.scale(s,s);
+  g.f.forEach(f=>wash(f.p,it.c&&it.m==='folder'?it.c:f.c,f.a));drawStrokes(g.s,1,3.4/s,1);ctx=old;
+  it.sp={c,x:x0*s-pad,y:y0*s-pad,w,h};it.spK=K;return it.sp}
+function drawItem(it,t){const[a0,a1]=it.a;if(t<a0)return;let al=1;if(it.o){al=1-seg(t,it.o[0],it.o[1]);if(al<=0)return}
+  if(it.m==='txt'){ctx.save();ctx.globalAlpha*=al;if(it.ap){ctx.globalAlpha*=ease(seg(t,a0,a0+.5));if(it.r){ctx.translate(it.x,it.y);ctx.rotate(it.r);writeLine(it.str,0,0,it.size,1,1,{},it.col)}else writeLine(it.str,it.x,it.y,it.size,1,1,{},it.col);ctx.restore();return}if(it.r){ctx.translate(it.x,it.y);ctx.rotate(it.r);writeLine(it.str,0,0,it.size,seg(t,a0,a1),seg(t,a1-.1,a1+.8),{},it.col)}else writeLine(it.str,it.x,it.y,it.size,seg(t,a0,a1),seg(t,a1-.1,a1+.8),{},it.col);ctx.restore();return}
+  const g=it.cache;if(!g)return;let s=it.s||1,x=it.x,y=it.y,r=it.r||0;
+  if(it.ap){const q=ease(seg(t,a0,a0+.45)),sp=itemSprite(it,g,s);if(sp){ctx.save();ctx.globalAlpha=al*q;ctx.globalCompositeOperation='multiply';ctx.translate(x,y);ctx.rotate(r);const z=1.05-.05*q;ctx.scale(z,z);ctx.drawImage(sp.c,sp.x,sp.y,sp.w,sp.h);ctx.restore()}return}
+  if(!it.pop&&!r&&t>=a0+(a1-a0)/DF){const sp=itemSprite(it,g,s);if(sp){ctx.save();ctx.globalAlpha=al;ctx.globalCompositeOperation='multiply';ctx.drawImage(sp.c,x+sp.x,y+sp.y,sp.w,sp.h);ctx.restore();return}}
+  ctx.save();ctx.translate(x,y);ctx.rotate(r);
+  if(it.pop){const q=ease(seg(t,a0,a0+.2)),sc=lerp(1.7,1,q);ctx.scale(s*sc,s*sc);ctx.globalAlpha=al*clamp(q*1.6);
+    if(it.m==='seal'){drawStrokes(g.s,1,4/s,al*q);g.f.forEach(f=>wash(f.p,f.c,f.a*q));
+      ctx.font='italic 700 38px '+SERIF;ctx.fillStyle='#f1d3ae';ctx.globalAlpha=al*q;ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText('B.I.B.',0,2);ctx.textAlign='start'}
+    else{drawStrokes(g.s,1,3.6/s,al*clamp(q*1.6));ctx.fillStyle=(it.k&&it.k.col)||RED;ctx.globalAlpha=al*clamp(q*1.6);ctx.font='700 '+it.size+'px '+SERIF;ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText(it.str,0,3);ctx.textAlign='start'}
+    ctx.restore();ctx.globalAlpha=1;return}
+  const p=ease(seg(t,a0,a0+(a1-a0)/DF)),fa=seg(p,.5,1);ctx.scale(s,s);
+  g.f.forEach(f=>wash(f.p,it.c&&it.m==='folder'?it.c:f.c,f.a*fa*al));
+  drawStrokes(g.s,p,3.4/s,al);ctx.restore();ctx.globalAlpha=1}
+function render(t){ctx.setTransform(1,0,0,1,0,0);ctx.drawImage(bg,0,0);ctx.setTransform(K,0,0,K,0,0);writing=false;ctx.globalAlpha=1;
+  frame(t);ITEMS.forEach(it=>drawItem(it,t));
+  PG.forEach(pg=>{if(t<pg.s||t>pg.e+.6)return;ctx.save();ctx.globalAlpha*=1-seg(t,pg.e,pg.e+.55);pg.L.forEach(l=>writeLine(l.str,W/2,l.y,l.size,seg(t,l.t0,l.t1),seg(t,l.t1-.1,l.t1+.9),pg.hl,INK));ctx.restore()});
+  ctx.fillStyle='rgba(140,47,31,.35)';ctx.fillRect(30,H-34,(W-60)*t/D,2);
+  if(AC&&scratch){const on=writing||drawing(t);if(on!==scOn){scOn=on;scratch.gain.setTargetAtTime(0,AC.currentTime,.05)}}}
+let scOn=false;
+const drawing=t=>ITEMS.some(it=>!it.pop&&!it.ap&&it.m!=='txt'&&t>=it.a[0]&&t<it.a[1]&&(!it.o||t<it.o[0]));
+
+/* ---------- sound: quill, paper, wax, locks — all synthesised ---------- */
+let AC,master,noiseBuf,scratch,muted=false;
+function initAudio(){const A=window.AudioContext||window.webkitAudioContext;if(!A)return;AC=new A();master=AC.createGain();master.gain.value=.85;const cmp=AC.createDynamicsCompressor();master.connect(cmp);cmp.connect(AC.destination);
+  noiseBuf=AC.createBuffer(1,AC.sampleRate*2,AC.sampleRate);const d=noiseBuf.getChannelData(0);for(let i=0;i<d.length;i++)d[i]=Math.random()*2-1;
+  const s=AC.createBufferSource();s.buffer=noiseBuf;s.loop=true;const f=AC.createBiquadFilter();f.type='bandpass';f.frequency.value=3400;f.Q.value=1.4;scratch=AC.createGain();scratch.gain.value=0;s.connect(f);f.connect(scratch);scratch.connect(master);s.start();
+  const lfo=AC.createOscillator(),lg=AC.createGain();lfo.frequency.value=9;lg.gain.value=700;lfo.connect(lg);lg.connect(f.frequency);lfo.start()}
+const now=()=>AC.currentTime;
+function tone(f,d,v,type,delay,att,sweep){const t=now()+(delay||0),o=AC.createOscillator(),g=AC.createGain();o.type=type||'sine';o.frequency.setValueAtTime(f,t);if(sweep)o.frequency.exponentialRampToValueAtTime(sweep,t+d);g.gain.setValueAtTime(.0001,t);g.gain.exponentialRampToValueAtTime(v,t+(att||.01));g.gain.exponentialRampToValueAtTime(.0001,t+d);o.connect(g);g.connect(master);o.start(t);o.stop(t+d+.05)}
+function nz(d,type,f0,f1,v,delay){const t=now()+(delay||0),s=AC.createBufferSource();s.buffer=noiseBuf;const f=AC.createBiquadFilter();f.type=type;f.frequency.setValueAtTime(f0,t);f.frequency.exponentialRampToValueAtTime(Math.max(40,f1),t+d);const g=AC.createGain();g.gain.setValueAtTime(v,t);g.gain.exponentialRampToValueAtTime(.0001,t+d);s.connect(f);f.connect(g);g.connect(master);s.start(t,Math.random());s.stop(t+d+.05)}
+const SF={
+ rustle(){nz(.5,'bandpass',2600,5200,.16);nz(.35,'highpass',4000,6000,.08,.1)},
+ page(){nz(.35,'bandpass',1800,4200,.2)},
+ thud(){tone(95,.55,.55,'sine',0,.005,45);nz(.12,'lowpass',900,200,.35)},
+ stamp(){tone(120,.4,.45,'sine',0,.004,50);nz(.08,'lowpass',1400,300,.4)},
+ click(){nz(.04,'highpass',2500,2500,.5);tone(1500,.1,.14,'square')},
+ clunk(){tone(180,.18,.3,'square',0,.003,90);nz(.05,'bandpass',1800,1800,.3)},
+ creak(){tone(180,1.1,.07,'sawtooth',0,.2,130);tone(184,1.1,.05,'sawtooth',0,.2,138)},
+ pad(f,d=9,v=.03){[1,1.5,2].forEach((m,i)=>tone(f*m*(1+i*.002),d,v/(i+1),'sine',0,d*.4))},
+ chime(f,v=.14){tone(f,2.6,v,'sine',0,.01);tone(f*2.76,1.4,v*.35,'sine',0,.01);tone(f*5.4,.8,v*.15,'sine',0,.01)},
+ xs(){nz(.14,'bandpass',3000,6000,.22)},
+ tick(){tone(1800,.04,.1,'square')}
+};
+function autoCues(){const c=[[.15,()=>SF.pad(146.8)]],pad=[146.8,130.8,116.5,110,98,123.5];
+  PAGES.forEach((p,i)=>{c.push([Math.max(.1,p[0]-.3),i%2?'page':'rustle']);if(i)c.push([p[0],()=>SF.pad(pad[i%6],7,.03)])});
+  ITEMS.forEach(it=>{if(it.pop&&it.m==='stamp')c.push([it.a[0],'stamp']);else if(it.pop&&it.m==='seal'){c.push([it.a[0],'thud']);c.push([it.a[0]+.1,()=>{SF.chime(392,.16);SF.chime(587,.1)}]);c.push([it.a[0]+.6,()=>SF.pad(98,8,.05)])}else if(it.m==='lock')c.push([it.a[0]+.7,'clunk'])});
+  c.sort((a,b)=>a[0]-b[0]);return c}
+/* sound effects are switched off: only the soft music (pad + closing chime) plays */
+['rustle','page','thud','stamp','click','clunk','creak','xs','tick'].forEach(k=>{SF[k]=()=>{}});
+const CUES=typeof CASE_CUES!=='undefined'?CASE_CUES:autoCues();
+let cues=[];
+
+/* ---------- play ---------- */
+const ov=document.getElementById('ov'),ctl=document.getElementById('ctl'),muteB=document.getElementById('mute'),again=document.getElementById('again');
+let t0=0,running=false,raf=0;
+function start(sound){cancelAnimationFrame(raf);if(sound){try{if(!AC)initAudio();AC.resume();muted=false;master.gain.value=.85}catch(e){}}else{try{if(AC)master.gain.value=0}catch(e){}}
+  muteB.style.display=AC&&sound?'':'none';muteB.textContent=sound?'🔊':'🔇';
+  cues=CUES.map(c=>({t:c[0],f:typeof c[1]==='string'?SF[c[1]]:c[1],d:0}));ov.style.display='none';ctl.style.display='flex';again.style.display='none';t0=performance.now();running=true;raf=requestAnimationFrame(loop)}
+let lastR=0,slow=0;
+function setK(k){K=k;cv.width=W*K;cv.height=H*K;ctx=mainCtx;buildBg();LS.clear()}
+function loop(n){if(!running)return;const t=(n-t0)/1000/SC;if(AC&&!muted)cues.forEach(c=>{if(!c.d&&t>=c.t){c.d=1;try{c.f()}catch(e){}}});
+  if(n-lastR>=30||t>=D){lastR=n;const a=performance.now();render(Math.min(t,D));const cost=performance.now()-a;
+    /* a slow machine drops to a lighter picture rather than stuttering */
+    if(cost>20){if(++slow>=12&&K>1){setK(1);slow=0}}else slow=Math.max(0,slow-1)}
+  if(t>=D){running=false;again.style.display='';if(AC&&scratch)scratch.gain.value=0;return}raf=requestAnimationFrame(loop)}
+document.getElementById('go').onclick=()=>start(true);
+document.getElementById('mutego').onclick=()=>start(false);
+again.onclick=()=>start(!!AC&&!muted);
+muteB.onclick=()=>{if(!AC)return;muted=!muted;master.gain.value=muted?0:.85;muteB.textContent=muted?'🔇':'🔊'};
+const q=new URLSearchParams(location.search).get('t');
+const ready=()=>{layout();if(q!==null){ov.style.display='none';render(+q)}else render(0)};
+(document.fonts&&document.fonts.ready?document.fonts.ready:Promise.resolve()).then(ready,ready);
+window.__render=t=>{ov.style.display='none';render(t)};
+})();
+</script></body></html>

@@ -16,6 +16,8 @@ const JM20_ITEMS = [
   sub:"The Bible Investigation Bureau · Department of Unsolved Antiquities",
   prev:"The water came. He was barred from the country anyway. The file is asked why.",
   x:22, y:26, rot:-3, w:216,
+  tour:{href:"../tours/jm20-briefing.html", anim:true, label:"\u2712 Watch the briefing",
+        note:"The Supervisor\u2019s letter, drawn out in forty seconds."},
   body:`
     <p><b>To the investigating team,</b></p>
     <p>A nation is out of water at Kadesh. There is a rock. There is an order. Water comes out of the rock, plentifully, in front of everybody, and the herds drink.</p>

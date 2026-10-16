@@ -16,6 +16,8 @@ const JM10_ITEMS = [
   sub:"The Bible Investigation Bureau · Department of Unsolved Antiquities",
   prev:"Ten disasters in sequence. The question is whether they are one disaster.",
   x:22, y:26, rot:-3, w:216,
+  tour:{href:"../tours/jm10-briefing.html", anim:true, label:"\u2712 Watch the briefing",
+        note:"The Supervisor\u2019s letter, drawn out in forty seconds."},
   body:`
     <p><b>To the investigating team,</b></p>
     <p>Ten separate calamities strike Egypt inside a year: the river ruined, frogs, lice, flies, cattle dead, boils, hail, locusts, three days of darkness, and finally the deaths of the firstborn.</p>

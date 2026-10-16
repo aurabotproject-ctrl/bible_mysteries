@@ -16,6 +16,8 @@ const JM18_ITEMS = [
   sub:"The Bible Investigation Bureau · Department of Unsolved Antiquities",
   prev:"One man against four hundred and fifty — and he keeps handing them advantages.",
   x:22, y:26, rot:-3, w:216,
+  tour:{href:"../tours/jm18-briefing.html", anim:true, label:"\u2712 Watch the briefing",
+        note:"The Supervisor\u2019s letter, drawn out in forty seconds."},
   body:`
     <p><b>To the investigating team,</b></p>
     <p>After three years of drought a national contest is arranged on a mountain top. One prophet on one side; four hundred and fifty on the other. Two altars, one bull each, and a rule agreed in front of the whole country: <b>the god who answers by fire is God.</b></p>

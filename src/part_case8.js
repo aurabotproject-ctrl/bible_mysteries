@@ -16,6 +16,8 @@ const JM05_ITEMS = [
   sub:"The Bible Investigation Bureau · Department of Unsolved Antiquities",
   prev:"Four words on a wall that the cleverest men in the empire could not read.",
   x:22, y:26, rot:-3, w:216,
+  tour:{href:"../tours/jm05-briefing.html", anim:true, label:"\u2712 Watch the briefing",
+        note:"The Supervisor\u2019s letter, drawn out in forty seconds."},
   body:`
     <p><b>To the investigating team,</b></p>
     <p>A thousand nobles at a feast in Babylon. Halfway through the evening the king calls for the gold and silver vessels his grandfather carried out of the temple in Jerusalem, and the whole hall drinks from them.</p>

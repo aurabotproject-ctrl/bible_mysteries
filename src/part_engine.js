@@ -589,7 +589,7 @@ function makeItem(item, isNew){
   // A card that carries a walk-in experience is faintly stained blue, so a
   // student can see at a glance which cards have something to walk into.
   const paper = paperOf(item);
-  const n = el("div","item paper-"+paper+(isNew?" new":"")+(item.tour?" walkin":""));
+  const n = el("div","item paper-"+paper+(isNew?" new":"")+(item.tour&&!item.tour.anim?" walkin":""));
   n.dataset.id = item.id;
   n.style.width = (item.w||200)+"px";
   place(n,p);
@@ -892,13 +892,17 @@ document.addEventListener("keydown", e=>{
    on -- and so a handout file that carries the page inside it works the same
    way as the website, with nothing to fetch. */
 const TOURS = (typeof window !== "undefined" && window.__TOURS__) || {};
-function tourLink(item){
+function tourLink(item, where){
   if(!item.tour) return "";
+  // a briefing animation (tour.anim) sits under the document it summarises,
+  // styled as part of the paper; a walk-in sits above it
+  const after = !!item.tour.anim;
+  if(where && (where==="after") !== after) return "";
   const held = !!TOURS[item.tour.href];
   const btn = held
     ? `<button class="tourbtn" data-tour="${item.id}">${item.tour.label}</button>`
     : `<a class="tourbtn" data-tour="${item.id}" href="${item.tour.href}">${item.tour.label}</a>`;
-  return `<div class="tourbar">${btn}
+  return `<div class="tourbar${after?" anim":""}">${btn}
     <span class="tournote">${item.tour.note || ""}</span></div>`;
 }
 function openTour(item){
@@ -940,8 +944,9 @@ function openItem(item){
     <div class="doc-title">${item.title}</div>
     <div class="doc-sub">${item.sub||""}</div>
     <div class="rule"></div>
-    ${tourLink(item)}
-    <div class="doc-body">${item.body}</div>`, "doc paper-" + paperOf(item));
+    ${tourLink(item,"before")}
+    <div class="doc-body">${item.body}</div>
+    ${tourLink(item,"after")}`, "doc paper-" + paperOf(item));
   wirePlates(o, item.title);
 }
 
@@ -1198,7 +1203,7 @@ function renderBoard(keepScroll){
   const answers = new Set(C.theories.map(t=>t.answer));
   available().filter(i=>!i.notEvidence && answers.has(i.id)).forEach(i=>{
     const ch = el("div","chip"+(used.has(i.id)?" used":"")+(selChip===i.id?" sel":"")
-                        +(readChip===i.id?" reading":"")+(i.tour?" walkin":""), i.title);
+                        +(readChip===i.id?" reading":"")+(i.tour&&!i.tour.anim?" walkin":""), i.title);
     ch.addEventListener("click", ()=>{
       // Reading a piece of evidence is always free. Picking it up to pin
       // only applies while it is still spare.
@@ -1243,8 +1248,9 @@ function drawRailRead(){
       <div class="doc-sub">${item.sub||""}</div>
       ${th ? `<div class="rr-where">Pinned to &ldquo;${th.title}&rdquo;</div>` : ""}
       <div class="rule"></div>
-      ${tourLink(item)}
+      ${tourLink(item,"before")}
       <div class="doc-body">${item.body}</div>
+      ${tourLink(item,"after")}
     </div>`;
   wirePlates(box, item.title);
   box.querySelector(".rr-x").addEventListener("click", ()=>{ readChip = null; renderBoard(); });

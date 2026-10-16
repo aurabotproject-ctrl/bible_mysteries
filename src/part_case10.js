@@ -16,6 +16,8 @@ const JM09_ITEMS = [
   sub:"The Bible Investigation Bureau · Department of Unsolved Antiquities",
   prev:"A treaty signed with a country that turns out to be down the road.",
   x:22, y:26, rot:-3, w:216,
+  tour:{href:"../tours/jm09-briefing.html", anim:true, label:"\u2712 Watch the briefing",
+        note:"The Supervisor\u2019s letter, drawn out in forty seconds."},
   body:`
     <p><b>To the investigating team,</b></p>
     <p>A delegation arrives at the Israelite camp saying they have come from a very distant country, and they have brought their journey with them: split wineskins, a torn sack, sandals worn through and mended, and bread gone dry and crumbling in the bag.</p>

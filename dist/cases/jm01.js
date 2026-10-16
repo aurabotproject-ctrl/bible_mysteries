@@ -32,6 +32,8 @@ const JM01_ITEMS = [
   sub:"The Bible Investigation Bureau · Department of Unsolved Antiquities",
   prev:"The oldest file we hold. Every other case in the archive is somebody else's. This one has your name in it.",
   x:22, y:26, rot:-3, w:220,
+  tour:{href:"../tours/ransom-briefing.html", anim:true, label:"\u2712 Watch the briefing",
+        note:"The Supervisor\u2019s letter, drawn out in forty seconds."},
   body:`
     <p><b>To the investigating team,</b></p>
     <p>Every case in this archive is somebody else's. A stolen bag of silver, a wall that fell the wrong way, four words on a plaster wall. You read them, you weigh them, you file what the evidence will carry, and you go home.</p>

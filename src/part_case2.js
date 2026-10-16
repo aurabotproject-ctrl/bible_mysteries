@@ -29,6 +29,8 @@ const JM47_ITEMS = [
   sub:"The Bible Investigation Bureau · Department of Unsolved Antiquities",
   prev:"Five plans. Five empty ambushes. Somebody is talking.",
   x:24, y:28, rot:-3, w:216,
+  tour:{href:"../tours/jm47-briefing.html", anim:true, label:"\u2712 Watch the briefing",
+        note:"The Supervisor\u2019s letter, drawn out in forty seconds."},
   body:`
     <p><b>To the investigating team,</b></p>
     <p>Aram and Israel are at war. It is the border sort of war — no great battles, just raiding columns sent down out of the hills to catch the other side moving.</p>

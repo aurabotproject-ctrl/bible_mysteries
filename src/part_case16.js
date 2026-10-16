@@ -16,6 +16,8 @@ const JM16_ITEMS = [
   sub:"The Bible Investigation Bureau · Department of Unsolved Antiquities",
   prev:"Every natural explanation fits the data — for six days out of seven.",
   x:22, y:26, rot:-3, w:216,
+  tour:{href:"../tours/jm16-briefing.html", anim:true, label:"\u2712 Watch the briefing",
+        note:"The Supervisor\u2019s letter, drawn out in forty seconds."},
   body:`
     <p><b>To the investigating team,</b></p>
     <p>A substance appears on the ground at dawn in the wilderness. The people gather it, grind it, bake it and live on it. This goes on for <b>forty years</b>.</p>

@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Bench Three — The Delegation's Kit</title>
+<style>
+:root{
+  --ink:#2e2419; --ink-soft:#5b4a35; --paper:#efe3cb; --paper-2:#e4d5b7;
+  --brass:#c9a227; --brass-hi:#f0cf6a; --brass-lo:#7a5c16;
+  --ox:#8c2f1f; --ok:#3f7d4e;
+  --serif:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif;
+  --ui:"Avenir Next",Avenir,"Segoe UI",system-ui,sans-serif;
+  --hand:"Bradley Hand","Segoe Print","Comic Sans MS",cursive;
+  --type:"American Typewriter","Courier New",Courier,monospace;
+}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%;overflow:hidden;background:#0d0906;color:#f0e6d6;font-family:var(--ui);
+  -webkit-user-select:none;user-select:none;-webkit-touch-callout:none;overscroll-behavior:none;-webkit-tap-highlight-color:transparent}
+button{font-family:inherit;cursor:pointer}
+
+/* ---------- the room ---------- */
+#room{position:fixed;inset:0;display:grid;grid-template-columns:1fr 330px;grid-template-rows:auto 1fr auto;
+  background:radial-gradient(ellipse 70% 60% at 42% 45%, #3b2718, #150e09 75%)}
+#head{grid-column:1/3;display:flex;align-items:center;gap:14px;padding:12px 18px;
+  background:linear-gradient(#2b1d14,#1a110b);box-shadow:0 1px 0 #5a4230,0 8px 20px rgba(0,0,0,.5);z-index:5}
+#head .k{font-family:var(--type);font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:#b89a6a}
+#head h1{margin:2px 0 0;font-family:var(--serif);font-size:20px;font-weight:700;color:#f6e7c8}
+#head .sp{flex:1}
+#prog{display:flex;align-items:center;gap:10px;font-size:12px;color:#cdb68f;font-weight:700}
+#prog .bar{width:150px;height:8px;border-radius:99px;background:#3a2a1c;overflow:hidden;box-shadow:inset 0 1px 2px rgba(0,0,0,.6)}
+#prog .bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,#c98d2a,var(--brass-hi));transition:width .5s}
+.hbtn{min-width:44px;min-height:44px;border-radius:12px;border:1px solid #6b5238;background:linear-gradient(#45311f,#33241a);color:#e9dcc4;font-size:18px}
+
+/* ---------- the bench ---------- */
+#benchWrap{grid-column:1;grid-row:2;position:relative;overflow:hidden;display:grid;place-items:center;padding:14px}
+#bench{position:relative;aspect-ratio:1536/1024;width:min(100%, calc((100vh - 170px) * 1.5));
+  border-radius:10px;box-shadow:0 30px 70px rgba(0,0,0,.7), 0 0 0 1px rgba(255,220,170,.08);touch-action:none}
+#bench > svg.plate{position:absolute;inset:0;width:100%;height:100%;display:block;border-radius:10px}
+#lamp{position:absolute;inset:0;pointer-events:none;border-radius:10px;
+  background:radial-gradient(ellipse 65% 70% at 50% 40%, rgba(255,210,140,.14), transparent 60%),
+             radial-gradient(ellipse at 50% 50%, transparent 55%, rgba(10,6,3,.55));
+  animation:flicker 7s ease-in-out infinite}
+@keyframes flicker{0%,100%{opacity:1}46%{opacity:.85}48%{opacity:1}52%{opacity:.9}}
+#fx{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+.zone{position:absolute;border-radius:18px;transition:box-shadow .25s, background .25s}
+body.t-hand .zone,body.t-nose .zone{cursor:pointer}
+body.t-hand .zone:hover,body.t-nose .zone:hover{box-shadow:0 0 0 3px rgba(240,207,106,.55) inset;background:rgba(255,220,150,.05)}
+.zone.done-hand::after,.zone.done-nose::after{content:"";position:absolute}
+.hs{position:absolute;width:26px;height:26px;margin:-13px 0 0 -13px;border-radius:50%;pointer-events:none;
+  border:2px solid rgba(240,207,106,.9);box-shadow:0 0 12px rgba(240,207,106,.6);opacity:0;transition:opacity .3s}
+body.t-loupe .hs{opacity:1}
+body.t-loupe .hs:not(.found)::before{content:"";position:absolute;inset:-2px;border-radius:50%;border:2px solid rgba(240,207,106,.9);animation:ping 1.8s ease-out infinite}
+.hs.found{border-color:#8fd3a3;box-shadow:0 0 10px rgba(143,211,163,.7);background:rgba(20,40,25,.55)}
+.hs.found::after{content:"✓";position:absolute;inset:0;display:grid;place-items:center;color:#8fd3a3;font-weight:900;font-size:13px}
+@keyframes ping{0%{transform:scale(.6);opacity:1}100%{transform:scale(1.6);opacity:0}}
+.lift{position:absolute;pointer-events:none;background-repeat:no-repeat;border-radius:14px;z-index:3;
+  filter:drop-shadow(0 20px 20px rgba(0,0,0,.6))}
+
+/* the loupe */
+#loupe{position:absolute;width:210px;height:210px;margin:-105px 0 0 -105px;border-radius:50%;pointer-events:none;
+  display:none;z-index:6}
+#loupe .glass{position:absolute;inset:0;border-radius:50%;overflow:hidden;background:#2b1d14;
+  box-shadow:inset 0 0 30px rgba(0,0,0,.55), inset 0 0 0 2px rgba(255,255,255,.25)}
+#loupe .glass svg{position:absolute;left:0;top:0;transform-origin:0 0}
+#loupe .glass::after{content:"";position:absolute;inset:0;border-radius:50%;
+  background:radial-gradient(circle at 32% 26%, rgba(255,255,255,.35), transparent 28%), radial-gradient(circle at 50% 50%, transparent 62%, rgba(0,0,0,.35))}
+#loupe .rim{position:absolute;inset:-12px;border-radius:50%;
+  background:conic-gradient(from 30deg,#f6dd8a,#8a6a1c,#f0cf6a,#6e5314,#e9c35a,#8a6a1c,#f6dd8a);
+  -webkit-mask:radial-gradient(circle, transparent 104px, #000 105px);mask:radial-gradient(circle, transparent 104px, #000 105px);
+  box-shadow:0 14px 30px rgba(0,0,0,.6)}
+#loupe .handle{position:absolute;width:26px;height:120px;left:170px;top:170px;transform-origin:50% 0;transform:rotate(-45deg);
+  border-radius:12px;background:linear-gradient(90deg,#3b2415,#6b4428 45%,#2a190e);box-shadow:0 12px 20px rgba(0,0,0,.5)}
+#loupe .cross{position:absolute;left:50%;top:50%;width:14px;height:14px;margin:-7px;border-radius:50%;border:1.5px solid rgba(255,240,200,.6)}
+
+/* callouts */
+#note{position:absolute;z-index:8;max-width:300px;background:var(--paper);color:var(--ink);border-radius:6px;padding:12px 14px 12px;
+  box-shadow:0 18px 36px rgba(0,0,0,.55);font-family:var(--serif);font-size:15px;line-height:1.45;pointer-events:none;
+  opacity:0;transform:translateY(8px) rotate(-1deg);transition:opacity .25s, transform .3s}
+#note.on{opacity:1;transform:none}
+#note .nk{font-family:var(--type);font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--ox);font-weight:700}
+#note b{color:#1f170f}
+#note::before{content:"";position:absolute;top:-8px;left:28px;width:60px;height:16px;background:rgba(240,230,200,.6);transform:rotate(-3deg)}
+
+/* ---------- the tool tray ---------- */
+#tray{grid-column:1;grid-row:3;display:flex;justify-content:center;gap:12px;padding:10px 14px 16px;flex-wrap:wrap}
+.tool{display:flex;align-items:center;gap:10px;min-height:60px;padding:8px 18px 8px 10px;border-radius:16px;
+  border:1px solid #6b5238;background:linear-gradient(#45311f,#2c1f15);color:#efe0c2;text-align:left;
+  box-shadow:inset 0 1px 0 rgba(255,220,170,.1), 0 4px 0 rgba(0,0,0,.4);transition:transform .15s, background .2s, border-color .2s}
+.tool .ic{width:44px;height:44px;border-radius:12px;display:grid;place-items:center;font-size:24px;background:rgba(0,0,0,.25)}
+.tool b{display:block;font-size:15px}
+.tool span{display:block;font-size:11.5px;color:#b89a6a}
+.tool:hover{transform:translateY(-2px);border-color:var(--brass)}
+.tool.on{background:linear-gradient(var(--brass-hi),#b38a26);color:#2a1c0c;border-color:#fbe3a0;box-shadow:0 0 0 3px rgba(240,207,106,.25), 0 4px 0 #6e5314}
+.tool.on span{color:#4a3510}
+.tool.on .ic{background:rgba(255,255,255,.3)}
+.tool kbd{font-family:var(--ui);font-size:10px;border:1px solid currentColor;border-radius:4px;padding:0 4px;opacity:.6;margin-left:4px}
+@media (pointer:coarse){ .tool kbd{display:none} }
+#hint{position:absolute;left:50%;bottom:10px;transform:translateX(-50%);z-index:4;background:rgba(20,13,8,.85);border:1px solid #5a4230;
+  color:#e6d2ae;border-radius:99px;padding:8px 16px;font-size:13px;white-space:nowrap;pointer-events:none;max-width:94%;overflow:hidden;text-overflow:ellipsis}
+
+/* ---------- the notebook ---------- */
+#book{grid-column:2;grid-row:2/4;margin:14px 14px 16px 0;border-radius:6px;position:relative;overflow:auto;
+  background:
+    linear-gradient(90deg, transparent 38px, rgba(160,60,40,.35) 38px 40px, transparent 40px),
+    repeating-linear-gradient(180deg, transparent 0 27px, rgba(80,120,160,.22) 27px 28px),
+    linear-gradient(#f7eed9,#ecdfc2);
+  color:var(--ink);box-shadow:0 24px 50px rgba(0,0,0,.6);padding:18px 16px 18px 52px}
+#book h2{margin:0;font-family:var(--serif);font-size:20px}
+#book .bk{font-family:var(--type);font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--ox)}
+#book p.lead{font-size:12.5px;line-height:1.5;color:var(--ink-soft);margin:6px 0 10px}
+.it{margin:0 0 12px}
+.it h3{margin:0 0 4px;font-family:var(--serif);font-size:15.5px;display:flex;align-items:center;gap:6px}
+.it h3 .cnt{margin-left:auto;font-family:var(--ui);font-size:11px;color:#8a7452;font-weight:700}
+.obs{display:grid;grid-template-columns:78px 1fr;gap:1px 8px;font-size:12px;line-height:28px}
+.obs dt{color:#8a7452;font-weight:700;font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;line-height:28px;white-space:nowrap}
+.obs dd{margin:0;font-family:var(--hand);font-size:15px;color:#1c3d6b;line-height:28px;min-height:28px}
+.obs dd.empty{font-family:var(--ui);font-size:11px;color:#b3a283;font-style:italic}
+.obs dd.new{animation:write .8s ease-out both}
+@keyframes write{from{clip-path:inset(0 100% 0 0)}to{clip-path:inset(0 0 0 0)}}
+.genuine{font-size:11.5px;line-height:1.45;color:#6b5636;background:rgba(255,255,255,.45);border-left:3px solid var(--ok);padding:5px 8px;margin-top:4px;border-radius:0 4px 4px 0;display:none}
+.it.opened .genuine{display:block}
+#askBtn{width:100%;margin-top:6px;min-height:52px;border:0;border-radius:10px;font-weight:800;font-size:15px;color:#fff;
+  background:linear-gradient(#a53a26,#7c2616);box-shadow:0 4px 0 #4d160c;display:none}
+#askBtn.on{display:block;animation:pulse 1.6s ease-in-out infinite}
+@keyframes pulse{50%{box-shadow:0 4px 0 #4d160c, 0 0 0 8px rgba(165,58,38,.25)}}
+#bookClose{display:none}
+
+/* ---------- overlays ---------- */
+.ov{position:fixed;inset:0;z-index:50;display:grid;place-items:center;padding:18px;
+  background:radial-gradient(ellipse at 50% 40%, rgba(40,26,14,.82), rgba(8,5,3,.94));animation:fade .3s both}
+@keyframes fade{from{opacity:0}}
+.card{max-width:620px;width:100%;background:var(--paper);color:var(--ink);border-radius:6px;padding:30px 34px;position:relative;
+  box-shadow:0 40px 90px rgba(0,0,0,.75);animation:pop .45s cubic-bezier(.2,1.3,.35,1) both;max-height:92vh;overflow:auto}
+@keyframes pop{from{transform:translateY(24px) rotate(-1.5deg) scale(.95);opacity:0}}
+.card .k{font-family:var(--type);font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:var(--ox);font-weight:700}
+.card h2{font-family:var(--serif);font-size:30px;margin:6px 0 10px;line-height:1.1}
+.card p{font-family:var(--serif);font-size:16px;line-height:1.6;margin:0 0 12px}
+.card .tools3{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:14px 0 18px}
+.card .tools3 div{background:rgba(255,255,255,.5);border:1px solid rgba(90,65,35,.25);border-radius:10px;padding:10px;text-align:center;font-size:12.5px;line-height:1.35}
+.card .tools3 div b{display:block;font-size:26px;margin-bottom:4px}
+.go{min-height:52px;border:0;border-radius:12px;padding:0 26px;font-size:16px;font-weight:800;color:#fff;
+  background:linear-gradient(#a53a26,#7c2616);box-shadow:0 4px 0 #4d160c}
+.go.ghost{background:transparent;color:var(--ink);border:2px solid rgba(90,65,35,.4);box-shadow:none}
+.stamp{display:inline-block;border:3px double rgba(140,47,31,.8);color:rgba(140,47,31,.9);padding:4px 12px;border-radius:4px;
+  font-family:var(--type);font-weight:900;letter-spacing:.18em;font-size:12px;transform:rotate(-5deg)}
+#finale .card{max-width:860px;padding:26px 28px}
+#finale .mapbox{position:relative;border-radius:6px;overflow:hidden;margin:6px 0 14px;box-shadow:inset 0 0 30px rgba(0,0,0,.3);aspect-ratio:1536/1024}
+#finale .mapbox svg{position:absolute;inset:0;width:100%;height:100%;transform-origin:78% 18%;animation:zoomOut 4.5s 1s cubic-bezier(.3,.1,.2,1) both}
+@keyframes zoomOut{from{transform:scale(3.2)}to{transform:scale(1)}}
+#finale .ask{font-family:var(--serif);font-size:30px;text-align:center;margin:4px 0 8px;font-style:italic}
+#finale .ask span{background:linear-gradient(transparent 62%, rgba(240,207,106,.6) 62%)}
+.walk{position:absolute;left:0;right:0;bottom:10px;text-align:center;font-family:var(--type);font-size:14px;color:#fff;
+  text-shadow:0 2px 8px rgba(0,0,0,.9);letter-spacing:.08em;opacity:0;animation:fade .8s 5.2s forwards;animation-direction:reverse}
+.walk{animation:show .8s 5.2s forwards}
+@keyframes show{to{opacity:1}}
+
+/* ---------- narrow screens: notebook becomes a drawer ---------- */
+@media (max-width:900px){
+  #room{grid-template-columns:1fr}
+  #book{position:fixed;left:10px;right:10px;bottom:10px;top:30%;margin:0;z-index:30;transform:translateY(110%);transition:transform .35s cubic-bezier(.2,.9,.3,1)}
+  #book.open{transform:none}
+  #bookClose{display:block;position:sticky;top:0;float:right;margin:-6px -6px 0 0;min-width:44px;min-height:44px;border-radius:50%;border:0;background:#2e2419;color:#f0e2c6;font-size:18px}
+  #bookBtn{display:inline-grid!important;place-items:center}
+  #prog .bar{width:80px}
+  #head h1{font-size:16px}
+  .tool{min-height:54px;padding:6px 12px 6px 8px}
+  .tool span{display:none}
+  #bench{width:min(100%, calc((100vh - 200px) * 1.5))}
+}
+@media (max-width:520px){ #prog .lbl{display:none} #head .k{display:none} }
+@media (prefers-reduced-motion: reduce){ *{animation:none!important;transition:none!important} }
+</style>
+</head>
+<body class="t-loupe">
+<div id="room">
+  <div id="head">
+    <div><div class="k">B.I.B. · Bench Three · Case JM-09</div><h1>The Delegation's Kit</h1></div>
+    <div class="sp"></div>
+    <div id="prog"><span class="lbl">Observations</span><div class="bar"><i></i></div><span id="progN">0/16</span></div>
+    <button class="hbtn" id="bookBtn" style="display:none" aria-label="Open the notebook">📓</button>
+    <button class="hbtn" id="muteBtn" aria-label="Sound on or off">🔊</button>
+    <button class="hbtn" id="helpBtn" aria-label="How this bench works">?</button>
+  </div>
+
+  <div id="benchWrap">
+    <div id="bench">
+      __PROPS__
+      <div id="lamp"></div>
+      <div id="zones"></div>
+      <canvas id="fx"></canvas>
+      <div id="loupe"><div class="rim"></div><div class="handle"></div><div class="glass"></div><div class="cross"></div></div>
+      <div id="note"></div>
+    </div>
+    <div id="hint">Drag the magnifying glass over the kit</div>
+  </div>
+
+  <div id="tray">
+    <button class="tool on" data-tool="loupe"><span class="ic">🔍</span><div><b>Magnifying glass <kbd>1</kbd></b><span>Where is the damage? How old is the mending?</span></div></button>
+    <button class="tool" data-tool="hand"><span class="ic">✋</span><div><b>Hands <kbd>2</kbd></b><span>Bend it, tug it, snap it</span></div></button>
+    <button class="tool" data-tool="nose"><span class="ic">👃</span><div><b>Smell <kbd>3</kbd></b><span>Press and hold on an item</span></div></button>
+  </div>
+
+  <aside id="book">
+    <button id="bookClose" aria-label="Close the notebook">✕</button>
+    <div class="bk">Inspector's notebook</div>
+    <h2>Observations</h2>
+    <p class="lead">Write down only what the kit shows you. What it <i>means</i> is for the 🔍 Object study, back on the desk.</p>
+    <div id="items"></div>
+    <button id="askBtn">Ask the question nobody asked →</button>
+  </aside>
+</div>
+
+<div class="ov" id="intro">
+  <div class="card">
+    <div class="k">Bench Three · Examination room</div>
+    <h2>The delegation's kit</h2>
+    <p>Everything the men from the "very far country" carried is on the bench in front of you: the sacks, the wineskins, the sandals and the bread. Israel's leaders looked at all of this and believed it.</p>
+    <p><b>Look harder than they did.</b> Every item gets the same four checks, and every check goes in your notebook.</p>
+    <div class="tools3">
+      <div><b>🔍</b>Slide the glass over each item. Find the <i>damage</i> and the <i>mending</i>.</div>
+      <div><b>✋</b>Tap an item to handle it — is it really dried out?</div>
+      <div><b>👃</b>Press and hold on an item to smell it.</div>
+    </div>
+    <button class="go" id="startBtn">Start the examination</button>
+  </div>
+</div>
+
+<div class="ov" id="finale" style="display:none">
+  <div class="card">
+    <div class="k">Sixteen observations · one question</div>
+    <div class="ask">"<span>Which country?</span>"</div>
+    <p style="text-align:center;margin-bottom:6px">Two words. Nobody at the camp said them. If they had, the delegation would have had to name a place — and every place near enough to be named is on this plan.</p>
+    <div class="mapbox">__MAP__<div class="walk">Gibeon · about a day's walk from the camp</div></div>
+    <p>"So the men took some of their provisions, <b>and did not ask counsel of the LORD.</b>" — Joshua 9:14</p>
+    <p>Your notebook is full. Now take it to the <b>🔍 Object study</b> on the desk and be strict: tick a test only where an item truly passes it.</p>
+    <div style="display:flex;gap:10px;flex-wrap:wrap"><button class="go" id="backBench">Back to the bench</button> <span class="stamp" style="align-self:center;margin-left:auto">Examined by the Bureau</span></div>
+  </div>
+</div>
+
+<script>
+(function(){
+"use strict";
+/* ---------- the four items, in image coordinates (1536 x 1024) ---------- */
+const W = 1536, H = 1024;
+const ITEMS = [
+  { id:"sack", name:"The sacks", icon:"🧺", box:[20,30,470,720],
+    genuine:"Genuinely old sacks wear thin along the folds and hole where they rub the shoulder.",
+    spots:[
+      {test:"place", x:425, y:252, head:"The torn mouth", text:"Frayed at the mouth — but the weave right beside it is <b>tight and unworn</b>. Nothing is thin along the folds.", obs:"torn mid-cloth; folds unworn"},
+      {test:"age",   x:205, y:455, head:"The drawstring", text:"The tie cord is <b>bright and stiff</b>, with crisp ends. Months of knotting would have frayed it soft.", obs:"cord bright & new"}
+    ],
+    hand:{kind:"tug", text:"You tug the cloth hard. It is <b>strong and sound</b> — not dried out or brittle anywhere.", obs:"strong, not brittle"},
+    nose:{text:"Grain, dust — and the <b>clean smell of new hemp</b>.", obs:"new hemp", scent:"#d8c79a"}
+  },
+  { id:"skin", name:"The wineskins", icon:"🍷", box:[480,140,1060,610],
+    genuine:"Old skins go stiff and dark, and crack at the neck where hands hold them.",
+    spots:[
+      {test:"place", x:905, y:420, head:"The split", text:"Split <b>straight down a seam</b>. The neck — where a skin is actually handled — is unmarked.", obs:"split along seam, neck fine"},
+      {test:"age",   x:565, y:420, head:"The lacing", text:"Laced up with <b>pale new cord</b>, knots still sharp. The mending is younger than the damage.", obs:"pale cord, sharp knots"}
+    ],
+    hand:{kind:"bend", text:"You squeeze and bend it. The leather is <b>soft and supple</b>. An old skin would be stiff and cracking.", obs:"supple, not stiff"},
+    nose:{text:"Wine — and <b>fresh pitch</b> on the new lacing.", obs:"wine & fresh pitch", scent:"#b0506a"}
+  },
+  { id:"shoe", name:"The sandals", icon:"👡", box:[1080,150,1505,660],
+    genuine:"Sandals walked for months wear through at the ball of the foot; their mending darkens with wear.",
+    spots:[
+      {test:"place", x:1185, y:520, head:"The sole", text:"The sole is <b>thick and even</b>. No hollow at the ball of the foot, no heel worn down.", obs:"sole thick, no hollow"},
+      {test:"age",   x:1390, y:330, head:"The stitching", text:"The stitches are <b>pale and clean</b> — not darkened by a single day's walking.", obs:"stitches pale & clean"}
+    ],
+    hand:{kind:"flex", text:"You flex the sole. It springs straight back — <b>soft new leather</b> under the dust.", obs:"springy new leather"},
+    nose:{text:"<b>New leather</b>, and a little dust rubbed on top.", obs:"new leather", scent:"#a57a4a"}
+  },
+  { id:"bread", name:"The bread", icon:"🍞", box:[555,600,1010,915],
+    genuine:"Bread weeks on the road goes hard and grey-green, and smells of mould.",
+    spots:[
+      {test:"place", x:815, y:775, head:"The breaks", text:"Clean, fresh breaks — <b>broken in the bag</b>, not by age. Crumbs still sharp-edged.", obs:"clean fresh breaks"},
+      {test:"age",   x:700, y:700, head:"The brown spots", text:"Those spots are <b>oven marks</b>, not mould. No green, no grey, no fuzz anywhere. Nothing has been mended — bread cannot be.", obs:"oven marks, no mould growth"}
+    ],
+    hand:{kind:"snap", text:"<b>Snap!</b> It breaks with a crack and crumbles to dust. This bread really <b>is</b> dried out.", obs:"snaps & crumbles — truly dry"},
+    nose:{text:"Toasted wheat… and <b>nothing else at all</b>. No sourness. Not the faintest musty smell.", obs:"wheat only — no mould smell", scent:"#e7d3a0"}
+  }
+];
+const TESTS = [
+  {id:"place", label:"Damage"},
+  {id:"age",   label:"Mending"},
+  {id:"dry",   label:"Handled"},
+  {id:"smell", label:"Smell"}
+];
+const TOTAL = ITEMS.length * TESTS.length;
+const KEY = "bib-gibeon-bench";
+let found = {};
+try{ found = JSON.parse(localStorage.getItem(KEY) || "{}") || {}; }catch(e){ found = {}; }
+const saveFound = ()=>{ try{ localStorage.setItem(KEY, JSON.stringify(found)); }catch(e){} };
+
+const $ = s => document.querySelector(s);
+const bench = $("#bench"), fx = $("#fx"), ctx = fx.getContext("2d"), loupe = $("#loupe"), note = $("#note");
+const plate = bench.querySelector("svg.plate");
+const glass = loupe.querySelector(".glass");
+const glassSvg = plate.cloneNode(true); glassSvg.removeAttribute("class"); glass.appendChild(glassSvg);
+let tool = "loupe";
+
+/* ---------- sound: tiny synthesised effects, no files ---------- */
+let AC = null, muted = false;
+function ac(){ if(!AC){ try{ AC = new (window.AudioContext||window.webkitAudioContext)(); }catch(e){} } if(AC && AC.state==="suspended") AC.resume(); return AC; }
+function noise(dur, freq, q, gain, type){
+  if(muted) return; const a = ac(); if(!a) return;
+  const len = Math.floor(a.sampleRate*dur), buf = a.createBuffer(1,len,a.sampleRate), d = buf.getChannelData(0);
+  for(let i=0;i<len;i++){ d[i] = (Math.random()*2-1) * Math.pow(1-i/len, type==="crack"?6:1.4); }
+  const s = a.createBufferSource(); s.buffer = buf;
+  const f = a.createBiquadFilter(); f.type = "bandpass"; f.frequency.value = freq; f.Q.value = q;
+  const g = a.createGain(); g.gain.value = gain;
+  s.connect(f); f.connect(g); g.connect(a.destination); s.start();
+}
+function tone(f1,f2,dur,gain){
+  if(muted) return; const a = ac(); if(!a) return;
+  const o = a.createOscillator(), g = a.createGain(); o.type="sine";
+  o.frequency.setValueAtTime(f1,a.currentTime); o.frequency.exponentialRampToValueAtTime(f2,a.currentTime+dur);
+  g.gain.setValueAtTime(gain,a.currentTime); g.gain.exponentialRampToValueAtTime(.0001,a.currentTime+dur);
+  o.connect(g); g.connect(a.destination); o.start(); o.stop(a.currentTime+dur);
+}
+const SFX = {
+  find(){ tone(880,1320,.25,.06); setTimeout(()=>tone(1320,1760,.3,.05),90); },
+  pen(){ for(let i=0;i<5;i++) setTimeout(()=>noise(.05,3200,2,.05),i*60); },
+  tug(){ noise(.35,900,.8,.25); }, bend(){ noise(.5,320,3,.35); tone(140,90,.4,.05); },
+  flex(){ noise(.3,500,4,.25); }, snap(){ noise(.12,2400,.7,.9,"crack"); setTimeout(()=>noise(.4,5000,.5,.12),80); },
+  sniff(){ noise(.55,1800,.6,.12); }
+};
+
+/* ---------- geometry ---------- */
+function rect(){ return bench.getBoundingClientRect(); }
+function toImg(cx,cy){ const r = rect(); return {x:(cx-r.left)/r.width*W, y:(cy-r.top)/r.height*H}; }
+function toPx(x,y){ const r = rect(); return {x:x/W*r.width, y:y/H*r.height}; }
+function itemAt(x,y){ return ITEMS.find(it=>x>=it.box[0]&&x<=it.box[2]&&y>=it.box[1]&&y<=it.box[3]); }
+function sizeFx(){ const r = rect(), d = Math.min(2, window.devicePixelRatio||1);
+  fx.width = r.width*d; fx.height = r.height*d; ctx.setTransform(d,0,0,d,0,0); layoutZones(); }
+
+/* ---------- zones and hotspots ---------- */
+const zones = $("#zones");
+function layoutZones(){
+  zones.innerHTML = "";
+  ITEMS.forEach(it=>{
+    const z = document.createElement("div"); z.className = "zone"; z.dataset.id = it.id;
+    Object.assign(z.style,{left:it.box[0]/W*100+"%",top:it.box[1]/H*100+"%",width:(it.box[2]-it.box[0])/W*100+"%",height:(it.box[3]-it.box[1])/H*100+"%"});
+    zones.appendChild(z);
+    it.spots.forEach(s=>{
+      const h = document.createElement("div"); h.className = "hs"+(found[it.id+"|"+s.test]?" found":"");
+      h.style.left = s.x/W*100+"%"; h.style.top = s.y/H*100+"%"; h.dataset.k = it.id+"|"+s.test;
+      zones.appendChild(h);
+    });
+  });
+}
+
+/* ---------- the notebook ---------- */
+function drawBook(fresh){
+  $("#items").innerHTML = ITEMS.map(it=>{
+    const n = TESTS.filter(t=>found[it.id+"|"+t.id]).length;
+    return `<div class="it ${n?"opened":""}"><h3>${it.icon} ${it.name}<span class="cnt">${n}/4</span></h3>
+      <dl class="obs">${TESTS.map(t=>{ const v = found[it.id+"|"+t.id];
+        return `<dt>${t.label}</dt><dd class="${v?"":"empty"} ${fresh===it.id+"|"+t.id?"new":""}">${v || "not yet checked"}</dd>`; }).join("")}</dl>
+      <div class="genuine"><b>Genuinely old:</b> ${it.genuine}</div></div>`;
+  }).join("");
+  const n = Object.keys(found).length;
+  $("#prog .bar i").style.width = (n/TOTAL*100)+"%"; $("#progN").textContent = n+"/"+TOTAL;
+  $("#askBtn").classList.toggle("on", n >= TOTAL);
+}
+function record(itemId, test, obs){
+  const k = itemId+"|"+test;
+  if(found[k]) return false;
+  found[k] = obs; saveFound();
+  drawBook(k); SFX.pen();
+  const h = zones.querySelector(`.hs[data-k="${k}"]`); if(h) h.classList.add("found");
+  if(Object.keys(found).length >= TOTAL) setTimeout(()=>{ hint("Notebook full. Ask the question nobody asked."); openBook(); }, 1600);
+  return true;
+}
+
+/* ---------- callout note ---------- */
+let noteT = null;
+function showNote(kicker, html, x, y){
+  note.innerHTML = `<div class="nk">${kicker}</div>${html}`;
+  const r = rect(), p = toPx(x,y), w = Math.min(300, r.width*.7);
+  note.style.maxWidth = w+"px";
+  const gap = tool==="loupe" ? 135 : 30;
+  let left = p.x < r.width/2 ? p.x + gap : p.x - w - gap, top = p.y - 60;
+  if(left + w > r.width - 8) left = r.width - w - 8;
+  left = Math.max(8, left); top = Math.max(8, Math.min(top, r.height - 150));
+  note.style.left = left+"px"; note.style.top = top+"px";
+  note.classList.add("on"); clearTimeout(noteT);
+  noteT = setTimeout(()=>note.classList.remove("on"), 5200);
+}
+function hint(t){ $("#hint").textContent = t; }
+
+/* ---------- tools ---------- */
+const HINTS = {
+  loupe:"Drag the magnifying glass over the kit — the gold rings mark where to look",
+  hand:"Tap an item to pick it up and handle it",
+  nose:"Press and hold on an item to smell it"
+};
+function setTool(t){
+  tool = t; document.body.className = "t-"+t;
+  document.querySelectorAll(".tool").forEach(b=>b.classList.toggle("on", b.dataset.tool===t));
+  loupe.style.display = "none"; hint(HINTS[t]);
+}
+document.querySelectorAll(".tool").forEach(b=>b.addEventListener("click", ()=>{ ac(); setTool(b.dataset.tool); }));
+document.addEventListener("keydown", e=>{
+  if(e.key==="1") setTool("loupe"); if(e.key==="2") setTool("hand"); if(e.key==="3") setTool("nose");
+});
+
+/* loupe */
+const ZOOM = 2.6;
+let dwellKey = null, dwellT = null;
+function moveLoupe(cx, cy, touch){
+  if(touch) cy -= 95;   /* lift the glass above the finger so the finger does not hide it */
+  const r = rect(); const px = cx - r.left, py = cy - r.top;
+  loupe.style.display = "block"; loupe.style.left = px+"px"; loupe.style.top = py+"px";
+  glassSvg.style.width = r.width*ZOOM+"px"; glassSvg.style.height = r.height*ZOOM+"px";
+  glassSvg.style.transform = `translate(${105 - px*ZOOM}px, ${105 - py*ZOOM}px)`;
+  const p = toImg(cx, cy);
+  let hit = null;
+  ITEMS.forEach(it=>it.spots.forEach(s=>{ if(Math.hypot(s.x-p.x, s.y-p.y) < 58) hit = {it, s}; }));
+  const k = hit ? hit.it.id+"|"+hit.s.test : null;
+  if(k !== dwellKey){
+    dwellKey = k; clearTimeout(dwellT);
+    if(hit) dwellT = setTimeout(()=>{
+      const isNew = record(hit.it.id, hit.s.test, hit.s.obs);
+      if(isNew) SFX.find();
+      showNote(`${hit.it.name} · ${hit.s.head}`, hit.s.text, hit.s.x, hit.s.y);
+    }, 380);
+  }
+}
+
+/* particles */
+let parts = [];
+function burst(x, y, n, colour, kind){
+  const p = toPx(x,y);
+  for(let i=0;i<n;i++){
+    if(kind==="scent") parts.push({x:p.x+(Math.random()-.5)*60, y:p.y+(Math.random()-.5)*30, vx:(Math.random()-.5)*.4, vy:-.6-Math.random()*.8, r:8+Math.random()*16, life:1, dec:.006+Math.random()*.006, c:colour, kind, ph:Math.random()*6});
+    else parts.push({x:p.x, y:p.y, vx:(Math.random()-.5)*9, vy:-Math.random()*8-2, r:1.5+Math.random()*3.5, life:1, dec:.012+Math.random()*.01, c:colour, kind, rot:Math.random()*6});
+  }
+}
+function frame(){
+  const r = rect(); ctx.clearRect(0,0,r.width,r.height);
+  parts = parts.filter(q=>q.life>0);
+  parts.forEach(q=>{
+    q.life -= q.dec;
+    if(q.kind==="scent"){
+      q.ph += .05; q.x += q.vx + Math.sin(q.ph)*.6; q.y += q.vy; q.r += .25;
+      const g = ctx.createRadialGradient(q.x,q.y,0,q.x,q.y,q.r);
+      g.addColorStop(0, hexA(q.c, .28*q.life)); g.addColorStop(1, hexA(q.c, 0));
+      ctx.fillStyle = g; ctx.beginPath(); ctx.arc(q.x,q.y,q.r,0,7); ctx.fill();
+    } else {
+      q.vy += .35; q.x += q.vx; q.y += q.vy; q.rot += .2;
+      ctx.save(); ctx.translate(q.x,q.y); ctx.rotate(q.rot); ctx.globalAlpha = Math.max(0,q.life);
+      ctx.fillStyle = q.c; ctx.fillRect(-q.r,-q.r*.7,q.r*2,q.r*1.4); ctx.restore();
+    }
+  });
+  requestAnimationFrame(frame);
+}
+function hexA(hex, a){ const n = parseInt(hex.slice(1),16); return `rgba(${n>>16&255},${n>>8&255},${n&255},${a})`; }
+
+/* lift a copy of an item off the bench and animate it */
+function lift(it, anim, dur){
+  const r = rect(), b = it.box;
+  const el = document.createElement("div"); el.className = "lift";
+  const w = (b[2]-b[0])/W*r.width, h = (b[3]-b[1])/H*r.height;
+  Object.assign(el.style,{left:b[0]/W*r.width+"px", top:b[1]/H*r.height+"px", width:w+"px", height:h+"px"});
+  const svg = plate.cloneNode(true); svg.removeAttribute("class");
+  Object.assign(svg.style,{position:"absolute", width:r.width+"px", height:r.height+"px", left:-b[0]/W*r.width+"px", top:-b[1]/H*r.height+"px"});
+  el.appendChild(svg); el.style.overflow = "hidden";
+  el.style.maskImage = el.style.webkitMaskImage = "radial-gradient(ellipse at center, #000 58%, transparent 74%)";
+  bench.appendChild(el);
+  const a = el.animate(anim, {duration:dur, easing:"cubic-bezier(.3,.8,.3,1)"});
+  a.onfinish = ()=>el.remove();
+}
+const HAND_ANIM = {
+  tug:  [{transform:"none"},{transform:"translateY(-18px) scale(1.06)"},{transform:"translateY(-18px) scale(1.12,1.02)"},{transform:"translateY(-18px) scale(1.04,1.06)"},{transform:"none"}],
+  bend: [{transform:"none"},{transform:"translateY(-20px) scale(1.06)"},{transform:"translateY(-20px) scale(1.06) skewX(9deg)"},{transform:"translateY(-20px) scale(1.06) skewX(-9deg)"},{transform:"none"}],
+  flex: [{transform:"none"},{transform:"translateY(-20px) scale(1.05)"},{transform:"translateY(-20px) perspective(500px) rotateX(28deg) scale(1.05)"},{transform:"translateY(-20px) scale(1.05)"},{transform:"none"}],
+  snap: [{transform:"none"},{transform:"translateY(-16px) scale(1.05)"},{transform:"translateY(-16px) scale(1.05) rotate(-3deg)"},{transform:"translateY(-10px) scale(1.02) rotate(4deg)"},{transform:"none"}]
+};
+function handle(it){
+  const k = it.hand.kind;
+  lift(it, HAND_ANIM[k], 1100);
+  const cx = (it.box[0]+it.box[2])/2, cy = (it.box[1]+it.box[3])/2;
+  if(k==="snap"){
+    setTimeout(()=>{ SFX.snap(); burst(cx, cy, 70, "#d9b98a"); burst(cx, cy, 30, "#a57f4c");
+      bench.animate([{transform:"translate(0,0)"},{transform:"translate(-6px,3px)"},{transform:"translate(5px,-3px)"},{transform:"none"}],{duration:260}); }, 430);
+  } else SFX[k]();
+  setTimeout(()=>{ const isNew = record(it.id, "dry", it.hand.obs); showNote(`${it.name} · handled`, it.hand.text, cx, it.box[1]+40); }, k==="snap"?700:600);
+}
+
+/* smell: press and hold */
+let sniff = null;
+function startSniff(it, x, y){
+  stopSniff();
+  const cx = (it.box[0]+it.box[2])/2, cy = (it.box[1]+it.box[3])/2;
+  sniff = {it, t0:performance.now(), iv:setInterval(()=>burst(cx, cy, 4, it.nose.scent, "scent"), 90)};
+  SFX.sniff();
+  sniff.done = setTimeout(()=>{
+    SFX.sniff();
+    record(it.id, "smell", it.nose.obs);
+    showNote(`${it.name} · smelled`, it.nose.text, cx, it.box[1]+40);
+    stopSniff(true);
+  }, 1300);
+  hint("Keep holding… breathe in");
+}
+function stopSniff(ok){
+  if(!sniff) return; clearInterval(sniff.iv); clearTimeout(sniff.done);
+  if(!ok) hint("Hold a little longer — a proper sniff takes a moment");
+  sniff = null;
+}
+
+/* ---------- pointer handling (mouse, pen and finger alike) ---------- */
+bench.addEventListener("pointerdown", e=>{
+  ac(); e.preventDefault(); bench.setPointerCapture(e.pointerId);
+  const p = toImg(e.clientX, e.clientY), it = itemAt(p.x, p.y);
+  if(tool==="loupe") moveLoupe(e.clientX, e.clientY, e.pointerType!=="mouse");
+  else if(tool==="hand"){ if(it) handle(it); else hint("Tap one of the four items to handle it"); }
+  else if(tool==="nose"){ if(it) startSniff(it, p.x, p.y); else hint("Press and hold on one of the four items"); }
+});
+bench.addEventListener("pointermove", e=>{
+  if(tool==="loupe" && (e.buttons || e.pointerType==="mouse")) moveLoupe(e.clientX, e.clientY, e.pointerType!=="mouse");
+});
+bench.addEventListener("pointerup", e=>{
+  if(tool==="nose" && sniff) stopSniff(false);
+  if(tool==="loupe" && e.pointerType!=="mouse"){ clearTimeout(dwellT); dwellKey=null; }
+});
+bench.addEventListener("pointercancel", ()=>stopSniff(false));
+bench.addEventListener("pointerleave", e=>{ if(tool==="loupe" && e.pointerType==="mouse"){ loupe.style.display="none"; clearTimeout(dwellT); dwellKey=null; } });
+
+/* ---------- chrome ---------- */
+function openBook(){ $("#book").classList.add("open"); }
+$("#bookBtn").addEventListener("click", openBook);
+$("#bookClose").addEventListener("click", ()=>$("#book").classList.remove("open"));
+$("#muteBtn").addEventListener("click", ()=>{ muted = !muted; $("#muteBtn").textContent = muted ? "🔇" : "🔊"; });
+$("#helpBtn").addEventListener("click", ()=>{ $("#intro").style.display = "grid"; });
+$("#startBtn").addEventListener("click", ()=>{ ac(); $("#intro").style.display = "none"; setTool("loupe"); });
+$("#askBtn").addEventListener("click", ()=>{
+  const f = $("#finale"); f.style.display = "grid";
+  const s = f.querySelector(".mapbox svg"); s.style.animation = "none"; void s.offsetWidth; s.style.animation = "";
+  const w = f.querySelector(".walk"); w.style.animation = "none"; void w.offsetWidth; w.style.animation = "";
+  tone(220,440,1.2,.05);
+});
+$("#backBench").addEventListener("click", ()=>{ $("#finale").style.display = "none"; });
+
+window.addEventListener("resize", sizeFx);
+sizeFx(); drawBook(); setTool("loupe"); requestAnimationFrame(frame);
+if(Object.keys(found).length) $("#startBtn").textContent = "Carry on examining";
+})();
+</script>
+</body>
+</html>

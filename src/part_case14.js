@@ -16,6 +16,8 @@ const JM14_ITEMS = [
   sub:"The Bible Investigation Bureau · Department of Unsolved Antiquities",
   prev:"By nightfall they were trapped. By morning they were across and the army was not.",
   x:22, y:26, rot:-3, w:216,
+  tour:{href:"../tours/jm14-briefing.html", anim:true, label:"\u2712 Watch the briefing",
+        note:"The Supervisor\u2019s letter, drawn out in forty seconds."},
   body:`
     <p><b>To the investigating team,</b></p>
     <p>A column of several hundred thousand people — on foot, with children, livestock and carts — is camped by deep water with mountains on one side, wilderness on the other, and the fastest army in the world coming up behind them.</p>

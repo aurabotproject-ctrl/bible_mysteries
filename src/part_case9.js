@@ -16,6 +16,8 @@ const JM06_ITEMS = [
   sub:"The Bible Investigation Bureau · Department of Unsolved Antiquities",
   prev:"A walled city taken by an army that never touched the wall.",
   x:22, y:26, rot:-3, w:216,
+  tour:{href:"../tours/jm06-briefing.html", anim:true, label:"\u2712 Watch the briefing",
+        note:"The Supervisor\u2019s letter, drawn out in forty seconds."},
   body:`
     <p><b>To the investigating team,</b></p>
     <p>Jericho is a walled town on a mound above the Jordan plain, and it is the first thing standing between an incoming people and the country they mean to settle. Taking a place like this normally means months: siege works, starvation, ladders, and a great many dead on both sides.</p>

@@ -578,3 +578,34 @@ certificate seal). The label wording is listed at the bottom of
   strikes, reading levels, tours, the tint, or JM-01.
 - **Production guide.** Same gaps.
 - Not planned: any more easy packs.
+
+## 9. Briefing animations (the Supervisor's letter)
+
+A 40-second line-drawn animation that summarises a case's opening letter.
+First one: `tours/ransom-briefing.html` (JM-01). It is a self-contained page
+(canvas, parchment look, synthesised sound, tap-to-play) opened through the
+tour machinery, with one difference — the card declares `anim:true`:
+
+```js
+tour:{href:"../tours/ransom-briefing.html", anim:true, label:"✒ Watch the briefing", note:"..."}
+```
+
+`anim:true` means: the desk card is **not** stained like a walk-in, and the
+button sits **under** the letter (`.tourbar.anim`, parchment-styled in
+`part_css_extra.css`) instead of above it. `build.py` already inlines it for
+the offline builds.
+
+**All 19 cases now have one.** They are *generated*, not hand-edited:
+`src/tools/briefings/` holds `template.html` (engine), `motifs.js` (the picture
+library) and `cases/jmNN.js` (one small script per case: ITEMS, PAGES, optional
+cues). Run `python3 src/tools/briefings/make.py <outdir>` (add case names to
+build just some), then copy the results into `tours/`. Edit the generator
+sources, not the files in `tours/`. House rules baked into the engine:
+**one hero picture per scene is drawn line-by-line (`h:1`); everything else just
+fades in** (this is what keeps it light and easy to follow); finished pictures
+and captions are cached as bitmaps, redraw is capped near 30 fps, and a slow
+machine drops to a lighter resolution on its own. Scene clock: six scenes then
+the seal (helpers `Q`, `Tx`, `Pq`, `BOARD`, `FIN`, `pg`); keep scene-6 items
+starting before ~2.6 beats or they appear too late. The ransom one is
+`cases/jm01.js` (kept identical to the original). To add a case's briefing,
+write its `cases/jmNN.js` and add the same `tour:` line to that case's letter.

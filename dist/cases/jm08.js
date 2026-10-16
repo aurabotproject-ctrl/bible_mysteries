@@ -16,6 +16,8 @@ const JM08_ITEMS = [
   sub:"The Bible Investigation Bureau · Department of Unsolved Antiquities",
   prev:"An army that walked through Jericho has just been beaten by a village.",
   x:22, y:26, rot:-3, w:216,
+  tour:{href:"../tours/jm08-briefing.html", anim:true, label:"\u2712 Watch the briefing",
+        note:"The Supervisor\u2019s letter, drawn out in forty seconds."},
   body:`
     <p><b>To the investigating team,</b></p>
     <p>Jericho fell without a fight worth the name. The city was placed under a <b>ban</b> — nothing whatever to be carried off, every scrap of silver, gold, bronze and iron to go straight into the treasury. The order was given publicly, twice, and every officer signed for it.</p>

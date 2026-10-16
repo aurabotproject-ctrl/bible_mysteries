@@ -16,6 +16,8 @@ const JM13_ITEMS = [
   sub:"The Bible Investigation Bureau · Department of Unsolved Antiquities",
   prev:"Twelve men, one country, forty days — and two reports that cannot both be right.",
   x:22, y:26, rot:-3, w:216,
+  tour:{href:"../tours/jm13-briefing.html", anim:true, label:"\u2712 Watch the briefing",
+        note:"The Supervisor\u2019s letter, drawn out in forty seconds."},
   body:`
     <p><b>To the investigating team,</b></p>
     <p>Twelve men are sent to survey the country of Canaan. One from each tribe. They are gone forty days. They come back carrying a single bunch of grapes so heavy it has to be slung from a pole between two of them.</p>

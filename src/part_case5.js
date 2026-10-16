@@ -16,6 +16,8 @@ const JM02_ITEMS = [
   sub:"The Bible Investigation Bureau · Department of Unsolved Antiquities",
   prev:"A twelve-year-old is missing in a city of tens of thousands. It takes three days.",
   x:22, y:26, rot:-3, w:216,
+  tour:{href:"../tours/jm02-briefing.html", anim:true, label:"\u2712 Watch the briefing",
+        note:"The Supervisor\u2019s letter, drawn out in forty seconds."},
   body:`
     <p><b>To the investigating team,</b></p>
     <p>A family from Nazareth goes up to Jerusalem for the festival, as they do every year. The city is full — perhaps four or five times its usual size. When the feast ends they set out for home in a large travelling company of relatives and neighbours.</p>

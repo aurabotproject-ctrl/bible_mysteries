@@ -1390,4 +1390,19 @@ button.tourbtn{cursor:pointer;font-family:var(--ui-font)}
   .motes,.lampglow,.bureau,.shelfbar,.shelf-none{display:none!important}
   #stage::before,#stage::after{display:none!important}
 }
+
+/* ---------- the letter's briefing animation: part of the paper, not a bar above it ---------- */
+.tourbar.anim{
+  display:flex;align-items:center;gap:14px;flex-wrap:wrap;
+  margin:22px 0 4px;padding:14px 0 0;background:none;border:0;border-radius:0;
+  border-top:1px dashed rgba(90,65,35,.45);
+}
+.tourbar.anim .tourbtn{
+  background:rgba(140,47,31,.07);color:var(--accent);border:1.5px solid var(--accent);
+  box-shadow:none;font-family:var(--serif);font-style:italic;font-weight:700;font-size:15px;letter-spacing:.01em;
+  padding:10px 20px;min-height:44px;border-radius:999px;
+}
+.tourbar.anim .tourbtn:hover{background:var(--accent);color:#fff6e4;filter:none}
+.tourbar.anim .tourbtn:active{transform:translateY(1px)}
+.tourbar.anim .tournote{font-family:var(--serif);font-style:italic;font-size:12.5px;color:var(--ink-soft)}
 </style>

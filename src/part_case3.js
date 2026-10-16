@@ -27,6 +27,8 @@ const JM19_ITEMS = [
   sub:"The Bible Investigation Bureau · Department of Unsolved Antiquities",
   prev:"A riddle only one man on earth could answer — answered by thirty.",
   x:24, y:28, rot:-3, w:216,
+  tour:{href:"../tours/jm19-briefing.html", anim:true, label:"\u2712 Watch the briefing",
+        note:"The Supervisor\u2019s letter, drawn out in forty seconds."},
   body:`
     <p><b>To the investigating team,</b></p>
     <p>A wedding feast at Timnah, in Philistine country, in the days when Israel had no king. Seven days of eating and drinking, and thirty young Philistine men brought in to keep the bridegroom company — whether he wanted them or not.</p>

@@ -16,6 +16,8 @@ const JM15_ITEMS = [
   sub:"The Bible Investigation Bureau · Department of Unsolved Antiquities",
   prev:"A court with plenty of witnesses and no case, because no two of them said the same thing.",
   x:22, y:26, rot:-3, w:216,
+  tour:{href:"../tours/jm15-briefing.html", anim:true, label:"\u2712 Watch the briefing",
+        note:"The Supervisor\u2019s letter, drawn out in forty seconds."},
   body:`
     <p><b>To the investigating team,</b></p>
     <p>A council sits at night to hear a capital charge. Under its own law it needs <b>two witnesses whose accounts agree</b> — not two witnesses, two <i>agreeing</i> witnesses. Anything less and the case fails.</p>

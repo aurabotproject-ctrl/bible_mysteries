@@ -16,6 +16,8 @@ const JM03_ITEMS = [
   sub:"The Bible Investigation Bureau · Department of Unsolved Antiquities",
   prev:"A bush on fire that is still standing, still green, and still growing.",
   x:22, y:26, rot:-3, w:216,
+  tour:{href:"../tours/jm03-briefing.html", anim:true, label:"\u2712 Watch the briefing",
+        note:"The Supervisor\u2019s letter, drawn out in forty seconds."},
   body:`
     <p><b>To the investigating team,</b></p>
     <p>An exiled Egyptian prince, now a shepherd on the far side of the desert, takes a flock up to the mountain and sees a bush burning. He turns aside to look at it. He comes back down the mountain eighty years old, with a commission he spends the rest of the interview trying to get out of.</p>

@@ -16,6 +16,8 @@ const JM11_ITEMS = [
   sub:"The Bible Investigation Bureau · Department of Unsolved Antiquities",
   prev:"A captured chest, seven bad months, and a test designed by the people it accused.",
   x:22, y:26, rot:-3, w:216,
+  tour:{href:"../tours/jm11-briefing.html", anim:true, label:"\u2712 Watch the briefing",
+        note:"The Supervisor\u2019s letter, drawn out in forty seconds."},
   body:`
     <p><b>To the investigating team,</b></p>
     <p>The Philistines beat Israel in the field and carry off the ark — the covered chest from Israel's sanctuary — as a trophy. It goes into the temple at Ashdod. Within days, Ashdod is in trouble. They move it to Gath. Gath is in trouble. They move it to Ekron, and Ekron will not have it in the gate.</p>

@@ -19,6 +19,8 @@ const JM33_ITEMS = [
   sub:"The Bible Investigation Bureau · Department of Unsolved Antiquities",
   prev:"Your task is not to guess. It is to eliminate.",
   x:26, y:30, rot:-3, w:216,
+  tour:{href:"../tours/jm33-briefing.html", anim:true, label:"\u2712 Watch the briefing",
+        note:"The Supervisor\u2019s letter, drawn out in forty seconds."},
   body:`
     <p><b>To the investigating team,</b></p>
     <p>Jerusalem. Spring, around the year AD 33. A man executed on the Friday is buried before sunset in a tomb cut into rock. A stone weighing more than a small car is rolled across the entrance. On the Saturday the tomb is sealed by Roman order and a watch of soldiers is posted.</p>

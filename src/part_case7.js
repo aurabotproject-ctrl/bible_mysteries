@@ -25,6 +25,8 @@ const JM04_ITEMS = [
   sub:"The Bible Investigation Bureau · Department of Unsolved Antiquities",
   prev:"Two women. One living child. And not one piece of evidence in the world.",
   x:22, y:26, rot:-3, w:216,
+  tour:{href:"../tours/jm04-briefing.html", anim:true, label:"\u2712 Watch the briefing",
+        note:"The Supervisor\u2019s letter, drawn out in forty seconds."},
   body:`
     <p><b>To the investigating team,</b></p>
     <p>Two women share a house. Each has an infant son, born three days apart. In the night one of the babies dies. In the morning both women claim the living child, and each accuses the other of swapping them while she slept.</p>
