@@ -57,7 +57,7 @@ EASY_FILES = {'jm01': 'part_case0.easy.js',
               'jm09': 'part_case10.easy.js',
               'jm20': 'part_case20.easy.js'}
 
-CASE_FILES = ['part_case0.js', 'part_case1.js', 'part_case2.js', 'part_case3.js', 'part_case4.js',
+CASE_FILES = ['part_case21.js', 'part_case0.js', 'part_case1.js', 'part_case2.js', 'part_case3.js', 'part_case4.js',
               'part_case5.js', 'part_case6.js', 'part_case7.js',
               'part_case8.js', 'part_case9.js', 'part_case10.js',
               'part_case11.js', 'part_case12.js', 'part_case13.js', 'part_case14.js', 'part_case15.js', 'part_case16.js', 'part_case18.js', 'part_case20.js']
@@ -73,7 +73,7 @@ def img_ext(n):
             return e
     sys.exit('images/%s: expected a .jpg, .png or .webp' % n)
 
-NAMES = ['bibsign', 'bibseal', 'poster_jm01', 'j01hill', 'j01gate', 'j01ledger', 'j01paid', 'j01cert',
+NAMES = ['bibsign', 'bibseal', 'poster_jm00', 'poster_jm01', 'j01hill', 'j01gate', 'j01ledger', 'j01paid', 'j01cert',
          'map', 'tomb', 'stone', 'seal', 'roster', 'cipher', 'decoder',
          'j47map', 'j47chamber', 'j47disp', 'j47dothan',
          'poster_jm33', 'poster_jm47', 'poster_jm19', 'poster_jm08',

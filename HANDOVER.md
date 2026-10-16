@@ -431,6 +431,24 @@ certificate seal). The label wording is listed at the bottom of
 
 ## 11. Recent work, newest first
 
+- **CASE JM-00 — The Maker's Mark** (`src/part_case21.js`, first in
+  `CASE_FILES` so it sits first on the shelf). Was the world made, or did it
+  just happen? Five no-Maker explanations closed on evidence that holds up:
+  a beginning (expansion, background glow, running down), the rule of causes,
+  fine-tuning (six dials), the code in DNA plus the first-cell problem, and
+  Genesis against the *Enuma Elish*. It deliberately does not claim science has
+  disproved the Big Bang or evolution, and does not settle the age of the
+  earth (said plainly in *Where the Evidence Stops* and the teacher notes).
+  Locks 1336 and MAKER (Maker's Sheet crossword). Medium only. Poster is a
+  generated starfield placeholder; the image brief is in
+  `tobuild/JM-00 — THE MAKER'S MARK/image-prompts.md`, and no document plate
+  is wired yet. Its tour is `tours/design-hall.html` on *Field Notes on Design*
+  (stage 1): four exhibits — the monarch's clock-compensated sun compass (fly
+  it with and without the clock), trees' airborne warning and fungal threads,
+  the waggle dance (move the flowers, the dance follows), and the insulin B
+  chain read codon by codon, then shuffled. Built here; three r128 inlined; in
+  patch_touch's SKIP.
+
 - **The Ridge Post** (`tours/ekron-road.html`, JM-11, on *What the Watchers
   Saw*). Built here, not handed over: the road out of Ekron, the fork, the
   calves' pen, the valley of grain to Beth Shemesh and the great rock. Students

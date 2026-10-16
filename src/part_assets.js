@@ -44,6 +44,7 @@ SVG.poster_jm15 = `<svg viewBox="0 0 1536 1024" xmlns="http://www.w3.org/2000/sv
 SVG.poster_jm16 = `<svg viewBox="0 0 1536 1024" xmlns="http://www.w3.org/2000/svg"><image href="__IMG_poster_jm16__" x="0" y="0" width="1536" height="1024"/></svg>`;
 SVG.poster_jm18 = `<svg viewBox="0 0 1536 1024" xmlns="http://www.w3.org/2000/svg"><image href="__IMG_poster_jm18__" x="0" y="0" width="1536" height="1024"/></svg>`;
 SVG.poster_jm20 = `<svg viewBox="0 0 1536 1024" xmlns="http://www.w3.org/2000/svg"><image href="__IMG_poster_jm20__" x="0" y="0" width="1536" height="1024"/></svg>`;
+SVG.poster_jm00 = `<svg viewBox="0 0 1536 1024" xmlns="http://www.w3.org/2000/svg"><image href="__IMG_poster_jm00__" x="0" y="0" width="1536" height="1024"/></svg>`;
 SVG.poster_jm01 = `<svg viewBox="0 0 1536 1024" xmlns="http://www.w3.org/2000/svg"><image href="__IMG_poster_jm01__" x="0" y="0" width="1536" height="1024"/></svg>`;
 
 /* ---- JM-01 · THE RANSOM ------------------------------------------------
