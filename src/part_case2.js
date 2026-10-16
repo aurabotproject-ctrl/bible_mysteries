@@ -12,6 +12,15 @@ SVG.j47disp = `<svg viewBox="0 0 1536 1024" xmlns="http://www.w3.org/2000/svg"><
 
 SVG.j47dothan = `<svg viewBox="0 0 1536 1024" xmlns="http://www.w3.org/2000/svg"><image href="__IMG_j47dothan__" x="0" y="0" width="1536" height="1024"/></svg>`;
 
+/* ---- long-lens photographs (clipped to their own documents) and the
+   evidence photograph of a returned dispatch, its blank markers numbered here */
+const thumb47 = (src, y) => `<svg viewBox="0 0 820 520" xmlns="http://www.w3.org/2000/svg"><image href="${src}" x="0" y="${-y}" width="820" height="820"/></svg>`;
+SVG.p47king   = thumb47("__IMG_p47king__",   150);
+SVG.p47naaman = thumb47("__IMG_p47naaman__", 130);
+SVG.p47hazael = thumb47("__IMG_p47hazael__", 140);
+SVG.p47elisha = thumb47("__IMG_p47elisha__", 120);
+SVG.e47dispatch = `<svg viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg"><image href="__IMG_e47dispatch__" x="0" y="0" width="1200" height="800"/><g font-family="Arial,Helvetica,sans-serif" font-weight="700" font-size="58" fill="#1a1a1a" text-anchor="middle"><text x="98" y="537">1</text><text x="1065" y="232">2</text></g></svg>`;
+
 const JM47_ITEMS = [
 
 /* ---------------- STAGE 0 ---------------- */
@@ -89,10 +98,11 @@ const JM47_ITEMS = [
 },
 {
   id:"j47king", stage:0, kind:"Statement", title:"Statement of the King of Aram",
-  sub:"Taken in the council chamber, Damascus",
+  sub:"Taken in the council chamber, Damascus", thumb:"p47king",
   prev:"“Which of you is on the side of the king of Israel?”",
   x:44, y:60, rot:2, w:210,
   body:`
+    <figure class="plate poi poi-clip"><img src="__IMG_p47king__" alt="The king of Aram alone in his chamber at night, standing over the campaign plans on a table, seen through a carved doorway"><figcaption>The king, alone, over the plans.</figcaption></figure>
     <div class="doc-body">
       <p>"I have laid five ambushes against Israel this season. <b>In not one of them did we so much as see an Israelite.</b> Five times. That is not luck and I will not be told it is.</p>
       <p>Plan four I gave in this room, in the afternoon, to my council. By the second watch of that same night the Israelite column had turned onto the other road. They did not blunder off it. They turned before they reached the fork.</p>
@@ -104,10 +114,11 @@ const JM47_ITEMS = [
 },
 {
   id:"j47naaman", stage:0, kind:"Statement", title:"Statement — Naaman, Commander of the Army",
-  sub:"The king's own suspect",
+  sub:"The king's own suspect", thumb:"p47naaman",
   prev:"“I owe that prophet my skin. I have never denied it.”",
   x:22, y:64, rot:-6, w:204,
   body:`
+    <figure class="plate poi poi-clip"><img src="__IMG_p47naaman__" alt="Naaman, commander of the army, in armour, standing at a palace window looking out over the city"><figcaption>Naaman, at the palace window.</figcaption></figure>
     <div class="doc-body">
       <p>"I know exactly why you are standing in front of me, so let us have it out.</p>
       <p>Yes. I went into Israel. Yes, I went to their prophet Elisha, because I had a disease no physician in Damascus could touch, and I came home clean. I said afterwards, in front of witnesses, that I would worship no god but the God of Israel. <b>I have never once hidden any of that</b>, and if I meant to betray my king I would have been a great deal quieter about all of it.</p>
@@ -128,7 +139,11 @@ const JM47_ITEMS = [
   prev:"Two of the five plans were never written down at all.", thumb:"j47disp",
   x:66, y:74, rot:5, w:204,
   body:`
-    <div class="plate">${SVG.j47disp}<div class="cap">Click to enlarge. Two sealed dispatches as returned to the archive.</div></div>
+    <div class="plate-pair">
+      <div class="plate">${SVG.j47disp}<div class="cap">Click to enlarge. Two sealed dispatches as returned to the archive.</div></div>
+      <div class="plate">${SVG.e47dispatch}<div class="cap">Click the photograph to enlarge it.</div></div>
+    </div>
+    <p class="margin-note">1 — a dispatch as it came back to the archive: the seal whole. 2 — the council's own cylinder seal, which made it.</p>
     <p>Every written order leaving Damascus is copied into this book: what was sent, by whom, and the state of the seal when it arrived.</p>
     <table class="ledger">
       <tr><th>Plan</th><th>Written down?</th><th>Courier</th><th>Seal on arrival</th></tr>
@@ -202,10 +217,11 @@ const JM47_ITEMS = [
 },
 {
   id:"j47hazael", stage:1, kind:"Statement", title:"Statement — Hazael of the Household",
-  sub:"Field Chest B",
+  sub:"Field Chest B", thumb:"p47hazael",
   prev:"“I would happily see Naaman fall. That is not the same as this.”",
   x:78, y:36, rot:-7, w:206,
   body:`
+    <figure class="plate poi poi-clip"><img src="__IMG_p47hazael__" alt="Hazael walking down a torchlit palace corridor at night, glancing back over his shoulder"><figcaption>Hazael, in the palace corridor.</figcaption></figure>
     <div class="doc-body">
       <p>"I will save you the trouble of asking it politely. Yes, I want Naaman's command. Everybody in Damascus knows it, and if he were disgraced tomorrow I would not pretend to grieve. That gives me a motive and I am not going to stand here and deny having one.</p>
       <p>It does not give me the plans.</p>
@@ -296,10 +312,11 @@ const JM47_ITEMS = [
 },
 {
   id:"j47prophet", stage:2, kind:"Background file", title:"The Man at Dothan",
-  sub:"Sealed Pouch C · who Elisha was",
+  sub:"Sealed Pouch C · who Elisha was", thumb:"p47elisha",
   prev:"He never entered Damascus. He never needed to.",
   x:78, y:62, rot:-5, w:200,
   body:`
+    <figure class="plate poi poi-clip"><img src="__IMG_p47elisha__" alt="An old man with a staff standing alone on a hillside at dawn, above a walled town in a valley"><figcaption>Above Dothan, at first light.</figcaption></figure>
     <p>The Bureau's file on Elisha, so far as it can be reconstructed:</p>
     <ul>
       <li>A prophet in Israel, successor to Elijah. Lived plainly, held no office and commanded no soldiers.</li>

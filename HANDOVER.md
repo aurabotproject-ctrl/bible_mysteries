@@ -431,6 +431,13 @@ certificate seal). The label wording is listed at the bottom of
 
 ## 11. Recent work, newest first
 
+- **JM-47 photographs.** Same pattern as JM-33: the king, Naaman, Hazael and
+  Elisha clipped to their own documents (Elisha only on *The Man at Dothan*, a
+  stage-2 card, so the answer is not shown early), and the returned dispatch as
+  Exhibit A in *The Scribe's Dispatch Book*. A sheet carrying two photographs
+  wraps them in `<div class="plate-pair">`, which prints them side by side so
+  the sheet stays one page.
+
 - **JM-33 photographs.** Where a case's people turn up in documents that open
   at different stages, the photographs are clipped to their own documents
   (`<figure class="plate poi poi-clip">`, floated, with a paper clip) rather

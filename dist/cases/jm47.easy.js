@@ -86,6 +86,7 @@ j47council:{
 j47king:{
   prev:"“Which one of you is on the side of the king of Israel?”",
   body:`
+    <figure class="plate poi poi-clip"><img src="images/p47king.jpg" alt="The king of Aram alone in his chamber at night, standing over the campaign plans on a table, seen through a carved doorway"><figcaption>The king, alone, over the plans.</figcaption></figure>
     <div class="doc-body">
       <p>“I have set five ambushes for Israel this season. <b>In not one of them did we even see an Israelite.</b> Five times. That is not luck, and nobody is going to tell me it is.</p>
       <p>Plan four I gave in this room, in the afternoon, to my council. By the middle of that same night the Israelite army had turned onto the other road. They did not wander off it by accident. They turned before they even reached the fork.</p>
@@ -99,6 +100,7 @@ j47king:{
 j47naaman:{
   prev:"“I owe that prophet my life. I have never pretended otherwise.”",
   body:`
+    <figure class="plate poi poi-clip"><img src="images/p47naaman.jpg" alt="Naaman, commander of the army, in armour, standing at a palace window looking out over the city"><figcaption>Naaman, at the palace window.</figcaption></figure>
     <div class="doc-body">
       <p>“I know exactly why you are standing in front of me, so let us get on with it.</p>
       <p>Yes. I went into Israel. Yes, I went to their prophet Elisha, because I had a skin disease that no doctor in Damascus could cure, and I came home well. Afterwards I said, in front of witnesses, that I would worship no god but the God of Israel. <b>I have never hidden any of that</b> — and if I were planning to betray my king, I would have kept a great deal quieter about all of it.</p>
@@ -117,7 +119,11 @@ j47naaman:{
 j47scribe:{
   prev:"Two of the five plans were never written down at all.",
   body:`
-    <div class="plate">${SVG.j47disp}<div class="cap">Click to make it bigger. Two sealed messages, as they came back to the archive.</div></div>
+    <div class="plate-pair">
+      <div class="plate">${SVG.j47disp}<div class="cap">Click to make it bigger. Two sealed messages, as they came back to the archive.</div></div>
+      <div class="plate">${SVG.e47dispatch}<div class="cap">Click the photograph to enlarge it.</div></div>
+    </div>
+    <p class="margin-note">1 — a letter as it came back: the seal not broken. 2 — the council's own seal, which made the mark.</p>
     <p>Every written order that leaves Damascus is copied into this book: what was sent, who carried it, and whether the seal was still whole when it arrived.</p>
     <table class="ledger">
       <tr><th>Plan</th><th>Written down?</th><th>Rider</th><th>Seal on arrival</th></tr>
@@ -183,6 +189,7 @@ j47household:{
 j47hazael:{
   prev:"“I would love to see Naaman fall. That is not the same thing as this.”",
   body:`
+    <figure class="plate poi poi-clip"><img src="images/p47hazael.jpg" alt="Hazael walking down a torchlit palace corridor at night, glancing back over his shoulder"><figcaption>Hazael, in the palace corridor.</figcaption></figure>
     <div class="doc-body">
       <p>“I will save you the trouble of asking politely. Yes, I want Naaman's job. Everybody in Damascus knows it, and if he were disgraced tomorrow I would not pretend to be sad. So I have a reason to want this. I am not going to stand here and deny it.</p>
       <p>What I do not have is the plans.</p>
@@ -265,6 +272,7 @@ j47after:{
 j47prophet:{
   prev:"He never went to Damascus. He never needed to.",
   body:`
+    <figure class="plate poi poi-clip"><img src="images/p47elisha.jpg" alt="An old man with a staff standing alone on a hillside at dawn, above a walled town in a valley"><figcaption>Above Dothan, at first light.</figcaption></figure>
     <p>The Bureau's file on Elisha, as far as we can put it together:</p>
     <ul>
       <li>A prophet in Israel, who took over from Elijah. He lived simply, held no official job and commanded no soldiers.</li>

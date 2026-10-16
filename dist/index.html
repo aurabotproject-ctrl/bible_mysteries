@@ -1981,6 +1981,9 @@ button.tourbtn{cursor:pointer;font-family:var(--ui-font)}
 @media print{
   /* the sheet rule centres plates with auto margins, which shrinks a frame
      whose contents are all positioned to nothing - give it its width back */
+  /* two photographs on one sheet sit side by side so the sheet stays one page */
+  .pp-card .plate-pair{display:grid;grid-template-columns:1fr 1fr;gap:5mm;align-items:start;margin:3mm 0}
+  .pp-card .plate-pair .plate,.pp-card.sheet .plate-pair .plate{max-width:none;margin:0}
   .pp-card .plate.poi,.pp-card.sheet .plate.poi{width:100%;max-width:none;margin:0}
   .plate.poi::before,.plate.poi::after{display:none}
   .pp-card .plate.poi.poi-clip{width:40mm;margin:0 0 3mm 5mm;float:right}
@@ -2048,7 +2051,7 @@ button.tourbtn{cursor:pointer;font-family:var(--ui-font)}
 </div>
 
 <div id="shelf"></div>
-<div id="buildTag" title="Which build of the app this is. If a new feature is missing, reload the page and check this changes.">build 20261016-1030</div>
+<div id="buildTag" title="Which build of the app this is. If a new feature is missing, reload the page and check this changes.">build 20261016-1039</div>
 
 <script>
 const SVG = {};

@@ -110,7 +110,8 @@ NAMES += FX
 
 # Persons of interest: long-lens photographs and the evidence table, per case.
 NAMES += ['p01ruler', 'p01pharisee', 'p01collector', 'e01payments',
-          'p33mary', 'p33guards', 'p33running', 'p33payment', 'p33joseph', 'e33linen']
+          'p33mary', 'p33guards', 'p33running', 'p33payment', 'p33joseph', 'e33linen',
+          'p47king', 'p47naaman', 'p47hazael', 'p47elisha', 'e47dispatch']
 
 BIBLE_JSON = os.path.join(ROOT, 'bible.json')
 IMAGES     = os.path.join(ROOT, 'images')
