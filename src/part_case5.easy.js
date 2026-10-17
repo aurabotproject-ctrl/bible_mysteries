@@ -43,6 +43,7 @@ j02letter:{
 j02caravan:{
   prev:"Children walked with the group, not next to their parents. Everybody's children, all together.",
   body:`
+    <figure class="plate poi poi-clip"><img src="__IMG_p02caravan__" alt="A long festival caravan of families, donkeys and children on a dusty hill road"><figcaption>The company on the hill road, going north.</figcaption></figure>
     <p>Most people come to this file having already decided the parents were careless. Before you do that, here is how these journeys actually worked.</p>
     <table class="ledger">
       <tr><th>Part of the journey</th><th>How it worked</th></tr>
@@ -80,6 +81,7 @@ j02search:{
 j02parents:{
   prev:"Two accounts, taken separately. They agree — including on the part that hurts.",
   body:`
+    <figure class="plate poi poi-clip"><img src="__IMG_p02parents__" alt="A worried man and woman moving through a crowded caravan camp at evening, asking people for news"><figcaption>The parents, asking along the camp.</figcaption></figure>
     <div class="doc-body">
       <h4>The mother</h4>
       <p>“He said nothing to me. Not a word about staying behind, not even a hint. If he had told me I would remember it, because I would have said no.</p>
@@ -131,7 +133,10 @@ j02relatives:{
 j02road:{
   prev:"One day out, at the first camp, each family counts its own children.",
   body:`
-    <div class="plate">${SVG.j02road}<div class="cap">Click the plan to make it bigger.</div></div>
+    <div class="plate-pair">
+      <div class="plate">${SVG.j02road}<div class="cap">Click to enlarge. The plan.</div></div>
+      <div class="plate">${SVG.e02camp}<div class="cap">Click to enlarge. The first camp: a bedroll, a bag, a cold fire.</div></div>
+    </div>
     <h4>What the plan tells you</h4>
     <ul>
       <li><b>Jerusalem</b> sits up on its ridge at the top of the road. The festival crowd leaves by the northern gate in groups, village by village.</li>
@@ -217,6 +222,7 @@ j02roads:{
 j02found:{
   prev:"Sitting among the teachers. Listening, and asking questions.",
   body:`
+    <figure class="plate poi poi-clip"><img src="__IMG_p02temple__" alt="Elderly teachers seated in a stone colonnade, listening to a boy who sits among them, seen from behind"><figcaption>Among the teachers, seen from behind.</figcaption></figure>
     <p>They found him in the temple courts, in the covered walkway where the teachers sat.</p>
     <table class="ledger">
       <tr><th>What was noticed</th><th>Record</th></tr>

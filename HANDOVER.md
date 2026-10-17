@@ -431,6 +431,14 @@ certificate seal). The label wording is listed at the bottom of
 
 ## 11. Recent work, newest first
 
+- **JM-08 and JM-02 photos.** JM-08: `p08achan` (on The Confession),
+  `p08scouts` (Scouts' Report), `p08joshua` (Joshua's Charge), evidence
+  `e08cache` (Tent Search Report, single plate). JM-02: `p02parents` (Parents'
+  Accounts), `p02caravan` (How a Festival Caravan Travels), `p02temple` (Where
+  He Was Found), evidence `e02camp` (paired with the plan on The Road North).
+  Squares are 820x820, evidence 1200x800, `p08scouts` is 1230x820 (landscape,
+  own thumbnail crop). Added to both the medium and easy files.
+
 - **JM-00 images wired in.** Poster (`poster_jm00.jpg`), six plates
   (`j00beginning/cause/dials/tablets/code/workshop.jpg`) and three evidence
   photos (`e00wing/e00tablet/e00dna.jpg`). Each plate has a blank plaque top

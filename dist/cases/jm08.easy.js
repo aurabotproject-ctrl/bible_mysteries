@@ -63,6 +63,7 @@ j08ban:{
 j08scouts:{
   prev:"“Do not bother sending the whole army. Three thousand will do it.”",
   body:`
+    <figure class="plate poi poi-clip"><img src="images/p08scouts.jpg" alt="Three scouts crouched on a rocky ridge, looking down at a walled hill town"><figcaption>The scouts above Ai.</figcaption></figure>
     <div class="doc-body">
       <p>Joshua sent men up from Jericho to look at Ai before deciding anything. This is what they brought back.</p>
       <table class="ledger">
@@ -137,6 +138,7 @@ j08muster:{
 j08joshua:{
   prev:"“One man. It will end with one man, and he will be named.”",
   body:`
+    <figure class="plate poi poi-clip"><img src="images/p08joshua.jpg" alt="An older leader in a plain cloak standing with the elders before a large tent at sunset"><figcaption>Joshua and the elders, at the end of the day.</figcaption></figure>
     <div class="doc-body">
       <p>Joshua tore his clothes and lay face down in front of the ark until evening, with the elders beside him. Then he stood up and spoke to the whole camp.</p>
       <p>“Something under the ban is here in the middle of Israel. That is why you cannot stand up to your enemies. You will not be able to stand until you get it out from among you.</p>
@@ -226,6 +228,7 @@ j08carry:{
 j08tent:{
   prev:"Five tents searched. Four floors untouched. One dug up and filled in again.",
   body:`
+    <div class="plate">${SVG.e08cache}<div class="cap">Click to enlarge. The pit under the tent floor, as it was opened.</div></div>
     <p>Every tent belonging to the family of Zabdi was searched. The ground just inside each doorway was poked with a spear, and the floor was turned over wherever the earth looked disturbed.</p>
     <table class="ledger">
       <tr><th>Man of the family</th><th>Tent floor</th><th>Found</th></tr>
@@ -262,6 +265,7 @@ j08enquiry:{
 j08confession:{
   prev:"“I saw. I wanted them. I took them. I hid them.”",
   body:`
+    <figure class="plate poi poi-clip"><img src="images/p08achan.jpg" alt="A man at the entrance of a goat-hair tent at dusk, glancing over his shoulder, holding the flap shut"><figcaption>At the tent, the evening before.</figcaption></figure>
     <div class="doc-body">
       <p>Joshua said to him: “My son, give glory to the God of Israel and tell him the truth. Tell me what you have done. Do not hide it from me.”</p>
       <div class="stamp">STATEMENT · TAKEN IN THE CAMP</div>

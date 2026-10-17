@@ -8,6 +8,12 @@ SVG.j02road = `<svg viewBox="0 0 1536 1024" xmlns="http://www.w3.org/2000/svg"><
 SVG.j02courts = `<svg viewBox="0 0 1536 1024" xmlns="http://www.w3.org/2000/svg"><image href="__IMG_j02courts__" x="0" y="0" width="1536" height="1024"/><text x="171" y="361" text-anchor="middle" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="21" font-weight="600" fill="#4a3520" textLength="198" lengthAdjust="spacingAndGlyphs">THE SANCTUARY</text><text x="171" y="385" text-anchor="middle" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="13" font-weight="500" fill="#7d4a24" font-style="italic" opacity=".92" textLength="110" lengthAdjust="spacingAndGlyphs">priests only</text><text x="888" y="406" text-anchor="middle" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="18" font-weight="600" fill="#4a3520" textLength="212" lengthAdjust="spacingAndGlyphs">THE COURT OF ISRAEL</text><text x="888" y="430" text-anchor="middle" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="13" font-weight="500" fill="#7d4a24" font-style="italic" opacity=".92" textLength="162" lengthAdjust="spacingAndGlyphs">open to the crowd</text><text x="1375" y="305" text-anchor="middle" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="21" font-weight="600" fill="#4a3520" textLength="200" lengthAdjust="spacingAndGlyphs">THE COLONNADE</text><text x="1375" y="329" text-anchor="middle" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="13" font-weight="500" fill="#7d4a24" font-style="italic" opacity=".92" textLength="182" lengthAdjust="spacingAndGlyphs">the teachers sit here</text></svg>`;
 SVG.j02log = `<svg viewBox="0 0 1536 1024" xmlns="http://www.w3.org/2000/svg"><image href="__IMG_j02log__" x="0" y="0" width="1536" height="1024"/><text x="768" y="262" text-anchor="middle" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="40" font-weight="600" fill="#4a3520" textLength="250" lengthAdjust="spacingAndGlyphs">SEARCH LOG</text><text x="768" y="300" text-anchor="middle" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="20" font-weight="500" fill="#7d4a24" font-style="italic" opacity=".9" textLength="250" lengthAdjust="spacingAndGlyphs">Jerusalem &#183; three days</text></svg>`;
 
+const thumb02 = (src, y) => `<svg viewBox="0 0 820 520" xmlns="http://www.w3.org/2000/svg"><image href="${src}" x="0" y="${-y}" width="820" height="820"/></svg>`;
+SVG.p02parents = thumb02("__IMG_p02parents__", 170);
+SVG.p02caravan = thumb02("__IMG_p02caravan__", 260);
+SVG.p02temple  = thumb02("__IMG_p02temple__",  200);
+SVG.e02camp = `<svg viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg"><image href="__IMG_e02camp__" x="0" y="0" width="1200" height="800"/></svg>`;
+
 const JM02_ITEMS = [
 
 /* ---------------- STAGE 0 ---------------- */
@@ -39,10 +45,11 @@ const JM02_ITEMS = [
 },
 {
   id:"j02caravan", stage:0, kind:"Custom and practice", title:"How a Festival Caravan Travels",
-  sub:"Bureau note on pilgrim companies",
+  sub:"Bureau note on pilgrim companies", thumb:"p02caravan",
   prev:"Children travelled with the company, not with their parents. Everybody's, all together.",
   x:52, y:22, rot:3, w:212,
   body:`
+    <figure class="plate poi poi-clip"><img src="__IMG_p02caravan__" alt="A long festival caravan of families, donkeys and children on a dusty hill road"><figcaption>The company on the hill road, going north.</figcaption></figure>
     <p>Modern readers arrive at this file already deciding the parents were careless. Before you do, here is how these journeys actually worked.</p>
     <table class="ledger">
       <tr><th>Feature</th><th>Practice</th></tr>
@@ -80,10 +87,11 @@ const JM02_ITEMS = [
 },
 {
   id:"j02parents", stage:0, kind:"Statements", title:"The Parents' Accounts",
-  sub:"Taken separately, at the Bureau's request",
+  sub:"Taken separately, at the Bureau's request", thumb:"p02parents",
   prev:"Two accounts, taken apart. They agree, including on the part that hurts.",
   x:26, y:56, rot:5, w:212,
   body:`
+    <figure class="plate poi poi-clip"><img src="__IMG_p02parents__" alt="A worried man and woman moving through a crowded caravan camp at evening, asking people for news"><figcaption>The parents, asking along the camp.</figcaption></figure>
     <div class="doc-body">
       <h4>The mother</h4>
       <p>"He said nothing to me. Not a word about staying, not a hint of it. If he had told me I would have remembered it, because I would have said no.</p>
@@ -141,7 +149,10 @@ const JM02_ITEMS = [
   prev:"One day out, at the first camp, the families count their own children.",
   x:14, y:44, rot:2, w:218,
   body:`
-    <div class="plate">${SVG.j02road}<div class="cap">Click the plan to enlarge it.</div></div>
+    <div class="plate-pair">
+      <div class="plate">${SVG.j02road}<div class="cap">Click to enlarge. The plan.</div></div>
+      <div class="plate">${SVG.e02camp}<div class="cap">Click to enlarge. The first camp: a bedroll, a bag, a cold fire.</div></div>
+    </div>
     <h4>What the plan tells you</h4>
     <ul>
       <li><b>Jerusalem</b> stands on its ridge at the top of the road. The festival crowd leaves by the northern gate in companies, village by village.</li>
@@ -239,10 +250,11 @@ const JM02_ITEMS = [
 /* ---------------- STAGE 2 — released by the keyword lock ---------------- */
 {
   id:"j02found", stage:2, kind:"Field report", title:"Where He Was Found",
-  sub:"Sealed Pouch C · the third day",
+  sub:"Sealed Pouch C · the third day", thumb:"p02temple",
   prev:"Sitting among the teachers. Listening, and asking questions.",
   x:26, y:28, rot:-3, w:210,
   body:`
+    <figure class="plate poi poi-clip"><img src="__IMG_p02temple__" alt="Elderly teachers seated in a stone colonnade, listening to a boy who sits among them, seen from behind"><figcaption>Among the teachers, seen from behind.</figcaption></figure>
     <p>They found him in the temple courts, in the colonnade where the teachers sat.</p>
     <table class="ledger">
       <tr><th>Observation</th><th>Record</th></tr>

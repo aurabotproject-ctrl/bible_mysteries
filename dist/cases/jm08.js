@@ -8,6 +8,12 @@ SVG.j08field = `<svg viewBox="0 0 1536 1024" xmlns="http://www.w3.org/2000/svg">
 SVG.j08spoil = `<svg viewBox="0 0 1536 1024" xmlns="http://www.w3.org/2000/svg"><image href="images/j08spoil.jpg" x="0" y="0" width="1536" height="1024"/><text x="265" y="139" text-anchor="middle" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="24" font-weight="600" fill="#4a3520" textLength="124" lengthAdjust="spacingAndGlyphs">THE ROBE</text><text x="265" y="159" text-anchor="middle" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="12" font-weight="500" fill="#7d4a24" font-style="italic" opacity=".92" textLength="216" lengthAdjust="spacingAndGlyphs">one garment, unaccounted for</text><text x="609" y="839" text-anchor="middle" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="24" font-weight="600" fill="#4a3520" textLength="152" lengthAdjust="spacingAndGlyphs">THE SILVER</text><text x="609" y="859" text-anchor="middle" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="13" font-weight="500" fill="#7d4a24" font-style="italic" opacity=".92" textLength="178" lengthAdjust="spacingAndGlyphs">two hundred shekels</text><text x="1304" y="828" text-anchor="middle" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="24" font-weight="600" fill="#4a3520" textLength="128" lengthAdjust="spacingAndGlyphs">THE GOLD</text><text x="1304" y="848" text-anchor="middle" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="13" font-weight="500" fill="#7d4a24" font-style="italic" opacity=".92" textLength="186" lengthAdjust="spacingAndGlyphs">one bar, fifty shekels</text></svg>`;
 SVG.j08camp = `<svg viewBox="0 0 1536 1024" xmlns="http://www.w3.org/2000/svg"><image href="images/j08camp.jpg" x="0" y="0" width="1536" height="1024"/><text x="1042" y="219" text-anchor="middle" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="21" font-weight="600" fill="#4a3520" textLength="210" lengthAdjust="spacingAndGlyphs">THE MUSTER GROUND</text><text x="1042" y="239" text-anchor="middle" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="11" font-weight="500" fill="#7d4a24" font-style="italic" opacity=".92" textLength="214" lengthAdjust="spacingAndGlyphs">the camp is counted here every morning</text><text x="1312" y="734" text-anchor="middle" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="18" font-weight="600" fill="#4a3520" textLength="190" lengthAdjust="spacingAndGlyphs">ONE TENT AT THE EDGE</text><text x="1312" y="754" text-anchor="middle" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="12" font-weight="500" fill="#7d4a24" font-style="italic" opacity=".92" textLength="160" lengthAdjust="spacingAndGlyphs">the floor had been dug</text></svg>`;
 
+const thumb08 = (src, y) => `<svg viewBox="0 0 820 520" xmlns="http://www.w3.org/2000/svg"><image href="${src}" x="0" y="${-y}" width="820" height="820"/></svg>`;
+SVG.p08achan  = thumb08("images/p08achan.jpg",  190);
+SVG.p08joshua = thumb08("images/p08joshua.jpg", 230);
+SVG.p08scouts = `<svg viewBox="0 0 820 520" xmlns="http://www.w3.org/2000/svg"><image href="images/p08scouts.jpg" x="0" y="-14" width="820" height="547"/></svg>`;
+SVG.e08cache = `<svg viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg"><image href="images/e08cache.jpg" x="0" y="0" width="1200" height="800"/></svg>`;
+
 const JM08_ITEMS = [
 
 /* ---------------- STAGE 0 ---------------- */
@@ -61,10 +67,11 @@ const JM08_ITEMS = [
 },
 {
   id:"j08scouts", stage:0, kind:"Field report", title:"The Scouts' Report on Ai",
-  sub:"Filed before the attack",
+  sub:"Filed before the attack", thumb:"p08scouts",
   prev:"“Do not trouble the whole army. Three thousand will do it.”",
   x:78, y:26, rot:-4, w:206,
   body:`
+    <figure class="plate poi poi-clip"><img src="images/p08scouts.jpg" alt="Three scouts crouched on a rocky ridge, looking down at a walled hill town"><figcaption>The scouts above Ai.</figcaption></figure>
     <div class="doc-body">
       <p>Joshua sent men up from Jericho to look at Ai before committing to anything. This is what they brought back.</p>
       <table class="ledger">
@@ -145,10 +152,11 @@ const JM08_ITEMS = [
 },
 {
   id:"j08joshua", stage:0, kind:"Statement", title:"Joshua's Charge to the Camp",
-  sub:"Given after the defeat at Ai",
+  sub:"Given after the defeat at Ai", thumb:"p08joshua",
   prev:"“One man. It will end with one man, and he will be brought out by name.”",
   x:40, y:76, rot:-5, w:210,
   body:`
+    <figure class="plate poi poi-clip"><img src="images/p08joshua.jpg" alt="An older leader in a plain cloak standing with the elders before a large tent at sunset"><figcaption>Joshua and the elders, at the end of the day.</figcaption></figure>
     <div class="doc-body">
       <p>Joshua tore his clothes and lay on his face before the ark until evening, and the elders with him. Then he stood up and spoke to the camp.</p>
       <p>"Something under the ban is in the middle of Israel. That is why you cannot stand in front of your enemies. You will not be able to stand until you take it out from among you.</p>
@@ -246,10 +254,11 @@ const JM08_ITEMS = [
 },
 {
   id:"j08tent", stage:1, kind:"Search report", title:"The Tent Search Report",
-  sub:"Field Chest B · the men of the household of Zabdi",
+  sub:"Field Chest B · the men of the household of Zabdi", thumb:"e08cache",
   prev:"Five tents searched. Four floors undisturbed. One dug and filled in again.",
   x:80, y:44, rot:-6, w:206,
   body:`
+    <div class="plate">${SVG.e08cache}<div class="cap">Click to enlarge. The pit under the tent floor, as it was opened.</div></div>
     <p>Every tent belonging to the household of Zabdi was searched: the ground inside the doorway probed with a spear, and the floor turned where the earth had been disturbed.</p>
     <table class="ledger">
       <tr><th>Man of the household</th><th>Tent floor</th><th>Found</th></tr>
@@ -288,10 +297,11 @@ const JM08_ITEMS = [
 /* ---------------- STAGE 2 — released by the keyword lock ---------------- */
 {
   id:"j08confession", stage:2, kind:"Statement", title:"The Confession",
-  sub:"Sealed Pouch C · taken in front of the camp",
+  sub:"Sealed Pouch C · taken in front of the camp", thumb:"p08achan",
   prev:"“I saw. I coveted. I took. I hid.”",
   x:26, y:28, rot:-3, w:208,
   body:`
+    <figure class="plate poi poi-clip"><img src="images/p08achan.jpg" alt="A man at the entrance of a goat-hair tent at dusk, glancing over his shoulder, holding the flap shut"><figcaption>At the tent, the evening before.</figcaption></figure>
     <div class="doc-body">
       <p>Joshua said to him: "My son, give glory to the God of Israel and make confession to him. Tell me now what you have done. Do not hide it from me."</p>
       <div class="stamp">STATEMENT · TAKEN IN THE CAMP</div>

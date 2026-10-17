@@ -112,7 +112,8 @@ NAMES += FX
 NAMES += ['p01ruler', 'p01pharisee', 'p01collector', 'e01payments',
           'p33mary', 'p33guards', 'p33running', 'p33payment', 'p33joseph', 'e33linen',
           'p47king', 'p47naaman', 'p47hazael', 'p47elisha', 'e47dispatch',
-          'p19samson', 'p19thirty', 'p19wife', 'p19parents', 'e19honey']
+          'p19samson', 'p19thirty', 'p19wife', 'p19parents', 'e19honey',
+          'p08achan', 'p08scouts', 'p08joshua', 'e08cache', 'p02parents', 'p02caravan', 'p02temple', 'e02camp']
 
 BIBLE_JSON = os.path.join(ROOT, 'bible.json')
 IMAGES     = os.path.join(ROOT, 'images')
