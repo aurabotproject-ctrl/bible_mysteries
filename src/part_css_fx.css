@@ -52,7 +52,7 @@
 .item .card::after{content:none}
 .item.paper-ledger    .card{border-image-source:url(__IMG_fx_paper_ledger__)}
 .item.paper-statement .card{border-image-source:url(__IMG_fx_paper_statement__)}
-.item.paper-index     .card{border-width:18px 12px 12px;border-image:url(__IMG_fx_paper_index__) 86 58 58 fill / 18px 12px 12px stretch}
+.item.paper-index     .card{border-width:18px 12px 12px;border-image:url(__IMG_fx_paper_index_soft__) 86 58 58 fill / 18px 12px 12px stretch}
 .item.paper-ledger .card{padding-left:10px}
 .item .kind{font-family:"Courier New",Courier,monospace;letter-spacing:.14em;font-size:8.5px}
 .item .thumb{background:#f2ead6;border:5px solid #f6f0e1;border-bottom-width:9px;
@@ -100,7 +100,7 @@
 }
 .sheet.doc.paper-ledger{border-image-source:url(__IMG_fx_paper_ledger__)}
 .sheet.doc.paper-statement{border-image-source:url(__IMG_fx_paper_statement__)}
-.sheet.doc.paper-index{border-width:33px 22px 22px;border-image:url(__IMG_fx_paper_index__) 86 58 58 fill / 33px 22px 22px stretch}
+.sheet.doc.paper-index{border-width:33px 22px 22px;border-image:url(__IMG_fx_paper_index_plain__) 86 58 58 fill / 33px 22px 22px stretch}
 .sheet.doc .body{padding:18px 26px 40px;
   background:url(__IMG_fx_ring2__) right 6px bottom 4px/120px no-repeat}
 .sheet.doc.paper-ledger .body{padding-left:34px}
