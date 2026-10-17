@@ -245,6 +245,7 @@
   .pp-card.sheet .poi-grid ~ .plate.wideplate{max-width:132mm}
   .pp-card.sheet.dense .plate.wideplate{max-width:104mm}
   .pp-card.sheet.dense2 .plate.wideplate{max-width:74mm}
+  .pp-card.sheet.fit .plate:not(.poi){max-width:var(--pw)!important}
 }
 
 @media print{

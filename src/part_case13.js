@@ -4,6 +4,12 @@
    Kadesh.  Source: Numbers 13-14.
    ============================================================ */
 
+const thumb13 = (src, y) => `<svg viewBox="0 0 820 520" xmlns="http://www.w3.org/2000/svg"><image href="${src}" x="0" y="${-y}" width="820" height="820"/></svg>`;
+SVG.p13carry = thumb13("__IMG_p13carry__", 160);
+SVG.p13caleb = thumb13("__IMG_p13caleb__", 60);
+SVG.p13tent = thumb13("__IMG_p13tent__", 130);
+SVG.p13city = thumb13("__IMG_p13city__", 170);
+SVG.e13fruit = `<svg viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg"><image href="__IMG_e13fruit__" x="0" y="0" width="1200" height="800"/></svg>`;
 SVG.j13grapes = `<svg viewBox="0 0 1536 1024" xmlns="http://www.w3.org/2000/svg"><image href="__IMG_j13grapes__" x="0" y="0" width="1536" height="1024"/><text x="212" y="75" text-anchor="middle" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="21" font-weight="600" fill="#4a3520" textLength="268" lengthAdjust="spacingAndGlyphs">THE CARRYING POLE</text><text x="212" y="99" text-anchor="middle" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="13" font-weight="500" fill="#7d4a24" font-style="italic" opacity=".92" textLength="258" lengthAdjust="spacingAndGlyphs">it took two men to bring it in</text><text x="1241" y="492" text-anchor="middle" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="26" font-weight="600" fill="#4a3520" textLength="196" lengthAdjust="spacingAndGlyphs">THE CLUSTER</text><text x="1241" y="516" text-anchor="middle" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="13" font-weight="500" fill="#7d4a24" font-style="italic" opacity=".92" textLength="286" lengthAdjust="spacingAndGlyphs">one bunch, from the valley of Eshcol</text><text x="415" y="863" text-anchor="middle" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="26" font-weight="600" fill="#4a3520" textLength="140" lengthAdjust="spacingAndGlyphs">THE FIGS</text><text x="415" y="887" text-anchor="middle" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="13" font-weight="500" fill="#7d4a24" font-style="italic" opacity=".92" textLength="238" lengthAdjust="spacingAndGlyphs">and pomegranates, with it</text></svg>`;
 SVG.j13route = `<svg viewBox="0 0 1536 1024" xmlns="http://www.w3.org/2000/svg"><image href="__IMG_j13route__" x="0" y="0" width="1536" height="1024"/><text x="283" y="57" text-anchor="middle" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="22" font-weight="600" fill="#4a3520" textLength="168" lengthAdjust="spacingAndGlyphs">THE START</text><text x="283" y="81" text-anchor="middle" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="12" font-weight="500" fill="#7d4a24" font-style="italic" opacity=".92" textLength="236" lengthAdjust="spacingAndGlyphs">up from the wilderness of Zin</text><text x="644" y="481" text-anchor="middle" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="20" font-weight="600" fill="#4a3520" textLength="224" lengthAdjust="spacingAndGlyphs">THE HILL COUNTRY</text><text x="644" y="505" text-anchor="middle" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="12" font-weight="500" fill="#7d4a24" font-style="italic" opacity=".92" textLength="232" lengthAdjust="spacingAndGlyphs">forty days, one party, one route</text><text x="1369" y="660" text-anchor="middle" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="24" font-weight="600" fill="#4a3520" textLength="146" lengthAdjust="spacingAndGlyphs">HEBRON</text><text x="1369" y="684" text-anchor="middle" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="12" font-weight="500" fill="#7d4a24" font-style="italic" opacity=".92" textLength="214" lengthAdjust="spacingAndGlyphs">where the sons of Anak lived</text></svg>`;
 SVG.j13reports = `<svg viewBox="0 0 1536 1024" xmlns="http://www.w3.org/2000/svg"><image href="__IMG_j13reports__" x="0" y="0" width="1536" height="1024"/><text x="383" y="190" text-anchor="middle" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="36" font-weight="600" fill="#4a3520" textLength="470" lengthAdjust="spacingAndGlyphs">THE REPORT OF THE TEN</text><text x="383" y="228" text-anchor="middle" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="17" font-weight="500" fill="#7d4a24" font-style="italic" opacity=".9" textLength="400" lengthAdjust="spacingAndGlyphs">as taken down before the whole assembly</text><text x="1152" y="190" text-anchor="middle" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="36" font-weight="600" fill="#4a3520" textLength="470" lengthAdjust="spacingAndGlyphs">THE REPORT OF THE TWO</text><text x="1152" y="228" text-anchor="middle" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="17" font-weight="500" fill="#7d4a24" font-style="italic" opacity=".9" textLength="400" lengthAdjust="spacingAndGlyphs">Caleb son of Jephunneh, Joshua son of Nun</text><text x="383" y="900" text-anchor="middle" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="18" font-weight="500" fill="#7d4a24" font-style="italic" opacity=".85" textLength="330" lengthAdjust="spacingAndGlyphs">sealed at Kadesh, on the fortieth day</text><text x="1140" y="900" text-anchor="middle" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="18" font-weight="500" fill="#7d4a24" font-style="italic" opacity=".85" textLength="330" lengthAdjust="spacingAndGlyphs">sealed at Kadesh, on the fortieth day</text></svg>`;
@@ -71,7 +77,10 @@ const JM13_ITEMS = [
   prev:"One cluster, carried on a pole between two men. Nobody disputed it.",
   x:78, y:26, rot:-4, w:214,
   body:`
-    <div class="plate">${SVG.j13grapes}<div class="cap">Click the plate to enlarge it.</div></div>
+    <div class="plate-pair">
+      <div class="plate">${SVG.j13grapes}<div class="cap">Click to enlarge. The cluster, as filed.</div></div>
+      <div class="plate">${SVG.e13fruit}<div class="cap">Click to enlarge. Grapes, pomegranates and figs, with scale and markers.</div></div>
+    </div>
     <p>The survey party did not come back with a description of the fruit. They came back with the fruit.</p>
     <table class="ledger">
       <tr><th>Item</th><th>Note</th></tr>
@@ -108,10 +117,11 @@ const JM13_ITEMS = [
 },
 {
   id:"j13roster", stage:0, kind:"Roster", title:"The Twelve, and How They Reported",
-  sub:"One man from each tribe",
+  sub:"One man from each tribe", thumb:"p13carry",
   prev:"Ten against. Two for. Named, tribe by tribe.",
   x:56, y:52, rot:-2, w:208,
   body:`
+    <figure class="plate poi poi-clip"><img src="__IMG_p13carry__" alt="Two men carrying a huge cluster of grapes on a pole along a vineyard path"><figcaption>Two of the twelve, carrying the cluster.</figcaption></figure>
     <table class="ledger">
       <tr><th>Tribe</th><th>Man sent</th><th>Report</th></tr>
       <tr><td>Reuben</td><td>Shammua</td><td>against</td></tr>
@@ -181,10 +191,11 @@ const JM13_ITEMS = [
 },
 {
   id:"j13assembly", stage:1, kind:"Assembly record", title:"The Assembly Record",
-  sub:"Field Chest B · the order of the meeting",
+  sub:"Field Chest B · the order of the meeting", thumb:"p13tent",
   prev:"Both reports were heard in full. The assembly decided afterwards.",
   x:58, y:24, rot:4, w:208,
   body:`
+    <figure class="plate poi poi-clip"><img src="__IMG_p13tent__" alt="Men seated on cushions inside a tent, some talking, one with his hand over his face"><figcaption>The meeting, from the tent door.</figcaption></figure>
     <p>The last explanation on the board is that the people had made up their minds before anybody spoke. The record of the meeting says otherwise, and the order matters.</p>
     <table class="ledger">
       <tr><th>Order</th><th>What happened</th></tr>
@@ -204,10 +215,11 @@ const JM13_ITEMS = [
 },
 {
   id:"j13measure", stage:1, kind:"Bureau analysis", title:"Two Ways of Measuring",
-  sub:"Field Chest B · what the last line of each report is doing",
+  sub:"Field Chest B · what the last line of each report is doing", thumb:"p13city",
   prev:"Same giants, two yardsticks. Everything turns on what you hold them against.",
   x:80, y:44, rot:-6, w:210,
   body:`
+    <figure class="plate poi poi-clip"><img src="__IMG_p13city__" alt="A walled hilltop city seen through a thorn branch across olive-covered slopes"><figcaption>The city, through the thorns.</figcaption></figure>
     <p>Set the two closing lines beside each other and look at the <b>comparison</b> each one makes.</p>
     <table class="ledger">
       <tr><th></th><th>The ten</th><th>The two</th></tr>
@@ -226,10 +238,11 @@ const JM13_ITEMS = [
 },
 {
   id:"j13caleb", stage:1, kind:"Later statement", title:"Caleb, Forty-Five Years On",
-  sub:"Field Chest B · recorded when the land was divided",
+  sub:"Field Chest B · recorded when the land was divided", thumb:"p13caleb",
   prev:"“I brought him word again as it was in my heart.” He asked for the giants' hill country.",
   x:46, y:62, rot:3, w:206,
   body:`
+    <figure class="plate poi poi-clip"><img src="__IMG_p13caleb__" alt="A man standing on a rock, arm outstretched towards the hills, addressing a large seated crowd"><figcaption>Speaking to the assembly.</figcaption></figure>
     <div class="doc-body">
       <p>"Forty years old was I when Moses sent me to spy out the land, and I brought him word again as it was in my heart. My brethren that went up with me made the heart of the people melt: <b>but I wholly followed the LORD my God.</b></p>
       <p>And now, see, the LORD has kept me alive these forty-five years… I am this day eighty-five years old, and as yet I am as strong this day as I was in the day that Moses sent me.</p>

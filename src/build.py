@@ -119,7 +119,9 @@ NAMES += ['p01ruler', 'p01pharisee', 'p01collector', 'e01payments',
           'p05king', 'p05queen', 'p05daniel', 'p05river', 'e05vessels',
           'p06rahab', 'p06march', 'p06watch', 'e06cord',
           'p09arrive', 'p09bread', 'p09oath', 'p09council', 'e09props',
-          'p10pharaoh', 'p10magicians', 'p10moses', 'p10village', 'e10blows']
+          'p10pharaoh', 'p10magicians', 'p10moses', 'p10village', 'e10blows',
+          'p11council', 'p11cart', 'p11lords', 'p11reapers', 'e11mice',
+          'p13carry', 'p13caleb', 'p13tent', 'p13city', 'e13fruit']
 
 BIBLE_JSON = os.path.join(ROOT, 'bible.json')
 IMAGES     = os.path.join(ROOT, 'images')

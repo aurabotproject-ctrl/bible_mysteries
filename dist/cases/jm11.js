@@ -4,6 +4,12 @@
    Philistia.  Source: 1 Samuel 5–6.
    ============================================================ */
 
+const thumb11 = (src, y) => `<svg viewBox="0 0 820 520" xmlns="http://www.w3.org/2000/svg"><image href="${src}" x="0" y="${-y}" width="820" height="820"/></svg>`;
+SVG.p11council = thumb11("images/p11council.jpg", 120);
+SVG.p11cart = thumb11("images/p11cart.jpg", 90);
+SVG.p11lords = thumb11("images/p11lords.jpg", 150);
+SVG.p11reapers = thumb11("images/p11reapers.jpg", 130);
+SVG.e11mice = `<svg viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg"><image href="images/e11mice.jpg" x="0" y="0" width="1200" height="800"/></svg>`;
 SVG.j11road = `<svg viewBox="0 0 1536 1024" xmlns="http://www.w3.org/2000/svg"><image href="images/j11road.jpg" x="0" y="0" width="1536" height="1024"/><text x="369" y="57" text-anchor="middle" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="25" font-weight="600" fill="#4a3520" textLength="120" lengthAdjust="spacingAndGlyphs">EKRON</text><text x="369" y="81" text-anchor="middle" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="12" font-weight="500" fill="#7d4a24" font-style="italic" opacity=".92" textLength="238" lengthAdjust="spacingAndGlyphs">the Philistine city they left</text><text x="1271" y="79" text-anchor="middle" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="21" font-weight="600" fill="#4a3520" textLength="222" lengthAdjust="spacingAndGlyphs">BETH SHEMESH</text><text x="1271" y="103" text-anchor="middle" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="12" font-weight="500" fill="#7d4a24" font-style="italic" opacity=".92" textLength="244" lengthAdjust="spacingAndGlyphs">in Israel, up the straight road</text><text x="1036" y="682" text-anchor="middle" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="25" font-weight="600" fill="#4a3520" textLength="140" lengthAdjust="spacingAndGlyphs">THE FORK</text><text x="1036" y="706" text-anchor="middle" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="12" font-weight="500" fill="#7d4a24" font-style="italic" opacity=".92" textLength="232" lengthAdjust="spacingAndGlyphs">turn left for home, or go on</text></svg>`;
 SVG.j11cart = `<svg viewBox="0 0 1536 1024" xmlns="http://www.w3.org/2000/svg"><image href="images/j11cart.jpg" x="0" y="0" width="1536" height="1024"/><text x="516" y="77" text-anchor="middle" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="22" font-weight="600" fill="#4a3520" textLength="196" lengthAdjust="spacingAndGlyphs">THE YOKE POLE</text><text x="516" y="101" text-anchor="middle" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="12" font-weight="500" fill="#7d4a24" font-style="italic" opacity=".92" textLength="214" lengthAdjust="spacingAndGlyphs">two milk cows, never yoked</text><text x="875" y="141" text-anchor="middle" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="24" font-weight="600" fill="#4a3520" textLength="142" lengthAdjust="spacingAndGlyphs">THE CHEST</text><text x="875" y="165" text-anchor="middle" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="13" font-weight="500" fill="#7d4a24" font-style="italic" opacity=".92" textLength="158" lengthAdjust="spacingAndGlyphs">the ark of Israel</text><text x="1276" y="214" text-anchor="middle" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="22" font-weight="600" fill="#4a3520" textLength="196" lengthAdjust="spacingAndGlyphs">THE SMALL BOX</text><text x="1276" y="238" text-anchor="middle" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="13" font-weight="500" fill="#7d4a24" font-style="italic" opacity=".92" textLength="164" lengthAdjust="spacingAndGlyphs">the guilt offering</text></svg>`;
 SVG.j11temple = `<svg viewBox="0 0 1536 1024" xmlns="http://www.w3.org/2000/svg"><image href="images/j11temple.jpg" x="0" y="0" width="1536" height="1024"/><text x="1006" y="271" text-anchor="middle" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="20" font-weight="600" fill="#4a3520" textLength="232" lengthAdjust="spacingAndGlyphs">THE EMPTY PLINTH</text><text x="1006" y="295" text-anchor="middle" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="12" font-weight="500" fill="#7d4a24" font-style="italic" opacity=".92" textLength="206" lengthAdjust="spacingAndGlyphs">found empty, two mornings</text><text x="562" y="783" text-anchor="middle" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="22" font-weight="600" fill="#4a3520" textLength="196" lengthAdjust="spacingAndGlyphs">THE THRESHOLD</text><text x="562" y="807" text-anchor="middle" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="13" font-weight="500" fill="#7d4a24" font-style="italic" opacity=".92" textLength="190" lengthAdjust="spacingAndGlyphs">where it came to rest</text></svg>`;
@@ -43,7 +49,10 @@ const JM11_ITEMS = [
   prev:"Set beside their own god as a trophy. Two mornings running, the plinth was empty.",
   x:52, y:22, rot:3, w:216,
   body:`
-    <div class="plate">${SVG.j11temple}<div class="cap">Click the plate to enlarge it. The temple interior at dawn.</div></div>
+    <div class="plate-pair">
+      <div class="plate">${SVG.j11temple}<div class="cap">Click to enlarge. The temple interior at dawn.</div></div>
+      <div class="plate">${SVG.e11mice}<div class="cap">Click to enlarge. Golden mice and golden swellings in a chest, with scale and markers.</div></div>
+    </div>
     <p>The chest was not hidden or buried. It was carried into the temple of Dagon at Ashdod and set beside the god — the standard way of displaying a defeated nation's holy things.</p>
     <table class="ledger">
       <tr><th>Morning</th><th>Found</th></tr>
@@ -164,10 +173,11 @@ const JM11_ITEMS = [
 },
 {
   id:"j11calves", stage:1, kind:"Husbandry note", title:"The Calves, Penned",
-  sub:"Field Chest B · what a milk cow does when you take her calf",
+  sub:"Field Chest B · what a milk cow does when you take her calf", thumb:"p11cart",
   prev:"Ask any farmer. She turns round. She does not walk away up a hill.",
   x:58, y:24, rot:4, w:206,
   body:`
+    <figure class="plate poi poi-clip"><img src="images/p11cart.jpg" alt="A wooden cart carrying a chest, drawn by two cows along a dirt road between stone walls and olive trees"><figcaption>The cart, on the road.</figcaption></figure>
     <p>The Bureau consulted people who keep cattle, because this part of the test is only impressive if you know how cows behave.</p>
     <table class="ledger">
       <tr><th>Situation</th><th>Ordinary behaviour</th></tr>
@@ -184,10 +194,11 @@ const JM11_ITEMS = [
 },
 {
   id:"j11diviners", stage:1, kind:"Advice", title:"The Diviners' Recommendation",
-  sub:"Field Chest B · what the specialists told the lords",
+  sub:"Field Chest B · what the specialists told the lords", thumb:"p11council",
   prev:"“Do not send it back empty. And do not harden your hearts as Egypt did.”",
   x:80, y:44, rot:-6, w:208,
   body:`
+    <figure class="plate poi poi-clip"><img src="images/p11council.jpg" alt="Lords in feathered crowns around a table of scrolls in a pillared hall, one speaking while another rests his chin on his hand"><figcaption>The lords, in council.</figcaption></figure>
     <div class="doc-body">
       <p>The priests and diviners were asked one question: what shall we do with it, and how shall we send it back?</p>
       <p>"If you send away the ark of the God of Israel, do not send it empty; <b>return him a guilt offering</b>. Then you will be healed, and you will know why his hand has not departed from you.</p>
@@ -228,10 +239,11 @@ const JM11_ITEMS = [
 },
 {
   id:"j11watch", stage:1, kind:"Watch log", title:"The Ridge Post — First Entries",
-  sub:"Field Chest B · the log breaks off at the fork",
+  sub:"Field Chest B · the log breaks off at the fork", thumb:"p11lords",
   prev:"“Moved off at once. Lowing continuously. Took the road.” Then the page ends.",
   x:34, y:44, rot:-5, w:204,
   body:`
+    <figure class="plate poi poi-clip"><img src="images/p11lords.jpg" alt="Five lords in feathered headbands walking behind an ox-drawn cart through an olive grove"><figcaption>The lords, following at a distance.</figcaption></figure>
     <p>The five Philistine lords followed the cart at a distance as far as the border. A watch post on the ridge kept a separate log. The Bureau holds the first page only; the rest is in Sealed Pouch C.</p>
     <table class="ledger">
       <tr><th>Entry</th><th>Recorded</th></tr>
@@ -273,10 +285,11 @@ const JM11_ITEMS = [
 },
 {
   id:"j11bethsh", stage:2, kind:"Follow-up", title:"What Beth Shemesh Did",
-  sub:"Sealed Pouch C",
+  sub:"Sealed Pouch C", thumb:"p11reapers",
   prev:"Israel's own town handled it carelessly, and Israel's own record says so.",
   x:56, y:30, rot:4, w:208,
   body:`
+    <figure class="plate poi poi-clip"><img src="images/p11reapers.jpg" alt="Harvesters in a wheat field turning to look at a cart approaching in the distance"><figcaption>The reapers, as the cart comes in.</figcaption></figure>
     <p>The chest arrives among people who ought to know how to treat it. What follows is not a triumphant ending, and the record does not pretend otherwise.</p>
     <table class="ledger">
       <tr><th>Action</th><th>Record</th></tr>

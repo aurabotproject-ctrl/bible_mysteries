@@ -431,6 +431,22 @@ certificate seal). The label wording is listed at the bottom of
 
 ## 11. Recent work, newest first
 
+- **JM-11 and JM-13 photos; print fit for plated sheets.** JM-11: `p11council`
+  (Advice), `p11cart` (The Calves, Penned), `p11lords` (Watch log), `p11reapers`
+  (Follow-up), evidence `e11mice` paired with the temple plate on the Capture
+  report. JM-13: `p13carry` (Roster), `p13caleb` (Later statement), `p13tent`
+  (Assembly record), `p13city` (The Measure), evidence `e13fruit` paired with
+  the grapes plate. Neither case has an Easy level.
+  **Print fit.** A sheet that carries a plate prints as a full card, and several
+  were taller than one A4 page (JM-13 Two Reports, JM-11 The Cart, JM-08 Camp
+  Muster, JM-09 Easy Treaty, and others). The text-length `dense` rule could not
+  predict this, so `PRINT_FIT` in `part_print.js` now holds a measured plate
+  width in mm per item id (`easy:` prefix for the Easy wording), applied as the
+  `fit` class and `--pw` variable. Regenerate it with
+  `python3 src/build.py && python3 tools/printfit.py --write && python3 src/build.py`
+  whenever the text or photographs on a plated document change. The tool lays
+  each pack out as print at 188 mm and narrows any sheet over 270 mm until it
+  is under 266 mm. Sheets with a `plate-pair` are left alone.
 - **JM-06, JM-09, JM-10 photos.** JM-06 (The Walls): `p06march` (Marching Log),
   `p06watch` (Watch Record), `p06rahab` (The House on the Wall), evidence
   `e06cord` paired with the Plan of the Ruins. JM-09 (The Mouldy Bread):
