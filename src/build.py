@@ -100,7 +100,8 @@ NAMES = ['bibsign', 'bibseal', 'poster_jm00', 'j00beginning', 'j00cause', 'j00di
 # single-case handout carries them too. The cut-outs are WebP because they
 # need transparency and PNG would be four or five times the size.
 FX = ['fx_desk', 'fx_cork', 'fx_folder_open', 'fx_folder_shut',
-      'fx_paper_report', 'fx_paper_index', 'fx_paper_index_plain', 'fx_paper_index_soft', 'fx_paper_ledger', 'fx_paper_statement',
+      'fx_paper_report', 'fx_paper_index', 'fx_paper_index_plain', 'fx_paper_index_soft',
+      'fx_paper_ledger_plain', 'fx_paper_ledger_soft', 'fx_paper_statement_plain', 'fx_paper_statement_soft', 'fx_paper_ledger', 'fx_paper_statement',
       'fx_polaroid', 'fx_tag', 'fx_props_left', 'fx_props_right',
       'fx_clip', 'fx_binder', 'fx_pin_red', 'fx_pin_red2', 'fx_pin_brass',
       'fx_tape1', 'fx_tape2', 'fx_tape3',
@@ -113,7 +114,9 @@ NAMES += ['p01ruler', 'p01pharisee', 'p01collector', 'e01payments',
           'p33mary', 'p33guards', 'p33running', 'p33payment', 'p33joseph', 'e33linen',
           'p47king', 'p47naaman', 'p47hazael', 'p47elisha', 'e47dispatch',
           'p19samson', 'p19thirty', 'p19wife', 'p19parents', 'e19honey',
-          'p08achan', 'p08scouts', 'p08joshua', 'e08cache', 'p02parents', 'p02caravan', 'p02temple', 'e02camp']
+          'p08achan', 'p08scouts', 'p08joshua', 'e08cache', 'p02parents', 'p02caravan', 'p02temple', 'e02camp',
+          'p03shepherd', 'p03bush', 'p03jethro', 'e03samples', 'p04first', 'p04second', 'p04king', 'e04room',
+          'p05king', 'p05queen', 'p05daniel', 'p05river', 'e05vessels']
 
 BIBLE_JSON = os.path.join(ROOT, 'bible.json')
 IMAGES     = os.path.join(ROOT, 'images')

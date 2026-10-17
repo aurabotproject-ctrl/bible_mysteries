@@ -50,8 +50,8 @@
   padding:3px 4px 30px;overflow:visible;
 }
 .item .card::after{content:none}
-.item.paper-ledger    .card{border-image-source:url(__IMG_fx_paper_ledger__)}
-.item.paper-statement .card{border-image-source:url(__IMG_fx_paper_statement__)}
+.item.paper-ledger    .card{border-image-source:url(__IMG_fx_paper_ledger_soft__)}
+.item.paper-statement .card{border-image-source:url(__IMG_fx_paper_statement_soft__)}
 .item.paper-index     .card{border-width:18px 12px 12px;border-image:url(__IMG_fx_paper_index_soft__) 86 58 58 fill / 18px 12px 12px stretch}
 .item.paper-ledger .card{padding-left:10px}
 .item .kind{font-family:"Courier New",Courier,monospace;letter-spacing:.14em;font-size:8.5px}
@@ -98,8 +98,8 @@
   border-image:url(__IMG_fx_paper_report__) 74 fill / 22px stretch;
   filter:drop-shadow(0 30px 40px rgba(0,0,0,.7));
 }
-.sheet.doc.paper-ledger{border-image-source:url(__IMG_fx_paper_ledger__)}
-.sheet.doc.paper-statement{border-image-source:url(__IMG_fx_paper_statement__)}
+.sheet.doc.paper-ledger{border-image-source:url(__IMG_fx_paper_ledger_plain__)}
+.sheet.doc.paper-statement{border-image-source:url(__IMG_fx_paper_statement_plain__)}
 .sheet.doc.paper-index{border-width:33px 22px 22px;border-image:url(__IMG_fx_paper_index_plain__) 86 58 58 fill / 33px 22px 22px stretch}
 .sheet.doc .body{padding:18px 26px 40px;
   background:url(__IMG_fx_ring2__) right 6px bottom 4px/120px no-repeat}

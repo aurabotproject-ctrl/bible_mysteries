@@ -431,6 +431,20 @@ certificate seal). The label wording is listed at the bottom of
 
 ## 11. Recent work, newest first
 
+- **JM-03, JM-04, JM-05 photos.** JM-03: `p03shepherd` (His Own Account),
+  `p03bush` (Site Report), `p03jethro` (What Came Of It), evidence `e03samples`
+  paired with the plate on The Bush and the Control Samples. JM-04: `p04king`
+  (Court Record), `p04first` (Household Record), `p04second` (Neighbourhood
+  Record), evidence `e04room` paired with the plan. JM-05: `p05king`
+  (Proclamation), `p05queen`, `p05daniel`, `p05river` (Night the City Fell),
+  evidence `e05vessels` paired with the vessels plate. Do not put a
+  `poi-clip` photo on a document that also opens with a `.plate`: the float
+  pushes the plate's image down and leaves an empty frame (this is why the two
+  statement-sheet documents in JM-04 carry no photo).
+- **Ruled lines taken out of the paper.** `fx_paper_index/ledger/statement`
+  each have `_plain` (lines removed; used by the opened document, `.sheet.doc`)
+  and `_soft` (lines at 40%; used by the desk cards). The originals are kept.
+
 - **JM-08 and JM-02 photos.** JM-08: `p08achan` (on The Confession),
   `p08scouts` (Scouts' Report), `p08joshua` (Joshua's Charge), evidence
   `e08cache` (Tent Search Report, single plate). JM-02: `p02parents` (Parents'

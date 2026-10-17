@@ -41,6 +41,7 @@ j03letter:{
 j03site:{
   prev:"No ash. No burn marks. No scorched ground. Nothing burned here at all.",
   body:`
+    <figure class="plate poi poi-clip"><img src="images/p03bush.jpg" alt="A thorny bush burning with fire but still green, seen between blurred rocks"><figcaption>The bush, from across the ledge.</figcaption></figure>
     <p>The place is a flat shelf of bare stony ground on the lower slope, with one thorn bush growing out of a crack. Our surveyor went over it one square metre at a time.</p>
     <table class="ledger">
       <tr><th>Looked for</th><th>Found</th></tr>
@@ -61,6 +62,7 @@ j03site:{
 j03account:{
   prev:"“I will go over and look at this amazing thing — why the bush is not burning up.”",
   body:`
+    <figure class="plate poi poi-clip"><img src="images/p03shepherd.jpg" alt="An older shepherd with a staff and his flock on a rocky mountain slope"><figcaption>The shepherd, alone on the mountain.</figcaption></figure>
     <div class="doc-body">
       <p>"I had the flock on the far side of the desert and I brought them to the mountain, the way I have for years. There was a bush alight on the shelf above me.</p>
       <p>I did not go over because a bush was burning. Bushes burn. <b>I went over because it kept burning and the bush was still there.</b> I stood and watched it long enough to be sure, and then I said to myself: I will go over and look at this amazing thing, and find out why the bush is not burning up.</p>
@@ -146,7 +148,10 @@ j03mount:{
 j03branch:{
   prev:"Same kind of bush, same size. One of them has been in a fire.",
   body:`
-    <div class="plate">${SVG.j03branch}<div class="cap">Click to make it bigger. The branch from the site, next to two we burned on purpose.</div></div>
+    <div class="plate-pair">
+      <div class="plate">${SVG.j03branch}<div class="cap">Click to make it bigger. The branch from the site, next to two we burned on purpose.</div></div>
+      <div class="plate">${SVG.e03samples}<div class="cap">Click to enlarge. Ash, charred twigs and a living sprig.</div></div>
+    </div>
     <p>We took a branch from the bush at the site. Then we cut two more branches nearby, the same kind of plant and the same size. One was held in a fire for an hour. The other was burned until there was nothing left.</p>
     <table class="ledger">
       <tr><th>Branch</th><th>Condition</th></tr>
@@ -250,6 +255,7 @@ j03ground:{
 j03after:{
   prev:"An eighty-year-old shepherd went back to the country he had run away from.",
   body:`
+    <figure class="plate poi poi-clip"><img src="images/p03jethro.jpg" alt="An older man sitting outside a large tent among a family of tents"><figcaption>Jethro, outside his tent.</figcaption></figure>
     <p>One way to test whether someone really had the experience they claim is to look at what they did about it afterwards. Here the answer is unusually clear.</p>
     <table class="ledger">
       <tr><th>Before</th><th>After</th></tr>

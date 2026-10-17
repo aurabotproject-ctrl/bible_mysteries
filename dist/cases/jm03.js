@@ -8,6 +8,12 @@ SVG.j03branch = `<svg viewBox="0 0 1536 1024" xmlns="http://www.w3.org/2000/svg"
 SVG.j03mount = `<svg viewBox="0 0 1536 1024" xmlns="http://www.w3.org/2000/svg"><image href="images/j03mount.jpg" x="0" y="0" width="1536" height="1024"/><text x="1282" y="85" text-anchor="middle" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="26" font-weight="600" fill="#4a3520" textLength="108" lengthAdjust="spacingAndGlyphs">HOREB</text><text x="1282" y="109" text-anchor="middle" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="13" font-weight="500" fill="#7d4a24" font-style="italic" opacity=".92" textLength="190" lengthAdjust="spacingAndGlyphs">the mountain of God</text><text x="372" y="490" text-anchor="middle" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="19" font-weight="600" fill="#4a3520" textLength="232" lengthAdjust="spacingAndGlyphs">THE GRAZING GROUND</text><text x="372" y="514" text-anchor="middle" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="13" font-weight="500" fill="#7d4a24" font-style="italic" opacity=".92" textLength="158" lengthAdjust="spacingAndGlyphs">the flock was here</text><text x="1247" y="667" text-anchor="middle" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="25" font-weight="600" fill="#4a3520" textLength="128" lengthAdjust="spacingAndGlyphs">THE SITE</text><text x="1247" y="691" text-anchor="middle" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="13" font-weight="500" fill="#7d4a24" font-style="italic" opacity=".92" textLength="200" lengthAdjust="spacingAndGlyphs">no ash, no scorching</text></svg>`;
 SVG.j03fire = `<svg viewBox="0 0 1536 1024" xmlns="http://www.w3.org/2000/svg"><image href="images/j03fire.jpg" x="0" y="0" width="1536" height="1024"/><text x="301" y="817" text-anchor="middle" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="25" font-weight="600" fill="#4a3520" textLength="138" lengthAdjust="spacingAndGlyphs">UNBURNT</text><text x="301" y="841" text-anchor="middle" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="13" font-weight="500" fill="#7d4a24" font-style="italic" opacity=".92" textLength="190" lengthAdjust="spacingAndGlyphs">the bush at the site</text><text x="773" y="817" text-anchor="middle" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="23" font-weight="600" fill="#4a3520" textLength="232" lengthAdjust="spacingAndGlyphs">BURNT ONE HOUR</text><text x="773" y="841" text-anchor="middle" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="13" font-weight="500" fill="#7d4a24" font-style="italic" opacity=".92" textLength="218" lengthAdjust="spacingAndGlyphs">bark gone, shape kept</text><text x="1250" y="817" text-anchor="middle" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="23" font-weight="600" fill="#4a3520" textLength="228" lengthAdjust="spacingAndGlyphs">BURNT THROUGH</text><text x="1250" y="841" text-anchor="middle" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="13" font-weight="500" fill="#7d4a24" font-style="italic" opacity=".92" textLength="208" lengthAdjust="spacingAndGlyphs">shape gone, ash left</text></svg>`;
 
+const thumb03 = (src, y) => `<svg viewBox="0 0 820 520" xmlns="http://www.w3.org/2000/svg"><image href="${src}" x="0" y="${-y}" width="820" height="820"/></svg>`;
+SVG.p03shepherd = thumb03("images/p03shepherd.jpg", 150);
+SVG.p03bush = thumb03("images/p03bush.jpg", 130);
+SVG.p03jethro = thumb03("images/p03jethro.jpg", 170);
+SVG.e03samples = `<svg viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg"><image href="images/e03samples.jpg" x="0" y="0" width="1200" height="800"/></svg>`;
+
 const JM03_ITEMS = [
 
 /* ---------------- STAGE 0 ---------------- */
@@ -39,10 +45,11 @@ const JM03_ITEMS = [
 },
 {
   id:"j03site", stage:0, kind:"Field survey", title:"The Site Report",
-  sub:"Surveyed at the place he describes",
+  sub:"Surveyed at the place he describes", thumb:"p03bush",
   prev:"No ash. No charring. No scorched ground. Nothing burned here at all.",
   x:52, y:22, rot:3, w:214,
   body:`
+    <figure class="plate poi poi-clip"><img src="images/p03bush.jpg" alt="A thorny bush burning with fire but still green, seen between blurred rocks"><figcaption>The bush, from across the ledge.</figcaption></figure>
     <p>The site is a shelf of bare stony ground on the lower slopes, with a single thorn bush growing out of a crack. It was surveyed square metre by square metre.</p>
     <table class="ledger">
       <tr><th>Looked for</th><th>Found</th></tr>
@@ -61,10 +68,11 @@ const JM03_ITEMS = [
 },
 {
   id:"j03account", stage:0, kind:"Statement", title:"His Own Account",
-  sub:"Taken from the witness",
+  sub:"Taken from the witness", thumb:"p03shepherd",
   prev:"“I will turn aside now and see this great sight — why the bush is not burnt.”",
   x:78, y:26, rot:-4, w:208,
   body:`
+    <figure class="plate poi poi-clip"><img src="images/p03shepherd.jpg" alt="An older shepherd with a staff and his flock on a rocky mountain slope"><figcaption>The shepherd, alone on the mountain.</figcaption></figure>
     <div class="doc-body">
       <p>"I had the flock on the far side of the wilderness and I brought them to the mountain, as I have done for years. There was a bush alight on the shelf above me.</p>
       <p>I did not turn aside because a bush was burning. Bushes burn. <b>I turned aside because it kept burning and the bush was still there.</b> I stood and watched it long enough to be sure, and then I said to myself: I will go over and see this great sight, and find out why the bush is not burnt up.</p>
@@ -162,7 +170,10 @@ const JM03_ITEMS = [
   prev:"Same species, same size. One of them has been in a fire.",
   x:40, y:76, rot:-5, w:214,
   body:`
-    <div class="plate">${SVG.j03branch}<div class="cap">Click to enlarge. The site specimen with two control samples.</div></div>
+    <div class="plate-pair">
+      <div class="plate">${SVG.j03branch}<div class="cap">Click to enlarge. The site specimen with two control samples.</div></div>
+      <div class="plate">${SVG.e03samples}<div class="cap">Click to enlarge. Ash, charred twigs and a living sprig.</div></div>
+    </div>
     <p>A branch was taken from the bush at the site. Two control branches of the same species and size were cut nearby: one was held in a fire for an hour, the other burned to completion.</p>
     <table class="ledger">
       <tr><th>Specimen</th><th>Condition</th></tr>
@@ -278,10 +289,11 @@ const JM03_ITEMS = [
 },
 {
   id:"j03after", stage:2, kind:"Follow-up file", title:"What Came Of It",
-  sub:"Sealed Pouch C",
+  sub:"Sealed Pouch C", thumb:"p03jethro",
   prev:"An eighty-year-old shepherd went back to the country he had fled.",
   x:78, y:60, rot:-5, w:206,
   body:`
+    <figure class="plate poi poi-clip"><img src="images/p03jethro.jpg" alt="An older man sitting outside a large tent among a family of tents"><figcaption>Jethro, outside his tent.</figcaption></figure>
     <p>The Bureau tests a claimed experience by what the person then did about it. This one has an unusually clear answer.</p>
     <table class="ledger">
       <tr><th>Before</th><th>After</th></tr>

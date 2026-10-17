@@ -8,6 +8,13 @@ SVG.j05wall = `<svg viewBox="0 0 1536 1024" xmlns="http://www.w3.org/2000/svg"><
 SVG.j05weights = `<svg viewBox="0 0 1536 1024" xmlns="http://www.w3.org/2000/svg"><image href="images/j05weights.jpg" x="0" y="0" width="1536" height="1024"/><text x="446" y="122" text-anchor="middle" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="25" font-weight="600" fill="#4a3520" textLength="206" lengthAdjust="spacingAndGlyphs">THE BALANCE</text><text x="446" y="148" text-anchor="middle" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="14" font-weight="500" fill="#7d4a24" font-style="italic" opacity=".92" textLength="224" lengthAdjust="spacingAndGlyphs">pans empty, beam level</text><text x="159" y="556" text-anchor="middle" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="25" font-weight="600" fill="#4a3520" textLength="150" lengthAdjust="spacingAndGlyphs">ONE MINA</text><text x="159" y="582" text-anchor="middle" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="14" font-weight="500" fill="#7d4a24" font-style="italic" opacity=".92" textLength="140" lengthAdjust="spacingAndGlyphs">sixty shekels</text></svg>`;
 SVG.j05vessels = `<svg viewBox="0 0 1536 1024" xmlns="http://www.w3.org/2000/svg"><image href="images/j05vessels.jpg" x="0" y="0" width="1536" height="1024"/><text x="1230" y="238" text-anchor="middle" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="23" font-weight="600" fill="#4a3520" textLength="246" lengthAdjust="spacingAndGlyphs">THE TEMPLE BASIN</text><text x="1230" y="264" text-anchor="middle" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="13" font-weight="500" fill="#7d4a24" font-style="italic" opacity=".92" textLength="238" lengthAdjust="spacingAndGlyphs">carried off from Jerusalem</text></svg>`;
 
+const thumb05 = (src, y) => `<svg viewBox="0 0 820 520" xmlns="http://www.w3.org/2000/svg"><image href="${src}" x="0" y="${-y}" width="820" height="820"/></svg>`;
+SVG.p05king = thumb05("images/p05king.jpg", 200);
+SVG.p05queen = thumb05("images/p05queen.jpg", 150);
+SVG.p05daniel = thumb05("images/p05daniel.jpg", 180);
+SVG.p05river = thumb05("images/p05river.jpg", 230);
+SVG.e05vessels = `<svg viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg"><image href="images/e05vessels.jpg" x="0" y="0" width="1200" height="800"/></svg>`;
+
 const JM05_ITEMS = [
 
 /* ---------------- STAGE 0 ---------------- */
@@ -148,7 +155,10 @@ const JM05_ITEMS = [
   prev:"A thousand nobles, and the temple vessels used as wine cups.",
   x:40, y:76, rot:-5, w:212,
   body:`
-    <div class="plate">${SVG.j05vessels}<div class="cap">Click to enlarge. The vessels as they stood when the hall emptied.</div></div>
+    <div class="plate-pair">
+      <div class="plate">${SVG.j05vessels}<div class="cap">Click to enlarge. The vessels as they stood when the hall emptied.</div></div>
+      <div class="plate">${SVG.e05vessels}<div class="cap">Click to enlarge. Temple cups among spilled wine.</div></div>
+    </div>
     <table class="ledger">
       <tr><th>Detail</th><th>Record</th></tr>
       <tr><td>Guests</td><td><b>A thousand</b> of the king's lords, with his wives and his concubines</td></tr>
@@ -165,10 +175,11 @@ const JM05_ITEMS = [
 },
 {
   id:"j05proclaim", stage:0, kind:"Proclamation", title:"The King's Proclamation",
-  sub:"What was offered to whoever could read it",
+  sub:"What was offered to whoever could read it", thumb:"p05king",
   prev:"Purple, a gold chain, and the third place in the kingdom.",
   x:64, y:78, rot:2, w:202,
   body:`
+    <figure class="plate poi poi-clip"><img src="images/p05king.jpg" alt="A king at a great feast raising a gold cup, seen through blurred guests"><figcaption>The king, raising the cup.</figcaption></figure>
     <p>Cried aloud in the hall while the writing was still on the wall.</p>
     <div class="stamp">PROCLAMATION</div>
     <table class="ledger">
@@ -207,10 +218,11 @@ const JM05_ITEMS = [
 },
 {
   id:"j05queen", stage:1, kind:"Statement", title:"The Queen's Statement",
-  sub:"Field Chest B · she was not at the feast",
+  sub:"Field Chest B · she was not at the feast", thumb:"p05queen",
   prev:"She came in because of the noise, and she remembered a man nobody else did.",
   x:58, y:24, rot:4, w:206,
   body:`
+    <figure class="plate poi poi-clip"><img src="images/p05queen.jpg" alt="An elderly royal woman in rich robes walking quickly into a banquet hall"><figcaption>The queen, coming into the hall.</figcaption></figure>
     <div class="doc-body">
       <p>"I was not at the banquet. I came down because of the noise the hall was making — you could hear it through the palace.</p>
       <p>I found the king with the colour gone out of his face and his lords standing about him saying nothing, which is not a thing I have seen before.</p>
@@ -228,10 +240,11 @@ const JM05_ITEMS = [
 },
 {
   id:"j05daniel", stage:1, kind:"Personnel file", title:"Daniel's File",
-  sub:"Field Chest B · the Bureau's record of the man",
+  sub:"Field Chest B · the Bureau's record of the man", thumb:"p05daniel",
   prev:"Eighty years old, out of office, and not at the feast.",
   x:80, y:44, rot:-6, w:206,
   body:`
+    <figure class="plate poi poi-clip"><img src="images/p05daniel.jpg" alt="An old man with a white beard in plain dignified robes walking down a palace corridor carrying a scroll"><figcaption>Daniel, in the palace corridor.</figcaption></figure>
     <p>The file on the man the queen named, as far as the archive can reconstruct it.</p>
     <table class="ledger">
       <tr><th>Detail</th><th>Record</th></tr>
@@ -291,10 +304,11 @@ const JM05_ITEMS = [
 },
 {
   id:"j05night", stage:2, kind:"Follow-up file", title:"The Night the City Fell",
-  sub:"Sealed Pouch C · what happened before morning",
+  sub:"Sealed Pouch C · what happened before morning", thumb:"p05river",
   prev:"The same night. Not a campaign, not a siege — that night.",
   x:56, y:30, rot:4, w:208,
   body:`
+    <figure class="plate poi poi-clip"><img src="images/p05river.jpg" alt="Soldiers wading through a low river at night under a great city wall"><figcaption>Soldiers wading the river, by night.</figcaption></figure>
     <table class="ledger">
       <tr><th>Event</th><th>Record</th></tr>
       <tr><td>Daniel clothed in purple, given the chain and third place</td><td>the same evening</td></tr>

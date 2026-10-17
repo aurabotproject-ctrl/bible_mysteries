@@ -17,6 +17,12 @@ SVG.j04sheetsBe = SVG.j04sheets.replace('</svg>', `<text x="852" y="236" font-fa
 
 SVG.j04sword = `<svg viewBox="0 0 1536 1024" xmlns="http://www.w3.org/2000/svg"><image href="images/j04sword.jpg" x="0" y="0" width="1536" height="1024"/><text x="700" y="110" text-anchor="middle" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="27" font-weight="600" fill="#4a3520" textLength="148" lengthAdjust="spacingAndGlyphs">THE SWORD</text><text x="700" y="137" text-anchor="middle" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="14" font-weight="500" fill="#7d4a24" font-style="italic" opacity=".92" textLength="218" lengthAdjust="spacingAndGlyphs">what the king called for</text><text x="1335" y="229" text-anchor="middle" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="27" font-weight="600" fill="#4a3520" textLength="168" lengthAdjust="spacingAndGlyphs">THE CRADLE</text><text x="1335" y="256" text-anchor="middle" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="14" font-weight="500" fill="#7d4a24" font-style="italic" opacity=".92" textLength="236" lengthAdjust="spacingAndGlyphs">one living child, unmarked</text></svg>`;
 
+const thumb04 = (src, y) => `<svg viewBox="0 0 820 520" xmlns="http://www.w3.org/2000/svg"><image href="${src}" x="0" y="${-y}" width="820" height="820"/></svg>`;
+SVG.p04first = thumb04("images/p04first.jpg", 110);
+SVG.p04second = thumb04("images/p04second.jpg", 120);
+SVG.p04king = thumb04("images/p04king.jpg", 220);
+SVG.e04room = `<svg viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg"><image href="images/e04room.jpg" x="0" y="0" width="1200" height="800"/></svg>`;
+
 const JM04_ITEMS = [
 
 /* ---------------- STAGE 0 ---------------- */
@@ -48,10 +54,11 @@ const JM04_ITEMS = [
 },
 {
   id:"j04court", stage:0, kind:"Court record", title:"The Court Record",
-  sub:"The hearing, as registered",
+  sub:"The hearing, as registered", thumb:"p04king",
   prev:"Two claimants. No witnesses. Nothing produced in evidence.",
   x:52, y:22, rot:3, w:212,
   body:`
+    <figure class="plate poi poi-clip"><img src="images/p04king.jpg" alt="A young king on a carved ivory throne, chin on hand, seen through an open doorway past guards"><figcaption>The king, listening from his throne.</figcaption></figure>
     <p>The hearing was held before the king himself, in open court. The register is short because there was so little to register.</p>
     <table class="ledger">
       <tr><th>Entry</th><th>Record</th></tr>
@@ -69,10 +76,11 @@ const JM04_ITEMS = [
 },
 {
   id:"j04household", stage:0, kind:"Household record", title:"The Household Record",
-  sub:"Who lived in the house, and what happened in it",
+  sub:"Who lived in the house, and what happened in it", thumb:"p04first",
   prev:"Two women, two sons born three days apart. By morning there is one child.",
   x:78, y:26, rot:-4, w:210,
   body:`
+    <figure class="plate poi poi-clip"><img src="images/p04first.jpg" alt="A young woman in a plain headscarf standing in a palace queue, arms folded"><figcaption>The first woman, in the queue.</figcaption></figure>
     <p>The record of the household, so far as it can be reconstructed.</p>
     <table class="ledger">
       <tr><th>Detail</th><th>Record</th></tr>
@@ -96,7 +104,10 @@ const JM04_ITEMS = [
   prev:"One door in or out, and nobody else on the other side of it.",
   x:26, y:56, rot:5, w:216,
   body:`
-    <div class="plate">${SVG.j04house}<div class="cap">Click the plan to enlarge it.</div></div>
+    <div class="plate-pair">
+      <div class="plate">${SVG.j04house}<div class="cap">Click the plan to enlarge it.</div></div>
+      <div class="plate">${SVG.e04room}<div class="cap">Click to enlarge. The room: two mats and one lamp.</div></div>
+    </div>
     <h4>What the plan tells you</h4>
     <ul>
       <li>A small two-room house. One sleeping room each, a mat and a cradle in each, and a shared outer wall.</li>
@@ -186,10 +197,11 @@ const JM04_ITEMS = [
 },
 {
   id:"j04neighbours", stage:1, kind:"Official record", title:"The Neighbourhood Record",
-  sub:"Field Chest B · everyone who could have known anything",
+  sub:"Field Chest B · everyone who could have known anything", thumb:"p04second",
   prev:"Nobody visited. Nobody heard. Nobody was asked because there was nobody to ask.",
   x:58, y:24, rot:4, w:206,
   body:`
+    <figure class="plate poi poi-clip"><img src="images/p04second.jpg" alt="A young woman in a plain headscarf waiting by a stone wall, tired and anxious"><figcaption>The second woman, by the wall.</figcaption></figure>
     <p>The obvious way out of a deadlock is to find somebody who was there. The Bureau looked.</p>
     <table class="ledger">
       <tr><th>Enquiry</th><th>Result</th></tr>

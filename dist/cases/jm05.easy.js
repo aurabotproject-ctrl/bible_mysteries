@@ -135,7 +135,10 @@ j05witness:{
 j05vessels:{
   prev:"A thousand important guests, and the temple cups used as wine glasses.",
   body:`
-    <div class="plate">${SVG.j05vessels}<div class="cap">Click to make it bigger. The cups as they stood when the hall emptied.</div></div>
+    <div class="plate-pair">
+      <div class="plate">${SVG.j05vessels}<div class="cap">Click to make it bigger. The cups as they stood when the hall emptied.</div></div>
+      <div class="plate">${SVG.e05vessels}<div class="cap">Click to enlarge. Temple cups among spilled wine.</div></div>
+    </div>
     <table class="ledger">
       <tr><th>Detail</th><th>Record</th></tr>
       <tr><td>Guests</td><td><b>A thousand</b> of the king's lords, with his wives</td></tr>
@@ -154,6 +157,7 @@ j05vessels:{
 j05proclaim:{
   prev:"Purple robes, a gold chain, and third place in the kingdom.",
   body:`
+    <figure class="plate poi poi-clip"><img src="images/p05king.jpg" alt="A king at a great feast raising a gold cup, seen through blurred guests"><figcaption>The king, raising the cup.</figcaption></figure>
     <p>Shouted out in the hall while the writing was still on the wall.</p>
     <div class="stamp">PROCLAMATION</div>
     <table class="ledger">
@@ -190,6 +194,7 @@ j05court:{
 j05queen:{
   prev:"She came in because of the noise, and she remembered a man nobody else did.",
   body:`
+    <figure class="plate poi poi-clip"><img src="images/p05queen.jpg" alt="An elderly royal woman in rich robes walking quickly into a banquet hall"><figcaption>The queen, coming into the hall.</figcaption></figure>
     <div class="doc-body">
       <p>"I was not at the feast. I came down because of the noise the hall was making — you could hear it through the palace.</p>
       <p>I found the king with all the colour gone out of his face, and his lords standing round him saying nothing, which is not something I have seen before.</p>
@@ -209,6 +214,7 @@ j05queen:{
 j05daniel:{
   prev:"Eighty years old, out of a job, and not at the feast.",
   body:`
+    <figure class="plate poi poi-clip"><img src="images/p05daniel.jpg" alt="An old man with a white beard in plain dignified robes walking down a palace corridor carrying a scroll"><figcaption>Daniel, in the palace corridor.</figcaption></figure>
     <p>Our file on the man the queen named, as far as we can put it together.</p>
     <table class="ledger">
       <tr><th>Detail</th><th>Record</th></tr>
@@ -264,6 +270,7 @@ j05reading:{
 j05night:{
   prev:"The same night. Not a war, not a siege — that night.",
   body:`
+    <figure class="plate poi poi-clip"><img src="images/p05river.jpg" alt="Soldiers wading through a low river at night under a great city wall"><figcaption>Soldiers wading the river, by night.</figcaption></figure>
     <table class="ledger">
       <tr><th>Event</th><th>Record</th></tr>
       <tr><td>Daniel dressed in purple, given the chain and third place</td><td>the same evening</td></tr>

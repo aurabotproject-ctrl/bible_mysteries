@@ -41,6 +41,7 @@ j04letter:{
 j04court:{
   prev:"Two women claiming. No witnesses. Nothing handed in as evidence.",
   body:`
+    <figure class="plate poi poi-clip"><img src="__IMG_p04king__" alt="A young king on a carved ivory throne, chin on hand, seen through an open doorway past guards"><figcaption>The king, listening from his throne.</figcaption></figure>
     <p>The hearing was held in front of the king himself, in open court. The record is short because there was so little to write down.</p>
     <table class="ledger">
       <tr><th>Entry</th><th>Record</th></tr>
@@ -60,6 +61,7 @@ j04court:{
 j04household:{
   prev:"Two women, two sons born three days apart. By morning there is one baby.",
   body:`
+    <figure class="plate poi poi-clip"><img src="__IMG_p04first__" alt="A young woman in a plain headscarf standing in a palace queue, arms folded"><figcaption>The first woman, in the queue.</figcaption></figure>
     <p>What we know about the house.</p>
     <table class="ledger">
       <tr><th>Detail</th><th>Record</th></tr>
@@ -79,7 +81,10 @@ j04household:{
 j04house:{
   prev:"One door in or out, and nobody else on the other side of it.",
   body:`
-    <div class="plate">${SVG.j04house}<div class="cap">Click the plan to make it bigger.</div></div>
+    <div class="plate-pair">
+      <div class="plate">${SVG.j04house}<div class="cap">Click the plan to make it bigger.</div></div>
+      <div class="plate">${SVG.e04room}<div class="cap">Click to enlarge. The room: two mats and one lamp.</div></div>
+    </div>
     <h4>What the plan tells you</h4>
     <ul>
       <li>A small house with two rooms. One sleeping room each, a mat and a cradle in each, and a shared outside wall.</li>
@@ -161,6 +166,7 @@ j04compare:{
 j04neighbours:{
   prev:"Nobody visited. Nobody heard. Nobody was asked, because there was nobody to ask.",
   body:`
+    <figure class="plate poi poi-clip"><img src="__IMG_p04second__" alt="A young woman in a plain headscarf waiting by a stone wall, tired and anxious"><figcaption>The second woman, by the wall.</figcaption></figure>
     <p>The obvious way out of a deadlock is to find somebody who was there. We looked.</p>
     <table class="ledger">
       <tr><th>What we asked</th><th>What we found</th></tr>
