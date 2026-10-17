@@ -243,6 +243,8 @@
   .plate.poi figcaption{font-size:10px}
   /* a page holding the polaroids as well needs its exhibit photo a little smaller */
   .pp-card.sheet .poi-grid ~ .plate.wideplate{max-width:132mm}
+  .pp-card.sheet.dense .plate.wideplate{max-width:104mm}
+  .pp-card.sheet.dense2 .plate.wideplate{max-width:74mm}
 }
 
 @media print{

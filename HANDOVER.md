@@ -431,6 +431,17 @@ certificate seal). The label wording is listed at the bottom of
 
 ## 11. Recent work, newest first
 
+- **JM-00 images wired in.** Poster (`poster_jm00.jpg`), six plates
+  (`j00beginning/cause/dials/tablets/code/workshop.jpg`) and three evidence
+  photos (`e00wing/e00tablet/e00dna.jpg`). Each plate has a blank plaque top
+  right (x 1250-1512, y 20-102 of 1536x1024); the label is real SVG text
+  centred at (1381, 70), defined with the plates at the top of
+  `part_case21.js`. Tablets, code and workshop pair the plate with an evidence
+  photo (`.plate-pair`); the other three carry one plate. Print: a sheet with
+  one plate and a lot of text gets a `.dense` / `.dense2` class from
+  `printPack` (`part_print.js`) that narrows the plate (`part_css_fx.css`) so
+  every document stays on one page. The pack is 28 pages.
+
 - **CASE JM-00 — The Maker's Mark** (`src/part_case21.js`, first in
   `CASE_FILES` so it sits first on the shelf). Was the world made, or did it
   just happen? Five no-Maker explanations closed on evidence that holds up:

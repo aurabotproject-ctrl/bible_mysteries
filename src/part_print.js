@@ -144,8 +144,12 @@ function printPack(cdef){
      than a card can be. The team lays the sheet on the desk whole. */
   const card = (it, band) => {
     const sheet = /class="plate"/.test(it.body);
+    /* a lot of text under a single plate: shrink the plate so the sheet stays one page */
+    const plain = it.body.replace(/<[^>]*>/g, " ").replace(/\s+/g, " ").length;
+    const dense = sheet && (it.body.match(/class="plate"/g) || []).length === 1 && plain > 1200
+                  ? (plain > 1650 ? " dense dense2" : " dense") : "";
     return `
-    <article class="pp-card${sheet ? " sheet" : ""}">
+    <article class="pp-card${sheet ? " sheet" : ""}${dense}">
       ${band?`<div class="pp-band">${band}</div>`:""}
       <div class="doc-kind">${it.kind}</div>
       <div class="pp-ct">${it.title}</div>

@@ -73,7 +73,7 @@ def img_ext(n):
             return e
     sys.exit('images/%s: expected a .jpg, .png or .webp' % n)
 
-NAMES = ['bibsign', 'bibseal', 'poster_jm00', 'poster_jm01', 'j01hill', 'j01gate', 'j01ledger', 'j01paid', 'j01cert',
+NAMES = ['bibsign', 'bibseal', 'poster_jm00', 'j00beginning', 'j00cause', 'j00dials', 'j00tablets', 'j00code', 'j00workshop', 'e00wing', 'e00tablet', 'e00dna', 'poster_jm01', 'j01hill', 'j01gate', 'j01ledger', 'j01paid', 'j01cert',
          'map', 'tomb', 'stone', 'seal', 'roster', 'cipher', 'decoder',
          'j47map', 'j47chamber', 'j47disp', 'j47dothan',
          'poster_jm33', 'poster_jm47', 'poster_jm19', 'poster_jm08',

@@ -2006,6 +2006,8 @@ button.tourbtn{cursor:pointer;font-family:var(--ui-font)}
   .plate.poi figcaption{font-size:10px}
   /* a page holding the polaroids as well needs its exhibit photo a little smaller */
   .pp-card.sheet .poi-grid ~ .plate.wideplate{max-width:132mm}
+  .pp-card.sheet.dense .plate.wideplate{max-width:104mm}
+  .pp-card.sheet.dense2 .plate.wideplate{max-width:74mm}
 }
 
 @media print{
@@ -2066,7 +2068,7 @@ button.tourbtn{cursor:pointer;font-family:var(--ui-font)}
 </div>
 
 <div id="shelf"></div>
-<div id="buildTag" title="Which build of the app this is. If a new feature is missing, reload the page and check this changes.">build 20261016-2330</div>
+<div id="buildTag" title="Which build of the app this is. If a new feature is missing, reload the page and check this changes.">build 20261017-0120</div>
 
 <script>
 const SVG = {};
@@ -2730,8 +2732,12 @@ function printPack(cdef){
      than a card can be. The team lays the sheet on the desk whole. */
   const card = (it, band) => {
     const sheet = /class="plate"/.test(it.body);
+    /* a lot of text under a single plate: shrink the plate so the sheet stays one page */
+    const plain = it.body.replace(/<[^>]*>/g, " ").replace(/\s+/g, " ").length;
+    const dense = sheet && (it.body.match(/class="plate"/g) || []).length === 1 && plain > 1200
+                  ? (plain > 1650 ? " dense dense2" : " dense") : "";
     return `
-    <article class="pp-card${sheet ? " sheet" : ""}">
+    <article class="pp-card${sheet ? " sheet" : ""}${dense}">
       ${band?`<div class="pp-band">${band}</div>`:""}
       <div class="doc-kind">${it.kind}</div>
       <div class="pp-ct">${it.title}</div>

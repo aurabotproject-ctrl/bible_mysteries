@@ -15,6 +15,16 @@
    ============================================================ */
 
 
+SVG.j00beginning = `<svg viewBox="0 0 1536 1024" xmlns="http://www.w3.org/2000/svg"><image href="images/j00beginning.jpg" x="0" y="0" width="1536" height="1024"/><text x="1381" y="70" text-anchor="middle" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="24" font-weight="600" fill="#4a3520" textLength="189" lengthAdjust="spacingAndGlyphs">THE BEGINNING</text></svg>`;
+SVG.j00cause = `<svg viewBox="0 0 1536 1024" xmlns="http://www.w3.org/2000/svg"><image href="images/j00cause.jpg" x="0" y="0" width="1536" height="1024"/><text x="1381" y="70" text-anchor="middle" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="24" font-weight="600" fill="#4a3520" textLength="160" lengthAdjust="spacingAndGlyphs">FIRST CAUSE</text></svg>`;
+SVG.j00dials = `<svg viewBox="0 0 1536 1024" xmlns="http://www.w3.org/2000/svg"><image href="images/j00dials.jpg" x="0" y="0" width="1536" height="1024"/><text x="1381" y="70" text-anchor="middle" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="24" font-weight="600" fill="#4a3520" textLength="189" lengthAdjust="spacingAndGlyphs">THE SIX DIALS</text></svg>`;
+SVG.j00tablets = `<svg viewBox="0 0 1536 1024" xmlns="http://www.w3.org/2000/svg"><image href="images/j00tablets.jpg" x="0" y="0" width="1536" height="1024"/><text x="1381" y="70" text-anchor="middle" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="24" font-weight="600" fill="#4a3520" textLength="175" lengthAdjust="spacingAndGlyphs">TWO ACCOUNTS</text></svg>`;
+SVG.j00code = `<svg viewBox="0 0 1536 1024" xmlns="http://www.w3.org/2000/svg"><image href="images/j00code.jpg" x="0" y="0" width="1536" height="1024"/><text x="1381" y="70" text-anchor="middle" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="24" font-weight="600" fill="#4a3520" textLength="116" lengthAdjust="spacingAndGlyphs">THE CODE</text></svg>`;
+SVG.j00workshop = `<svg viewBox="0 0 1536 1024" xmlns="http://www.w3.org/2000/svg"><image href="images/j00workshop.jpg" x="0" y="0" width="1536" height="1024"/><text x="1381" y="70" text-anchor="middle" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="24" font-weight="600" fill="#4a3520" textLength="160" lengthAdjust="spacingAndGlyphs">FIELD NOTES</text></svg>`;
+SVG.e00wing = `<svg viewBox="0 0 1536 1024" xmlns="http://www.w3.org/2000/svg"><image href="images/e00wing.jpg" x="0" y="0" width="1536" height="1024"/></svg>`;
+SVG.e00tablet = `<svg viewBox="0 0 1536 1024" xmlns="http://www.w3.org/2000/svg"><image href="images/e00tablet.jpg" x="0" y="0" width="1536" height="1024"/></svg>`;
+SVG.e00dna = `<svg viewBox="0 0 1536 1024" xmlns="http://www.w3.org/2000/svg"><image href="images/e00dna.jpg" x="0" y="0" width="1536" height="1024"/></svg>`;
+
 const JM00_ITEMS = [
 
 /* ---------------- STAGE 0 ---------------- */
@@ -45,9 +55,10 @@ const JM00_ITEMS = [
 {
   id:"j00beginning", stage:0, kind:"Survey report", title:"The Beginning, Measured",
   sub:"Three lines of evidence, gathered by people who were not looking for it",
-  prev:"The universe is spreading apart, still warm from its start, and running down. All three point back.",
+  prev:"The universe is spreading apart, still warm from its start, and running down. All three point back.", thumb:"j00beginning",
   x:52, y:22, rot:3, w:214,
   body:`
+    <div class="plate">${SVG.j00beginning}<div class="cap">Click to enlarge. The universe as the survey plate shows it.</div></div>
     <p>For most of history, many thinkers assumed the universe had simply always existed. In the last hundred years, three separate lines of evidence have pointed the other way.</p>
     <table class="ledger">
       <tr><th>Line</th><th>What was found</th><th>What it points to</th></tr>
@@ -65,9 +76,10 @@ const JM00_ITEMS = [
 {
   id:"j00cause", stage:0, kind:"Bureau analysis", title:"The Rule of Causes",
   sub:"What has to be true of whatever started it",
-  prev:"Nothing cannot do anything. Whatever begins has a cause.",
+  prev:"Nothing cannot do anything. Whatever begins has a cause.", thumb:"j00cause",
   x:78, y:26, rot:-4, w:210,
   body:`
+    <div class="plate">${SVG.j00cause}<div class="cap">Click to enlarge. One falls because another fell.</div></div>
     <p>Investigators work by one rule more than any other: <b>things do not happen for no reason.</b> A window does not break with nothing hitting it. A fire does not start with nothing to start it.</p>
     <h4>The argument, step by step</h4>
     <table class="ledger">
@@ -92,9 +104,10 @@ const JM00_ITEMS = [
 {
   id:"j00dials", stage:0, kind:"Measurement sheet", title:"The Dials",
   sub:"Six settings the universe could have had differently",
-  prev:"Turn almost any of them a little either way and there are no stars, no chemistry, no life.",
+  prev:"Turn almost any of them a little either way and there are no stars, no chemistry, no life.", thumb:"j00dials",
   x:26, y:56, rot:5, w:208,
   body:`
+    <div class="plate">${SVG.j00dials}<div class="cap">Click to enlarge. Six settings, each in a very narrow band.</div></div>
     <p>The laws of physics contain numbers. Nothing we know of says they had to be these numbers. Physicists have asked what would happen if each were different, and kept getting the same kind of answer.</p>
     <table class="ledger">
       <tr><th>Dial</th><th>If it were set slightly differently</th></tr>
@@ -116,9 +129,13 @@ const JM00_ITEMS = [
 {
   id:"j00tablets", stage:0, kind:"Comparison", title:"Two Accounts, Side by Side",
   sub:"Babylon's creation story and Genesis 1",
-  prev:"Same part of the world. Same age, roughly. Not the same story at all.",
+  prev:"Same part of the world. Same age, roughly. Not the same story at all.", thumb:"j00tablets",
   x:56, y:52, rot:-2, w:214,
   body:`
+    <div class="plate-pair">
+      <div class="plate">${SVG.j00tablets}<div class="cap">Click to enlarge. From the Bureau's plate.</div></div>
+      <div class="plate">${SVG.e00tablet}<div class="cap">Click to enlarge. The tablet and the scroll, as the Bureau recorded them.</div></div>
+    </div>
     <p>A common claim is that Genesis borrowed its creation story from older nations. The best-known candidate is the Babylonian <i>Enuma Elish</i>, written on seven clay tablets. The Bureau laid the two side by side.</p>
     <table class="ledger">
       <tr><th>Question</th><th>Babylon (Enuma Elish)</th><th>Genesis 1</th></tr>
@@ -158,9 +175,13 @@ const JM00_ITEMS = [
 {
   id:"j00code", stage:1, kind:"Laboratory report", title:"The Code in the Cell",
   sub:"Field Chest B · what is written inside every living thing",
-  prev:"Four letters. Three billion of them in you. Every code we know the source of came from a mind.",
+  prev:"Four letters. Three billion of them in you. Every code we know the source of came from a mind.", thumb:"j00code",
   x:28, y:26, rot:-3, w:214,
   body:`
+    <div class="plate-pair">
+      <div class="plate">${SVG.j00code}<div class="cap">Click to enlarge. From the Bureau's plate.</div></div>
+      <div class="plate">${SVG.e00dna}<div class="cap">Click to enlarge. DNA drawn out of cells, spooled on a rod.</div></div>
+    </div>
     <p>Inside almost every cell of your body is a molecule called DNA. It is not just a chemical. It is written information, and the cell reads it.</p>
     <table class="ledger">
       <tr><th>Feature</th><th>What it is</th></tr>
@@ -203,11 +224,15 @@ const JM00_ITEMS = [
 {
   id:"j00workshop", stage:1, kind:"Field notes", title:"Field Notes on Design",
   sub:"Field Chest B · four things that work because everything works at once",
-  prev:"A butterfly that finds a forest it has never seen. Trees that warn each other. Bees that draw maps.",
+  prev:"A butterfly that finds a forest it has never seen. Trees that warn each other. Bees that draw maps.", thumb:"j00workshop",
   x:80, y:44, rot:-6, w:208,
   tour:{href:"../tours/design-hall.html", label:"🦋 Walk the Hall of Design",
         note:"A monarch's sun compass, trees that warn their neighbours, the bees' dance, and the code in the cell"},
   body:`
+    <div class="plate-pair">
+      <div class="plate">${SVG.j00workshop}<div class="cap">Click to enlarge. From the Bureau's plate.</div></div>
+      <div class="plate">${SVG.e00wing}<div class="cap">Click to enlarge. A monarch wing and head, under the lens.</div></div>
+    </div>
     <p>Field notes from four investigations. In each one, the ability only works if several parts are already in place together.</p>
     <h4>1. The <b>monarch</b> butterfly</h4>
     <p>Every autumn, monarchs in eastern North America fly up to about 4,000 km to a few mountain forests of fir trees in central Mexico. The ones that make the trip <b>have never been there</b>; their great-grandparents left in spring. They steer by the sun, and because the sun moves across the sky, they need a body clock to correct for the time of day. Researchers have found that clock in their antennae. Take the clock away and the compass fails.</p>
