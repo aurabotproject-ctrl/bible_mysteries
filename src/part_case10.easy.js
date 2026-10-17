@@ -41,7 +41,10 @@ j09letter:{
 j09props:{
   prev:"Sacks, wineskins, sandals and bread — all worn out, and none of it right.",
   body:`
-    <div class="plate">${SVG.j09props}<div class="cap">Click the plate to make it bigger.</div></div>
+    <div class="plate-pair">
+      <div class="plate">${SVG.j09props}<div class="cap">Click to enlarge. The props, laid out.</div></div>
+      <div class="plate">${SVG.e09props}<div class="cap">Click to enlarge. Wineskins, sandals and mouldy bread, with scale and markers.</div></div>
+    </div>
     <p>The ambassadors left everything behind when the truth came out, so we have the whole set.</p>
     <table class="ledger">
       <tr><th>Item</th><th>Said to be</th><th>What we noticed</th></tr>
@@ -59,6 +62,7 @@ j09props:{
 j09speech:{
   prev:"“Your servants have come from a country very far away.”",
   body:`
+    <figure class="plate poi poi-clip"><img src="__IMG_p09bread__" alt="Two hands, one holding out a piece of dry, mould-spotted bread to the other, over an open sack"><figcaption>The bread, held out.</figcaption></figure>
     <div class="doc-body">
       <p>"Your servants have come from a country very far away, because of the name of the LORD your God — because we have heard how famous he is, and everything he did in Egypt.</p>
       <p>Our elders and all our people said to us: take food for the journey, and go and meet them, and say to them, <b>we are your servants; now make an agreement with us.</b></p>
@@ -111,6 +115,7 @@ j09map:{
 j09discovery:{
   prev:"Three days after the treaty, Israel marched — and arrived at their cities.",
   body:`
+    <figure class="plate poi poi-clip"><img src="__IMG_p09arrive__" alt="Men leading laden donkeys through thorn scrub towards a camp of tents beneath a walled town"><figcaption>The delegation, approaching the camp.</figcaption></figure>
     <table class="ledger">
       <tr><th>Day</th><th>Event</th></tr>
       <tr><td>0</td><td>The ambassadors arrive. The props are examined. The treaty is sworn.</td></tr>
@@ -163,6 +168,7 @@ j09accounts:{
 j09oath:{
   prev:"They swore by the LORD. The leaders decided that settled it.",
   body:`
+    <figure class="plate poi poi-clip"><img src="__IMG_p09oath__" alt="Robed men with raised hands facing a group of travellers in the camp"><figcaption>The oath, sworn at the camp.</figcaption></figure>
     <p>When the trick came out, the obvious answer was to cancel the treaty — got by lying, so not a real treaty. That is exactly what the people wanted. The leaders said no.</p>
     <table class="ledger">
       <tr><th>Question</th><th>The leaders' answer</th></tr>
@@ -181,6 +187,7 @@ j09oath:{
 j09why:{
   prev:"“We were told what your God had done. We were terrified for our lives.”",
   body:`
+    <figure class="plate poi poi-clip"><img src="__IMG_p09council__" alt="Four men seated round a low table by a single lamp, seen between blurred stone blocks"><figcaption>A council by lamplight.</figcaption></figure>
     <div class="doc-body">
       <p>Joshua asked them straight out: why did you trick us?</p>
       <p>"Because your servants were told plainly what the LORD your God had commanded his servant Moses — to give you all this land and destroy everyone living in it. <b>So we were terrified for our lives because of you, and that is why we did it.</b></p>

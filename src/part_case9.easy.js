@@ -61,6 +61,7 @@ j06order:{
 j06log:{
   prev:"Six days. Once round each day. Nothing happened at all.",
   body:`
+    <figure class="plate poi poi-clip"><img src="__IMG_p06march__" alt="A column of white-robed priests blowing rams' horns along the foot of a high city wall"><figcaption>The column, on the line of march.</figcaption></figure>
     <p>The most boring document in the file, and the one that closes the most doors.</p>
     <table class="ledger">
       <tr><th>Day</th><th>Times round</th><th>Fighting</th><th>Work done at the wall</th></tr>
@@ -132,7 +133,10 @@ j06section:{
 j06ruins:{
   prev:"A ring of collapse all the way round — and one short piece that did not fall.",
   body:`
-    <div class="plate">${SVG.j06ruins}<div class="cap">Click the plan to make it bigger.</div></div>
+    <div class="plate-pair">
+      <div class="plate">${SVG.j06ruins}<div class="cap">Click to enlarge. The plan of the ruins.</div></div>
+      <div class="plate">${SVG.e06cord}<div class="cap">Click to enlarge. A length of red cord lying in the rubble.</div></div>
+    </div>
     <h4>What the plan tells you</h4>
     <ul>
       <li><b>The ring of collapse</b> goes the whole way round. This is not one gap or two — it is the entire wall, lying outwards.</li>
@@ -147,6 +151,7 @@ j06ruins:{
 j06watch:{
   prev:"They watched every night. Nothing came near the wall in the dark.",
   body:`
+    <figure class="plate poi poi-clip"><img src="__IMG_p06watch__" alt="Two soldiers with spears on a city wall, one of them pointing out over the ground below"><figcaption>The wall-watch, at their post.</figcaption></figure>
     <p>One explanation says the marching was a show — a distraction while the real work went on at night. The city's own guards answer that one.</p>
     <table class="ledger">
       <tr><th>Question put to the guards</th><th>Answer</th></tr>
@@ -239,6 +244,7 @@ j06granary:{
 j06house:{
   prev:"A house built into the wall, and a piece of cord in its window.",
   body:`
+    <figure class="plate poi poi-clip"><img src="__IMG_p06rahab__" alt="A woman at a lit upper window in a stone wall, with a red cord hanging down the face of the wall"><figcaption>The window, and the cord.</figcaption></figure>
     <p>The bit of wall still standing on the eastern side has a house built into it, and we know a great deal about that house, because the deal made in it was written down by both sides.</p>
     <h4>What happened there before the marching began</h4>
     <ul>

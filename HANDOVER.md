@@ -431,6 +431,21 @@ certificate seal). The label wording is listed at the bottom of
 
 ## 11. Recent work, newest first
 
+- **JM-06, JM-09, JM-10 photos.** JM-06 (The Walls): `p06march` (Marching Log),
+  `p06watch` (Watch Record), `p06rahab` (The House on the Wall), evidence
+  `e06cord` paired with the Plan of the Ruins. JM-09 (The Mouldy Bread):
+  `p09bread` (What the Delegation Said), `p09arrive` (The Third Day),
+  `p09oath` (The Oath), `p09council` (Why They Did It), evidence `e09props`
+  paired with The Props plate. JM-10 (The Ten Blows, medium only):
+  `p10pharaoh` (Royal Inscriptions), `p10magicians` (Court Magicians' Record),
+  `p10moses` (Timing Record), `p10village` (What Happened Afterwards), evidence
+  `e10blows` paired with the River Water plate. A single evidence plate on The
+  Regional Reports or The Sequence made those sheets spill to a second printed
+  page, so evidence goes beside an existing plate (a pair) instead. Easy-level
+  overlays carry the same photos for JM-06 and JM-09. To test the Easy level
+  in a script, use `CASE_REG["jm09"]`, not the `CASE_JM09` global, which stays
+  at medium. Known, untouched: JM-09 Easy "The Treaty, As Signed" spills onto a
+  second printed page.
 - **JM-03, JM-04, JM-05 photos.** JM-03: `p03shepherd` (His Own Account),
   `p03bush` (Site Report), `p03jethro` (What Came Of It), evidence `e03samples`
   paired with the plate on The Bush and the Control Samples. JM-04: `p04king`

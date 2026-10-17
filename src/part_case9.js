@@ -4,6 +4,11 @@
    Jericho, about 1400 BC.  Source: Joshua 6, with Joshua 2.
    ============================================================ */
 
+const thumb06 = (src, y) => `<svg viewBox="0 0 820 520" xmlns="http://www.w3.org/2000/svg"><image href="${src}" x="0" y="${-y}" width="820" height="820"/></svg>`;
+SVG.p06rahab = thumb06("__IMG_p06rahab__", 130);
+SVG.p06march = thumb06("__IMG_p06march__", 150);
+SVG.p06watch = thumb06("__IMG_p06watch__", 40);
+SVG.e06cord = `<svg viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg"><image href="__IMG_e06cord__" x="0" y="0" width="1200" height="800"/></svg>`;
 SVG.j06city = `<svg viewBox="0 0 1536 1024" xmlns="http://www.w3.org/2000/svg"><image href="__IMG_j06city__" x="0" y="0" width="1536" height="1024"/><text x="1337" y="102" text-anchor="middle" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="26" font-weight="600" fill="#4a3520" textLength="150" lengthAdjust="spacingAndGlyphs">JERICHO</text><text x="1337" y="127" text-anchor="middle" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="13" font-weight="500" fill="#7d4a24" font-style="italic" opacity=".92" textLength="214" lengthAdjust="spacingAndGlyphs">walled, and on its mound</text><text x="219" y="299" text-anchor="middle" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="25" font-weight="600" fill="#4a3520" textLength="158" lengthAdjust="spacingAndGlyphs">THE PLAIN</text><text x="219" y="324" text-anchor="middle" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="13" font-weight="500" fill="#7d4a24" font-style="italic" opacity=".92" textLength="222" lengthAdjust="spacingAndGlyphs">open ground, no siege works</text><text x="437" y="887" text-anchor="middle" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="20" font-weight="600" fill="#4a3520" textLength="208" lengthAdjust="spacingAndGlyphs">THE LINE OF MARCH</text><text x="437" y="912" text-anchor="middle" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="13" font-weight="500" fill="#7d4a24" font-style="italic" opacity=".92" textLength="180" lengthAdjust="spacingAndGlyphs">once round, in silence</text></svg>`;
 SVG.j06section = `<svg viewBox="0 0 1536 1024" xmlns="http://www.w3.org/2000/svg"><image href="__IMG_j06section__" x="0" y="0" width="1536" height="1024"/><text x="714" y="106" text-anchor="middle" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="26" font-weight="600" fill="#4a3520" textLength="146" lengthAdjust="spacingAndGlyphs">THE WALL</text><text x="714" y="131" text-anchor="middle" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="13" font-weight="500" fill="#7d4a24" font-style="italic" opacity=".92" textLength="236" lengthAdjust="spacingAndGlyphs">mud brick on a stone base</text><text x="1063" y="478" text-anchor="middle" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="23" font-weight="600" fill="#4a3520" textLength="236" lengthAdjust="spacingAndGlyphs">FALLEN OUTWARD</text><text x="1063" y="503" text-anchor="middle" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="13" font-weight="500" fill="#7d4a24" font-style="italic" opacity=".92" textLength="248" lengthAdjust="spacingAndGlyphs">away from the city, not into it</text><text x="1386" y="682" text-anchor="middle" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="25" font-weight="600" fill="#4a3520" textLength="152" lengthAdjust="spacingAndGlyphs">THE RUBBLE</text><text x="1386" y="707" text-anchor="middle" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="13" font-weight="500" fill="#7d4a24" font-style="italic" opacity=".92" textLength="204" lengthAdjust="spacingAndGlyphs">a ramp you could walk up</text></svg>`;
 SVG.j06ruins = `<svg viewBox="0 0 1536 1024" xmlns="http://www.w3.org/2000/svg"><image href="__IMG_j06ruins__" x="0" y="0" width="1536" height="1024"/><text x="1322" y="119" text-anchor="middle" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="19" font-weight="600" fill="#4a3520" textLength="228" lengthAdjust="spacingAndGlyphs">ONE SECTION STANDING</text><text x="1322" y="144" text-anchor="middle" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="13" font-weight="500" fill="#7d4a24" font-style="italic" opacity=".92" textLength="214" lengthAdjust="spacingAndGlyphs">with a house built into it</text><text x="183" y="776" text-anchor="middle" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="19" font-weight="600" fill="#4a3520" textLength="230" lengthAdjust="spacingAndGlyphs">THE RING OF COLLAPSE</text><text x="183" y="801" text-anchor="middle" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="13" font-weight="500" fill="#7d4a24" font-style="italic" opacity=".92" textLength="196" lengthAdjust="spacingAndGlyphs">flat outward, all around</text><text x="976" y="871" text-anchor="middle" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="25" font-weight="600" fill="#4a3520" textLength="166" lengthAdjust="spacingAndGlyphs">THE CIRCUIT</text><text x="976" y="896" text-anchor="middle" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="13" font-weight="500" fill="#7d4a24" font-style="italic" opacity=".92" textLength="222" lengthAdjust="spacingAndGlyphs">the line the army walked</text></svg>`;
@@ -61,10 +66,11 @@ const JM06_ITEMS = [
 },
 {
   id:"j06log", stage:0, kind:"Field log", title:"The Marching Log",
-  sub:"Day by day, as the officers recorded it",
+  sub:"Day by day, as the officers recorded it", thumb:"p06march",
   prev:"Six days. One circuit each. Nothing happened at all.",
   x:78, y:26, rot:-4, w:208,
   body:`
+    <figure class="plate poi poi-clip"><img src="__IMG_p06march__" alt="A column of white-robed priests blowing rams' horns along the foot of a high city wall"><figcaption>The column, on the line of march.</figcaption></figure>
     <p>The dullest document in the file, and the one that closes the most doors.</p>
     <table class="ledger">
       <tr><th>Day</th><th>Circuits</th><th>Contact</th><th>Work done at the wall</th></tr>
@@ -146,7 +152,10 @@ const JM06_ITEMS = [
   prev:"A ring of collapse all the way round — and one short piece that did not fall.",
   x:40, y:76, rot:-5, w:216,
   body:`
-    <div class="plate">${SVG.j06ruins}<div class="cap">Click the plan to enlarge it.</div></div>
+    <div class="plate-pair">
+      <div class="plate">${SVG.j06ruins}<div class="cap">Click to enlarge. The plan of the ruins.</div></div>
+      <div class="plate">${SVG.e06cord}<div class="cap">Click to enlarge. A length of red cord lying in the rubble.</div></div>
+    </div>
     <h4>What the plan tells you</h4>
     <ul>
       <li><b>The ring of collapse</b> runs the whole circuit. This is not one breach or two — it is the entire perimeter, lying outward.</li>
@@ -159,10 +168,11 @@ const JM06_ITEMS = [
 },
 {
   id:"j06watch", stage:0, kind:"Testimony", title:"The Watch Record from the Walls",
-  sub:"Taken from survivors of the city",
+  sub:"Taken from survivors of the city", thumb:"p06watch",
   prev:"They watched every night. Nothing came near the wall in the dark.",
   x:64, y:78, rot:2, w:204,
   body:`
+    <figure class="plate poi poi-clip"><img src="__IMG_p06watch__" alt="Two soldiers with spears on a city wall, one of them pointing out over the ground below"><figcaption>The wall-watch, at their post.</figcaption></figure>
     <p>One explanation says the marching was theatre — a distraction while the real work went on at night. The city's own watchmen answer that one.</p>
     <table class="ledger">
       <tr><th>Question put to the watch</th><th>Answer</th></tr>
@@ -263,10 +273,11 @@ const JM06_ITEMS = [
 },
 {
   id:"j06house", stage:1, kind:"Agreement", title:"The House on the Wall",
-  sub:"Field Chest B · the one section that did not fall",
+  sub:"Field Chest B · the one section that did not fall", thumb:"p06rahab",
   prev:"A house built into the wall, and a length of cord in its window.",
   x:70, y:70, rot:-4, w:210,
   body:`
+    <figure class="plate poi poi-clip"><img src="__IMG_p06rahab__" alt="A woman at a lit upper window in a stone wall, with a red cord hanging down the face of the wall"><figcaption>The window, and the cord.</figcaption></figure>
     <p>The section still standing on the eastern side has a house built into it, and the Bureau knows a great deal about that house, because the arrangement made in it was recorded on both sides.</p>
     <h4>What happened there before the march began</h4>
     <ul>

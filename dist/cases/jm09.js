@@ -4,6 +4,12 @@
    Gibeon.  Source: Joshua 9.
    ============================================================ */
 
+const thumb09 = (src, y) => `<svg viewBox="0 0 820 520" xmlns="http://www.w3.org/2000/svg"><image href="${src}" x="0" y="${-y}" width="820" height="820"/></svg>`;
+SVG.p09arrive = thumb09("images/p09arrive.jpg", 180);
+SVG.p09bread = thumb09("images/p09bread.jpg", 100);
+SVG.p09oath = thumb09("images/p09oath.jpg", 100);
+SVG.p09council = thumb09("images/p09council.jpg", 110);
+SVG.e09props = `<svg viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg"><image href="images/e09props.jpg" x="0" y="0" width="1200" height="800"/></svg>`;
 SVG.j09props = `<svg viewBox="0 0 1536 1024" xmlns="http://www.w3.org/2000/svg"><image href="images/j09props.jpg" x="0" y="0" width="1536" height="1024"/><text x="477" y="92" text-anchor="middle" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="25" font-weight="600" fill="#4a3520" textLength="144" lengthAdjust="spacingAndGlyphs">THE SACK</text><text x="477" y="116" text-anchor="middle" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="12" font-weight="500" fill="#7d4a24" font-style="italic" opacity=".92" textLength="238" lengthAdjust="spacingAndGlyphs">torn, and freshly re-stitched</text><text x="1054" y="92" text-anchor="middle" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="23" font-weight="600" fill="#4a3520" textLength="220" lengthAdjust="spacingAndGlyphs">THE WINESKINS</text><text x="1054" y="116" text-anchor="middle" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="13" font-weight="500" fill="#7d4a24" font-style="italic" opacity=".92" textLength="206" lengthAdjust="spacingAndGlyphs">split, and tied up again</text><text x="1164" y="703" text-anchor="middle" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="25" font-weight="600" fill="#4a3520" textLength="152" lengthAdjust="spacingAndGlyphs">THE BREAD</text><text x="1164" y="727" text-anchor="middle" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="13" font-weight="500" fill="#7d4a24" font-style="italic" opacity=".92" textLength="226" lengthAdjust="spacingAndGlyphs">dry, cracked &#8212; and not old</text></svg>`;
 SVG.j09map = `<svg viewBox="0 0 1536 1024" xmlns="http://www.w3.org/2000/svg"><image href="images/j09map.jpg" x="0" y="0" width="1536" height="1024"/><text x="1191" y="86" text-anchor="middle" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="25" font-weight="600" fill="#4a3520" textLength="140" lengthAdjust="spacingAndGlyphs">GIBEON</text><text x="1191" y="110" text-anchor="middle" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="13" font-weight="500" fill="#7d4a24" font-style="italic" opacity=".92" textLength="216" lengthAdjust="spacingAndGlyphs">the great city of the four</text><text x="229" y="166" text-anchor="middle" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="23" font-weight="600" fill="#4a3520" textLength="190" lengthAdjust="spacingAndGlyphs">CHEPHIRAH</text><text x="229" y="190" text-anchor="middle" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="13" font-weight="500" fill="#7d4a24" font-style="italic" opacity=".92" textLength="196" lengthAdjust="spacingAndGlyphs">half a day from Gibeon</text><text x="1372" y="358" text-anchor="middle" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="18" font-weight="600" fill="#4a3520" textLength="196" lengthAdjust="spacingAndGlyphs">KIRIATH-JEARIM</text><text x="1372" y="382" text-anchor="middle" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="13" font-weight="500" fill="#7d4a24" font-style="italic" opacity=".92" textLength="150" lengthAdjust="spacingAndGlyphs">a morning&#8217;s walk</text><text x="234" y="839" text-anchor="middle" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="25" font-weight="600" fill="#4a3520" textLength="158" lengthAdjust="spacingAndGlyphs">BEEROTH</text><text x="234" y="863" text-anchor="middle" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="13" font-weight="500" fill="#7d4a24" font-style="italic" opacity=".92" textLength="198" lengthAdjust="spacingAndGlyphs">the nearest of the four</text></svg>`;
 SVG.j09treaty = `<svg viewBox="0 0 1536 1024" xmlns="http://www.w3.org/2000/svg"><image href="images/j09treaty.jpg" x="0" y="0" width="1536" height="1024"/><text x="768" y="250" text-anchor="middle" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="44" font-weight="600" fill="#4a3520" textLength="430" lengthAdjust="spacingAndGlyphs">TREATY OF PEACE</text><text x="768" y="306" text-anchor="middle" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="22" font-weight="500" fill="#7d4a24" font-style="italic" opacity=".9" textLength="380" lengthAdjust="spacingAndGlyphs">between Israel and the four cities</text><text x="768" y="760" text-anchor="middle" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="20" font-weight="500" fill="#7d4a24" font-style="italic" opacity=".85" textLength="380" lengthAdjust="spacingAndGlyphs">sworn by the leaders of the congregation</text></svg>`;
@@ -45,7 +51,10 @@ const JM09_ITEMS = [
   prev:"Sacks, wineskins, sandals and bread — all of it worn, and none of it right.",
   x:52, y:22, rot:3, w:216,
   body:`
-    <div class="plate">${SVG.j09props}<div class="cap">Click the plate to enlarge it.</div></div>
+    <div class="plate-pair">
+      <div class="plate">${SVG.j09props}<div class="cap">Click to enlarge. The props, laid out.</div></div>
+      <div class="plate">${SVG.e09props}<div class="cap">Click to enlarge. Wineskins, sandals and mouldy bread, with scale and markers.</div></div>
+    </div>
     <p>The delegation left everything behind when the truth came out, so the Bureau has the whole set.</p>
     <table class="ledger">
       <tr><th>Item</th><th>Presented as</th><th>First impression</th></tr>
@@ -61,10 +70,11 @@ const JM09_ITEMS = [
 },
 {
   id:"j09speech", stage:0, kind:"Transcript", title:"What the Delegation Said",
-  sub:"Taken down at the camp at Gilgal",
+  sub:"Taken down at the camp at Gilgal", thumb:"p09bread",
   prev:"“From a very far country your servants have come.”",
   x:78, y:26, rot:-4, w:208,
   body:`
+    <figure class="plate poi poi-clip"><img src="images/p09bread.jpg" alt="Two hands, one holding out a piece of dry, mould-spotted bread to the other, over an open sack"><figcaption>The bread, held out.</figcaption></figure>
     <div class="doc-body">
       <p>"From a very far country your servants have come, because of the name of the LORD your God — for we have heard of his fame, and of all he did in Egypt.</p>
       <p>Our elders and all the people of our country spoke to us, saying: take provisions for the journey, and go to meet them, and say to them, <b>we are your servants; now make a covenant with us.</b></p>
@@ -119,10 +129,11 @@ const JM09_ITEMS = [
 },
 {
   id:"j09discovery", stage:0, kind:"Official record", title:"The Third Day",
-  sub:"How the truth came out",
+  sub:"How the truth came out", thumb:"p09arrive",
   prev:"Three days after the treaty, Israel marched — and arrived at their cities.",
   x:80, y:56, rot:4, w:206,
   body:`
+    <figure class="plate poi poi-clip"><img src="images/p09arrive.jpg" alt="Men leading laden donkeys through thorn scrub towards a camp of tents beneath a walled town"><figcaption>The delegation, approaching the camp.</figcaption></figure>
     <table class="ledger">
       <tr><th>Day</th><th>Event</th></tr>
       <tr><td>0</td><td>The delegation arrives. The props are examined. The treaty is sworn.</td></tr>
@@ -179,10 +190,11 @@ const JM09_ITEMS = [
 },
 {
   id:"j09oath", stage:1, kind:"Legal note", title:"The Oath and What It Bound",
-  sub:"Field Chest B · could the treaty have been torn up?",
+  sub:"Field Chest B · could the treaty have been torn up?", thumb:"p09oath",
   prev:"They swore by the LORD. The leaders decided that settled it.",
   x:80, y:44, rot:-6, w:208,
   body:`
+    <figure class="plate poi poi-clip"><img src="images/p09oath.jpg" alt="Robed men with raised hands facing a group of travellers in the camp"><figcaption>The oath, sworn at the camp.</figcaption></figure>
     <p>When the deception came out, the obvious remedy was to declare the treaty void — obtained by fraud, therefore no treaty. The congregation wanted exactly that. The leaders refused.</p>
     <table class="ledger">
       <tr><th>Question</th><th>The leaders' answer</th></tr>
@@ -199,10 +211,11 @@ const JM09_ITEMS = [
 },
 {
   id:"j09why", stage:1, kind:"Statement", title:"Why They Did It",
-  sub:"Field Chest B · the delegation, questioned afterwards",
+  sub:"Field Chest B · the delegation, questioned afterwards", thumb:"p09council",
   prev:"“We were told what your God had done. We were afraid for our lives.”",
   x:46, y:62, rot:3, w:206,
   body:`
+    <figure class="plate poi poi-clip"><img src="images/p09council.jpg" alt="Four men seated round a low table by a single lamp, seen between blurred stone blocks"><figcaption>A council by lamplight.</figcaption></figure>
     <div class="doc-body">
       <p>Joshua asked them directly: why have you deceived us?</p>
       <p>"Because your servants were told plainly what the LORD your God commanded his servant Moses — to give you all the land and destroy everyone living in it. <b>So we were very much afraid for our lives because of you, and we did this thing.</b></p>

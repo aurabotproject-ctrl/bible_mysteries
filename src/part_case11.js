@@ -4,6 +4,12 @@
    Egypt.  Source: Exodus 7-12.
    ============================================================ */
 
+const thumb10 = (src, y) => `<svg viewBox="0 0 820 520" xmlns="http://www.w3.org/2000/svg"><image href="${src}" x="0" y="${-y}" width="820" height="820"/></svg>`;
+SVG.p10pharaoh = thumb10("__IMG_p10pharaoh__", 90);
+SVG.p10magicians = thumb10("__IMG_p10magicians__", 120);
+SVG.p10moses = thumb10("__IMG_p10moses__", 100);
+SVG.p10village = thumb10("__IMG_p10village__", 60);
+SVG.e10blows = `<svg viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg"><image href="__IMG_e10blows__" x="0" y="0" width="1200" height="800"/></svg>`;
 SVG.j10delta = `<svg viewBox="0 0 1536 1024" xmlns="http://www.w3.org/2000/svg"><image href="__IMG_j10delta__" x="0" y="0" width="1536" height="1024"/><text x="189" y="174" text-anchor="middle" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="18" font-weight="600" fill="#4a3520" textLength="214" lengthAdjust="spacingAndGlyphs">THE WESTERN DELTA</text><text x="189" y="198" text-anchor="middle" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="12" font-weight="500" fill="#7d4a24" font-style="italic" opacity=".92" textLength="182" lengthAdjust="spacingAndGlyphs">Pharaoh&#8217;s own country</text><text x="1357" y="196" text-anchor="middle" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="18" font-weight="600" fill="#4a3520" textLength="202" lengthAdjust="spacingAndGlyphs">THE EASTERN DELTA</text><text x="1357" y="220" text-anchor="middle" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="12" font-weight="500" fill="#7d4a24" font-style="italic" opacity=".92" textLength="196" lengthAdjust="spacingAndGlyphs">where the Israelites lived</text><text x="742" y="870" text-anchor="middle" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="16" font-weight="600" fill="#4a3520" textLength="214" lengthAdjust="spacingAndGlyphs">THE DIVIDING CHANNEL</text><text x="742" y="894" text-anchor="middle" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="12" font-weight="500" fill="#7d4a24" font-style="italic" opacity=".92" textLength="196" lengthAdjust="spacingAndGlyphs">a few hundred paces across</text></svg>`;
 SVG.j10instr = `<svg viewBox="0 0 1536 1024" xmlns="http://www.w3.org/2000/svg"><image href="__IMG_j10instr__" x="0" y="0" width="1536" height="1024"/><text x="334" y="91" text-anchor="middle" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="23" font-weight="600" fill="#4a3520" textLength="192" lengthAdjust="spacingAndGlyphs">THE MATERIA</text><text x="334" y="115" text-anchor="middle" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="13" font-weight="500" fill="#7d4a24" font-style="italic" opacity=".92" textLength="232" lengthAdjust="spacingAndGlyphs">powders, salts and pigments</text><text x="1363" y="87" text-anchor="middle" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="18" font-weight="600" fill="#4a3520" textLength="224" lengthAdjust="spacingAndGlyphs">THE SERPENT STAFFS</text><text x="1363" y="111" text-anchor="middle" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="13" font-weight="500" fill="#7d4a24" font-style="italic" opacity=".92" textLength="196" lengthAdjust="spacingAndGlyphs">the court&#8217;s instruments</text><text x="1041" y="804" text-anchor="middle" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="23" font-weight="600" fill="#4a3520" textLength="204" lengthAdjust="spacingAndGlyphs">THE PLAIN ROD</text><text x="1041" y="828" text-anchor="middle" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="13" font-weight="500" fill="#7d4a24" font-style="italic" opacity=".92" textLength="246" lengthAdjust="spacingAndGlyphs">examined, and quite ordinary</text></svg>`;
 SVG.j10water = `<svg viewBox="0 0 1536 1024" xmlns="http://www.w3.org/2000/svg"><image href="__IMG_j10water__" x="0" y="0" width="1536" height="1024"/><text x="165" y="70" text-anchor="middle" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="25" font-weight="600" fill="#4a3520" textLength="132" lengthAdjust="spacingAndGlyphs">BEFORE</text><text x="165" y="94" text-anchor="middle" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="13" font-weight="500" fill="#7d4a24" font-style="italic" opacity=".92" textLength="182" lengthAdjust="spacingAndGlyphs">the river as it ran</text><text x="663" y="70" text-anchor="middle" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="21" font-weight="600" fill="#4a3520" textLength="206" lengthAdjust="spacingAndGlyphs">THE FIRST BLOW</text><text x="663" y="94" text-anchor="middle" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="13" font-weight="500" fill="#7d4a24" font-style="italic" opacity=".92" textLength="192" lengthAdjust="spacingAndGlyphs">blood, for seven days</text><text x="1197" y="70" text-anchor="middle" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="21" font-weight="600" fill="#4a3520" textLength="196" lengthAdjust="spacingAndGlyphs">THE COURT&#8217;S JAR</text><text x="1197" y="94" text-anchor="middle" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="13" font-weight="500" fill="#7d4a24" font-style="italic" opacity=".92" textLength="158" lengthAdjust="spacingAndGlyphs">they did the same</text></svg>`;
@@ -105,10 +111,11 @@ const JM10_ITEMS = [
 },
 {
   id:"j10court", stage:0, kind:"Court record", title:"The Court Magicians' Record",
-  sub:"What Pharaoh's own experts managed, and where they stopped",
+  sub:"What Pharaoh's own experts managed, and where they stopped", thumb:"p10magicians",
   prev:"They matched the first two. At the third they told the king to stop.",
   x:56, y:52, rot:-2, w:208,
   body:`
+    <figure class="plate poi poi-clip"><img src="__IMG_p10magicians__" alt="Shaven-headed court officials in white linen working at a large bronze bowl in a painted hall"><figcaption>The court magicians, at work.</figcaption></figure>
     <table class="ledger">
       <tr><th>Blow</th><th>The magicians</th></tr>
       <tr><td>1 · Blood</td><td><b>Reproduced it</b> — by their secret arts</td></tr>
@@ -155,7 +162,10 @@ const JM10_ITEMS = [
   prev:"The court could colour a jar. Nobody coloured the river.",
   x:40, y:76, rot:-5, w:212,
   body:`
-    <div class="plate">${SVG.j10water}<div class="cap">Click the plate to enlarge it.</div></div>
+    <div class="plate-pair">
+      <div class="plate">${SVG.j10water}<div class="cap">Click to enlarge. Three river-water samples.</div></div>
+      <div class="plate">${SVG.e10blows}<div class="cap">Click to enlarge. A bowl of red water, a frog and locusts, with scale and markers.</div></div>
+    </div>
     <table class="ledger">
       <tr><th>Sample</th><th>Description</th></tr>
       <tr><td><b>Before</b></td><td>Ordinary river water, silt-brown, drinkable</td></tr>
@@ -195,10 +205,11 @@ const JM10_ITEMS = [
 },
 {
   id:"j10timing", stage:1, kind:"Timing record", title:"The Timing Record",
-  sub:"Field Chest B · testing coincidence over a bad year",
+  sub:"Field Chest B · testing coincidence over a bad year", thumb:"p10moses",
   prev:"Announced by name, and on the fifth, by the day.",
   x:58, y:24, rot:4, w:206,
   body:`
+    <figure class="plate poi poi-clip"><img src="__IMG_p10moses__" alt="Two robed men standing at the river's edge at sunrise, one of them holding a staff"><figcaption>At the water's edge, in the morning.</figcaption></figure>
     <p>The coincidence explanation says: a bad year, ten unrelated misfortunes, and a story written afterwards to join them up. The timing record is what it has to survive.</p>
     <table class="ledger">
       <tr><th>Feature</th><th>Record</th></tr>
@@ -216,10 +227,11 @@ const JM10_ITEMS = [
 },
 {
   id:"j10inscript", stage:1, kind:"Bureau note", title:"On Egyptian Royal Inscriptions",
-  sub:"Field Chest B · the argument from silence",
+  sub:"Field Chest B · the argument from silence", thumb:"p10pharaoh",
   prev:"No Egyptian king ever records a defeat. Not one, anywhere.",
   x:80, y:44, rot:-6, w:208,
   body:`
+    <figure class="plate poi poi-clip"><img src="__IMG_p10pharaoh__" alt="The king in a striped headcloth on a palace terrace above the river, an attendant with a feather fan behind him"><figcaption>The king, above the river.</figcaption></figure>
     <p>The third explanation says: the Egyptian records contain nothing about any of this, so it did not happen. It is worth taking apart carefully, because students meet this argument constantly.</p>
     <table class="ledger">
       <tr><th>Question</th><th>Answer</th></tr>
@@ -279,10 +291,11 @@ const JM10_ITEMS = [
 },
 {
   id:"j10out", stage:2, kind:"Follow-up file", title:"What Happened Afterwards",
-  sub:"Sealed Pouch C",
+  sub:"Sealed Pouch C", thumb:"p10village",
   prev:"They left, and the Egyptians paid them to go.",
   x:56, y:30, rot:4, w:208,
   body:`
+    <figure class="plate poi poi-clip"><img src="__IMG_p10village__" alt="A lamp-lit town on the far bank of a river at night, palms against the stars"><figcaption>A delta town at night.</figcaption></figure>
     <table class="ledger">
       <tr><th>After the tenth</th><th>Record</th></tr>
       <tr><td>Pharaoh's decision</td><td>Sent for Moses at night and told them to go</td></tr>
