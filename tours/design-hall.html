@@ -340,8 +340,10 @@ function makeBee(){
   const body = new THREE.Mesh(new THREE.SphereGeometry(0.11, 14, 10), new THREE.MeshStandardMaterial({map:stripes})); body.scale.set(1.9,1,1); g.add(body);
   const head = new THREE.Mesh(new THREE.SphereGeometry(0.07, 10, 8), M(0x1e150b)); head.position.x = 0.22; g.add(head);
   const wm = new THREE.MeshBasicMaterial({color:0xddeeff, transparent:true, opacity:0.55, side:THREE.DoubleSide});
-  const w1 = new THREE.Mesh(new THREE.CircleGeometry(0.12, 12), wm); w1.scale.set(1.4,0.6,1); w1.position.set(-0.02, 0.06, 0.12); w1.rotation.x = -0.3; g.add(w1);
-  const w2 = w1.clone(); w2.position.z = -0.12; w2.rotation.x = 0.3; g.add(w2);
+  /* the bee lies on the comb with its back toward you (+z); wings grow from the thorax, out sideways and swept back */
+  const wg = new THREE.CircleGeometry(0.12, 12); wg.translate(0, 0.12, 0);
+  const w1 = new THREE.Mesh(wg, wm); w1.scale.set(0.8,1.5,1); w1.position.set(0.04, 0.05, 0.09); w1.rotation.set(0.5, 0, 0.45); g.add(w1);
+  const w2 = new THREE.Mesh(wg, wm); w2.scale.set(0.8,-1.5,1); w2.position.set(0.04, -0.05, 0.09); w2.rotation.set(-0.5, 0, -0.45); g.add(w2);
   g.userData = {body, w1, w2}; return g;
 }
 const dancer = makeBee(); bees.add(dancer);
@@ -384,7 +386,7 @@ function stepBees(dt){
     p = end.clone().lerp(start, f).addScaledVector(perp, Math.sin(a)*L*0.45);
     facing = Math.atan2(-dir.y, -dir.x) + side*(Math.PI/2 - a)*0.6; dancer.userData.body.rotation.x = 0; }
   dancer.position.set(p.x, p.y, 0.62); dancer.rotation.set(0, 0, facing); dancer.rotation.x = 0;
-  dancer.userData.w1.rotation.y = Math.sin(beeState.t*30)*0.3;
+  { const fl = 0.5 + Math.sin(beeState.t*60)*0.35; dancer.userData.w1.rotation.x = fl; dancer.userData.w2.rotation.x = -fl; }
   watchers.forEach((w,i)=>{ const a = beeState.t*0.5 + i*2.1; w.position.set(p.x + Math.cos(a)*0.38, p.y + Math.sin(a)*0.38, 0.62); w.rotation.set(0,0,Math.atan2(p.y-w.position.y, p.x-w.position.x)); });
 }
 
