@@ -139,14 +139,14 @@ const JM00_ITEMS = [
     <p>A common claim is that Genesis borrowed its creation story from older nations. The best-known candidate is the Babylonian <i>Enuma Elish</i>, written on seven clay tablets. The Bureau laid the two side by side.</p>
     <table class="ledger">
       <tr><th>Question</th><th>Babylon (Enuma Elish)</th><th>Genesis 1</th></tr>
-      <tr><td>How many gods do the creating?</td><td>Many gods, born from the waters, quarrelling</td><td><b>One</b> God, alone, before anything else</td></tr>
+      <tr><td>Who does the creating, and how many?</td><td>Many gods, born from the waters, quarrelling</td><td><b>One</b> God, alone, before anything else</td></tr>
       <tr><td>How is the world made?</td><td>The god <b>Marduk</b> kills the sea-goddess Tiamat in battle and splits her body into sky and earth</td><td>God speaks, and it is. No battle, no rival, no raw material.</td></tr>
       <tr><td>Sun, moon and stars</td><td>Gods to be worshipped</td><td>Lamps God hung in the sky, not even named — "the greater light" and "the lesser light"</td></tr>
       <tr><td>What is the world like?</td><td>The leftovers of a fight</td><td>"Good", seven times. Ordered, day by day.</td></tr>
       <tr><td>Why are people made?</td><td>From a dead god's blood, to do the gods' hard work for them</td><td>In God's own <b>image</b>, blessed, and given the earth to care for</td></tr>
     </table>
-    <h4>Count the gods</h4>
-    <p>How many gods do the creating in Genesis 1? That number is the first digit of the first lock.</p>
+    <h4>Count the Creators</h4>
+    <p>In Genesis 1, how many beings do the creating? Be careful how you answer: Genesis has <b>no gods</b> at all, only <b>God</b>, the one true God. That number is the first digit of the first lock.</p>
     <h4>What the Bureau draws from this</h4>
     <p>Two accounts from the same region can share words like "the deep" and "the waters". Borrowing would mean sharing the story. These do not. On almost every point that matters, <b>Genesis reads like a deliberate answer to the myths around it</b>: the sun is not a god, people are not slaves, and creation is not a battlefield.</p>
     <div class="ref">Background: Genesis 1:1–2:3 · Isaiah 45:18 · Psalm 33:6–9.</div>`
@@ -393,7 +393,7 @@ const JM00_LOCKS = [
     name:"Field Chest B — the living evidence",
     blurb:"A four-digit lock. Each digit answers one question, and each question is answered by a document you already have. Read the counts carefully; every one of them is written into the file on purpose.",
     questions:[
-      "How many gods do the creating in Genesis 1?",
+      "In Genesis 1, how many beings do the creating? (There are no gods in Genesis, only God.)",
       "How many separate lines of evidence does the survey give for a beginning?",
       "The cause must stand outside how many things?",
       "How many dials are on the measurement sheet?"
@@ -481,7 +481,7 @@ const CASE_JM00 = {
     refs:"Genesis 1:1–2:3 · Psalm 19:1–6 · Psalm 33:6–9 · Psalm 139:13–16 · Job 12:7–10 · Job 38:4–7 · Isaiah 40:26–28 · Isaiah 45:18 · John 1:1–3 · Acts 17:24–28 · Romans 1:19–20 · Colossians 1:16–17 · Hebrews 11:3"
   },
   teacher:{
-    answers:"Lock 1 code <b>1336</b> (1 God creating in Genesis 1 · 3 lines of evidence for a beginning · 3 things the cause stands outside — space, time, matter · 6 dials). Lock 2 keyword <b>MAKER</b>, built on the Maker's Sheet crossword: the five numbered squares sit in MONARCH/MARDUK, GRAVITY, MARDUK, GENESIS and ROOTS. CODE, MONARCH and ROOTS are in Field Chest B.",
+    answers:"Lock 1 code <b>1336</b> (0 gods but 1 God creating in Genesis 1 · 3 lines of evidence for a beginning · 3 things the cause stands outside — space, time, matter · 6 dials). Lock 2 keyword <b>MAKER</b>, built on the Maker's Sheet crossword: the five numbered squares sit in MONARCH/MARDUK, GRAVITY, MARDUK, GENESIS and ROOTS. CODE, MONARCH and ROOTS are in Field Chest B.",
     pairs:"Always here → The Beginning, Measured; from nothing → The Rule of Causes; lucky settings → The Dials; life by chance → The Code in the Cell; borrowed myth → Two Accounts, Side by Side.",
     conclusion:"The universe had a beginning, needs a cause beyond space and time, is finely balanced, and runs life on written code; Genesis answers the myths of its age. The work carries a maker's mark, and Hebrews 11:3 says we understand creation by faith.",
     prompts:"\"Does a window break with nothing hitting it?\" · \"If it has always been here, why hasn't it run down?\" · \"Which is the code — the ink or the order of the letters?\" · \"Is sharing a word the same as sharing a story?\"",
