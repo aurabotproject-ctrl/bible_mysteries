@@ -431,6 +431,8 @@ certificate seal). The label wording is listed at the bottom of
 
 ## 11. Recent work, newest first
 
+- **Ridge Post (JM-11) button did nothing.** `tours/ekron-road.html` built its WebGL renderer unguarded, so on a device with 3D off the script threw before `bStart` was wired and "Go up to the ridge" was dead. Now tries 3 renderer settings, and if WebGL is truly unavailable (or any error before the page is ready) the intro card is replaced by a plain explanation. Other tours in `tours/` still build `new THREE.WebGLRenderer` unguarded.
+
 - **JM-11 and JM-13 photos; print fit for plated sheets.** JM-11: `p11council`
   (Advice), `p11cart` (The Calves, Penned), `p11lords` (Watch log), `p11reapers`
   (Follow-up), evidence `e11mice` paired with the temple plate on the Capture

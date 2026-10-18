@@ -160,7 +160,23 @@ if(COARSE){ document.querySelector('#title .mouse').classList.add('hide'); docum
    RENDERER, SCENE, LIGHT
    ============================================================ */
 const view = document.getElementById('view');
-const renderer = new THREE.WebGLRenderer({antialias:true});
+/* If this device cannot draw 3D, say so plainly instead of leaving a dead button. */
+let READY = false;
+function no3D(why){
+  const i = document.getElementById('intro'); if(!i) return;
+  i.innerHTML = '<div class="k">Case JM-11 \u00b7 The Ridge Post</div><h2>This device can\u2019t draw the 3D scene</h2>'
+    + '<p>The ridge post needs 3D graphics (WebGL), and this browser has them switched off or blocked.</p>'
+    + '<p><b>Chrome / Edge:</b> Settings \u2192 System \u2192 turn on <i>\u201cUse graphics acceleration when available\u201d</i>, then restart the browser. '
+    + '<b>Safari:</b> try Chrome instead. Or open this on a different laptop, tablet or phone.</p>'
+    + (why ? '<p style="font-size:11px;opacity:.6">Technical note: ' + String(why).replace(/[<>&]/g,'') .slice(0,140) + '</p>' : '');
+  i.classList.remove('hide');
+}
+addEventListener('error', e=>{ if(!READY) no3D(e && e.message); });
+let renderer = null;
+for(const opts of [{antialias:true},{antialias:false},{antialias:false, powerPreference:'low-power'}]){
+  try{ renderer = new THREE.WebGLRenderer(opts); break; }catch(err){ renderer = null; }
+}
+if(!renderer){ no3D('WebGL unavailable'); return; }
 renderer.setPixelRatio(Math.min(devicePixelRatio, COARSE ? 1.5 : 2));
 renderer.setSize(innerWidth, innerHeight);
 renderer.shadowMap.enabled = true;
@@ -742,6 +758,7 @@ function endCard(){
   $('eRoad').textContent = `${trials - tally.stall - tally.ditch} of ${trials}`;
   show('end');
 }
+READY = true;
 $('bStart').onclick = ()=>{ audio(); show(null); };
 $('bTrial').onclick = ()=>{ audio(); startTrial(); };
 $('bReal').onclick = ()=>{ audio(); show(null); startReal(); };
