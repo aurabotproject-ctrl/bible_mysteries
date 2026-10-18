@@ -431,6 +431,8 @@ certificate seal). The label wording is listed at the bottom of
 
 ## 11. Recent work, newest first
 
+- **JM-00 (The Maker’s Mark) had no Supervisor briefing animation** — it was the only one of the 20 cases without it (JM-01 uses `ransom-briefing.html`). Added `tours/jm00-briefing.html` (same engine as `jm11-briefing`, six scenes) and wired `tour:{anim:true}` onto `j00letter` in `src/part_case21.js`.
+
 - **Ridge Post (JM-11) button did nothing.** `tours/ekron-road.html` built its WebGL renderer unguarded, so on a device with 3D off the script threw before `bStart` was wired and "Go up to the ridge" was dead. Now tries 3 renderer settings, and if WebGL is truly unavailable (or any error before the page is ready) the intro card is replaced by a plain explanation. Other tours in `tours/` still build `new THREE.WebGLRenderer` unguarded.
 
 - **JM-11 and JM-13 photos; print fit for plated sheets.** JM-11: `p11council`

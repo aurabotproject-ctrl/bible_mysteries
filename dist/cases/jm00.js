@@ -33,6 +33,8 @@ const JM00_ITEMS = [
   sub:"The Bible Investigation Bureau · Department of Unsolved Antiquities",
   prev:"The oldest question in the archive. Was it made, or did it just happen?",
   x:22, y:26, rot:-3, w:216,
+  tour:{href:"../tours/jm00-briefing.html", anim:true, label:"\u2712 Watch the briefing",
+        note:"The Supervisor\u2019s letter, drawn out in forty seconds."},
   body:`
     <p><b>To the investigating team,</b></p>
     <p>Every other file in this archive starts somewhere: a city, a road, a feast, a tomb. This one starts before there was anywhere to start. The first sentence of the Bible makes a claim about everything at once: <b>"In the beginning, God created the heavens and the earth."</b></p>
