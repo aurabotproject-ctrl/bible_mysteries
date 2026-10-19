@@ -431,6 +431,8 @@ certificate seal). The label wording is listed at the bottom of
 
 ## 11. Recent work, newest first
 
+- **JM-15 interactive: `tours/night-hearing.html`** on *The Six Statements*. 2D paper-cutout night council chamber: call the six witnesses (each statement becomes five picture tiles: who / does what / to what / when / then), tap any two cards to compare them (green/red rings, DO NOT AGREE, a 15-pair tracker), then the high priest's question, "I am", the torn robe and Joseph of Arimathea's dissent; plus a John 2:19–21 overlay of what was actually said.
+
 - **JM-14 interactive: `tours/crossing.html`** on *The Night Between the Camps*. 2D paper-cutout stop-motion, four steps (Moses raises his staff and the east wind parts the sea; Israel walks through on dry ground; the chariots follow and lose wheels; the water returns at dawn), plus Play it all / Start again. Same paper kit as the Hall of Design and the Twelve Reports.
 
 - **JM-13 interactive: `tours/twelve-reports.html`** on *The Two Reports, Side by Side*. 2D paper-cutout stop-motion (same kit as the Hall of Design), three tabs: drag the six things the spies saw onto a balance scale (each lands in both pans, the beam stays level, then picture bubbles show the grasshoppers vs "the LORD is with us"); two yardsticks (the spies shrink to grasshoppers or stand full size, the giant and measuring rod never change); and forty day tiles flipping into forty years while that generation fades and Caleb, Joshua and the children cross the Jordan.

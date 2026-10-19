@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>The Night Hearing</title>
+<style>
+
+  :root{--parchment:#EDE4CE;--parchment-dark:#D8C9A3;--ink:#2A2016;--ink-soft:#5C4B36;--brass:#A9822E;--red:#8c2a20;--line:#bfae86;--board:#6e5236}
+  *{box-sizing:border-box}
+  html,body{margin:0;min-height:100%}
+  body{background:var(--board);color:var(--ink);font-family:Georgia,'Iowan Old Style','Palatino Linotype',serif;-webkit-text-size-adjust:100%;
+    background-image:radial-gradient(rgba(0,0,0,.10) 1px,transparent 1.4px),radial-gradient(rgba(255,240,210,.06) 1px,transparent 1.4px);background-size:7px 7px,11px 11px;background-position:0 0,3px 5px}
+  .wrap{display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:18px;padding:16px;max-width:1500px;margin:0 auto;align-items:start}
+  .stage{position:relative;border-radius:3px;box-shadow:0 10px 26px rgba(0,0,0,.45),0 0 0 6px #f2e9d3,0 0 0 7px rgba(0,0,0,.25);background:#f2e9d3}
+  .stage canvas{display:block;touch-action:__TOUCH__}
+  .stage .hint{position:absolute;left:12px;bottom:10px;font:700 12px/1.2 'Courier New',monospace;color:rgba(42,32,22,.7);background:rgba(244,236,214,.85);padding:4px 7px;border-radius:2px;pointer-events:none}
+  .tag{background:var(--parchment);border:1px solid var(--ink-soft);box-shadow:0 6px 16px rgba(0,0,0,.4);border-radius:2px;position:relative}
+  .tag::before{content:"";position:absolute;left:50%;top:-11px;width:84px;height:22px;transform:translateX(-50%) rotate(-3deg);background:rgba(236,226,182,.7);box-shadow:0 1px 3px rgba(0,0,0,.2)}
+  .k{font:700 10px/1.2 'Courier New',monospace;letter-spacing:.18em;text-transform:uppercase;color:var(--red)}
+  #panel{padding:16px 18px 14px;transform:rotate(.4deg)}
+  #panel h1{margin:4px 0 6px;font-size:21px;line-height:1.2}
+  #panel p{font-size:14px;line-height:1.5;margin:8px 0}
+  #panel .note{font-size:12.5px;color:var(--ink-soft);font-style:italic}
+  #panel .ref{font-size:12px;color:var(--ink-soft);border-top:1px solid var(--line);padding-top:7px;margin-top:12px}
+  .ctl{margin:12px 0 4px}
+  .ctl label{display:block;font:600 12.5px/1.3 system-ui,sans-serif;color:var(--ink-soft);margin-bottom:4px}
+  .ctl input[type=range]{width:100%;accent-color:#7a2a1c;height:28px}
+  .row{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+  .btn{font:600 14px/1.1 Georgia,serif;padding:10px 13px;border-radius:3px;cursor:pointer;color:var(--ink);background:#f6efdd;border:1px solid var(--ink-soft);box-shadow:0 2px 6px rgba(0,0,0,.25)}
+  .btn:hover:not(:disabled){background:var(--parchment-dark)} .btn:disabled{opacity:.45;cursor:default}
+  .btn.main{background:#7a2a1c;color:#f6ead2;border-color:#4a160e} .btn.main:hover:not(:disabled){background:#8f3424}
+  .btn.on{outline:2px solid #2f4a6e;outline-offset:1px}
+  .readout{font:13.5px/1.5 'Courier New',monospace;background:#f8f2e2;border:1px solid var(--line);padding:8px 10px;margin-top:10px;min-height:4.6em}
+  .readout b{color:var(--red)}
+  .legend{display:flex;gap:14px;font-size:12.5px;margin-top:8px;flex-wrap:wrap}
+  .legend i{display:inline-block;width:16px;height:5px;vertical-align:middle;margin-right:5px;border-radius:2px}
+  @media (max-width:900px){
+    .wrap{grid-template-columns:1fr;padding:10px;gap:22px}
+    #panel{transform:none}
+  }
+
+  :root{--board:#2a1d16}
+  .top{max-width:1500px;margin:0 auto;padding:14px 16px 0}
+  .top h1{margin:0;font-size:22px;color:#f4ecd6;text-shadow:0 2px 4px rgba(0,0,0,.5)} .top .k{color:#e8b48e}
+  #panel h2{margin:4px 0 6px;font-size:21px}
+  .steps{display:grid;gap:8px;margin-top:10px} .steps .btn{text-align:left}
+</style>
+</head>
+<body>
+<div class="top"><div class="k">Case JM-15 · Mark 14:53–65</div><h1>The Night Hearing</h1></div>
+<div class="wrap">
+  <div class="stage"><canvas id="cv"></canvas></div>
+  <div id="panel" class="tag">
+    <div class="k">The Six Statements · in the chamber</div>
+    <h2>Two witnesses who agree, or nothing</h2>
+    <p>The law needs <b>two witnesses whose whole accounts agree</b>. Call the witnesses one by one. Each statement is turned into pictures on the table.</p>
+    <div class="steps">
+      <button class="btn main" id="wCall">Call witness I</button>
+      <button class="btn" id="wAll">Test every pair</button>
+      <button class="btn" id="wQ">The high priest’s question</button>
+    </div>
+    <p style="font-size:13px;margin-top:10px">Tap any two cards on the table to compare them yourself. Tap the waiting witnesses to call the next one.</p>
+    <div class="row"><button class="btn" id="wOrig">What was actually said?</button><button class="btn" id="wReset">Start again</button></div>
+    <div class="readout" id="read"></div>
+    <div class="ref">Mark 14:55–64 · Deuteronomy 19:15 · John 2:19–21.</div>
+  </div>
+</div>
+<script>
+/* ---------- paper-cutout stop-motion kit (shared by the three exhibits) ----------
+   Every shape is cut from paper: a slightly ragged scissor edge, a pale cut rim,
+   fibre grain and a drop shadow. The scene is drawn "on twos" at 12 frames a second,
+   and each cut-out nudges a fraction between frames, the way a hand-moved puppet does. */
+const P = (()=>{
+const W=1200, H=760, FPS=12;
+const api={W,H,FPS,frame:0,still:false,t:0};
+let cv, ctx, K=1, bg=null, scene=null, frame=-1, GR=null, paused=false;
+const hash=(a,b)=>{let h=(Math.imul(a|0,374761393)+Math.imul(b|0,668265263))|0;h=Math.imul(h^(h>>>13),1274126177);return((h^(h>>>16))>>>0)/4294967296};
+const rng=seed=>{let s=(seed>>>0)||1;return()=>(s=(Math.imul(s,1664525)+1013904223)>>>0)/4294967296};
+api.hash=hash; api.rng=rng;
+
+/* shapes */
+api.rect=(x,y,w,h)=>[[x,y],[x+w,y],[x+w,y+h],[x,y+h]];
+api.ell=(cx,cy,rx,ry,n)=>{n=n||Math.max(10,Math.round((rx+ry)*Math.PI/9));const p=[];for(let i=0;i<n;i++){const a=2*Math.PI*i/n;p.push([cx+Math.cos(a)*rx,cy+Math.sin(a)*ry])}return p};
+api.blob=(cx,cy,rx,ry,seed,v)=>{const r=rng(seed),n=Math.max(9,Math.round((rx+ry)/7)),p=[];v=v==null?.18:v;for(let i=0;i<n;i++){const a=2*Math.PI*i/n,k=1-v/2+r()*v;p.push([cx+Math.cos(a)*rx*k,cy+Math.sin(a)*ry*k])}return p};
+api.star=(cx,cy,r1,r2,n)=>{const p=[];for(let i=0;i<2*n;i++){const a=Math.PI*i/n-Math.PI/2,r=i%2?r2:r1;p.push([cx+Math.cos(a)*r,cy+Math.sin(a)*r])}return p};
+
+/* the scissor cut: walk each edge in short steps, nudging every step in or out */
+function cut(pts,seed,amp,step){const r=rng(seed),out=[],n=pts.length;
+  for(let i=0;i<n;i++){const a=pts[i],b=pts[(i+1)%n],dx=b[0]-a[0],dy=b[1]-a[1],L=Math.hypot(dx,dy)||1,m=Math.max(1,Math.round(L/step)),nx=-dy/L,ny=dx/L;
+    for(let k=0;k<m;k++){const t=k/m,j=(r()-.5)*2*amp;out.push([a[0]+dx*t+nx*j,a[1]+dy*t+ny*j])}}
+  const P2=new Path2D();out.forEach((q,i)=>i?P2.lineTo(q[0],q[1]):P2.moveTo(q[0],q[1]));P2.closePath();return P2}
+let NID=1;
+/* a piece of paper: three slightly different cuts, swapped every other frame (replacement animation) */
+api.piece=(pts,col,o)=>{o=Object.assign({amp:1.3,step:9,shadow:1,edge:1,grain:1,alpha:1,j:1},o||{});const id=NID++;
+  return{id,col,o,paths:[0,1,2].map(k=>cut(pts,id*131+k*977+7,o.amp,o.step))}};
+
+function grain(){const c=document.createElement('canvas');c.width=c.height=180;const g=c.getContext('2d');g.fillStyle='#fff';g.fillRect(0,0,180,180);const r=rng(99);
+  for(let i=0;i<2600;i++){g.fillStyle=`rgba(90,70,40,${r()*.10})`;g.fillRect(r()*180,r()*180,1+r()*1.5,1+r()*1.5)}
+  g.lineWidth=.6;for(let i=0;i<90;i++){g.strokeStyle=`rgba(110,90,60,${.05+r()*.08})`;const x=r()*180,y=r()*180,a=r()*6.3,l=4+r()*14;g.beginPath();g.moveTo(x,y);g.quadraticCurveTo(x+Math.cos(a+.5)*l/2,y+Math.sin(a+.5)*l/2,x+Math.cos(a)*l,y+Math.sin(a)*l);g.stroke()}
+  for(let i=0;i<600;i++){g.fillStyle=`rgba(255,255,255,${r()*.5})`;g.fillRect(r()*180,r()*180,1,1)}
+  return c}
+
+/* draw a piece at x,y (rotation r, scale s). op: {sx,sy,alpha,col,j,after(ctx)} */
+api.draw=(p,x,y,r,s,op)=>{op=op||{};const o=p.o,f=api.frame,j=(op.j==null?o.j:op.j)*(api.still?0:1);
+  const jx=(hash(p.id,f)-.5)*1.8*j,jy=(hash(p.id+7,f)-.5)*1.8*j,jr=(hash(p.id+13,f)-.5)*.024*j;
+  const vi=j?Math.floor(f/2+p.id)%3:0;s=s==null?1:s;const sx=s*(op.sx==null?1:op.sx),sy=s*(op.sy==null?1:op.sy),a=op.alpha==null?o.alpha:op.alpha;if(a<=0)return;
+  ctx.save();ctx.translate(x+jx,y+jy);ctx.rotate((r||0)+jr);ctx.scale(sx,sy);const path=p.paths[vi];ctx.globalAlpha=a;
+  const sh=op.shadow==null?o.shadow:op.shadow;
+  if(sh){ctx.shadowColor=`rgba(28,16,4,${.38*Math.min(1,sh)*a})`;ctx.shadowBlur=5*K*sh;ctx.shadowOffsetX=2*K*sh;ctx.shadowOffsetY=3.4*K*sh}
+  ctx.fillStyle=op.col||p.col;ctx.fill(path);ctx.shadowColor='transparent';ctx.shadowBlur=0;ctx.shadowOffsetX=ctx.shadowOffsetY=0;
+  if(o.grain){if(!GR)GR=ctx.createPattern(grain(),'repeat');ctx.globalAlpha=a*.55;ctx.globalCompositeOperation='multiply';ctx.fillStyle=GR;ctx.fill(path);ctx.globalCompositeOperation='source-over'}
+  if(op.after){ctx.globalAlpha=a;ctx.save();ctx.clip(path);op.after(ctx,path);ctx.restore()}
+  if(op.over){ctx.globalAlpha=a;op.over(ctx)}
+  if(o.edge){ctx.globalAlpha=a*.6;ctx.strokeStyle='rgba(255,251,238,.85)';ctx.lineWidth=1.2/Math.max(.3,Math.min(Math.abs(sx),Math.abs(sy)));ctx.stroke(path)}
+  ctx.restore()};
+
+/* a shape whose corners move: cut fresh each frame from a fixed seed, so the edge stays put as it moves */
+api.dyn=(key,pts,col,o)=>{o=Object.assign({amp:1.3,step:10,shadow:1,edge:1,grain:1,alpha:1},o||{});if(pts.length<3)return;const v=api.still?0:Math.floor(api.frame/2)%3;
+  const path=cut(pts,key*131+v*977+7,o.amp,o.step);ctx.save();ctx.globalAlpha=o.alpha;
+  if(o.shadow){ctx.shadowColor=`rgba(28,16,4,${.38*Math.min(1,o.shadow)*o.alpha})`;ctx.shadowBlur=5*K*o.shadow;ctx.shadowOffsetX=2*K*o.shadow;ctx.shadowOffsetY=3.4*K*o.shadow}
+  ctx.fillStyle=col;ctx.fill(path);ctx.shadowColor='transparent';
+  if(o.grain){if(!GR)GR=ctx.createPattern(grain(),'repeat');ctx.globalAlpha=o.alpha*.55;ctx.globalCompositeOperation='multiply';ctx.fillStyle=GR;ctx.fill(path);ctx.globalCompositeOperation='source-over'}
+  if(o.after){ctx.globalAlpha=o.alpha;ctx.save();ctx.clip(path);o.after(ctx);ctx.restore()}
+  if(o.edge){ctx.globalAlpha=o.alpha*.6;ctx.strokeStyle='rgba(255,251,238,.85)';ctx.lineWidth=1.2;ctx.stroke(path)}ctx.restore()};
+
+/* a paper tag with typed words on it */
+const LB=new Map();
+api.label=(str,x,y,o)=>{o=o||{};const size=o.size||17,font=o.font||`700 ${size}px "Courier New",Courier,monospace`,key=str+'|'+font+'|'+(o.bg||'');let L=LB.get(key);
+  if(!L){ctx.save();ctx.font=font;const w=ctx.measureText(str).width+size*1.1,h=size*1.6;ctx.restore();L={p:api.piece(api.rect(-w/2,-h/2,w,h),o.bg||'#f4ecd6',{amp:1.1,step:7,shadow:o.shadow==null?.8:o.shadow}),w,h};LB.set(key,L)}
+  api.draw(L.p,x,y,o.r||0,o.s||1,{j:o.j,alpha:o.alpha,over:c=>{c.font=font;c.fillStyle=o.col||'#2a2016';c.textAlign='center';c.textBaseline='middle';c.fillText(str,0,1.5)}});
+  if(o.tape)api.tape(x,y-L.h/2,(o.r||0)+.08);return L};
+/* bare words printed straight onto a piece of paper underneath */
+api.text=(str,x,y,o)=>{o=o||{};ctx.save();ctx.font=o.font||`700 ${o.size||16}px "Courier New",Courier,monospace`;ctx.fillStyle=o.col||'rgba(42,32,22,.55)';ctx.textAlign=o.align||'center';ctx.textBaseline='middle';
+  if(o.spacing&&'letterSpacing' in ctx)ctx.letterSpacing=o.spacing+'px';ctx.translate(x,y);if(o.r)ctx.rotate(o.r);ctx.fillText(str,0,0);ctx.restore()};
+const TP=[];api.tape=(x,y,r)=>{if(!TP.length)for(let i=0;i<3;i++)TP.push(api.piece(api.rect(-22,-8,44,16),'rgba(236,226,182,.62)',{amp:1.6,step:5,shadow:.25,grain:0,edge:0}));
+  api.draw(TP[(Math.abs(x*3+y)|0)%3],x,y,r||0,1)};
+
+/* line drawn in thread / chalk: a polyline re-wobbled each frame */
+api.thread=(pts,col,w,o)=>{o=o||{};const f=api.still?0:api.frame,r=rng(((pts[0][0]*31+pts[0][1]*17)|0)+f*13);ctx.save();ctx.strokeStyle=col;ctx.lineWidth=w||2;ctx.lineCap='round';ctx.lineJoin='round';
+  if(o.dash)ctx.setLineDash(o.dash);if(o.alpha!=null)ctx.globalAlpha=o.alpha;ctx.beginPath();pts.forEach((q,i)=>{const jx=(r()-.5)*(o.wob||1.2),jy=(r()-.5)*(o.wob||1.2);i?ctx.lineTo(q[0]+jx,q[1]+jy):ctx.moveTo(q[0]+jx,q[1]+jy)});ctx.stroke();ctx.restore()};
+
+/* ---------- running the scene ---------- */
+function resize(){const box=cv.parentElement.getBoundingClientRect(),w=Math.max(200,box.width),dpr=Math.min(2,window.devicePixelRatio||1);
+  cv.style.width=w+'px';cv.style.height=(w*H/W)+'px';K=w/W*dpr;cv.width=Math.round(W*K);cv.height=Math.round(H*K);ctx=cv.getContext('2d');bg=null;GR=null;render()}
+function render(){if(!scene)return;
+  if(!bg){bg=document.createElement('canvas');bg.width=cv.width;bg.height=cv.height;const old=ctx;ctx=bg.getContext('2d');ctx.setTransform(K,0,0,K,0,0);api.still=true;scene.backdrop(ctx);api.still=false;GR=null;ctx=old}
+  ctx.setTransform(1,0,0,1,0,0);ctx.drawImage(bg,0,0);ctx.setTransform(K,0,0,K,0,0);scene.draw(ctx)}
+function step(dt){api.t+=dt;scene.update&&scene.update(dt)}
+function loop(now){requestAnimationFrame(loop);if(paused)return;const f=Math.floor(now/1000*FPS);if(f===frame)return;const n=frame<0?0:Math.min(3,f-frame);frame=f;api.frame=f;
+  for(let i=0;i<n;i++)step(1/FPS);render()}
+const pt=e=>{const b=cv.getBoundingClientRect();return[(e.clientX-b.left)/b.width*W,(e.clientY-b.top)/b.height*H]};
+api.start=(sc,canvas)=>{scene=sc;cv=canvas;resize();addEventListener('resize',resize);
+  if(window.ResizeObserver)new ResizeObserver(()=>{const w=cv.parentElement.getBoundingClientRect().width;if(w>0&&Math.abs(w-parseFloat(cv.style.width))>1)resize()}).observe(cv.parentElement);
+  cv.addEventListener('pointerdown',e=>{if(scene.down&&scene.down(...pt(e))!==false){cv.setPointerCapture(e.pointerId);e.preventDefault()}});
+  cv.addEventListener('pointermove',e=>{scene.move&&scene.move(...pt(e),e.buttons||e.pointerType==='touch')});
+  cv.addEventListener('pointerup',e=>{scene.up&&scene.up(...pt(e))});cv.addEventListener('pointercancel',()=>{scene.up&&scene.up()});
+  document.addEventListener('visibilitychange',()=>{paused=document.hidden});requestAnimationFrame(loop)};
+/* swap to another scene on the same stage */
+api.use=sc=>{if(!cv)return;scene=sc;cv.style.touchAction=sc.touch||'pan-y';bg=null;render()};
+/* for tests: run the clock forward without waiting */
+api.advance=s=>{const n=Math.round(s*FPS);for(let i=0;i<n;i++){api.frame++;step(1/FPS)}render()};
+api.redraw=render;
+api.ctx=()=>ctx;
+return api})();
+
+</script>
+<script>
+/* figures shared by the three panels: robed people, a giant, a grasshopper */
+const FG=(()=>{const {piece,draw,ell,rect}=P;
+const C={ink:'#2a2016',paper:'#f3e8cc',sand:'#d8c196',ochre:'#c4923e',terra:'#a5532f',olive:'#6f7a3c',sage:'#93986a',stone:'#b8a27c',stone2:'#9a845f',red:'#8c2a20',blue:'#56708a',sky:'#d9ceb2'};
+const ROBES=['#a5532f','#6f7a3c','#56708a','#c4923e','#7a5a3a','#8c5a3a','#93986a','#b07a4a','#5e6b4a','#8a6a7a','#4f6a72','#b89a5a'];
+const head=piece(ell(0,-88,9,10,10),'#c48d5e',{amp:.5,step:4,shadow:.6});
+const cloth=piece([[-12,-95],[0,-103],[12,-95],[15,-74],[-15,-74]],'#e9dcc0',{amp:.5,step:4,shadow:.4});
+const band=piece(rect(-11,-98,22,4),'#7a5a3a',{amp:.3,step:4,shadow:.1});
+const robe=piece([[-10,-77],[10,-77],[17,0],[-17,0]],'#888',{amp:.8,step:6,shadow:.9});
+const sash=piece(rect(-12,-46,24,5),'#d9b45a',{amp:.4,step:4,shadow:.2});
+const arm=piece([[-3.5,0],[3.5,0],[3,34],[-3,34]],'#888',{amp:.4,step:4,shadow:.5});
+const hand=piece(ell(0,36,3.6,3.6,7),'#c48d5e',{amp:.3,step:4,shadow:.3});
+const beard=piece([[-6,-82],[6,-82],[3,-72],[-3,-72]],'#4a3424',{amp:.3,step:3,shadow:.1});
+/* a robed person, feet at x,y, about 100 tall at s=1 */
+function person(x,y,s,col,o){o=o||{};const w=o.walk?(P.frame%2?1:-1):0,bob=o.walk&&P.frame%2?-2*s:0,a=o.alpha;
+  const sw=w*.28,aL=(o.armL!=null?o.armL:.12)+sw,aR=(o.armR!=null?o.armR:-.12)-sw;
+  draw(arm,x-11*s,y-72*s+bob,aL,s,{col:shade(col),alpha:a});draw(hand,x-11*s,y-72*s+bob,aL,s,{alpha:a});
+  draw(robe,x,y+bob,0,s,{col,alpha:a});draw(sash,x,y+bob,0,s,{alpha:a});
+  draw(arm,x+11*s,y-72*s+bob,aR,s,{col:shade(col),alpha:a});draw(hand,x+11*s,y-72*s+bob,aR,s,{alpha:a});
+  draw(cloth,x,y+bob,0,s,{col:o.cloth||'#e9dcc0',alpha:a});draw(head,x,y+bob,0,s,{alpha:a,over:k=>{k.fillStyle='#2a1a10';k.beginPath();k.arc(-3.2,-89,1.1,0,7);k.arc(3.2,-89,1.1,0,7);k.fill()}});if(!o.young)draw(beard,x,y+bob,0,s,{alpha:a});draw(band,x,y+bob,0,s,{alpha:a})}
+function shade(h){const n=parseInt(h.slice(1),16),f=v=>Math.round(v*.82);return'#'+[n>>16,(n>>8)&255,n&255].map(v=>f(v).toString(16).padStart(2,'0')).join('')}
+/* the grasshopper */
+const gBody=piece(ell(0,0,17,6.5,12),'#7c8a3a',{amp:.5,step:4,shadow:.6}),gHead=piece(ell(17,-2,6,5.5,9),'#6b7830',{amp:.4,step:4,shadow:.4}),gWing=piece([[-14,-4],[10,-6],[2,0],[-16,1]],'#9aa654',{amp:.4,step:4,shadow:.3});
+function hopper(x,y,s,flip){const c=P.ctx(),sx=flip?-1:1,j=P.frame%2?1:0;
+  c.save();c.strokeStyle='#4f5a20';c.lineWidth=2*s;c.lineJoin='round';c.beginPath();c.moveTo(x+sx*-4*s,y);c.lineTo(x+sx*-12*s,y-16*s-j);c.lineTo(x+sx*-22*s,y+8*s);c.moveTo(x+sx*6*s,y+3*s);c.lineTo(x+sx*10*s,y+10*s);c.moveTo(x+sx*12*s,y+3*s);c.lineTo(x+sx*18*s,y+9*s);c.moveTo(x+sx*20*s,y-6*s);c.quadraticCurveTo(x+sx*28*s,y-22*s,x+sx*38*s,y-20*s);c.stroke();c.restore();
+  draw(gBody,x,y,0,s,{sx});draw(gWing,x,y-3*s,0,s,{sx});draw(gHead,x,y,0,s,{sx,over:k=>{k.fillStyle='#1d200c';k.beginPath();k.arc(19,-3,1.6,0,7);k.fill()}})}
+/* a slip of paper with one or two typed lines */
+const SL=new Map();
+function slip(lines,x,y,o){o=o||{};const size=o.size||14,font=`${o.italic?'italic ':''}700 ${size}px ${o.serif?'Georgia,serif':'"Courier New",Courier,monospace'}`,key=lines.join('|')+font+(o.bg||'')+(o.w||'');let L=SL.get(key);
+  if(!L){const c=P.ctx();c.save();c.font=font;const w=o.w||Math.max(...lines.map(l=>c.measureText(l).width))+size*1.4,h=lines.length*size*1.35+size*.9;c.restore();L={p:piece(rect(-w/2,-h/2,w,h),o.bg||'#f6efdc',{amp:1,step:7,shadow:o.shadow==null?.8:o.shadow}),w,h};SL.set(key,L)}
+  draw(L.p,x,y,o.r||0,o.s||1,{alpha:o.alpha,j:o.j,over:c=>{c.font=font;c.fillStyle=o.col||C.ink;c.textAlign='center';c.textBaseline='middle';lines.forEach((l,i)=>c.fillText(l,0,(i-(lines.length-1)/2)*size*1.35+1))}});return L}
+return{C,ROBES,person,hopper,slip,shade}})();
+
+</script>
+<script>
+(()=>{
+const {piece,draw,label,text,rect,ell,blob,star,tape,thread,dyn}=P,{C,person,slip,ROBES}=FG;
+const $=id=>document.getElementById(id);
+const lerp=(a,b,t)=>a+(b-a)*t,clamp=v=>Math.max(0,Math.min(1,v));
+/* ---------- the chamber ---------- */
+const wall=piece(rect(0,0,1200,440),'#3a2a20',{amp:0,shadow:0,edge:0});
+const arches=[160,400,800,1040].map((x,i)=>piece([[x-70,300],[x-70,140],[x-50,92],[x,72],[x+50,92],[x+70,140],[x+70,300]],'#2a1c14',{amp:1.2,step:8,shadow:.4}));
+const pillars=[40,280,520,680,920,1160].map(x=>piece(rect(x-16,40,32,320),'#5a4232',{amp:1,step:9,shadow:1}));
+const frieze=piece(rect(0,28,1200,22),'#6e5238',{amp:1.2,step:10,shadow:.9});
+const floor=piece([[0,330],[1200,330],[1200,440],[0,440]],'#6b5340',{amp:1,step:12,shadow:.6});
+const tiles=piece([[0,380],[1200,380],[1200,440],[0,440]],'#5d4736',{amp:1,step:12,shadow:.3});
+const dais=piece([[520,316],[680,316],[700,340],[500,340]],'#7a5a3a',{amp:1,step:8,shadow:1});
+const benchB=piece([[70,300],[1130,300],[1130,326],[70,326]],'#4a3424',{amp:1,step:10,shadow:1});
+const benchF=[[60,368,300],[840,368,300]].map(([x,y,w])=>piece(rect(x,y,w,16),'#4a3424',{amp:1,step:8,shadow:1}));
+const table=piece(rect(0,446,1200,314),'#5a3f2c',{amp:0,shadow:0,edge:0});
+const tableEdge=piece(rect(0,440,1200,12),'#3a2818',{amp:1,step:12,shadow:1});
+const chain=[150,600,1050],lampB=piece([[-18,0],[18,0],[10,10],[-10,10]],'#a07a3a',{amp:.5,step:4,shadow:.7});
+const fl=[0,1,2].map(i=>piece(blob(0,-12,7,13,40+i,.3),['#f6b545','#f8cf63','#f2a33a'][i],{amp:.6,step:4,shadow:0,edge:0}));
+/* ---------- the people ---------- */
+const COUNCIL=[];{const xs=[110,180,250,320,390,460,740,810,880,950,1020,1090];xs.forEach((x,i)=>COUNCIL.push({x,y:318,s:.86,col:['#6a5a7a','#5e6b4a','#7a5a3a','#4f6a72','#8a6a4a','#56708a'][i%6],cloth:'#e9dcc0'}))}
+const JOSEPH=COUNCIL[9];JOSEPH.col='#3f6a5a';
+const hpHead=piece(ell(0,-88,9,10,10),'#c48d5e',{amp:.5,step:4,shadow:.6}),turban=piece([[-12,-92],[-11,-106],[0,-112],[11,-106],[12,-92]],'#f2ead6',{amp:.5,step:4,shadow:.5}),plate=piece(rect(-7,-99,14,4),'#d9b45a',{amp:.3,step:3,shadow:.2});
+const hpBeard=piece([[-7,-82],[7,-82],[4,-66],[-4,-66]],'#cfc6b4',{amp:.3,step:3,shadow:.1});
+const robeL=piece([[-18,0],[-11,-78],[0,-78],[-2,-60],[2,-44],[-2,-26],[1,-12],[-1,0]],'#2f4a7a',{amp:.6,step:5,shadow:.9}),robeR=piece([[1,0],[-1,-12],[2,-26],[-2,-44],[2,-60],[0,-78],[11,-78],[18,0]],'#2f4a7a',{amp:.6,step:5,shadow:.9});
+const tunic=piece([[-10,-78],[10,-78],[15,0],[-15,0]],'#f2ead6',{amp:.6,step:5,shadow:.6});
+const ephod=piece([[-11,-74],[11,-74],[12,-40],[-12,-40]],'#c4923e',{amp:.4,step:4,shadow:.5});
+const STONES=['#8c2a20','#d9b45a','#3f7a4e','#2f4a7a','#7a3a6a','#c4923e','#4f6a72','#a5532f','#6f7a3c','#56708a','#b07a4a','#8a6a7a'];
+const armP=piece([[-3.5,0],[3.5,0],[3,34],[-3,34]],'#2f4a7a',{amp:.4,step:4,shadow:.5}),handP=piece(ell(0,36,3.6,3.6,7),'#c48d5e',{amp:.3,step:4,shadow:.3});
+function highPriest(x,y,s,tear,armUp){const rL=-tear*.16,rR=tear*.16,dx=tear*7*s;
+  draw(armP,x-12*s-dx,y-72*s,armUp?2.4:.15,s);draw(handP,x-12*s-dx,y-72*s,armUp?2.4:.15,s);draw(armP,x+12*s+dx,y-72*s,armUp?-2.4:-.15,s);draw(handP,x+12*s+dx,y-72*s,armUp?-2.4:-.15,s);
+  if(tear>0)draw(tunic,x,y,0,s);draw(robeL,x-dx,y,rL,s);draw(robeR,x+dx,y,rR,s);
+  if(tear<.3){draw(ephod,x,y,0,s,{over:k=>{for(let i=0;i<12;i++){k.fillStyle=STONES[i];k.fillRect(-7+(i%3)*5,-70+Math.floor(i/3)*5,4,4)}}})}
+  draw(hpHead,x,y,0,s,{over:k=>{k.fillStyle='#2a1a10';k.beginPath();k.arc(-3.2,-89,1.1,0,7);k.arc(3.2,-89,1.1,0,7);k.fill()}});draw(hpBeard,x,y,0,s);draw(turban,x,y,0,s);draw(plate,x,y,0,s)}
+const rope=()=>{};
+/* ---------- picture tiles ---------- */
+const TILE=piece(rect(-28,-28,56,56),'#f1e6c8',{amp:.8,step:6,shadow:.6}),EMPTY=piece(rect(-28,-28,56,56),'rgba(241,230,200,.25)',{amp:.8,step:6,shadow:0,grain:0});
+const tPed=piece([[-20,-8],[0,-20],[20,-8]],'#c4923e',{amp:.4,step:3,shadow:.3}),tBase=piece(rect(-20,14,40,5),'#c4923e',{amp:.4,step:3,shadow:.3});
+function templeIcon(k,o){o=o||{};k.save();if(o.tilt)k.rotate(o.tilt);k.fillStyle=o.col||'#c4923e';k.beginPath();k.moveTo(-20,-8);k.lineTo(0,-19);k.lineTo(20,-8);k.fill();k.fillRect(-20,14,40,5);k.fillRect(-21,-8,42,4);for(let i=0;i<4;i++)k.fillRect(-17+i*10,-4,5,18);
+  if(o.crack){k.strokeStyle='#8c2a20';k.lineWidth=2.2;k.beginPath();k.moveTo(-2,-18);k.lineTo(3,-6);k.lineTo(-4,4);k.lineTo(2,18);k.stroke()}k.restore()}
+function sunsIcon(k){k.fillStyle='#e7a93a';[-15,0,15].forEach(x=>{k.beginPath();k.arc(x,0,6,0,7);k.fill()});k.font='700 11px "Courier New",monospace';k.fillStyle='#2a2016';k.textAlign='center';k.fillText('3 DAYS',0,20)}
+function handIcon(k,no){k.fillStyle='#c48d5e';k.beginPath();k.ellipse(0,6,10,12,0,0,7);k.fill();[-8,-3,2,7].forEach((x,i)=>{k.fillRect(x-2,-16+Math.abs(i-1.5)*2,4,16)});k.fillRect(8,-2,9,4);if(no){k.strokeStyle='#8c2a20';k.lineWidth=3;k.beginPath();k.moveTo(-18,-18);k.lineTo(18,18);k.stroke()}}
+function figIcon(k,point){k.fillStyle='#7a3a2a';k.beginPath();k.arc(-6,-12,5,0,7);k.fill();k.beginPath();k.moveTo(-12,18);k.lineTo(-9,-5);k.lineTo(-3,-5);k.lineTo(0,18);k.fill();if(point){k.strokeStyle='#8c2a20';k.lineWidth=2.5;k.beginPath();k.moveTo(2,0);k.lineTo(18,0);k.moveTo(12,-5);k.lineTo(18,0);k.lineTo(12,5);k.stroke()}}
+function upArrow(k,col){k.strokeStyle=col||'#3f7a4e';k.lineWidth=3;k.beginPath();k.moveTo(0,16);k.lineTo(0,-16);k.moveTo(-7,-9);k.lineTo(0,-16);k.lineTo(7,-9);k.stroke()}
+const ICON={
+ he:k=>figIcon(k,true), q:k=>{k.font='700 30px Georgia,serif';k.fillStyle='#8c2a20';k.textAlign='center';k.textBaseline='middle';k.fillText('?',0,2)},
+ destroy:k=>{templeIcon(k,{crack:true,col:'#a5532f'});k.fillStyle='#a5532f';k.fillRect(14,10,6,6);k.fillRect(-22,12,5,5)}, fall:k=>templeIcon(k,{tilt:.35,col:'#a5532f'}),
+ pull:k=>{templeIcon(k,{tilt:-.2,col:'#a5532f'});k.strokeStyle='#6b4a2c';k.lineWidth=2;k.beginPath();k.moveTo(-14,-10);k.quadraticCurveTo(-20,10,-26,20);k.stroke()},
+ go:k=>{k.globalAlpha*=.45;templeIcon(k,{col:'#a5532f'});k.globalAlpha/=.45;k.strokeStyle='#8c2a20';k.lineWidth=2;k.setLineDash([3,3]);k.strokeRect(-22,-20,44,40);k.setLineDash([])},
+ temple:k=>templeIcon(k), hands:k=>{k.save();k.scale(.8,.8);templeIcon(k);k.restore();k.save();k.translate(12,10);k.scale(.55,.55);handIcon(k);k.restore()},
+ days:k=>sunsIcon(k), raised:k=>{k.save();k.scale(.75,.75);templeIcon(k,{col:'#3f7a4e'});k.restore();k.save();k.translate(19,0);k.scale(.7,.7);upArrow(k);k.restore()},
+ another:k=>{k.save();k.translate(-6,0);k.scale(.75,.75);templeIcon(k,{col:'#3f7a4e'});k.restore();k.fillStyle='#d9b45a';k.beginPath();for(let i=0;i<8;i++){const a=i*Math.PI/4,r=i%2?3:8;k.lineTo(16+Math.cos(a)*r,-14+Math.sin(a)*r)}k.fill()},
+ nohands:k=>{k.save();k.translate(-8,0);k.scale(.7,.7);templeIcon(k,{col:'#3f7a4e'});k.restore();k.save();k.translate(13,8);k.scale(.5,.5);handIcon(k,true);k.restore()},
+ body:k=>{figIcon(k,false);k.save();k.translate(10,-2);k.scale(.45,.45);templeIcon(k,{col:'#3f7a4e'});k.restore()}, you:k=>{k.save();k.translate(4,0);figIcon(k,false);k.restore();k.save();k.translate(-14,0);k.scale(.5,.5);figIcon(k,false);k.restore()}
+};
+const COLS=['WHO','DOES WHAT','TO WHAT','WHEN','THEN'];
+const W6=[
+ {n:'I',q:'“He said he would destroy this temple.”',t:['he','destroy','temple','','']},
+ {n:'II',q:'“He said this temple would fall, and in three days it would be raised up again.”',t:['','fall','temple','days','raised']},
+ {n:'III',q:'“He said he would pull it down in three days.”',t:['he','pull','','days','']},
+ {n:'IV',q:'“He said this temple made with hands would go, and another would be built.”',t:['','go','hands','','another']},
+ {n:'V',q:'“I will destroy this temple made with hands, and in three days build another made without hands.”',t:['he','destroy','hands','days','nohands']},
+ {n:'VI',q:'“Something about three days. I could not say more than that.”',t:['q','q','q','days','q']}];
+const ORIG=['you','destroy','body','days','raised'];
+function tile(key,x,y,s,ring){draw(key?TILE:EMPTY,x,y,0,s,{over:k=>{if(key&&ICON[key]){k.save();ICON[key](k);k.restore()}if(ring){k.strokeStyle=ring;k.lineWidth=4;k.strokeRect(-30,-30,60,60)}}})}
+/* ---------- the board ---------- */
+const CARD=piece(rect(-188,-62,376,124),'#efe2c2',{amp:1.2,step:9,shadow:1}),SLOT=piece(rect(-188,-62,376,124),'rgba(239,226,194,.12)',{amp:1.2,step:9,shadow:0,grain:0});
+const cardXY=i=>[205+(i%3)*395,540+Math.floor(i/3)*146];
+function card(i,x,y,s,o){o=o||{};const w=W6[i];draw(CARD,x,y,o.r||0,s,{alpha:o.alpha,over:k=>{k.font='700 22px Georgia,serif';k.fillStyle='#8c2a20';k.textAlign='center';k.textBaseline='middle';k.fillText(w.n,-160,-2);
+  if(o.sel){k.strokeStyle='#2f4a6e';k.lineWidth=4;k.strokeRect(-186,-60,372,120)}}});
+  w.t.forEach((key,j)=>tile(key,x+(-108+j*64)*s,y+4*s,s*.95,o.rings&&o.rings[j]))}
+/* ---------- state ---------- */
+const st={called:0,walk:null,speak:-1,speakT:0,fly:null,onBoard:[],sel:[],cmp:null,tested:{},phase:'witness',qT:0,orig:false,benched:[]};
+const pairKey=(a,b)=>Math.min(a,b)+'-'+Math.max(a,b);
+function agree(a,b){return W6[a].t.map((k,j)=>k&&k===W6[b].t[j]&&k!=='q')}
+function call(){if(st.walk||st.called>=6||st.phase!=='witness')return;st.walk={i:st.called,t:0};st.called++;buttons()}
+function compare(a,b){if(st.cmp)return;st.cmp={a,b,t:0};st.tested[pairKey(a,b)]=1;st.sel=[];buttons()}
+function testAll(){const q=[];for(let a=0;a<6;a++)for(let b=a+1;b<6;b++)if(st.onBoard.includes(a)&&st.onBoard.includes(b)&&!st.tested[pairKey(a,b)])q.push([a,b]);let k=0;const next=()=>{if(k>=q.length)return;if(st.cmp){setTimeout(next,200);return}compare(...q[k++]);setTimeout(next,2700)};next()}
+function question(){if(st.phase!=='witness'||st.onBoard.length<6)return;st.phase='collapse';st.qT=0;buttons()}
+function update(dt){
+  if(st.walk){st.walk.t+=dt/1.8;if(st.walk.t>=1){st.speak=st.walk.i;st.speakT=0;st.walk=null}}
+  if(st.speak>=0){st.speakT+=dt;if(st.speakT>3.4&&!st.fly){st.fly={i:st.speak,t:0}}}
+  if(st.fly){st.fly.t+=dt/.8;if(st.fly.t>=1){st.onBoard.push(st.fly.i);st.benched.push(st.fly.i);st.fly=null;st.speak=-1;buttons();say()}}
+  if(st.cmp){st.cmp.t+=dt;if(st.cmp.t>2.5){st.cmp=null;buttons();say()}}
+  if(st.phase==='collapse'){st.qT+=dt;if(st.qT>13.5&&!st.endSaid){st.endSaid=1;say()}}
+  sayLive()}
+const pairsTested=()=>Object.keys(st.tested).length;
+let lastSay='';function sayLive(){let m;
+  if(st.phase==='collapse'){const t=st.qT;m=t<2.5?'The witness evidence <b>collapses</b>. Not one pair of statements agrees, so under the court’s own law there is <b>no case</b>.'
+    :t<5.5?'The high priest stands up in the middle: “<b>Are you the Christ, the Son of the Blessed?</b>”':t<8?'Jesus answers: “<b>I am.</b>”':t<11?'The high priest tears his clothes: “<b>What need we any further witnesses?</b>”'
+    :'The charge that carried the room came from <b>no witness at all</b>. And the council was not unanimous: <b>Joseph of Arimathea</b> did not consent.'}
+  else if(st.cmp){const r=agree(st.cmp.a,st.cmp.b),n=r.filter(Boolean).length;m=`Witness <b>${W6[st.cmp.a].n}</b> against witness <b>${W6[st.cmp.b].n}</b>: ${n} of 5 pictures match. Under the law the <b>whole account</b> must agree. <b>They do not agree.</b>`}
+  else if(st.walk)m=`Witness <b>${W6[st.walk.i].n}</b> is called to stand before the council.`;
+  else if(st.speak>=0)m=`Witness <b>${W6[st.speak].n}</b>: ${W6[st.speak].q}`;
+  else if(st.onBoard.length===0)m='Night, in the high priest’s house. The council needs <b>two witnesses who agree</b>. Call the first witness.';
+  else m=`<b>${st.onBoard.length}</b> of 6 statements on the table. Pairs tested: <b>${pairsTested()}</b> of ${st.onBoard.length*(st.onBoard.length-1)/2} · pairs that agree: <b>0</b>.`+(st.onBoard.length>=2?'<br>Tap two cards to compare them.':'');
+  if(m!==lastSay){lastSay=m;$('read').innerHTML=m}}
+function say(){sayLive()}
+function buttons(){$('wCall').disabled=st.called>=6||!!st.walk||st.speak>=0||st.phase!=='witness';$('wCall').textContent=st.called>=6?'All six witnesses heard':`Call witness ${W6[st.called].n}`;
+  $('wAll').disabled=st.onBoard.length<2||!!st.cmp||st.phase!=='witness';$('wQ').disabled=st.onBoard.length<6||st.phase!=='witness';$('wQ').classList.toggle('main',st.onBoard.length===6&&st.phase==='witness');$('wCall').classList.toggle('main',st.called<6)}
+/* ---------- drawing ---------- */
+function backdrop(){draw(wall,0,0);arches.forEach(a=>draw(a,0,0));draw(frieze,0,0);pillars.forEach(p=>draw(p,0,0));draw(floor,0,0);draw(tiles,0,0);draw(table,0,0);draw(tableEdge,0,0);
+  for(let i=0;i<6;i++){const [x,y]=cardXY(i);draw(SLOT,x,y);text(W6[i].n,x-160,y,{font:'700 20px Georgia,serif',col:'rgba(239,226,194,.3)'})}
+  COLS.forEach((c,j)=>[0,1,2].forEach(col=>text(c,205+col*395-108+j*64,466,{size:10,col:'rgba(239,226,194,.55)'})));
+  text('THE STATEMENTS, AS FILED',600,750,{size:12,col:'rgba(239,226,194,.45)'})}
+function scene(){const c=P.ctx(),coll=st.phase==='collapse'?st.qT:-1;
+  /* lamps */
+  chain.forEach((x,i)=>{thread([[x,0],[x,34]],'#2a1a10',2,{wob:.3});draw(lampB,x,40);draw(fl[(P.frame+i)%3],x,40);c.save();const g=c.createRadialGradient(x,40,4,x,40,160);g.addColorStop(0,'rgba(255,200,110,.22)');g.addColorStop(1,'rgba(255,200,110,0)');c.fillStyle=g;c.fillRect(x-160,-120,320,320);c.restore()});
+  /* council, back tier then bench, front tier then benches */
+  COUNCIL.forEach(m=>person(m.x,m.y,m.s,m.col,{cloth:m.cloth,armL:.4,armR:-.4}));draw(benchB,0,0);
+  const up=coll>2.5?Math.min(1,(coll-2.5)/1.2):0,uk=Math.floor(up*5)/5;if(up<1)draw(dais,0,0);
+  highPriest(600,lerp(316,436,uk),lerp(1.15,1.3,uk),coll>8.6?Math.min(1,(coll-8.6)*2.5):0,coll>8.6&&coll<9.8);if(up>=1)draw(dais,0,0,0,1,{alpha:.0001});
+  label('the high priest',600,coll>2.5?250:160,{size:11,bg:'#f6efdc',r:-.03});
+  if(coll>11)label('Joseph of Arimathea: did not consent',JOSEPH.x,192,{size:11,bg:'#dfe5c8',col:'#3c4a1c',r:.03,tape:true});
+  /* the accused, hands bound */
+  person(400,436,1.3,'#e8dcc4',{cloth:'#d9cdb0',armL:.55,armR:-.55});thread([[388,376],[412,376]],'#6b4a2c',3.5,{wob:.5});label('Jesus',318,400,{size:12,r:-.03});
+  /* witnesses: waiting at the door, walking, at the stand, then on the side bench */
+  const Q=i=>[1170-(i-st.called)*34,436];for(let i=st.called;i<6;i++)if(!(st.walk&&st.walk.i===i)){const [x,y]=Q(i);person(x,y,1.05,ROBES[(i*5+1)%12],{alpha:i===st.called?1:.75})}
+  if(st.called<6&&!st.walk&&st.speak<0&&st.phase==='witness')label('waiting to be called',1080,288,{size:11,bg:'#f6efdc',r:.03});
+  if(st.walk){const k=Math.floor(st.walk.t*8)/8;person(lerp(1170,780,k),436,1.15,ROBES[(st.walk.i*5+1)%12],{walk:true})}
+  if(st.speak>=0){person(780,436,1.15,ROBES[(st.speak*5+1)%12],{armR:-1.2});if(!st.fly||st.fly.t<.2){const w=W6[st.speak];
+    const lines=wrap(w.q,40);slip(lines,880,120,{size:13,w:380,bg:'#fbf6e8',italic:true,serif:true});w.t.forEach((key,j)=>tile(key,880-128+j*64,120+lines.length*10+46,.85))}}
+  st.benched.forEach((i,k)=>person(40+k*34,436-(k%2)*6,.95,ROBES[(i*5+1)%12],{alpha:coll>0?Math.max(.4,1-coll):1}));
+  if(st.benched.length&&st.phase==='witness')label('heard',130,288,{size:11,bg:'#f6efdc',r:-.03});
+  if(coll>3.2&&coll<5.6)slip(['“Are you the Christ,','the Son of the Blessed?”'],760,170,{size:15,w:300,bg:'#fbf6e8',italic:true,serif:true});
+  if(coll>5.6&&coll<8.4)slip(['“I am.”'],400,200,{size:18,w:150,bg:'#fbf6e8',italic:true,serif:true});
+  if(coll>8.6&&coll<11.5)slip(['“What need we any','further witnesses?”'],790,170,{size:15,w:280,bg:'#f2d7cc',col:'#6e1f16',italic:true,serif:true});
+  /* the statement cards */
+  const fall=coll<0?0:Math.min(1,coll/2);
+  st.onBoard.forEach(i=>{const [x,y]=cardXY(i),sel=st.sel.includes(i);if(st.cmp&&(st.cmp.a===i||st.cmp.b===i))return;
+    if(fall>0){const k=Math.floor(fall*6)/6;c.save();c.translate(x+Math.sin(i*2)*30*k,y+k*(150+i*12));c.rotate(k*(i%2?.22:-.22));c.globalAlpha=1-k*.8;card(i,0,0,1-k*.1);c.restore()}else card(i,x,y,1,{sel})});
+  if(st.fly){const k=Math.floor(st.fly.t*6)/6,[tx,ty]=cardXY(st.fly.i);card(st.fly.i,lerp(850,tx,k),lerp(200,ty,k)-Math.sin(k*Math.PI)*60,lerp(.6,1,k))}
+  if(st.onBoard.length===0&&st.called===0)label('their statements will land here',600,600,{size:13,bg:'#f6efdc',r:-.02});
+  /* comparing two */
+  if(st.cmp){const t=st.cmp.t,r=agree(st.cmp.a,st.cmp.b),k=Math.min(1,t*3),kq=Math.floor(k*4)/4;c.save();c.fillStyle=`rgba(20,12,6,${.55*k})`;c.fillRect(0,0,1200,760);c.restore();
+    const [ax,ay]=cardXY(st.cmp.a),[bx,by]=cardXY(st.cmp.b);const shown=t>.6?Math.min(5,Math.floor((t-.6)*6)):0;
+    const rings=n=>r.map((ok,j)=>j<shown?(ok?'#3f9a4e':'#c0392b'):null);
+    card(st.cmp.a,lerp(ax,600,kq),lerp(ay,250,kq),lerp(1,1.35,kq),{rings:rings()});card(st.cmp.b,lerp(bx,600,kq),lerp(by,440,kq),lerp(1,1.35,kq),{rings:rings()});
+    if(t>1.5)label('DO NOT AGREE',600,345,{size:28,bg:'#f2d7cc',col:'#8c2a20',r:-.08,s:t<1.7?1.4:1})}
+  /* pair tracker */
+  const n=st.onBoard.length;if(n>=2&&st.phase==='witness'){const x0=24,y0=60;draw(TRK,x0+80,y0+78);text('PAIRS TESTED',x0+80,y0+14,{size:10,col:'#5c4b36'});
+    const R=['I','II','III','IV','V','VI'];c.save();c.font='700 10px Georgia,serif';c.fillStyle='#8c2a20';c.textAlign='center';c.textBaseline='middle';for(let b=1;b<6;b++)c.fillText(R[b],x0+40+(b-1)*22,y0+30);for(let a=0;a<5;a++)c.fillText(R[a],x0+18,y0+48+a*20);
+    for(let a=0;a<6;a++)for(let b=a+1;b<6;b++){const x=x0+40+(b-1)*22,y=y0+48+a*20,tst=st.tested[pairKey(a,b)];c.strokeStyle='rgba(92,75,54,.45)';c.lineWidth=1;c.strokeRect(x-8,y-8,16,16);if(tst){c.strokeStyle='#c0392b';c.lineWidth=2.6;c.beginPath();c.moveTo(x-5,y-5);c.lineTo(x+5,y+5);c.moveTo(x+5,y-5);c.lineTo(x-5,y+5);c.stroke()}}c.restore();
+    text('pairs that agree: 0',x0+80,y0+150,{size:11,col:'#8c2a20'})}
+  /* the original saying */
+  if(st.orig){c.save();c.fillStyle='rgba(20,12,6,.6)';c.fillRect(0,0,1200,760);c.restore();slip(['What was actually said, three years before (John 2:19, 21)'],600,170,{size:14,w:620});
+    ORIG.forEach((key,j)=>tile(key,600-128+j*64,250,1.1));slip(['“Destroy this temple, and in three days I will raise it up.”','He spoke of the temple of his body.'],600,345,{size:15,w:620,italic:true,serif:true,bg:'#dfe5c8'});label('tap anywhere to close',600,420,{size:12})}}
+const TRK=piece(rect(-80,-78,160,166),'#efe2c2',{amp:1,step:8,shadow:1});
+function wrap(s,n){const w=s.split(' '),L=[];let l='';w.forEach(x=>{if((l+' '+x).trim().length>n){L.push(l.trim());l=x}else l+=' '+x});if(l.trim())L.push(l.trim());return L}
+P.start({touch:'pan-y',backdrop,update,draw:scene,down(x,y){
+  if(st.orig){st.orig=false;return false}
+  if(st.phase!=='witness'||st.cmp)return false;
+  if(x>960&&y>280&&y<450&&st.called<6){call();return false}
+  const hit=st.onBoard.find(i=>{const [cx,cy]=cardXY(i);return Math.abs(x-cx)<188&&Math.abs(y-cy)<62});
+  if(hit!=null){if(st.sel.includes(hit))st.sel=st.sel.filter(v=>v!==hit);else{st.sel.push(hit);if(st.sel.length===2)compare(st.sel[0],st.sel[1])}}
+  return false}},$('cv'));
+$('wCall').onclick=call;$('wAll').onclick=testAll;$('wQ').onclick=question;$('wOrig').onclick=()=>{st.orig=!st.orig};
+$('wReset').onclick=()=>{Object.assign(st,{called:0,walk:null,speak:-1,speakT:0,fly:null,onBoard:[],sel:[],cmp:null,tested:{},phase:'witness',qT:0,orig:false,benched:[],endSaid:0});buttons();say()};
+buttons();say();window.__test={st,call,compare,testAll,question};
+})();
+
+</script>
+</body>
+</html>

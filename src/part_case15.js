@@ -42,6 +42,8 @@ const JM15_ITEMS = [
   sub:"Taken separately, on the same alleged sentence", thumb:"j15statements",
   prev:"Six accounts of one sentence. Read them line by line; no two are the same.",
   x:52, y:22, rot:3, w:218,
+  tour:{href:"../tours/night-hearing.html", label:"\u2696\ufe0f Enter the night hearing",
+        note:"Call the six witnesses, turn each statement into pictures, and test every pair"},
   body:`
     <div class="plate">${SVG.j15statements}<div class="cap">Click the plate to enlarge it. The statement sheets as filed.</div></div>
     <p>Every witness was asked about the same reported saying about the temple. Here is what each of them actually put:</p>
