@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>The Crossing</title>
+<style>
+
+  :root{--parchment:#EDE4CE;--parchment-dark:#D8C9A3;--ink:#2A2016;--ink-soft:#5C4B36;--brass:#A9822E;--red:#8c2a20;--line:#bfae86;--board:#6e5236}
+  *{box-sizing:border-box}
+  html,body{margin:0;min-height:100%}
+  body{background:var(--board);color:var(--ink);font-family:Georgia,'Iowan Old Style','Palatino Linotype',serif;-webkit-text-size-adjust:100%;
+    background-image:radial-gradient(rgba(0,0,0,.10) 1px,transparent 1.4px),radial-gradient(rgba(255,240,210,.06) 1px,transparent 1.4px);background-size:7px 7px,11px 11px;background-position:0 0,3px 5px}
+  .wrap{display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:18px;padding:16px;max-width:1500px;margin:0 auto;align-items:start}
+  .stage{position:relative;border-radius:3px;box-shadow:0 10px 26px rgba(0,0,0,.45),0 0 0 6px #f2e9d3,0 0 0 7px rgba(0,0,0,.25);background:#f2e9d3}
+  .stage canvas{display:block;touch-action:__TOUCH__}
+  .stage .hint{position:absolute;left:12px;bottom:10px;font:700 12px/1.2 'Courier New',monospace;color:rgba(42,32,22,.7);background:rgba(244,236,214,.85);padding:4px 7px;border-radius:2px;pointer-events:none}
+  .tag{background:var(--parchment);border:1px solid var(--ink-soft);box-shadow:0 6px 16px rgba(0,0,0,.4);border-radius:2px;position:relative}
+  .tag::before{content:"";position:absolute;left:50%;top:-11px;width:84px;height:22px;transform:translateX(-50%) rotate(-3deg);background:rgba(236,226,182,.7);box-shadow:0 1px 3px rgba(0,0,0,.2)}
+  .k{font:700 10px/1.2 'Courier New',monospace;letter-spacing:.18em;text-transform:uppercase;color:var(--red)}
+  #panel{padding:16px 18px 14px;transform:rotate(.4deg)}
+  #panel h1{margin:4px 0 6px;font-size:21px;line-height:1.2}
+  #panel p{font-size:14px;line-height:1.5;margin:8px 0}
+  #panel .note{font-size:12.5px;color:var(--ink-soft);font-style:italic}
+  #panel .ref{font-size:12px;color:var(--ink-soft);border-top:1px solid var(--line);padding-top:7px;margin-top:12px}
+  .ctl{margin:12px 0 4px}
+  .ctl label{display:block;font:600 12.5px/1.3 system-ui,sans-serif;color:var(--ink-soft);margin-bottom:4px}
+  .ctl input[type=range]{width:100%;accent-color:#7a2a1c;height:28px}
+  .row{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+  .btn{font:600 14px/1.1 Georgia,serif;padding:10px 13px;border-radius:3px;cursor:pointer;color:var(--ink);background:#f6efdd;border:1px solid var(--ink-soft);box-shadow:0 2px 6px rgba(0,0,0,.25)}
+  .btn:hover:not(:disabled){background:var(--parchment-dark)} .btn:disabled{opacity:.45;cursor:default}
+  .btn.main{background:#7a2a1c;color:#f6ead2;border-color:#4a160e} .btn.main:hover:not(:disabled){background:#8f3424}
+  .btn.on{outline:2px solid #2f4a6e;outline-offset:1px}
+  .readout{font:13.5px/1.5 'Courier New',monospace;background:#f8f2e2;border:1px solid var(--line);padding:8px 10px;margin-top:10px;min-height:4.6em}
+  .readout b{color:var(--red)}
+  .legend{display:flex;gap:14px;font-size:12.5px;margin-top:8px;flex-wrap:wrap}
+  .legend i{display:inline-block;width:16px;height:5px;vertical-align:middle;margin-right:5px;border-radius:2px}
+  @media (max-width:900px){
+    .wrap{grid-template-columns:1fr;padding:10px;gap:22px}
+    #panel{transform:none}
+  }
+
+  :root{--board:#2a2a36}
+  .top{max-width:1500px;margin:0 auto;padding:14px 16px 0}
+  .top h1{margin:0;font-size:22px;color:#f4ecd6;text-shadow:0 2px 4px rgba(0,0,0,.5)} .top .k{color:#e8b48e}
+  #panel h2{margin:4px 0 6px;font-size:21px}
+  .steps{display:grid;gap:8px;margin-top:10px} .steps .btn{text-align:left}
+</style>
+</head>
+<body>
+<div class="top"><div class="k">Case JM-14 · Exodus 14</div><h1>The Crossing</h1></div>
+<div class="wrap">
+  <div class="stage"><canvas id="cv"></canvas></div>
+  <div id="panel" class="tag">
+    <div class="k">The Crossing · step by step</div>
+    <h2>Through the sea on dry ground</h2>
+    <p>Press each step in order, or tap Moses to raise his staff.</p>
+    <div class="steps">
+      <button class="btn main" id="s1">① Moses raises his staff</button>
+      <button class="btn" id="s2">② Israel walks through</button>
+      <button class="btn" id="s3">③ The chariots follow</button>
+      <button class="btn" id="s4">④ The water returns</button>
+    </div>
+    <div class="row"><button class="btn" id="sAll">▶ Play it all</button><button class="btn" id="sReset">Start again</button></div>
+    <div class="readout" id="read"></div>
+    <div class="ref">Exodus 14:19–31.</div>
+  </div>
+</div>
+<script>
+/* ---------- paper-cutout stop-motion kit (shared by the three exhibits) ----------
+   Every shape is cut from paper: a slightly ragged scissor edge, a pale cut rim,
+   fibre grain and a drop shadow. The scene is drawn "on twos" at 12 frames a second,
+   and each cut-out nudges a fraction between frames, the way a hand-moved puppet does. */
+const P = (()=>{
+const W=1200, H=760, FPS=12;
+const api={W,H,FPS,frame:0,still:false,t:0};
+let cv, ctx, K=1, bg=null, scene=null, frame=-1, GR=null, paused=false;
+const hash=(a,b)=>{let h=(Math.imul(a|0,374761393)+Math.imul(b|0,668265263))|0;h=Math.imul(h^(h>>>13),1274126177);return((h^(h>>>16))>>>0)/4294967296};
+const rng=seed=>{let s=(seed>>>0)||1;return()=>(s=(Math.imul(s,1664525)+1013904223)>>>0)/4294967296};
+api.hash=hash; api.rng=rng;
+
+/* shapes */
+api.rect=(x,y,w,h)=>[[x,y],[x+w,y],[x+w,y+h],[x,y+h]];
+api.ell=(cx,cy,rx,ry,n)=>{n=n||Math.max(10,Math.round((rx+ry)*Math.PI/9));const p=[];for(let i=0;i<n;i++){const a=2*Math.PI*i/n;p.push([cx+Math.cos(a)*rx,cy+Math.sin(a)*ry])}return p};
+api.blob=(cx,cy,rx,ry,seed,v)=>{const r=rng(seed),n=Math.max(9,Math.round((rx+ry)/7)),p=[];v=v==null?.18:v;for(let i=0;i<n;i++){const a=2*Math.PI*i/n,k=1-v/2+r()*v;p.push([cx+Math.cos(a)*rx*k,cy+Math.sin(a)*ry*k])}return p};
+api.star=(cx,cy,r1,r2,n)=>{const p=[];for(let i=0;i<2*n;i++){const a=Math.PI*i/n-Math.PI/2,r=i%2?r2:r1;p.push([cx+Math.cos(a)*r,cy+Math.sin(a)*r])}return p};
+
+/* the scissor cut: walk each edge in short steps, nudging every step in or out */
+function cut(pts,seed,amp,step){const r=rng(seed),out=[],n=pts.length;
+  for(let i=0;i<n;i++){const a=pts[i],b=pts[(i+1)%n],dx=b[0]-a[0],dy=b[1]-a[1],L=Math.hypot(dx,dy)||1,m=Math.max(1,Math.round(L/step)),nx=-dy/L,ny=dx/L;
+    for(let k=0;k<m;k++){const t=k/m,j=(r()-.5)*2*amp;out.push([a[0]+dx*t+nx*j,a[1]+dy*t+ny*j])}}
+  const P2=new Path2D();out.forEach((q,i)=>i?P2.lineTo(q[0],q[1]):P2.moveTo(q[0],q[1]));P2.closePath();return P2}
+let NID=1;
+/* a piece of paper: three slightly different cuts, swapped every other frame (replacement animation) */
+api.piece=(pts,col,o)=>{o=Object.assign({amp:1.3,step:9,shadow:1,edge:1,grain:1,alpha:1,j:1},o||{});const id=NID++;
+  return{id,col,o,paths:[0,1,2].map(k=>cut(pts,id*131+k*977+7,o.amp,o.step))}};
+
+function grain(){const c=document.createElement('canvas');c.width=c.height=180;const g=c.getContext('2d');g.fillStyle='#fff';g.fillRect(0,0,180,180);const r=rng(99);
+  for(let i=0;i<2600;i++){g.fillStyle=`rgba(90,70,40,${r()*.10})`;g.fillRect(r()*180,r()*180,1+r()*1.5,1+r()*1.5)}
+  g.lineWidth=.6;for(let i=0;i<90;i++){g.strokeStyle=`rgba(110,90,60,${.05+r()*.08})`;const x=r()*180,y=r()*180,a=r()*6.3,l=4+r()*14;g.beginPath();g.moveTo(x,y);g.quadraticCurveTo(x+Math.cos(a+.5)*l/2,y+Math.sin(a+.5)*l/2,x+Math.cos(a)*l,y+Math.sin(a)*l);g.stroke()}
+  for(let i=0;i<600;i++){g.fillStyle=`rgba(255,255,255,${r()*.5})`;g.fillRect(r()*180,r()*180,1,1)}
+  return c}
+
+/* draw a piece at x,y (rotation r, scale s). op: {sx,sy,alpha,col,j,after(ctx)} */
+api.draw=(p,x,y,r,s,op)=>{op=op||{};const o=p.o,f=api.frame,j=(op.j==null?o.j:op.j)*(api.still?0:1);
+  const jx=(hash(p.id,f)-.5)*1.8*j,jy=(hash(p.id+7,f)-.5)*1.8*j,jr=(hash(p.id+13,f)-.5)*.024*j;
+  const vi=j?Math.floor(f/2+p.id)%3:0;s=s==null?1:s;const sx=s*(op.sx==null?1:op.sx),sy=s*(op.sy==null?1:op.sy),a=op.alpha==null?o.alpha:op.alpha;if(a<=0)return;
+  ctx.save();ctx.translate(x+jx,y+jy);ctx.rotate((r||0)+jr);ctx.scale(sx,sy);const path=p.paths[vi];ctx.globalAlpha=a;
+  const sh=op.shadow==null?o.shadow:op.shadow;
+  if(sh){ctx.shadowColor=`rgba(28,16,4,${.38*Math.min(1,sh)*a})`;ctx.shadowBlur=5*K*sh;ctx.shadowOffsetX=2*K*sh;ctx.shadowOffsetY=3.4*K*sh}
+  ctx.fillStyle=op.col||p.col;ctx.fill(path);ctx.shadowColor='transparent';ctx.shadowBlur=0;ctx.shadowOffsetX=ctx.shadowOffsetY=0;
+  if(o.grain){if(!GR)GR=ctx.createPattern(grain(),'repeat');ctx.globalAlpha=a*.55;ctx.globalCompositeOperation='multiply';ctx.fillStyle=GR;ctx.fill(path);ctx.globalCompositeOperation='source-over'}
+  if(op.after){ctx.globalAlpha=a;ctx.save();ctx.clip(path);op.after(ctx,path);ctx.restore()}
+  if(op.over){ctx.globalAlpha=a;op.over(ctx)}
+  if(o.edge){ctx.globalAlpha=a*.6;ctx.strokeStyle='rgba(255,251,238,.85)';ctx.lineWidth=1.2/Math.max(.3,Math.min(Math.abs(sx),Math.abs(sy)));ctx.stroke(path)}
+  ctx.restore()};
+
+/* a shape whose corners move: cut fresh each frame from a fixed seed, so the edge stays put as it moves */
+api.dyn=(key,pts,col,o)=>{o=Object.assign({amp:1.3,step:10,shadow:1,edge:1,grain:1,alpha:1},o||{});if(pts.length<3)return;const v=api.still?0:Math.floor(api.frame/2)%3;
+  const path=cut(pts,key*131+v*977+7,o.amp,o.step);ctx.save();ctx.globalAlpha=o.alpha;
+  if(o.shadow){ctx.shadowColor=`rgba(28,16,4,${.38*Math.min(1,o.shadow)*o.alpha})`;ctx.shadowBlur=5*K*o.shadow;ctx.shadowOffsetX=2*K*o.shadow;ctx.shadowOffsetY=3.4*K*o.shadow}
+  ctx.fillStyle=col;ctx.fill(path);ctx.shadowColor='transparent';
+  if(o.grain){if(!GR)GR=ctx.createPattern(grain(),'repeat');ctx.globalAlpha=o.alpha*.55;ctx.globalCompositeOperation='multiply';ctx.fillStyle=GR;ctx.fill(path);ctx.globalCompositeOperation='source-over'}
+  if(o.after){ctx.globalAlpha=o.alpha;ctx.save();ctx.clip(path);o.after(ctx);ctx.restore()}
+  if(o.edge){ctx.globalAlpha=o.alpha*.6;ctx.strokeStyle='rgba(255,251,238,.85)';ctx.lineWidth=1.2;ctx.stroke(path)}ctx.restore()};
+
+/* a paper tag with typed words on it */
+const LB=new Map();
+api.label=(str,x,y,o)=>{o=o||{};const size=o.size||17,font=o.font||`700 ${size}px "Courier New",Courier,monospace`,key=str+'|'+font+'|'+(o.bg||'');let L=LB.get(key);
+  if(!L){ctx.save();ctx.font=font;const w=ctx.measureText(str).width+size*1.1,h=size*1.6;ctx.restore();L={p:api.piece(api.rect(-w/2,-h/2,w,h),o.bg||'#f4ecd6',{amp:1.1,step:7,shadow:o.shadow==null?.8:o.shadow}),w,h};LB.set(key,L)}
+  api.draw(L.p,x,y,o.r||0,o.s||1,{j:o.j,alpha:o.alpha,over:c=>{c.font=font;c.fillStyle=o.col||'#2a2016';c.textAlign='center';c.textBaseline='middle';c.fillText(str,0,1.5)}});
+  if(o.tape)api.tape(x,y-L.h/2,(o.r||0)+.08);return L};
+/* bare words printed straight onto a piece of paper underneath */
+api.text=(str,x,y,o)=>{o=o||{};ctx.save();ctx.font=o.font||`700 ${o.size||16}px "Courier New",Courier,monospace`;ctx.fillStyle=o.col||'rgba(42,32,22,.55)';ctx.textAlign=o.align||'center';ctx.textBaseline='middle';
+  if(o.spacing&&'letterSpacing' in ctx)ctx.letterSpacing=o.spacing+'px';ctx.translate(x,y);if(o.r)ctx.rotate(o.r);ctx.fillText(str,0,0);ctx.restore()};
+const TP=[];api.tape=(x,y,r)=>{if(!TP.length)for(let i=0;i<3;i++)TP.push(api.piece(api.rect(-22,-8,44,16),'rgba(236,226,182,.62)',{amp:1.6,step:5,shadow:.25,grain:0,edge:0}));
+  api.draw(TP[(Math.abs(x*3+y)|0)%3],x,y,r||0,1)};
+
+/* line drawn in thread / chalk: a polyline re-wobbled each frame */
+api.thread=(pts,col,w,o)=>{o=o||{};const f=api.still?0:api.frame,r=rng(((pts[0][0]*31+pts[0][1]*17)|0)+f*13);ctx.save();ctx.strokeStyle=col;ctx.lineWidth=w||2;ctx.lineCap='round';ctx.lineJoin='round';
+  if(o.dash)ctx.setLineDash(o.dash);if(o.alpha!=null)ctx.globalAlpha=o.alpha;ctx.beginPath();pts.forEach((q,i)=>{const jx=(r()-.5)*(o.wob||1.2),jy=(r()-.5)*(o.wob||1.2);i?ctx.lineTo(q[0]+jx,q[1]+jy):ctx.moveTo(q[0]+jx,q[1]+jy)});ctx.stroke();ctx.restore()};
+
+/* ---------- running the scene ---------- */
+function resize(){const box=cv.parentElement.getBoundingClientRect(),w=Math.max(200,box.width),dpr=Math.min(2,window.devicePixelRatio||1);
+  cv.style.width=w+'px';cv.style.height=(w*H/W)+'px';K=w/W*dpr;cv.width=Math.round(W*K);cv.height=Math.round(H*K);ctx=cv.getContext('2d');bg=null;GR=null;render()}
+function render(){if(!scene)return;
+  if(!bg){bg=document.createElement('canvas');bg.width=cv.width;bg.height=cv.height;const old=ctx;ctx=bg.getContext('2d');ctx.setTransform(K,0,0,K,0,0);api.still=true;scene.backdrop(ctx);api.still=false;GR=null;ctx=old}
+  ctx.setTransform(1,0,0,1,0,0);ctx.drawImage(bg,0,0);ctx.setTransform(K,0,0,K,0,0);scene.draw(ctx)}
+function step(dt){api.t+=dt;scene.update&&scene.update(dt)}
+function loop(now){requestAnimationFrame(loop);if(paused)return;const f=Math.floor(now/1000*FPS);if(f===frame)return;const n=frame<0?0:Math.min(3,f-frame);frame=f;api.frame=f;
+  for(let i=0;i<n;i++)step(1/FPS);render()}
+const pt=e=>{const b=cv.getBoundingClientRect();return[(e.clientX-b.left)/b.width*W,(e.clientY-b.top)/b.height*H]};
+api.start=(sc,canvas)=>{scene=sc;cv=canvas;resize();addEventListener('resize',resize);
+  if(window.ResizeObserver)new ResizeObserver(()=>{const w=cv.parentElement.getBoundingClientRect().width;if(w>0&&Math.abs(w-parseFloat(cv.style.width))>1)resize()}).observe(cv.parentElement);
+  cv.addEventListener('pointerdown',e=>{if(scene.down&&scene.down(...pt(e))!==false){cv.setPointerCapture(e.pointerId);e.preventDefault()}});
+  cv.addEventListener('pointermove',e=>{scene.move&&scene.move(...pt(e),e.buttons||e.pointerType==='touch')});
+  cv.addEventListener('pointerup',e=>{scene.up&&scene.up(...pt(e))});cv.addEventListener('pointercancel',()=>{scene.up&&scene.up()});
+  document.addEventListener('visibilitychange',()=>{paused=document.hidden});requestAnimationFrame(loop)};
+/* swap to another scene on the same stage */
+api.use=sc=>{if(!cv)return;scene=sc;cv.style.touchAction=sc.touch||'pan-y';bg=null;render()};
+/* for tests: run the clock forward without waiting */
+api.advance=s=>{const n=Math.round(s*FPS);for(let i=0;i<n;i++){api.frame++;step(1/FPS)}render()};
+api.redraw=render;
+api.ctx=()=>ctx;
+return api})();
+
+</script>
+<script>
+/* figures shared by the three panels: robed people, a giant, a grasshopper */
+const FG=(()=>{const {piece,draw,ell,rect}=P;
+const C={ink:'#2a2016',paper:'#f3e8cc',sand:'#d8c196',ochre:'#c4923e',terra:'#a5532f',olive:'#6f7a3c',sage:'#93986a',stone:'#b8a27c',stone2:'#9a845f',red:'#8c2a20',blue:'#56708a',sky:'#d9ceb2'};
+const ROBES=['#a5532f','#6f7a3c','#56708a','#c4923e','#7a5a3a','#8c5a3a','#93986a','#b07a4a','#5e6b4a','#8a6a7a','#4f6a72','#b89a5a'];
+const head=piece(ell(0,-88,9,10,10),'#c48d5e',{amp:.5,step:4,shadow:.6});
+const cloth=piece([[-12,-95],[0,-103],[12,-95],[15,-74],[-15,-74]],'#e9dcc0',{amp:.5,step:4,shadow:.4});
+const band=piece(rect(-11,-98,22,4),'#7a5a3a',{amp:.3,step:4,shadow:.1});
+const robe=piece([[-10,-77],[10,-77],[17,0],[-17,0]],'#888',{amp:.8,step:6,shadow:.9});
+const sash=piece(rect(-12,-46,24,5),'#d9b45a',{amp:.4,step:4,shadow:.2});
+const arm=piece([[-3.5,0],[3.5,0],[3,34],[-3,34]],'#888',{amp:.4,step:4,shadow:.5});
+const hand=piece(ell(0,36,3.6,3.6,7),'#c48d5e',{amp:.3,step:4,shadow:.3});
+const beard=piece([[-6,-82],[6,-82],[3,-72],[-3,-72]],'#4a3424',{amp:.3,step:3,shadow:.1});
+/* a robed person, feet at x,y, about 100 tall at s=1 */
+function person(x,y,s,col,o){o=o||{};const w=o.walk?(P.frame%2?1:-1):0,bob=o.walk&&P.frame%2?-2*s:0,a=o.alpha;
+  const sw=w*.28,aL=(o.armL!=null?o.armL:.12)+sw,aR=(o.armR!=null?o.armR:-.12)-sw;
+  draw(arm,x-11*s,y-72*s+bob,aL,s,{col:shade(col),alpha:a});draw(hand,x-11*s,y-72*s+bob,aL,s,{alpha:a});
+  draw(robe,x,y+bob,0,s,{col,alpha:a});draw(sash,x,y+bob,0,s,{alpha:a});
+  draw(arm,x+11*s,y-72*s+bob,aR,s,{col:shade(col),alpha:a});draw(hand,x+11*s,y-72*s+bob,aR,s,{alpha:a});
+  draw(cloth,x,y+bob,0,s,{col:o.cloth||'#e9dcc0',alpha:a});draw(head,x,y+bob,0,s,{alpha:a,over:k=>{k.fillStyle='#2a1a10';k.beginPath();k.arc(-3.2,-89,1.1,0,7);k.arc(3.2,-89,1.1,0,7);k.fill()}});if(!o.young)draw(beard,x,y+bob,0,s,{alpha:a});draw(band,x,y+bob,0,s,{alpha:a})}
+function shade(h){const n=parseInt(h.slice(1),16),f=v=>Math.round(v*.82);return'#'+[n>>16,(n>>8)&255,n&255].map(v=>f(v).toString(16).padStart(2,'0')).join('')}
+/* the grasshopper */
+const gBody=piece(ell(0,0,17,6.5,12),'#7c8a3a',{amp:.5,step:4,shadow:.6}),gHead=piece(ell(17,-2,6,5.5,9),'#6b7830',{amp:.4,step:4,shadow:.4}),gWing=piece([[-14,-4],[10,-6],[2,0],[-16,1]],'#9aa654',{amp:.4,step:4,shadow:.3});
+function hopper(x,y,s,flip){const c=P.ctx(),sx=flip?-1:1,j=P.frame%2?1:0;
+  c.save();c.strokeStyle='#4f5a20';c.lineWidth=2*s;c.lineJoin='round';c.beginPath();c.moveTo(x+sx*-4*s,y);c.lineTo(x+sx*-12*s,y-16*s-j);c.lineTo(x+sx*-22*s,y+8*s);c.moveTo(x+sx*6*s,y+3*s);c.lineTo(x+sx*10*s,y+10*s);c.moveTo(x+sx*12*s,y+3*s);c.lineTo(x+sx*18*s,y+9*s);c.moveTo(x+sx*20*s,y-6*s);c.quadraticCurveTo(x+sx*28*s,y-22*s,x+sx*38*s,y-20*s);c.stroke();c.restore();
+  draw(gBody,x,y,0,s,{sx});draw(gWing,x,y-3*s,0,s,{sx});draw(gHead,x,y,0,s,{sx,over:k=>{k.fillStyle='#1d200c';k.beginPath();k.arc(19,-3,1.6,0,7);k.fill()}})}
+/* a slip of paper with one or two typed lines */
+const SL=new Map();
+function slip(lines,x,y,o){o=o||{};const size=o.size||14,font=`${o.italic?'italic ':''}700 ${size}px ${o.serif?'Georgia,serif':'"Courier New",Courier,monospace'}`,key=lines.join('|')+font+(o.bg||'')+(o.w||'');let L=SL.get(key);
+  if(!L){const c=P.ctx();c.save();c.font=font;const w=o.w||Math.max(...lines.map(l=>c.measureText(l).width))+size*1.4,h=lines.length*size*1.35+size*.9;c.restore();L={p:piece(rect(-w/2,-h/2,w,h),o.bg||'#f6efdc',{amp:1,step:7,shadow:o.shadow==null?.8:o.shadow}),w,h};SL.set(key,L)}
+  draw(L.p,x,y,o.r||0,o.s||1,{alpha:o.alpha,j:o.j,over:c=>{c.font=font;c.fillStyle=o.col||C.ink;c.textAlign='center';c.textBaseline='middle';lines.forEach((l,i)=>c.fillText(l,0,(i-(lines.length-1)/2)*size*1.35+1))}});return L}
+return{C,ROBES,person,hopper,slip,shade}})();
+
+</script>
+<script>
+(()=>{
+const {piece,draw,label,text,rect,ell,blob,star,tape,thread,dyn}=P,{C,person,slip,ROBES}=FG;
+const $=id=>document.getElementById(id);
+const H0=258,NEAR=560,CX=600,HW=132,FW=12,WH=196;
+const lerp=(a,b,t)=>a+(b-a)*t,clamp=v=>Math.max(0,Math.min(1,v)),ease=t=>t<.5?2*t*t:1-Math.pow(-2*t+2,2)/2;
+const mixc=(a,b,t)=>{const p=h=>[1,3,5].map(i=>parseInt(h.slice(i,i+2),16)),A=p(a),B=p(b);return'#'+A.map((v,i)=>Math.round(v+(B[i]-v)*clamp(t)).toString(16).padStart(2,'0')).join('')};
+/* ---------- backdrop pieces ---------- */
+const sky=piece(rect(0,0,1200,270),'#1f2a40',{amp:0,shadow:0,edge:0});
+const starsP=[];{const r=P.rng(7);for(let i=0;i<40;i++)starsP.push([r()*1200,r()*200,1+r()*1.6])}
+const moon=piece(ell(0,0,22,22,14),'#f2ecd0',{amp:.8,step:5,shadow:.5});
+const hillsL=piece([[0,262],[0,180],[90,150],[200,196],[300,170],[420,214],[500,236],[560,262]],'#3b3a4a',{amp:2,step:10,shadow:.6});
+const hillsR=piece([[640,262],[700,220],[820,190],[930,214],[1050,168],[1200,200],[1200,262]],'#3b3a4a',{amp:2,step:10,shadow:.6});
+const farShore=piece([[0,262],[1200,256],[1200,272],[0,276]],'#8f7f5e',{amp:1.5,step:10,shadow:.5});
+const sea=piece([[0,272],[1200,268],[1200,580],[0,580]],'#2c4660',{amp:1.5,step:12,shadow:.4});
+const waveStrips=[];{const r=P.rng(9);for(let i=0;i<18;i++){const y=292+i*15+r()*6,w=60+r()*140;waveStrips.push([r()*1200,y,piece(rect(-w/2,-1.5,w,2.5+(y-280)/90),'#33506c',{amp:1,step:8,shadow:0})])}}
+const beach=piece([[0,560],[300,552],[640,566],[900,550],[1200,560],[1200,760],[0,760]],'#b49a6c',{amp:2.5,step:14,shadow:1.2});
+const beach2=piece([[0,650],[400,640],[800,660],[1200,646],[1200,760],[0,760]],'#a68c60',{amp:2,step:12,shadow:.6});
+const rock=piece([[60,700],[80,640],[150,618],[230,626],[268,668],[262,708]],'#7d6c56',{amp:1.5,step:8,shadow:1.1});
+const staff=piece(rect(-2.6,-64,5.2,140),'#6b4a2c',{amp:.5,step:6,shadow:.7});
+const tentsP=[[980,598],[1060,590],[1140,602]].map(([x,y],i)=>[x,y,piece([[-40,26],[0,-26],[40,26]],i%2?'#8a6a48':'#7a5a3a',{amp:1,step:6,shadow:.8})]);
+/* ---------- chariots, horses, flames ---------- */
+const horseB=piece(ell(0,-46,34,15,16),'#5a3e2a',{amp:.6,step:5,shadow:.8}),horseN=piece([[22,-54],[40,-82],[56,-86],[60,-76],[44,-68],[34,-46]],'#5a3e2a',{amp:.5,step:5,shadow:.6});
+const leg=piece(rect(-3,0,6,32),'#4a3222',{amp:.4,step:4,shadow:.5});
+const box=piece([[-34,-62],[18,-62],[22,-26],[-34,-26]],'#b8893a',{amp:.6,step:5,shadow:.9}),wheel=piece(ell(0,0,22,22,16),'#7a5a2a',{amp:.5,step:5,shadow:.8});
+function wheelSpokes(k){k.strokeStyle='#3a2810';k.lineWidth=2.4;k.beginPath();for(let i=0;i<6;i++){const a=i*Math.PI/3;k.moveTo(0,0);k.lineTo(Math.cos(a)*19,Math.sin(a)*19)}k.stroke();k.lineWidth=3;k.beginPath();k.arc(0,0,19,0,7);k.stroke()}
+function chariot(x,y,s,o){o=o||{};const st=P.frame%2,lean=o.heavy?(st?.05:-.05):0;
+  [-26,-14,14,26].forEach((lx,i)=>draw(leg,x+(40+lx*.6)*s,y-32*s,(i+st)%2?.3:-.3,s));draw(horseB,x+48*s,y,0,s);draw(horseN,x+48*s,y,0,s);
+  thread([[x+20*s,y-44*s],[x+40*s,y-50*s]],'#3a2810',2*s,{wob:.4});
+  person(x-6*s,y-26*s,.62*s,'#efe6d2',{cloth:'#3f5f8a',armR:-1.1});draw(box,x,y,lean,s);
+  if(o.wheel!==false)draw(wheel,x-8*s,y-16*s,P.frame*.6*(o.heavy?.2:1),s,{over:wheelSpokes})}
+const flame=[0,1,2].map(i=>piece(blob(0,0,40,150,80+i,.25),['#f0a33a','#f6c75a','#fbe6a0'][i],{amp:1.4,step:8,shadow:0,grain:1,edge:0}));
+const foam=[0,1,2,3].map(i=>piece(blob(0,0,40,22,120+i,.45),'#e6eef2',{amp:1.2,step:6,shadow:.5}));
+/* ---------- state ---------- */
+const st={step:0,t:0,open:0,arm:.1,dawn:0,pillar:1,closeT:-1,gone:0};
+const walkers=[];for(let i=0;i<26;i++){const cx=830+(i%9)*40+((i/9|0)%2)*20,cy=612+(i/9|0)*36;walkers.push({i,home:[cx,cy],col:ROBES[(i*7)%12],ph:'camp',t:0,d:0,lane:((i*.37)%1-.5)*1.5,young:i%4===3,s0:i%4===3?.6:.9,far:[470+(i*13.7)%260,252]})}
+const chariots=[];
+function reset(){Object.assign(st,{step:0,t:0,open:0,arm:.1,dawn:0,pillar:1,closeT:-1,gone:0});walkers.forEach(w=>{w.ph='camp';w.t=0;w.d=0});chariots.length=0;buttons();say()}
+function go(n){if(n!==st.step+1)return;st.step=n;st.t=0;
+  if(n===2)walkers.forEach((w,i)=>{w.ph='wait';w.t=-i*.32});
+  if(n===3)for(let i=0;i<5;i++)chariots.push({i,t:-i*.9,d:-.7,lane:((i*.53)%1-.5)*1.2,wheel:true,pop:0});
+  if(n===4)st.closeT=0;buttons();say()}
+function buttons(){[1,2,3,4].forEach(n=>{const b=$('s'+n);b.disabled=n!==st.step+1;b.classList.toggle('main',n===st.step+1)})}
+const SAY=['Night at the sea. Mountains on one side, the sea in front, and Pharaoh’s army coming up behind. The pillar of fire stands between the two camps.',
+ 'Moses stretches out his hand over the sea. The LORD drives the sea back with a <b>strong east wind all night</b>, and the waters are <b>divided</b>.',
+ 'Israel walks through the middle of the sea <b>on dry ground</b>, with the water <b>a wall on their right hand and on their left</b>.',
+ 'The Egyptians follow them in: all Pharaoh’s horses, chariots and horsemen. At the morning watch their <b>chariot wheels come off</b> and they <b>drive heavily</b>.',
+ 'Moses stretches out his hand again. At dawn the sea <b>returns to its strength</b>. Not one of the chariots remains. Israel stands safe on the far shore.'];
+let shown=-1;function say(){if(shown!==st.step){shown=st.step;$('read').innerHTML=SAY[st.step]}}
+/* depth: 0 at the near edge of the sea, 1 at the far shore */
+const g=d=>{const f=1/(1+4*d);return(f-.2)/.8},Y=d=>d<0?NEAR-d*190:H0+(NEAR-H0)*g(d),S=d=>d<0?1-d*.25:.1+.9*g(d),Xc=(d,lane)=>CX+lane*HW*(d<0?1:g(d))*st.open;
+function update(dt){st.t+=dt;
+  const armUp=(st.step===1&&st.t<4)||(st.step===4&&st.t<4);st.arm+=((armUp?-2.5:.1)-st.arm)*Math.min(1,dt*4);
+  if(st.step>=1&&st.step<4)st.open=Math.min(1,st.open+dt*(st.t>.8?.3:0));
+  if(st.step===3)st.pillar=Math.max(0,st.pillar-dt*.5);
+  if(st.step===4){st.closeT+=dt;if(st.closeT>1)st.open=Math.max(0,st.open-dt*.7);if(st.closeT>3)st.dawn=Math.min(1,st.dawn+dt*.35)}
+  walkers.forEach(w=>{if(w.ph==='wait'){w.t+=dt;if(w.t>=0){w.ph='go';w.t=0}}
+    else if(w.ph==='go'){w.t+=dt/1.4;if(w.t>=1){w.ph='cross';w.d=0}}
+    else if(w.ph==='cross'){w.d+=dt*.15;if(w.d>=1)w.ph='far'}});
+  chariots.forEach(c=>{c.t+=dt;if(c.t<0)return;const v=c.d<.35?.22:.035;c.d+=dt*v;if(c.d>.42&&c.wheel&&c.i%2===0){c.wheel=false;c.pop=0}if(!c.wheel)c.pop+=dt});
+  if(st.step===4&&st.open<.05)st.gone=Math.min(1,st.gone+dt*2)}
+function backdrop(){draw(sky,0,0);const c=P.ctx();c.save();c.fillStyle='rgba(242,236,208,.8)';starsP.forEach(([x,y,r])=>{c.beginPath();c.arc(x,y,r,0,7);c.fill()});c.restore();
+  draw(moon,1040,70);draw(hillsL,0,0);draw(hillsR,0,0);draw(farShore,0,0);draw(sea,0,0);waveStrips.forEach(([x,y,p])=>draw(p,x,y));
+  draw(beach,0,0);draw(beach2,0,0);tentsP.forEach(([x,y,p])=>draw(p,x,y));draw(rock,0,0);
+  text('EGYPT’S ARMY COMES FROM HERE',140,742,{size:12,col:'rgba(42,32,22,.6)'});text('THE FAR SHORE',600,240,{size:12,col:'rgba(240,232,210,.55)'})}
+function person2(w){if(w.ph==='camp'||w.ph==='wait'){person(w.home[0],w.home[1],w.s0,w.col,{young:w.young});return}
+  if(w.ph==='go'){const k=Math.floor(w.t*5)/5,x=lerp(w.home[0],Xc(0,w.lane),k),y=lerp(w.home[1],NEAR+4,k);person(x,y,w.s0,w.col,{walk:true,young:w.young});return}
+  if(w.ph==='cross'){person(Xc(w.d,w.lane),Y(w.d),w.s0*S(w.d),w.col,{walk:true,young:w.young});return}
+  person(w.far[0],w.far[1],w.s0*.14,w.col,{young:w.young})}
+function scene(){const c=P.ctx(),o=st.open;
+  /* dawn: wash the sky and redraw the hills over it */
+  if(st.dawn>0){c.save();c.globalAlpha=st.dawn;const gr=c.createLinearGradient(0,0,0,270);gr.addColorStop(0,'#8fa3b8');gr.addColorStop(1,'#f0c48a');c.fillStyle=gr;c.fillRect(0,0,1200,272);c.restore();
+    draw(hillsL,0,0,0,1,{col:mixc('#3b3a4a','#7a6a62',st.dawn)});draw(hillsR,0,0,0,1,{col:mixc('#3b3a4a','#7a6a62',st.dawn)});draw(farShore,0,0,0,1,{col:mixc('#8f7f5e','#c9ad78',st.dawn)})}
+  /* far shore crowd */
+  walkers.forEach(w=>{if(w.ph==='far')person2(w)});
+  /* the corridor and its two walls of water */
+  if(o>.01){const nL=CX-HW*o,nR=CX+HW*o,fL=CX-FW*o,fR=CX+FW*o,hN=WH*o,hF=16*o;
+    dyn(1,[[nL,NEAR],[nR,NEAR],[fR,H0+12],[fL,H0+12]],'#c9b083',{shadow:.3,after:k=>{k.strokeStyle='rgba(120,95,60,.35)';k.lineWidth=2;for(let i=1;i<8;i++){const d=i/8,y=Y(d);k.beginPath();k.moveTo(CX-HW*o*g(d)-4,y);k.lineTo(CX+HW*o*g(d)+4,y);k.stroke()}}});
+    /* back faces first, then whoever is in the corridor, by depth */
+    const inC=[];walkers.forEach(w=>{if(w.ph==='cross')inC.push([w.d,()=>person2(w)])});
+    chariots.forEach(ch=>{if(ch.t>=0&&ch.d>=0)inC.push([ch.d,()=>drawCh(ch)])});
+    inC.sort((a,b)=>b[0]-a[0]).forEach(q=>q[1]());
+    for(const side of [-1,1]){const xn=CX+side*HW*o,xf=CX+side*FW*o;
+      dyn(2+side,[[xn,NEAR],[xn,NEAR-hN],[xf,H0+12-hF],[xf,H0+12]],side<0?'#3f6585':'#46708f',{shadow:.9,after:k=>{k.strokeStyle='rgba(180,210,225,.35)';k.lineWidth=2;for(let i=1;i<7;i++){const t=i/7;k.beginPath();k.moveTo(xn,NEAR-hN*t);k.lineTo(xf,H0+12-hF*t);k.stroke()}}});
+      dyn(5+side,[[side<0?0:1200,H0+14],[xf,H0+12-hF],[xn,NEAR-hN],[side<0?0:1200,NEAR-hN*.35]],'#355675',{shadow:.6,amp:1.8});
+      const crest=[];for(let i=0;i<=10;i++){const t=i/10;crest.push([lerp(xn,xf,t)+Math.sin(i*2+P.frame*.7)*3,lerp(NEAR-hN,H0+12-hF,t)])}thread(crest,'rgba(235,242,246,.9)',5*o,{wob:2})}}
+  else{/* closed: draw anything still in the corridor under the returning water */}
+  /* closing: the walls crash together */
+  if(st.step===4&&st.closeT>1&&st.gone<1){const a=1-st.gone;for(let i=0;i<9;i++){const d=i/9,y=Y(d),s=S(d)*(1.2+Math.sin(P.frame*.9+i)*.2);draw(foam[i%4],CX+Math.sin(i*3+P.frame)*30*s,y-30*s,0,s*1.4,{alpha:a*(1-o*.6)})}
+    if(o<.25)dyn(9,[[CX-200,NEAR],[CX+200,NEAR],[CX+40,H0+12],[CX-40,H0+12]],'#2c4660',{alpha:clamp((.25-o)*4),shadow:0})}
+  /* the near shore: camp, chariots still on the beach, the pillar, Moses */
+  walkers.forEach(w=>{if(w.ph==='camp'||w.ph==='wait'||w.ph==='go')person2(w)});
+  chariots.forEach(ch=>{if(ch.t>=0&&ch.d<0)drawCh(ch)});
+  if(st.pillar>0&&st.step<4){const a=st.pillar*(.75+.1*(P.frame%3));flame.forEach((p,i)=>draw(p,400+(i-1)*6,420-i*10,0,1-i*.18,{alpha:a*(i?0.85:.7)}));label('the pillar of fire',400,250,{size:12,bg:'#fbe6c0',alpha:st.pillar,r:-.04})}
+  const mx=170,my=630,ms=1.5,sh=[mx+11*ms,my-72*ms],ar=st.arm,hx=sh[0]-Math.sin(ar)*36*ms,hy=sh[1]+Math.cos(ar)*36*ms;
+  person(mx,my,ms,'#7a3a2a',{armR:ar,cloth:'#d9cdb0'});const up=clamp((.1-ar)/2.6);draw(staff,hx,hy,lerp(Math.PI+.06,ar,up),ms*.9);label('Moses',mx,my-170,{size:13,r:-.04});
+  if(st.step===1&&st.t>.6&&st.t<9||st.step===2&&st.t<6){for(let i=0;i<7;i++){const y=300+i*38,x=(1300-((st.t*260+i*170)%1500));thread([[x,y],[x-90,y+3],[x-160,y-2]],'rgba(230,236,240,.45)',2,{wob:3})}label('east wind',1080,300,{size:12,bg:'#e8eef2',r:.04})}
+  if(st.dawn>.6){label('Israel, safe on the far shore',600,212,{size:13,bg:'#dfe5c8',col:'#3c4a1c',alpha:(st.dawn-.6)*2.5,tape:true})}
+  if(st.dawn>.6)label('dawn',1060,150,{size:13,bg:'#fbe6c0',alpha:(st.dawn-.6)*2.5})}
+function drawCh(ch){if(st.gone>=1&&ch.d>=0)return;let x,y,s;if(ch.d<0){const k=ch.d/-.7;x=lerp(Xc(0,ch.lane)-40,-160,k);y=NEAR+20+k*150;s=1.25}else{x=Xc(ch.d,ch.lane)-30*S(ch.d);y=Y(ch.d);s=S(ch.d)*1.25}
+  chariot(x,y,s,{wheel:ch.wheel,heavy:ch.d>.35});if(!ch.wheel&&ch.pop<1.6){const k=Math.floor(ch.pop*6)/6;draw(wheel,x-8*s-k*60*s,y-16*s-Math.sin(k*Math.PI)*40*s,k*6,s,{over:wheelSpokes})}}
+P.start({touch:'pan-y',backdrop,update,draw:scene,down(x,y){if(Math.abs(x-170)<70&&y>400&&y<640){go(st.step===0?1:st.step===3?4:-1);return false}return false}},$('cv'));
+[1,2,3,4].forEach(n=>$('s'+n).onclick=()=>go(n));$('sAll').onclick=()=>{reset();[[1,0],[2,5200],[3,14500],[4,21500]].forEach(([n,ms])=>setTimeout(()=>go(n),ms))};$('sReset').onclick=reset;
+reset();window.__test={go,st};
+})();
+
+</script>
+</body>
+</html>

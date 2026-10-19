@@ -125,6 +125,8 @@ const JM14_ITEMS = [
   sub:"What stood between the two columns",
   prev:"One night. The pillar moved behind them and neither camp came near the other until morning.",
   x:80, y:56, rot:4, w:206,
+  tour:{href:"../tours/crossing.html", label:"\ud83c\udf0a Watch the crossing",
+        note:"Raise the staff, part the sea, walk Israel through, and watch the water return"},
   body:`
     <table class="ledger">
       <tr><th>Time</th><th>Recorded</th></tr>

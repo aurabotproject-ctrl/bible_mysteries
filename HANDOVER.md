@@ -431,6 +431,8 @@ certificate seal). The label wording is listed at the bottom of
 
 ## 11. Recent work, newest first
 
+- **JM-14 interactive: `tours/crossing.html`** on *The Night Between the Camps*. 2D paper-cutout stop-motion, four steps (Moses raises his staff and the east wind parts the sea; Israel walks through on dry ground; the chariots follow and lose wheels; the water returns at dawn), plus Play it all / Start again. Same paper kit as the Hall of Design and the Twelve Reports.
+
 - **JM-13 interactive: `tours/twelve-reports.html`** on *The Two Reports, Side by Side*. 2D paper-cutout stop-motion (same kit as the Hall of Design), three tabs: drag the six things the spies saw onto a balance scale (each lands in both pans, the beam stays level, then picture bubbles show the grasshoppers vs "the LORD is with us"); two yardsticks (the spies shrink to grasshoppers or stand full size, the giant and measuring rod never change); and forty day tiles flipping into forty years while that generation fades and Caleb, Joshua and the children cross the Jordan.
 
 - **Hall of Design (JM-00) rebuilt in 2D.** The 3D hall was replaced by a paper-cutout, 12 fps stop-motion version with three exhibits (Monarch, Trees, Bees) and the same intro/end cards. The DNA-code exhibit was not carried over; the *Field Notes on Design* document still covers it in text.
