@@ -431,6 +431,8 @@ certificate seal). The label wording is listed at the bottom of
 
 ## 11. Recent work, newest first
 
+- **JM-18 interactive: `tours/on-carmel.html`** on *The Altar and the Trench*. Fake-3D first person in the paper style: camera with zoom/walk and yaw, billboard figures that always face you, a ground plane of sliding paper bands, drifting paper clouds, paper hands at the bottom (holding a stone, then a jar). One pulsing button: the challenge, their altar (hours pass, no fire), 12 stones, 12 jars poured, the prayer and the fire (stones, wood, water consumed; the crowd bows), then seven looks toward the sea and the hand-shaped cloud and rain. The prophets cutting themselves is deliberately not shown.
+
 - **JM-16 interactive: `tours/week-of-mornings.html`** on *The Gathering Log*. 2D paper-cutout camp: one week, driven by one pulsing main button (morning → gather → measure → sun grows hot → night). Drag to gather manna; the omer jar always settles at exactly 1 omer (2 on day 6); keep some overnight (worms and stink on days 1–5, kept sweet on day 6); nothing on the ground on day 7; Move the camp switches sand / gravel / bare rock. Its paper kit has no visibility pause and a `scene.under` hook for a changing sky.
 
 - **JM-15 interactive: `tours/night-hearing.html`** on *The Six Statements*. 2D paper-cutout night council chamber: call the six witnesses (each statement becomes five picture tiles: who / does what / to what / when / then), tap any two cards to compare them (green/red rings, DO NOT AGREE, a 15-pair tracker), then the high priest's question, "I am", the torn robe and Joseph of Arimathea's dissent; plus a John 2:19–21 overlay of what was actually said.

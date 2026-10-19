@@ -41,6 +41,8 @@ const JM18_ITEMS = [
   sub:"Plan and section, as measured", thumb:"j18altar",
   prev:"Twelve stones, wood laid in order, and a trench round the whole thing, brimming.",
   x:52, y:22, rot:3, w:218,
+  tour:{href:"../tours/on-carmel.html", label:"\ud83d\udd25 Stand on Carmel",
+        note:"See it through your own eyes: their altar, twelve stones, twelve jars, the fire, and the cloud over the sea"},
   body:`
     <div class="plate">${SVG.j18altar}<div class="cap">Click the plate to enlarge it. Plan above, section below.</div></div>
     <table class="ledger">
