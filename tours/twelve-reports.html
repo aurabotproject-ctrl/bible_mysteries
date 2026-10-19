@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>The Twelve Reports</title>
+<style>
+
+  :root{--parchment:#EDE4CE;--parchment-dark:#D8C9A3;--ink:#2A2016;--ink-soft:#5C4B36;--brass:#A9822E;--red:#8c2a20;--line:#bfae86;--board:#6e5236}
+  *{box-sizing:border-box}
+  html,body{margin:0;min-height:100%}
+  body{background:var(--board);color:var(--ink);font-family:Georgia,'Iowan Old Style','Palatino Linotype',serif;-webkit-text-size-adjust:100%;
+    background-image:radial-gradient(rgba(0,0,0,.10) 1px,transparent 1.4px),radial-gradient(rgba(255,240,210,.06) 1px,transparent 1.4px);background-size:7px 7px,11px 11px;background-position:0 0,3px 5px}
+  .wrap{display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:18px;padding:16px;max-width:1500px;margin:0 auto;align-items:start}
+  .stage{position:relative;border-radius:3px;box-shadow:0 10px 26px rgba(0,0,0,.45),0 0 0 6px #f2e9d3,0 0 0 7px rgba(0,0,0,.25);background:#f2e9d3}
+  .stage canvas{display:block;touch-action:__TOUCH__}
+  .stage .hint{position:absolute;left:12px;bottom:10px;font:700 12px/1.2 'Courier New',monospace;color:rgba(42,32,22,.7);background:rgba(244,236,214,.85);padding:4px 7px;border-radius:2px;pointer-events:none}
+  .tag{background:var(--parchment);border:1px solid var(--ink-soft);box-shadow:0 6px 16px rgba(0,0,0,.4);border-radius:2px;position:relative}
+  .tag::before{content:"";position:absolute;left:50%;top:-11px;width:84px;height:22px;transform:translateX(-50%) rotate(-3deg);background:rgba(236,226,182,.7);box-shadow:0 1px 3px rgba(0,0,0,.2)}
+  .k{font:700 10px/1.2 'Courier New',monospace;letter-spacing:.18em;text-transform:uppercase;color:var(--red)}
+  #panel{padding:16px 18px 14px;transform:rotate(.4deg)}
+  #panel h1{margin:4px 0 6px;font-size:21px;line-height:1.2}
+  #panel p{font-size:14px;line-height:1.5;margin:8px 0}
+  #panel .note{font-size:12.5px;color:var(--ink-soft);font-style:italic}
+  #panel .ref{font-size:12px;color:var(--ink-soft);border-top:1px solid var(--line);padding-top:7px;margin-top:12px}
+  .ctl{margin:12px 0 4px}
+  .ctl label{display:block;font:600 12.5px/1.3 system-ui,sans-serif;color:var(--ink-soft);margin-bottom:4px}
+  .ctl input[type=range]{width:100%;accent-color:#7a2a1c;height:28px}
+  .row{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+  .btn{font:600 14px/1.1 Georgia,serif;padding:10px 13px;border-radius:3px;cursor:pointer;color:var(--ink);background:#f6efdd;border:1px solid var(--ink-soft);box-shadow:0 2px 6px rgba(0,0,0,.25)}
+  .btn:hover:not(:disabled){background:var(--parchment-dark)} .btn:disabled{opacity:.45;cursor:default}
+  .btn.main{background:#7a2a1c;color:#f6ead2;border-color:#4a160e} .btn.main:hover:not(:disabled){background:#8f3424}
+  .btn.on{outline:2px solid #2f4a6e;outline-offset:1px}
+  .readout{font:13.5px/1.5 'Courier New',monospace;background:#f8f2e2;border:1px solid var(--line);padding:8px 10px;margin-top:10px;min-height:4.6em}
+  .readout b{color:var(--red)}
+  .legend{display:flex;gap:14px;font-size:12.5px;margin-top:8px;flex-wrap:wrap}
+  .legend i{display:inline-block;width:16px;height:5px;vertical-align:middle;margin-right:5px;border-radius:2px}
+  @media (max-width:900px){
+    .wrap{grid-template-columns:1fr;padding:10px;gap:22px}
+    #panel{transform:none}
+  }
+
+  :root{--board:#4a3424}
+  .top{display:flex;align-items:flex-end;justify-content:space-between;gap:12px;flex-wrap:wrap;max-width:1500px;margin:0 auto;padding:14px 16px 0}
+  .top h1{margin:0;font-size:22px;color:#f4ecd6;text-shadow:0 2px 4px rgba(0,0,0,.5)} .top .k{color:#e8b48e}
+  #panel h2{margin:4px 0 6px;font-size:21px;line-height:1.2}
+  #tabs{display:flex;gap:8px;flex-wrap:wrap}
+  #tabs .btn{background:var(--parchment);font-size:14.5px;padding:10px 13px}
+  #tabs .btn.on{background:#7a2a1c;color:#f6ead2;border-color:#4a160e}
+  #tabs .tick{color:#3f7d4e;margin-left:6px} #tabs .btn.on .tick{color:#d9eecb}
+  .card{position:fixed;left:50%;top:50%;transform:translate(-50%,-50%) rotate(-.6deg);z-index:40;width:min(560px,calc(100vw - 28px));max-height:calc(100vh - 40px);overflow:auto;padding:24px 26px 20px}
+  .card h2{margin:4px 0 8px;font-size:23px} .card p{font-size:15px;line-height:1.55;margin:9px 0}
+  .card .verse{font-style:italic;border-left:3px solid var(--brass);padding:4px 0 4px 12px;margin:12px 0;font-size:14.5px;line-height:1.55}
+  .card .verse span{display:block;font-style:normal;font-size:12.5px;color:var(--ink-soft);margin-top:4px}
+  #shade{position:fixed;inset:0;background:rgba(20,12,4,.55);z-index:35}
+  .hide{display:none!important}
+</style>
+</head>
+<body>
+<div class="top"><div><div class="k">Case JM-13 · Numbers 13–14</div><h1>The Twelve Reports</h1></div><div id="tabs"></div></div>
+<div class="wrap">
+  <div class="stage"><canvas id="cv"></canvas></div>
+  <div id="panel" class="tag">
+    <div data-p="facts">
+    <div class="k">The Twelve Reports · 1</div>
+    <h2>The same facts</h2>
+    <p>Twelve leaders walked <b>one road together for forty days</b>. Ten came back saying “we can’t”. Two said “we can”.</p>
+    <p><b>Drag each thing they saw onto the scales.</b> Does it belong to the ten, or the two?</p>
+    <div class="row"><button class="btn main" id="fAll">Put them all on</button><button class="btn" id="fReset">Start again</button></div>
+    <div class="readout" id="fRead">Six things the spies saw are on the cloth.</div>
+    <div class="ref">Numbers 13:23–33 · 14:6–9.</div>
+</div>
+    <div data-p="yard" class="hide">
+    <div class="k">The Twelve Reports · 2</div>
+    <h2>Two yardsticks</h2>
+    <p>At Hebron the twelve saw the sons of Anak and a walled city. All twelve agreed about that. What they <b>measured it against</b> is where they split.</p>
+    <div class="row"><button class="btn" id="yFacts">Just the facts</button><button class="btn" id="ySelf">Measure against themselves</button><button class="btn" id="yLord">Measure against the LORD</button></div>
+    <div class="readout" id="yRead">Just the facts: a giant, a wall, a gate. The measuring rod shows how tall he is.</div>
+    <p class="note">Watch the measuring rod. The giant is the same height in both reports. Only the yardstick changed.</p>
+    <div class="ref">Numbers 13:31–33 · 14:9.</div>
+</div>
+    <div data-p="years" class="hide">
+    <div class="k">The Twelve Reports · 3</div>
+    <h2>A year for a day</h2>
+    <p>The assembly believed the ten and refused to go in. The sentence matched the survey: <b>forty days became forty years</b>, “each day for a year”.</p>
+    <p>Everyone twenty and over stayed in the wilderness, <b>except Caleb and Joshua</b>. And the children the people were afraid for are the ones who went in.</p>
+    <div class="row"><button class="btn main" id="dGo">Turn each day into a year</button><button class="btn" id="dReset">Start again</button></div>
+    <div class="readout" id="dRead">Forty days of survey, laid out on the table.</div>
+    <p class="note">The thing they were most afraid of losing was the thing that was not lost.</p>
+    <div class="ref">Numbers 14:29–34 · Joshua 14:6–14.</div>
+</div>
+  </div>
+</div>
+<div id="shade"></div>
+<div id="intro" class="card tag">
+  <div class="k">Case JM-13 · The Twelve Reports</div>
+  <h2>Same facts, two reports</h2>
+  <p>Twelve honest men walked one road for forty days and came back with one bunch of grapes and <b>two reports</b>. Ten said “we are not able”. Two said “let us go up at once”.</p>
+  <p>Work through the three tables. As you go, keep asking: <b>is this something they saw, or something they concluded?</b></p>
+  <div class="row"><button class="btn main" id="bStart">Open the file</button></div>
+</div>
+<div id="end" class="card tag hide">
+  <div class="k">All three tables worked</div>
+  <h2>What separates the reports</h2>
+  <p>Not one fact. Every observation was in both reports. The ten measured the giants against themselves; the two measured them against the LORD. The giants did not change size.</p>
+  <div class="verse">“Only don’t rebel against the LORD, neither fear the people of the land; for they are bread for us. Their defence is removed from over them, and the LORD is with us. Don’t fear them.”<span>Numbers 14:9</span></div>
+  <div class="row"><button class="btn" id="bStay">Keep exploring</button></div>
+</div>
+<script>
+/* ---------- paper-cutout stop-motion kit (shared by the three exhibits) ----------
+   Every shape is cut from paper: a slightly ragged scissor edge, a pale cut rim,
+   fibre grain and a drop shadow. The scene is drawn "on twos" at 12 frames a second,
+   and each cut-out nudges a fraction between frames, the way a hand-moved puppet does. */
+const P = (()=>{
+const W=1200, H=760, FPS=12;
+const api={W,H,FPS,frame:0,still:false,t:0};
+let cv, ctx, K=1, bg=null, scene=null, frame=-1, GR=null, paused=false;
+const hash=(a,b)=>{let h=(Math.imul(a|0,374761393)+Math.imul(b|0,668265263))|0;h=Math.imul(h^(h>>>13),1274126177);return((h^(h>>>16))>>>0)/4294967296};
+const rng=seed=>{let s=(seed>>>0)||1;return()=>(s=(Math.imul(s,1664525)+1013904223)>>>0)/4294967296};
+api.hash=hash; api.rng=rng;
+
+/* shapes */
+api.rect=(x,y,w,h)=>[[x,y],[x+w,y],[x+w,y+h],[x,y+h]];
+api.ell=(cx,cy,rx,ry,n)=>{n=n||Math.max(10,Math.round((rx+ry)*Math.PI/9));const p=[];for(let i=0;i<n;i++){const a=2*Math.PI*i/n;p.push([cx+Math.cos(a)*rx,cy+Math.sin(a)*ry])}return p};
+api.blob=(cx,cy,rx,ry,seed,v)=>{const r=rng(seed),n=Math.max(9,Math.round((rx+ry)/7)),p=[];v=v==null?.18:v;for(let i=0;i<n;i++){const a=2*Math.PI*i/n,k=1-v/2+r()*v;p.push([cx+Math.cos(a)*rx*k,cy+Math.sin(a)*ry*k])}return p};
+api.star=(cx,cy,r1,r2,n)=>{const p=[];for(let i=0;i<2*n;i++){const a=Math.PI*i/n-Math.PI/2,r=i%2?r2:r1;p.push([cx+Math.cos(a)*r,cy+Math.sin(a)*r])}return p};
+
+/* the scissor cut: walk each edge in short steps, nudging every step in or out */
+function cut(pts,seed,amp,step){const r=rng(seed),out=[],n=pts.length;
+  for(let i=0;i<n;i++){const a=pts[i],b=pts[(i+1)%n],dx=b[0]-a[0],dy=b[1]-a[1],L=Math.hypot(dx,dy)||1,m=Math.max(1,Math.round(L/step)),nx=-dy/L,ny=dx/L;
+    for(let k=0;k<m;k++){const t=k/m,j=(r()-.5)*2*amp;out.push([a[0]+dx*t+nx*j,a[1]+dy*t+ny*j])}}
+  const P2=new Path2D();out.forEach((q,i)=>i?P2.lineTo(q[0],q[1]):P2.moveTo(q[0],q[1]));P2.closePath();return P2}
+let NID=1;
+/* a piece of paper: three slightly different cuts, swapped every other frame (replacement animation) */
+api.piece=(pts,col,o)=>{o=Object.assign({amp:1.3,step:9,shadow:1,edge:1,grain:1,alpha:1,j:1},o||{});const id=NID++;
+  return{id,col,o,paths:[0,1,2].map(k=>cut(pts,id*131+k*977+7,o.amp,o.step))}};
+
+function grain(){const c=document.createElement('canvas');c.width=c.height=180;const g=c.getContext('2d');g.fillStyle='#fff';g.fillRect(0,0,180,180);const r=rng(99);
+  for(let i=0;i<2600;i++){g.fillStyle=`rgba(90,70,40,${r()*.10})`;g.fillRect(r()*180,r()*180,1+r()*1.5,1+r()*1.5)}
+  g.lineWidth=.6;for(let i=0;i<90;i++){g.strokeStyle=`rgba(110,90,60,${.05+r()*.08})`;const x=r()*180,y=r()*180,a=r()*6.3,l=4+r()*14;g.beginPath();g.moveTo(x,y);g.quadraticCurveTo(x+Math.cos(a+.5)*l/2,y+Math.sin(a+.5)*l/2,x+Math.cos(a)*l,y+Math.sin(a)*l);g.stroke()}
+  for(let i=0;i<600;i++){g.fillStyle=`rgba(255,255,255,${r()*.5})`;g.fillRect(r()*180,r()*180,1,1)}
+  return c}
+
+/* draw a piece at x,y (rotation r, scale s). op: {sx,sy,alpha,col,j,after(ctx)} */
+api.draw=(p,x,y,r,s,op)=>{op=op||{};const o=p.o,f=api.frame,j=(op.j==null?o.j:op.j)*(api.still?0:1);
+  const jx=(hash(p.id,f)-.5)*1.8*j,jy=(hash(p.id+7,f)-.5)*1.8*j,jr=(hash(p.id+13,f)-.5)*.024*j;
+  const vi=j?Math.floor(f/2+p.id)%3:0;s=s==null?1:s;const sx=s*(op.sx==null?1:op.sx),sy=s*(op.sy==null?1:op.sy),a=op.alpha==null?o.alpha:op.alpha;if(a<=0)return;
+  ctx.save();ctx.translate(x+jx,y+jy);ctx.rotate((r||0)+jr);ctx.scale(sx,sy);const path=p.paths[vi];ctx.globalAlpha=a;
+  const sh=op.shadow==null?o.shadow:op.shadow;
+  if(sh){ctx.shadowColor=`rgba(28,16,4,${.38*Math.min(1,sh)*a})`;ctx.shadowBlur=5*K*sh;ctx.shadowOffsetX=2*K*sh;ctx.shadowOffsetY=3.4*K*sh}
+  ctx.fillStyle=op.col||p.col;ctx.fill(path);ctx.shadowColor='transparent';ctx.shadowBlur=0;ctx.shadowOffsetX=ctx.shadowOffsetY=0;
+  if(o.grain){if(!GR)GR=ctx.createPattern(grain(),'repeat');ctx.globalAlpha=a*.55;ctx.globalCompositeOperation='multiply';ctx.fillStyle=GR;ctx.fill(path);ctx.globalCompositeOperation='source-over'}
+  if(op.after){ctx.globalAlpha=a;ctx.save();ctx.clip(path);op.after(ctx,path);ctx.restore()}
+  if(op.over){ctx.globalAlpha=a;op.over(ctx)}
+  if(o.edge){ctx.globalAlpha=a*.6;ctx.strokeStyle='rgba(255,251,238,.85)';ctx.lineWidth=1.2/Math.max(.3,Math.min(Math.abs(sx),Math.abs(sy)));ctx.stroke(path)}
+  ctx.restore()};
+
+/* a paper tag with typed words on it */
+const LB=new Map();
+api.label=(str,x,y,o)=>{o=o||{};const size=o.size||17,font=o.font||`700 ${size}px "Courier New",Courier,monospace`,key=str+'|'+font+'|'+(o.bg||'');let L=LB.get(key);
+  if(!L){ctx.save();ctx.font=font;const w=ctx.measureText(str).width+size*1.1,h=size*1.6;ctx.restore();L={p:api.piece(api.rect(-w/2,-h/2,w,h),o.bg||'#f4ecd6',{amp:1.1,step:7,shadow:o.shadow==null?.8:o.shadow}),w,h};LB.set(key,L)}
+  api.draw(L.p,x,y,o.r||0,o.s||1,{j:o.j,alpha:o.alpha,over:c=>{c.font=font;c.fillStyle=o.col||'#2a2016';c.textAlign='center';c.textBaseline='middle';c.fillText(str,0,1.5)}});
+  if(o.tape)api.tape(x,y-L.h/2,(o.r||0)+.08);return L};
+/* bare words printed straight onto a piece of paper underneath */
+api.text=(str,x,y,o)=>{o=o||{};ctx.save();ctx.font=o.font||`700 ${o.size||16}px "Courier New",Courier,monospace`;ctx.fillStyle=o.col||'rgba(42,32,22,.55)';ctx.textAlign=o.align||'center';ctx.textBaseline='middle';
+  if(o.spacing&&'letterSpacing' in ctx)ctx.letterSpacing=o.spacing+'px';ctx.translate(x,y);if(o.r)ctx.rotate(o.r);ctx.fillText(str,0,0);ctx.restore()};
+const TP=[];api.tape=(x,y,r)=>{if(!TP.length)for(let i=0;i<3;i++)TP.push(api.piece(api.rect(-22,-8,44,16),'rgba(236,226,182,.62)',{amp:1.6,step:5,shadow:.25,grain:0,edge:0}));
+  api.draw(TP[(Math.abs(x*3+y)|0)%3],x,y,r||0,1)};
+
+/* line drawn in thread / chalk: a polyline re-wobbled each frame */
+api.thread=(pts,col,w,o)=>{o=o||{};const f=api.still?0:api.frame,r=rng(((pts[0][0]*31+pts[0][1]*17)|0)+f*13);ctx.save();ctx.strokeStyle=col;ctx.lineWidth=w||2;ctx.lineCap='round';ctx.lineJoin='round';
+  if(o.dash)ctx.setLineDash(o.dash);if(o.alpha!=null)ctx.globalAlpha=o.alpha;ctx.beginPath();pts.forEach((q,i)=>{const jx=(r()-.5)*(o.wob||1.2),jy=(r()-.5)*(o.wob||1.2);i?ctx.lineTo(q[0]+jx,q[1]+jy):ctx.moveTo(q[0]+jx,q[1]+jy)});ctx.stroke();ctx.restore()};
+
+/* ---------- running the scene ---------- */
+function resize(){const box=cv.parentElement.getBoundingClientRect(),w=Math.max(200,box.width),dpr=Math.min(2,window.devicePixelRatio||1);
+  cv.style.width=w+'px';cv.style.height=(w*H/W)+'px';K=w/W*dpr;cv.width=Math.round(W*K);cv.height=Math.round(H*K);ctx=cv.getContext('2d');bg=null;GR=null;render()}
+function render(){if(!scene)return;
+  if(!bg){bg=document.createElement('canvas');bg.width=cv.width;bg.height=cv.height;const old=ctx;ctx=bg.getContext('2d');ctx.setTransform(K,0,0,K,0,0);api.still=true;scene.backdrop(ctx);api.still=false;GR=null;ctx=old}
+  ctx.setTransform(1,0,0,1,0,0);ctx.drawImage(bg,0,0);ctx.setTransform(K,0,0,K,0,0);scene.draw(ctx)}
+function step(dt){api.t+=dt;scene.update&&scene.update(dt)}
+function loop(now){requestAnimationFrame(loop);if(paused)return;const f=Math.floor(now/1000*FPS);if(f===frame)return;const n=frame<0?0:Math.min(3,f-frame);frame=f;api.frame=f;
+  for(let i=0;i<n;i++)step(1/FPS);render()}
+const pt=e=>{const b=cv.getBoundingClientRect();return[(e.clientX-b.left)/b.width*W,(e.clientY-b.top)/b.height*H]};
+api.start=(sc,canvas)=>{scene=sc;cv=canvas;resize();addEventListener('resize',resize);
+  if(window.ResizeObserver)new ResizeObserver(()=>{const w=cv.parentElement.getBoundingClientRect().width;if(w>0&&Math.abs(w-parseFloat(cv.style.width))>1)resize()}).observe(cv.parentElement);
+  cv.addEventListener('pointerdown',e=>{if(scene.down&&scene.down(...pt(e))!==false){cv.setPointerCapture(e.pointerId);e.preventDefault()}});
+  cv.addEventListener('pointermove',e=>{scene.move&&scene.move(...pt(e),e.buttons||e.pointerType==='touch')});
+  cv.addEventListener('pointerup',e=>{scene.up&&scene.up(...pt(e))});cv.addEventListener('pointercancel',()=>{scene.up&&scene.up()});
+  document.addEventListener('visibilitychange',()=>{paused=document.hidden});requestAnimationFrame(loop)};
+/* swap to another scene on the same stage */
+api.use=sc=>{if(!cv)return;scene=sc;cv.style.touchAction=sc.touch||'pan-y';bg=null;render()};
+/* for tests: run the clock forward without waiting */
+api.advance=s=>{const n=Math.round(s*FPS);for(let i=0;i<n;i++){api.frame++;step(1/FPS)}render()};
+api.redraw=render;
+api.ctx=()=>ctx;
+return api})();
+
+</script>
+<script>
+/* figures shared by the three panels: robed people, a giant, a grasshopper */
+const FG=(()=>{const {piece,draw,ell,rect}=P;
+const C={ink:'#2a2016',paper:'#f3e8cc',sand:'#d8c196',ochre:'#c4923e',terra:'#a5532f',olive:'#6f7a3c',sage:'#93986a',stone:'#b8a27c',stone2:'#9a845f',red:'#8c2a20',blue:'#56708a',sky:'#d9ceb2'};
+const ROBES=['#a5532f','#6f7a3c','#56708a','#c4923e','#7a5a3a','#8c5a3a','#93986a','#b07a4a','#5e6b4a','#8a6a7a','#4f6a72','#b89a5a'];
+const head=piece(ell(0,-88,9,10,10),'#c48d5e',{amp:.5,step:4,shadow:.6});
+const cloth=piece([[-12,-95],[0,-103],[12,-95],[15,-74],[-15,-74]],'#e9dcc0',{amp:.5,step:4,shadow:.4});
+const band=piece(rect(-11,-98,22,4),'#7a5a3a',{amp:.3,step:4,shadow:.1});
+const robe=piece([[-10,-77],[10,-77],[17,0],[-17,0]],'#888',{amp:.8,step:6,shadow:.9});
+const sash=piece(rect(-12,-46,24,5),'#d9b45a',{amp:.4,step:4,shadow:.2});
+const arm=piece([[-3.5,0],[3.5,0],[3,34],[-3,34]],'#888',{amp:.4,step:4,shadow:.5});
+const hand=piece(ell(0,36,3.6,3.6,7),'#c48d5e',{amp:.3,step:4,shadow:.3});
+const beard=piece([[-6,-82],[6,-82],[3,-72],[-3,-72]],'#4a3424',{amp:.3,step:3,shadow:.1});
+/* a robed person, feet at x,y, about 100 tall at s=1 */
+function person(x,y,s,col,o){o=o||{};const w=o.walk?(P.frame%2?1:-1):0,bob=o.walk&&P.frame%2?-2*s:0,a=o.alpha;
+  const sw=w*.28,aL=(o.armL!=null?o.armL:.12)+sw,aR=(o.armR!=null?o.armR:-.12)-sw;
+  draw(arm,x-11*s,y-72*s+bob,aL,s,{col:shade(col),alpha:a});draw(hand,x-11*s,y-72*s+bob,aL,s,{alpha:a});
+  draw(robe,x,y+bob,0,s,{col,alpha:a});draw(sash,x,y+bob,0,s,{alpha:a});
+  draw(arm,x+11*s,y-72*s+bob,aR,s,{col:shade(col),alpha:a});draw(hand,x+11*s,y-72*s+bob,aR,s,{alpha:a});
+  draw(cloth,x,y+bob,0,s,{col:o.cloth||'#e9dcc0',alpha:a});draw(head,x,y+bob,0,s,{alpha:a,over:k=>{k.fillStyle='#2a1a10';k.beginPath();k.arc(-3.2,-89,1.1,0,7);k.arc(3.2,-89,1.1,0,7);k.fill()}});if(!o.young)draw(beard,x,y+bob,0,s,{alpha:a});draw(band,x,y+bob,0,s,{alpha:a})}
+function shade(h){const n=parseInt(h.slice(1),16),f=v=>Math.round(v*.82);return'#'+[n>>16,(n>>8)&255,n&255].map(v=>f(v).toString(16).padStart(2,'0')).join('')}
+/* the grasshopper */
+const gBody=piece(ell(0,0,17,6.5,12),'#7c8a3a',{amp:.5,step:4,shadow:.6}),gHead=piece(ell(17,-2,6,5.5,9),'#6b7830',{amp:.4,step:4,shadow:.4}),gWing=piece([[-14,-4],[10,-6],[2,0],[-16,1]],'#9aa654',{amp:.4,step:4,shadow:.3});
+function hopper(x,y,s,flip){const c=P.ctx(),sx=flip?-1:1,j=P.frame%2?1:0;
+  c.save();c.strokeStyle='#4f5a20';c.lineWidth=2*s;c.lineJoin='round';c.beginPath();c.moveTo(x+sx*-4*s,y);c.lineTo(x+sx*-12*s,y-16*s-j);c.lineTo(x+sx*-22*s,y+8*s);c.moveTo(x+sx*6*s,y+3*s);c.lineTo(x+sx*10*s,y+10*s);c.moveTo(x+sx*12*s,y+3*s);c.lineTo(x+sx*18*s,y+9*s);c.moveTo(x+sx*20*s,y-6*s);c.quadraticCurveTo(x+sx*28*s,y-22*s,x+sx*38*s,y-20*s);c.stroke();c.restore();
+  draw(gBody,x,y,0,s,{sx});draw(gWing,x,y-3*s,0,s,{sx});draw(gHead,x,y,0,s,{sx,over:k=>{k.fillStyle='#1d200c';k.beginPath();k.arc(19,-3,1.6,0,7);k.fill()}})}
+/* a slip of paper with one or two typed lines */
+const SL=new Map();
+function slip(lines,x,y,o){o=o||{};const size=o.size||14,font=`${o.italic?'italic ':''}700 ${size}px ${o.serif?'Georgia,serif':'"Courier New",Courier,monospace'}`,key=lines.join('|')+font+(o.bg||'')+(o.w||'');let L=SL.get(key);
+  if(!L){const c=P.ctx();c.save();c.font=font;const w=o.w||Math.max(...lines.map(l=>c.measureText(l).width))+size*1.4,h=lines.length*size*1.35+size*.9;c.restore();L={p:piece(rect(-w/2,-h/2,w,h),o.bg||'#f6efdc',{amp:1,step:7,shadow:o.shadow==null?.8:o.shadow}),w,h};SL.set(key,L)}
+  draw(L.p,x,y,o.r||0,o.s||1,{alpha:o.alpha,j:o.j,over:c=>{c.font=font;c.fillStyle=o.col||C.ink;c.textAlign='center';c.textBaseline='middle';lines.forEach((l,i)=>c.fillText(l,0,(i-(lines.length-1)/2)*size*1.35+1))}});return L}
+return{C,ROBES,person,hopper,slip,shade}})();
+
+const SCENES={};const DONE=(()=>{const d={};return id=>{if(d[id])return;d[id]=1;SHELL.tick(id)}})();
+</script>
+<script>
+(()=>{
+const {piece,draw,label,text,rect,ell,blob,star,tape,thread}=P,{C,person,hopper,slip,ROBES}=FG;
+const $=id=>document.getElementById(id);
+/* ---------- the pictures ---------- */
+const g=(pts,col,o)=>piece(pts,col,Object.assign({amp:.7,step:5,shadow:.7},o||{}));
+const GR=[];{const r=P.rng(2);for(let row=0;row<6;row++){const n=6-row;for(let k=0;k<n;k++)GR.push([(k-(n-1)/2)*15+(r()-.5)*3,-22-(5-row)*13-row*0+(r()-.5)*3,g(ell(0,0,8.5,8.5,9),k%2?'#5b3a63':'#6e4a78')])}}
+const leaf=g([[0,-104],[-26,-118],[-40,-106],[-30,-92],[-10,-96]],'#6f7a3c'),stem=g(rect(-3,-110,6,22),'#6b4a2c');
+function grapes(x,y,s){draw(stem,x,y,0,s);draw(leaf,x,y,0,s);GR.slice().reverse().forEach(([gx,gy,p])=>draw(p,x+gx*s*1.15,y+(gy-10)*s,0,s))}
+const jar=g([[-24,0],[-30,-30],[-22,-58],[-14,-62],[14,-62],[22,-58],[30,-30],[24,0]],'#c4923e'),lidP=g(rect(-16,-70,32,9),'#8a5a2c'),drip=g([[8,-62],[14,-62],[13,-44],[10,-38],[8,-44]],'#e7b43c',{shadow:.3});
+const jug=g([[-16,0],[-20,-26],[-12,-50],[-10,-62],[8,-62],[10,-50],[20,-26],[16,0]],'#efe6d2'),milk=g(ell(0,-60,9,3,8),'#ffffff',{shadow:0});
+function milkHoney(x,y,s){draw(jug,x+30*s,y,0,s*.95);draw(milk,x+30*s,y,0,s*.95);draw(jar,x-22*s,y,0,s);draw(lidP,x-22*s,y,0,s);draw(drip,x-22*s,y,0,s)}
+const shield=g(ell(0,0,17,17,12),'#a07a3a'),spear=g(rect(-2,-150,4,150),'#6b4a2c'),spT=g([[-6,-150],[0,-170],[6,-150]],'#8a8a80');
+function strong(x,y,s){draw(spear,x+28*s,y,0,s);draw(spT,x+28*s,y,0,s);person(x,y,1.2*s,'#7a3a2a',{armR:-.5,armL:.5});draw(shield,x-20*s,y-55*s,0,s)}
+const wallP=g(rect(-62,-52,124,52),'#b8a27c',{step:7}),tw=g([[-14,0],[-14,-86],[-8,-86],[-8,-78],[-2,-78],[-2,-86],[4,-86],[4,-78],[10,-78],[10,-86],[14,-86],[14,0]],'#a99370'),gateP=g([[-12,0],[-12,-26],[0,-34],[12,-26],[12,0]],'#4a3826');
+function city(x,y,s){draw(wallP,x,y,0,s,{after:k=>{k.strokeStyle='rgba(80,60,40,.35)';k.lineWidth=1;for(let yy=-40;yy<0;yy+=13){k.beginPath();k.moveTo(-62,yy);k.lineTo(62,yy);k.stroke()}}});draw(tw,x-58*s,y,0,s);draw(tw,x+58*s,y,0,s);draw(gateP,x,y,0,s)}
+function giant(x,y,s){person(x-14*s,y,1.55*s,'#4a3a2e',{cloth:'#8a7a5a'});person(x+36*s,y,.6*s,ROBES[2])}
+const tentP=[0,1,2,3].map(i=>g([[-24,0],[0,-34],[24,0]],['#8a5a3a','#56708a','#6f7a3c','#a5532f'][i]));
+function peoples(x,y,s){[[-38,-14],[10,-20],[-12,0],[36,2]].forEach(([dx,dy],i)=>draw(tentP[i],x+dx*s,y+dy*s,0,s))}
+const ICONS=[['milk & honey',milkHoney],['the fruit',grapes],['strong people',strong],['walled cities',city],['sons of Anak',giant],['many peoples',peoples]];
+/* ---------- the scales ---------- */
+const PV=[600,96],ARM=270,PANY=372;
+const post=g([[-10,0],[-6,-464],[6,-464],[10,0]],'#7a5232',{amp:1,step:9}),foot=g([[-90,0],[-70,-24],[70,-24],[90,0]],'#6b4a2c',{amp:1,step:8});
+const beam=g([[-ARM-14,-7],[ARM+14,-7],[ARM+14,7],[-ARM-14,7]],'#8a5a2c',{amp:.9,step:9,shadow:1.1}),hub=g(ell(0,0,16,16,12),'#c4923e',{shadow:.9});
+const pan=g([[-170,0],[170,0],[140,22],[-140,22]],'#b07a3a',{amp:1,step:8,shadow:1.1});
+const needle=g([[-5,0],[0,-70],[5,0]],C.red,{shadow:.6}),dial=g([[-60,0],[60,0],[0,-60]].length?ell(0,0,46,46,16):[],'#efe2c2',{shadow:.8});
+const cloth=g([[20,560],[1180,560],[1170,744],[30,744]],'#8c4a34',{amp:2,step:12,shadow:1.2});
+const SLOT=[[-108,0],[0,0],[108,0],[-56,-100],[56,-100],[0,-196]];
+const desk=piece(rect(0,0,1200,760),'#6e4e36',{amp:0,shadow:0,edge:0});
+const head=g(ell(0,0,8,9,9),'#c48d5e'),hood=g([[-10,-4],[0,-13],[10,-4],[12,10],[-12,10]],'#e9dcc0');
+const bub=g(blob(0,0,250,72,31,.12),'#fbf6e8',{shadow:1}),bubDot=[g(ell(0,0,12,10,9),'#fbf6e8'),g(ell(0,0,7,6,8),'#fbf6e8')];
+const rays=g(star(0,0,70,30,10),'rgba(244,214,120,.9)',{shadow:0,edge:0,grain:0});
+let items,placed,wob=0,end=0,drag=null,shown='';
+const trayPos=i=>[118+i*193,700];
+function reset(){items=ICONS.map(([name,fn],i)=>({name,fn,i,st:'tray',t:0,pos:trayPos(i),slot:null}));placed=0;end=0;wob=0;say()}
+function put(it){if(it.st!=='tray')return;it.st='fly';it.t=0;it.from=it.pos.slice();it.slot=placed++;}
+function panXY(side){const a=wob*Math.sin(P.t*9)*.04;return[PV[0]+(side?1:-1)*ARM*Math.cos(a),PANY+(side?1:-1)*ARM*Math.sin(a)]}
+function update(dt){wob*=Math.pow(.25,dt);items.forEach(it=>{if(it.st==='fly'){it.t+=dt/.75;if(it.t>=1){it.st='on';wob=1;say()}}});
+  if(items.every(it=>it.st==='on')){end+=dt;if(end>1.6&&end-dt<=1.6){say();typeof DONE==='function'&&DONE('facts')}}}
+function say(){const n=items.filter(i=>i.st==='on').length;const m=n<6?(n?`<b>${n}</b> of 6 on the scales. Every one belongs in <b>both</b> reports, so the scales stay <b>level</b>.`:'Six things the spies saw are on the cloth.'):end<1.6?'All six are in <b>both</b> reports. The scales are <b>perfectly level</b>: not one fact differs.':'So what made the difference? Look at the <b>two pictures</b> at the bottom. The ten saw themselves as <b>grasshoppers</b>. The two saw <b>the LORD with them</b>.';if(m!==shown){shown=m;$('fRead').innerHTML=m}}
+function backdrop(){draw(desk,0,0);draw(cloth,0,0);draw(foot,PV[0],560);draw(post,PV[0],560)}
+function heads(x,y,n,col){for(let i=0;i<n;i++){const hx=x+(i-(n-1)/2)*26;draw(hood,hx,y,0,1,{col});draw(head,hx,y-2)}}
+function slotXY(side,k){const [px,py]=panXY(side);return[px+SLOT[k][0]*.98,py-4+SLOT[k][1]*.9]}
+function scene(){const c=P.ctx();
+  /* strings, pans and their loads */
+  for(const side of [0,1]){const [px,py]=panXY(side),bx=PV[0]+(side?1:-1)*ARM,by=PV[1];thread([[px-160,py],[bx,by],[px+160,py]],'#3a2a1a',2,{wob:.8});
+    items.forEach(it=>{if(it.st==='on'){const [x,y]=slotXY(side,it.slot);it.fn(x,y,.82)}});draw(pan,px,py);}
+  draw(beam,PV[0],PV[1],wob*Math.sin(P.t*9)*.04);draw(hub,PV[0],PV[1]);
+  draw(dial,PV[0],PV[1]+90);draw(needle,PV[0],PV[1]+128,wob*Math.sin(P.t*9)*.08);
+  /* who is on each side */
+  heads(PV[0]-ARM,PANY+70,10,'#e9dcc0');heads(PV[0]+ARM,PANY+70,2,'#e9dcc0');
+  label('THE TEN',PV[0]-ARM,PANY+108,{size:15,bg:'#f2d7cc',col:'#6e1f16'});label('THE TWO',PV[0]+ARM,PANY+108,{size:15,bg:'#dfe5c8',col:'#3c4a1c'});
+  if(items.filter(i=>i.st==='on').length===6)label('level',PV[0],PV[1]+174,{size:14,bg:'#fbf3dc',col:C.red,r:-.04,tape:true});
+  /* the cloth: things still to place, then the two conclusions */
+  if(end<1.6)items.forEach(it=>{if(it.st==='tray'){const [x,y]=drag&&drag.it===it?drag.p:it.pos;it.fn(x,y-4,1);label(it.name,x,y+26,{size:12,bg:'#f6efdc',r:(it.i%2?.03:-.03)})}});
+  items.forEach(it=>{if(it.st!=='fly')return;const k=Math.floor(Math.min(1,it.t)*6)/6;for(const side of [0,1]){const [tx,ty]=slotXY(side,it.slot),x=it.from[0]+(tx-it.from[0])*k,y=it.from[1]+(ty-it.from[1])*k-Math.sin(k*Math.PI)*90;it.fn(x,y,.8+.02*Math.sin(k*9))}});
+  if(end>=1.6){const a=Math.min(1,(end-1.6)*1.5),s=Math.min(1,(end-1.6)*2.5);
+    draw(bubDot[1],PV[0]-ARM+40,PANY+142,0,s);draw(bubDot[0],PV[0]-ARM+10,PANY+170,0,s);draw(bub,300,656,0,s);
+    if(a>.3){giant(220,716,.62);[0,1,2].forEach(i=>hopper(330+i*48,708-(P.frame+i)%2*6,.9,true));label('“we were as grasshoppers”',300,600,{size:13,bg:'#f2d7cc',col:'#6e1f16'})}
+    draw(bubDot[1],PV[0]+ARM-40,PANY+142,0,s);draw(bubDot[0],PV[0]+ARM-10,PANY+170,0,s);draw(bub,900,656,0,s);
+    if(a>.3){draw(rays,1010,640,P.frame*.05);city(1040,716,.62);person(860,718,.85,ROBES[0],{walk:true});person(906,718,.85,ROBES[2],{walk:true});label('“the LORD is with us”',900,600,{size:13,bg:'#dfe5c8',col:'#3c4a1c'})}}}
+reset();
+function hit(x,y){return items.find(it=>it.st==='tray'&&Math.abs(x-it.pos[0])<80&&y>it.pos[1]-120&&y<it.pos[1]+40)}
+SCENES.facts={touch:'none',backdrop,update,draw:scene,
+  down(x,y){const it=hit(x,y);if(!it)return false;drag={it,p:[x,y],x0:x,y0:y}},
+  move(x,y,b){if(drag&&b)drag.p=[x,y]},
+  up(x,y){if(!drag)return;const it=drag.it,moved=x==null?0:Math.hypot(x-drag.x0,y-drag.y0);if(moved<12||y<560){it.pos=drag.p;put(it)}drag=null}};
+$('fAll').onclick=()=>items.forEach((it,i)=>setTimeout(()=>put(it),i*260));$('fReset').onclick=reset;
+})();
+</script>
+<script>
+(()=>{
+const {piece,draw,label,text,rect,ell,blob,star,tape,thread}=P,{C,person,hopper,slip,ROBES}=FG;
+const $=id=>document.getElementById(id);
+const sky=piece(rect(0,0,1200,520),'#dccfae',{amp:0,shadow:0,edge:0}),skyHi=piece([[0,0],[1200,0],[1200,150],[800,180],[400,150],[0,175]],'#e6dcc0',{amp:3,step:14,shadow:0,edge:0});
+const hillsFar=piece([[0,330],[180,280],[360,310],[560,262],[760,300],[980,256],[1200,300],[1200,520],[0,520]],'#c9b083',{amp:2.5,step:14,shadow:.5});
+const tell=piece([[60,520],[120,430],[300,400],[700,396],[860,430],[900,520]],'#b89a68',{amp:2.5,step:12,shadow:.9});
+const ground=piece([[0,500],[300,486],[640,500],[900,480],[1200,494],[1200,760],[0,760]],'#d8c196',{amp:2.5,step:14,shadow:1});
+const rise=piece([[760,640],[860,560],[1000,540],[1140,556],[1200,600],[1200,760],[760,760]],'#cbb282',{amp:2,step:12,shadow:.9});
+const wall=piece(rect(150,250,560,170),'#b8a27c',{amp:1.6,step:10,shadow:1.2});
+const towers=[[130,190,90],[670,190,90],[380,214,80]].map(([x,y,w])=>[x,piece([[x,y+20],[x,y],[x+w*.2,y],[x+w*.2,y+12],[x+w*.4,y+12],[x+w*.4,y],[x+w*.6,y],[x+w*.6,y+12],[x+w*.8,y+12],[x+w*.8,y],[x+w,y],[x+w,420],[x,420]],'#a99370',{amp:1.2,step:8,shadow:1.1})]);
+const gate=piece([[470,420],[470,330],[490,305],[530,296],[570,305],[590,330],[590,420]],'#4a3826',{amp:1,step:7,shadow:.3});
+const rays=piece(star(0,0,330,120,9),'rgba(246,226,160,.55)',{amp:2,step:12,shadow:0,grain:0,edge:0});
+const dim=piece(rect(0,0,1200,760),'rgba(40,30,40,.22)',{amp:0,shadow:0,edge:0,grain:0});
+const rod=piece(rect(-9,-380,18,380),'#e9dcb6',{amp:.8,step:8,shadow:.9}),spear=piece(rect(-2.5,-420,5,420),'#6b4a2c',{amp:.4,step:8,shadow:.6}),tip=piece([[-7,-420],[0,-450],[7,-420]],'#8a8a80',{amp:.3,step:4,shadow:.5});
+const helm=piece([[-12,-96],[-9,-105],[0,-110],[9,-105],[12,-96]],'#a07a3a',{amp:.4,step:4,shadow:.4});
+let mode='facts',t=0,k=1,seen={},shown='';
+const SPIES=[[830,690],[900,664],[970,690],[1040,664],[1110,690],[1150,640]];
+function setMode(m){mode=m;t=0;seen[m]=1;['yFacts','ySelf','yLord'].forEach((id,i)=>$(id).classList.toggle('on',['facts','self','lord'][i]===m));say();if(seen.self&&seen.lord&&typeof DONE==='function')DONE('yard')}
+function say(){const m=mode==='facts'?'Just the facts: a giant, a wall, a gate. The measuring rod shows how tall he is.'
+  :mode==='self'?'Measured against <b>themselves</b>, the ten shrink: “<b>we were in our own sight as grasshoppers</b>, and so we were in their sight.” Nobody in Canaan told them that. It is a <b>feeling written up as a fact</b>.'
+  :'Measured against <b>the LORD</b>, the same giant behind the same wall: “<b>the LORD is with us. Do not fear them.</b>” The two had no extra facts. They had a different yardstick.';
+  if(m!==shown){shown=m;$('yRead').innerHTML=m}}
+function update(dt){t+=dt;const want=mode==='self'?.3:1;k+= (want-k)*Math.min(1,dt*3)}
+function backdrop(){draw(sky,0,0);draw(skyHi,0,0);draw(hillsFar,0,0);draw(tell,0,0);towers.forEach(([x,p])=>draw(p,0,0));draw(wall,0,0);
+  const c=P.ctx();c.save();c.strokeStyle='rgba(90,70,45,.35)';c.lineWidth=1.2;for(let y=270;y<420;y+=24){c.beginPath();c.moveTo(152,y);c.lineTo(708,y);c.stroke();for(let x=150+((y/24)%2)*30;x<710;x+=60){c.beginPath();c.moveTo(x,y);c.lineTo(x,y+24);c.stroke()}}c.restore();
+  draw(gate,0,0);draw(ground,0,0);draw(rise,0,0);text('HEBRON',290,236,{size:16,col:'rgba(42,32,22,.6)'})}
+function scene(){const c=P.ctx();
+  if(mode==='lord')draw(rays,1080,70,P.frame*.01);
+  /* the giant: same height whatever the yardstick */
+  draw(spear,650,520);draw(tip,650,520);person(560,520,3.6,'#4a3a2e',{armR:-.05,cloth:'#8a7a5a'});draw(helm,560,520,0,3.6);
+  draw(rod,450,520,0,1,{over:k=>{k.strokeStyle=C.ink;k.lineWidth=1.4;for(let i=1;i<9;i++){const y=-i*40,w=i%2?6:9;k.beginPath();k.moveTo(-9,y);k.lineTo(-9+w,y);k.stroke()}}});
+  label('same height in every report',450,118,{size:13,bg:'#fbf3dc',r:-.03,tape:true});
+  /* the spies on the rise */
+  SPIES.forEach(([x,y],i)=>{if(mode==='self'&&k<.42)hopper(x,y-6,1.15,true);else person(x,y,1.25*k,ROBES[(i*5)%12])});
+  if(mode==='self'){draw(dim,0,0);slip(['“We were in our own sight as grasshoppers,','and so we were in their sight.”'],930,470,{size:15,w:470,bg:'#f2d7cc',col:'#6e1f16',r:-.02});label('can anyone check this?',930,412,{size:13,bg:'#fbf3dc',col:C.red,r:.04})}
+  else if(mode==='lord')slip(['“The LORD is with us.','Do not fear them.”'],930,470,{size:16,w:360,bg:'#dfe5c8',col:'#3c4a1c',r:.02});
+  else slip(['A giant. A wall. A gate.','All twelve saw the same.'],930,470,{size:15,w:360,bg:'#f6efdc',r:.01})}
+SCENES.yard={touch:'pan-y',backdrop,update,draw:scene};
+$('yFacts').onclick=()=>setMode('facts');$('ySelf').onclick=()=>setMode('self');$('yLord').onclick=()=>setMode('lord');
+})();
+</script>
+<script>
+(()=>{
+const {piece,draw,label,text,rect,ell,blob,star,tape,thread}=P,{C,person,slip,ROBES}=FG;
+const $=id=>document.getElementById(id);
+const top=piece(rect(0,0,1200,250),'#7a5a3e',{amp:0,shadow:0,edge:0});
+const sky=piece(rect(0,250,1200,170),'#dccfae',{amp:0,shadow:0,edge:0});
+const dunes=piece([[0,400],[200,360],[420,392],[640,350],[880,384],[880,520],[0,520]],'#ccb383',{amp:2.5,step:14,shadow:.5});
+const desert=piece([[0,450],[300,440],[600,456],[900,436],[900,760],[0,760]],'#d8c196',{amp:2.5,step:14,shadow:1});
+const land=piece([[930,760],[930,330],[1020,300],[1110,330],[1200,310],[1200,760]],'#9aa25e',{amp:2.5,step:12,shadow:1.1}),land2=piece([[930,760],[930,470],[1060,440],[1200,460],[1200,760]],'#87904c',{amp:2,step:12,shadow:.6});
+const river=piece([[880,250],[930,250],[946,400],[928,560],[948,760],[892,760],[874,560],[896,400]],'#7f9aa6',{amp:1.5,step:10,shadow:.8});
+const tents=[[110,420],[190,410],[270,424],[360,412]].map(([x,y],i)=>[x,y,piece([[-34,24],[0,-24],[34,24]],i%2?'#8a6a48':'#7a5a3a',{amp:1,step:6,shadow:.8})]);
+const vines=[];for(let i=0;i<7;i++)vines.push([970+(i%4)*60,360+Math.floor(i/4)*70+(i%2)*14,piece(blob(0,0,20,15,i+50,.3),'#6f7a3c',{amp:1,step:6,shadow:.6})]);
+const tile=piece(rect(-30,-19,60,38),'#efe2c2',{amp:.9,step:6,shadow:.7});
+let n=0,run=false,acc=0,end=0,shown='';
+const ADULTS=[];for(let i=0;i<16;i++)ADULTS.push({x:110+(i%8)*86+(i>=8?40:0),y:i>=8?600:520,col:ROBES[(i*7)%12],fade:(i*.71%1)*.76+.04});
+const CJ=[{x:520,y:690,name:'Caleb',col:ROBES[0]},{x:620,y:690,name:'Joshua',col:ROBES[2]}];
+const KIDS=[];for(let i=0;i<9;i++)KIDS.push({x:110+i*44+(i>4?300:0),y:700,col:ROBES[(i*5+3)%12]});
+function reset(){n=0;run=false;acc=0;end=0;say()}
+function update(dt){if(run&&n<40){acc+=dt;while(acc>=.3&&n<40){acc-=.3;n++;say()}if(n>=40&&acc>=.3)run=false}if(n>=40){end+=dt;if(end>1&&end-dt<=1){say();typeof DONE==='function'&&DONE('years')}}}
+function say(){const m=n===0?'Forty days of survey, laid out on the table.':n<40?`Year <b>${n}</b> of 40 in the wilderness. That generation, twenty and over, is passing away. The children are growing up.`
+  :end<1?'Year <b>40</b>. Of that whole generation, only <b>Caleb and Joshua</b> are left.':'Caleb, Joshua and the <b>children</b>, now grown, cross the Jordan into the land.';if(m!==shown){shown=m;$('dRead').innerHTML=m}}
+function backdrop(){draw(top,0,0);draw(sky,0,0);draw(dunes,0,0);draw(land,0,0);draw(land2,0,0);vines.forEach(([x,y,p])=>draw(p,x,y));draw(desert,0,0);draw(river,0,0);tents.forEach(([x,y,p])=>draw(p,x,y));
+  text('THE WILDERNESS OF PARAN',300,476,{size:15,col:'rgba(42,32,22,.5)'});text('JORDAN',912,300,{size:12,col:'rgba(240,240,230,.85)',r:-Math.PI/2});text('THE LAND',1070,282,{size:15,col:'rgba(42,32,22,.6)'});
+  text('forty days of survey',600,18,{font:'italic 15px Georgia,serif',col:'rgba(243,232,204,.8)'})}
+function scene(){
+  for(let i=0;i<40;i++){const c=i%10,r=Math.floor(i/10),x=285+c*70,y=50+r*48,flipped=i<n,flip=i===n-1&&run?Math.min(1,acc/.3):1;
+    const sy=i===n-1&&flip<.67?[.2,.6][Math.floor(flip*3)]||.2:1;
+    draw(tile,x,y,0,1,{sy,col:flipped?'#c4923e':'#efe2c2',over:k=>{k.font='700 13px "Courier New",monospace';k.fillStyle=flipped?'#3a2410':C.ink;k.textAlign='center';k.textBaseline='middle';k.fillText(flipped?'year '+(i+1):'day '+(i+1),0,1)}})}
+  label(n<40?(n?`year ${n}`:'day 40'):'year 40',95,140,{size:20,bg:n?'#f2d7cc':'#f6efdc',col:C.red,tape:true});
+  const p=n/40;
+  ADULTS.forEach(a=>{const al=1-Math.max(0,Math.min(1,(p-a.fade)*6));if(al>0)person(a.x,a.y,.92,a.col,{alpha:al})});
+  const cross=Math.max(0,end-1.2),walk=cross>0&&cross<4.5;
+  const go=(x,i)=>x+Math.min(1,cross/4)*(968+i*21-x);
+  CJ.forEach((c,i)=>{const x=go(c.x,i*5+2);person(x,c.y,1,c.col,{walk});label(c.name,x,c.y-118,{size:13,bg:'#fbf3dc',r:i?.04:-.04})});
+  KIDS.forEach((k,i)=>{const idx=[0,1,3,4,5,6,8,9,10][i],x=go(k.x,idx),y=k.y-(cross>0?(i%2)*34*Math.min(1,cross/4):0);person(x,y,.52+.43*p,k.col,{young:p<.6,walk})});
+  if(n===0)slip(['Kadesh: the people refuse to go in.'],600,300,{size:14,bg:'#f6efdc'})}
+SCENES.years={touch:'pan-y',backdrop,update,draw:scene};
+$('dGo').onclick=()=>{if(n>=40)reset();run=true};$('dReset').onclick=reset;
+})();
+</script>
+<script>
+const SHELL=(()=>{const T=[['facts','1 · The same facts'],['yard','2 · Two yardsticks'],['years','3 · A year for a day']],done={};let cur='facts',started=false,ended=false;const $=id=>document.getElementById(id);
+  function tabs(){$('tabs').innerHTML=T.map(([id,l])=>`<button class="btn${id===cur?' on':''}" data-t="${id}">${l}${done[id]?'<span class="tick">✓</span>':''}</button>`).join('');$('tabs').querySelectorAll('button').forEach(b=>b.onclick=()=>go(b.dataset.t))}
+  function go(id){cur=id;document.querySelectorAll('[data-p]').forEach(d=>d.classList.toggle('hide',d.dataset.p!==id));if(!started){P.start(SCENES[id],$('cv'));started=true}P.use(SCENES[id]);tabs()}
+  return{go,tick(id){done[id]=1;tabs();if(!ended&&T.every(([k])=>done[k])){ended=true;setTimeout(()=>{$('shade').classList.remove('hide');$('end').classList.remove('hide')},2400)}},
+    boot(){go('facts');$('bStart').onclick=()=>{$('shade').classList.add('hide');$('intro').classList.add('hide')};$('bStay').onclick=()=>{$('shade').classList.add('hide');$('end').classList.add('hide')}}}})();
+SHELL.boot();
+</script>
+</body>
+</html>

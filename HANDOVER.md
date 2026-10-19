@@ -431,6 +431,8 @@ certificate seal). The label wording is listed at the bottom of
 
 ## 11. Recent work, newest first
 
+- **JM-13 interactive: `tours/twelve-reports.html`** on *The Two Reports, Side by Side*. 2D paper-cutout stop-motion (same kit as the Hall of Design), three tabs: drag the six things the spies saw onto a balance scale (each lands in both pans, the beam stays level, then picture bubbles show the grasshoppers vs "the LORD is with us"); two yardsticks (the spies shrink to grasshoppers or stand full size, the giant and measuring rod never change); and forty day tiles flipping into forty years while that generation fades and Caleb, Joshua and the children cross the Jordan.
+
 - **Hall of Design (JM-00) rebuilt in 2D.** The 3D hall was replaced by a paper-cutout, 12 fps stop-motion version with three exhibits (Monarch, Trees, Bees) and the same intro/end cards. The DNA-code exhibit was not carried over; the *Field Notes on Design* document still covers it in text.
 
 - **JM-00 (The Maker’s Mark) had no Supervisor briefing animation** — it was the only one of the 20 cases without it (JM-01 uses `ransom-briefing.html`). Added `tours/jm00-briefing.html` (same engine as `jm11-briefing`, six scenes) and wired `tour:{anim:true}` onto `j00letter` in `src/part_case21.js`.

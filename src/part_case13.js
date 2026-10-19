@@ -48,6 +48,8 @@ const JM13_ITEMS = [
   sub:"As taken down before the whole assembly", thumb:"j13reports",
   prev:"Read them line by line. Every fact in one is in the other.",
   x:52, y:22, rot:3, w:218,
+  tour:{href:"../tours/twelve-reports.html", label:"\u2696 Weigh the two reports",
+        note:"Put what the spies saw on the scales, try two yardsticks, and turn forty days into forty years"},
   body:`
     <div class="plate">${SVG.j13reports}<div class="cap">Click the plate to enlarge it. The two sheets as filed.</div></div>
     <table class="ledger">
