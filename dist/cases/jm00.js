@@ -229,7 +229,7 @@ const JM00_ITEMS = [
   prev:"A butterfly that finds a forest it has never seen. Trees that warn each other. Bees that draw maps.", thumb:"j00workshop",
   x:80, y:44, rot:-6, w:208,
   tour:{href:"../tours/design-hall.html", label:"🦋 Walk the Hall of Design",
-        note:"A monarch's sun compass, trees that warn their neighbours, the bees' dance, and the code in the cell"},
+        note:"A monarch's sun compass, trees that warn their neighbours, and the bees' dance, in paper cut-outs"},
   body:`
     <div class="plate-pair">
       <div class="plate">${SVG.j00workshop}<div class="cap">Click to enlarge. From the Bureau's plate.</div></div>

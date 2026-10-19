@@ -431,6 +431,8 @@ certificate seal). The label wording is listed at the bottom of
 
 ## 11. Recent work, newest first
 
+- **Hall of Design (JM-00) rebuilt in 2D.** The 3D hall was replaced by a paper-cutout, 12 fps stop-motion version with three exhibits (Monarch, Trees, Bees) and the same intro/end cards. The DNA-code exhibit was not carried over; the *Field Notes on Design* document still covers it in text.
+
 - **JM-00 (The Maker’s Mark) had no Supervisor briefing animation** — it was the only one of the 20 cases without it (JM-01 uses `ransom-briefing.html`). Added `tours/jm00-briefing.html` (same engine as `jm11-briefing`, six scenes) and wired `tour:{anim:true}` onto `j00letter` in `src/part_case21.js`.
 
 - **Ridge Post (JM-11) button did nothing.** `tours/ekron-road.html` built its WebGL renderer unguarded, so on a device with 3D off the script threw before `bStart` was wired and "Go up to the ridge" was dead. Now tries 3 renderer settings, and if WebGL is truly unavailable (or any error before the page is ready) the intro card is replaced by a plain explanation. Other tours in `tours/` still build `new THREE.WebGLRenderer` unguarded.
@@ -511,11 +513,13 @@ certificate seal). The label wording is listed at the bottom of
   generated starfield placeholder; the image brief is in
   `tobuild/JM-00 — THE MAKER'S MARK/image-prompts.md`, and no document plate
   is wired yet. Its tour is `tours/design-hall.html` on *Field Notes on Design*
-  (stage 1): four exhibits — the monarch's clock-compensated sun compass (fly
-  it with and without the clock), trees' airborne warning and fungal threads,
-  the waggle dance (move the flowers, the dance follows), and the insulin B
-  chain read codon by codon, then shuffled. Built here; three r128 inlined; in
-  patch_touch's SKIP.
+  (stage 1). Since Oct 2026 it is a **2D paper-cutout stop-motion** page (no
+  three.js): three tabs — the monarch's clock-compensated sun compass (fly it
+  with and without the clock), trees' airborne warning and fungal threads
+  (plus "no warning sent" / "nobody to receive it"), and the waggle dance
+  (drag the flowers, move the sun, send a forager). The old 3D version's
+  fourth exhibit (insulin code) was dropped. Source lives outside the repo
+  (a shared paper kit + one script per exhibit, assembled into this file).
 
 - **The Ridge Post** (`tours/ekron-road.html`, JM-11, on *What the Watchers
   Saw*). Built here, not handed over: the road out of Ekron, the fork, the
