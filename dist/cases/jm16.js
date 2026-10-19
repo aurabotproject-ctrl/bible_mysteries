@@ -63,6 +63,8 @@ const JM16_ITEMS = [
   sub:"One week, as recorded", thumb:"j16log",
   prev:"Six mornings the same, the sixth doubled and keeping, and the seventh nothing at all.",
   x:78, y:26, rot:-4, w:218,
+  tour:{href:"../tours/week-of-mornings.html", label:"\ud83c\udf5e Live a week of mornings",
+        note:"Gather it, measure it, try keeping some overnight, and see what days 6 and 7 do"},
   body:`
     <div class="plate">${SVG.j16log}<div class="cap">Click the log to enlarge it. One week of entries.</div></div>
     <h4>Read down the last two columns</h4>

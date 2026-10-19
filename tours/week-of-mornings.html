@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>A Week of Mornings</title>
+<style>
+
+  :root{--parchment:#EDE4CE;--parchment-dark:#D8C9A3;--ink:#2A2016;--ink-soft:#5C4B36;--brass:#A9822E;--red:#8c2a20;--line:#bfae86;--board:#6e5236}
+  *{box-sizing:border-box}
+  html,body{margin:0;min-height:100%}
+  body{background:var(--board);color:var(--ink);font-family:Georgia,'Iowan Old Style','Palatino Linotype',serif;-webkit-text-size-adjust:100%;
+    background-image:radial-gradient(rgba(0,0,0,.10) 1px,transparent 1.4px),radial-gradient(rgba(255,240,210,.06) 1px,transparent 1.4px);background-size:7px 7px,11px 11px;background-position:0 0,3px 5px}
+  .wrap{display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:18px;padding:16px;max-width:1500px;margin:0 auto;align-items:start}
+  .stage{position:relative;border-radius:3px;box-shadow:0 10px 26px rgba(0,0,0,.45),0 0 0 6px #f2e9d3,0 0 0 7px rgba(0,0,0,.25);background:#f2e9d3}
+  .stage canvas{display:block;touch-action:__TOUCH__}
+  .stage .hint{position:absolute;left:12px;bottom:10px;font:700 12px/1.2 'Courier New',monospace;color:rgba(42,32,22,.7);background:rgba(244,236,214,.85);padding:4px 7px;border-radius:2px;pointer-events:none}
+  .tag{background:var(--parchment);border:1px solid var(--ink-soft);box-shadow:0 6px 16px rgba(0,0,0,.4);border-radius:2px;position:relative}
+  .tag::before{content:"";position:absolute;left:50%;top:-11px;width:84px;height:22px;transform:translateX(-50%) rotate(-3deg);background:rgba(236,226,182,.7);box-shadow:0 1px 3px rgba(0,0,0,.2)}
+  .k{font:700 10px/1.2 'Courier New',monospace;letter-spacing:.18em;text-transform:uppercase;color:var(--red)}
+  #panel{padding:16px 18px 14px;transform:rotate(.4deg)}
+  #panel h1{margin:4px 0 6px;font-size:21px;line-height:1.2}
+  #panel p{font-size:14px;line-height:1.5;margin:8px 0}
+  #panel .note{font-size:12.5px;color:var(--ink-soft);font-style:italic}
+  #panel .ref{font-size:12px;color:var(--ink-soft);border-top:1px solid var(--line);padding-top:7px;margin-top:12px}
+  .ctl{margin:12px 0 4px}
+  .ctl label{display:block;font:600 12.5px/1.3 system-ui,sans-serif;color:var(--ink-soft);margin-bottom:4px}
+  .ctl input[type=range]{width:100%;accent-color:#7a2a1c;height:28px}
+  .row{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+  .btn{font:600 14px/1.1 Georgia,serif;padding:10px 13px;border-radius:3px;cursor:pointer;color:var(--ink);background:#f6efdd;border:1px solid var(--ink-soft);box-shadow:0 2px 6px rgba(0,0,0,.25)}
+  .btn:hover:not(:disabled){background:var(--parchment-dark)} .btn:disabled{opacity:.45;cursor:default}
+  .btn.main{background:#7a2a1c;color:#f6ead2;border-color:#4a160e} .btn.main:hover:not(:disabled){background:#8f3424}
+  .btn.on{outline:2px solid #2f4a6e;outline-offset:1px}
+  .readout{font:13.5px/1.5 'Courier New',monospace;background:#f8f2e2;border:1px solid var(--line);padding:8px 10px;margin-top:10px;min-height:4.6em}
+  .readout b{color:var(--red)}
+  .legend{display:flex;gap:14px;font-size:12.5px;margin-top:8px;flex-wrap:wrap}
+  .legend i{display:inline-block;width:16px;height:5px;vertical-align:middle;margin-right:5px;border-radius:2px}
+  @media (max-width:900px){
+    .wrap{grid-template-columns:1fr;padding:10px;gap:22px}
+    #panel{transform:none}
+  }
+
+  :root{--board:#4a3828}
+  .top{max-width:1500px;margin:0 auto;padding:14px 16px 0}
+  .top h1{margin:0;font-size:22px;color:#f4ecd6;text-shadow:0 2px 4px rgba(0,0,0,.5)} .top .k{color:#e8b48e}
+  #panel h2{margin:4px 0 6px;font-size:21px}
+  .steps{display:grid;gap:8px;margin-top:10px} .steps .btn{text-align:left}
+  #mMain{animation:pulse 1.6s ease-in-out infinite}@keyframes pulse{0%,100%{box-shadow:0 2px 6px rgba(0,0,0,.25)}50%{box-shadow:0 0 0 5px rgba(196,146,62,.55)}}
+</style>
+</head>
+<body>
+<div class="top"><div class="k">Case JM-16 · Exodus 16</div><h1>A Week of Mornings</h1></div>
+<div class="wrap">
+  <div class="stage"><canvas id="cv"></canvas></div>
+  <div id="panel" class="tag">
+    <div class="k">The Gathering Log · one week in the camp</div>
+    <h2>Gather it, measure it, keep it?</h2>
+    <p>Live through one week. Keep pressing the <b>red button</b> to move through each day: morning → gather → measure → the sun grows hot → night.</p><p>Each morning, <b>drag across the ground</b> to gather. In the evening, try <b>keeping some overnight</b>, and watch what days 6 and 7 do.</p>
+    <div class="steps">
+      <button class="btn main" id="mMain">Next morning</button>
+      <button class="btn" id="mAuto">Gather for me</button>
+      <button class="btn" id="mKeep">Keep some overnight</button>
+    </div>
+    <div class="row"><button class="btn" id="mMove">Move the camp</button><button class="btn" id="mReset">Start again</button></div>
+    <div class="readout" id="read"></div>
+    <div class="ref">Exodus 16:13–30.</div>
+  </div>
+</div>
+<script>
+/* ---------- paper-cutout stop-motion kit (shared by the three exhibits) ----------
+   Every shape is cut from paper: a slightly ragged scissor edge, a pale cut rim,
+   fibre grain and a drop shadow. The scene is drawn "on twos" at 12 frames a second,
+   and each cut-out nudges a fraction between frames, the way a hand-moved puppet does. */
+const P = (()=>{
+const W=1200, H=760, FPS=12;
+const api={W,H,FPS,frame:0,still:false,t:0};
+let cv, ctx, K=1, bg=null, scene=null, frame=-1, GR=null, paused=false;
+const hash=(a,b)=>{let h=(Math.imul(a|0,374761393)+Math.imul(b|0,668265263))|0;h=Math.imul(h^(h>>>13),1274126177);return((h^(h>>>16))>>>0)/4294967296};
+const rng=seed=>{let s=(seed>>>0)||1;return()=>(s=(Math.imul(s,1664525)+1013904223)>>>0)/4294967296};
+api.hash=hash; api.rng=rng;
+
+/* shapes */
+api.rect=(x,y,w,h)=>[[x,y],[x+w,y],[x+w,y+h],[x,y+h]];
+api.ell=(cx,cy,rx,ry,n)=>{n=n||Math.max(10,Math.round((rx+ry)*Math.PI/9));const p=[];for(let i=0;i<n;i++){const a=2*Math.PI*i/n;p.push([cx+Math.cos(a)*rx,cy+Math.sin(a)*ry])}return p};
+api.blob=(cx,cy,rx,ry,seed,v)=>{const r=rng(seed),n=Math.max(9,Math.round((rx+ry)/7)),p=[];v=v==null?.18:v;for(let i=0;i<n;i++){const a=2*Math.PI*i/n,k=1-v/2+r()*v;p.push([cx+Math.cos(a)*rx*k,cy+Math.sin(a)*ry*k])}return p};
+api.star=(cx,cy,r1,r2,n)=>{const p=[];for(let i=0;i<2*n;i++){const a=Math.PI*i/n-Math.PI/2,r=i%2?r2:r1;p.push([cx+Math.cos(a)*r,cy+Math.sin(a)*r])}return p};
+
+/* the scissor cut: walk each edge in short steps, nudging every step in or out */
+function cut(pts,seed,amp,step){const r=rng(seed),out=[],n=pts.length;
+  for(let i=0;i<n;i++){const a=pts[i],b=pts[(i+1)%n],dx=b[0]-a[0],dy=b[1]-a[1],L=Math.hypot(dx,dy)||1,m=Math.max(1,Math.round(L/step)),nx=-dy/L,ny=dx/L;
+    for(let k=0;k<m;k++){const t=k/m,j=(r()-.5)*2*amp;out.push([a[0]+dx*t+nx*j,a[1]+dy*t+ny*j])}}
+  const P2=new Path2D();out.forEach((q,i)=>i?P2.lineTo(q[0],q[1]):P2.moveTo(q[0],q[1]));P2.closePath();return P2}
+let NID=1;
+/* a piece of paper: three slightly different cuts, swapped every other frame (replacement animation) */
+api.piece=(pts,col,o)=>{o=Object.assign({amp:1.3,step:9,shadow:1,edge:1,grain:1,alpha:1,j:1},o||{});const id=NID++;
+  return{id,col,o,paths:[0,1,2].map(k=>cut(pts,id*131+k*977+7,o.amp,o.step))}};
+
+function grain(){const c=document.createElement('canvas');c.width=c.height=180;const g=c.getContext('2d');g.fillStyle='#fff';g.fillRect(0,0,180,180);const r=rng(99);
+  for(let i=0;i<2600;i++){g.fillStyle=`rgba(90,70,40,${r()*.10})`;g.fillRect(r()*180,r()*180,1+r()*1.5,1+r()*1.5)}
+  g.lineWidth=.6;for(let i=0;i<90;i++){g.strokeStyle=`rgba(110,90,60,${.05+r()*.08})`;const x=r()*180,y=r()*180,a=r()*6.3,l=4+r()*14;g.beginPath();g.moveTo(x,y);g.quadraticCurveTo(x+Math.cos(a+.5)*l/2,y+Math.sin(a+.5)*l/2,x+Math.cos(a)*l,y+Math.sin(a)*l);g.stroke()}
+  for(let i=0;i<600;i++){g.fillStyle=`rgba(255,255,255,${r()*.5})`;g.fillRect(r()*180,r()*180,1,1)}
+  return c}
+
+/* draw a piece at x,y (rotation r, scale s). op: {sx,sy,alpha,col,j,after(ctx)} */
+api.draw=(p,x,y,r,s,op)=>{op=op||{};const o=p.o,f=api.frame,j=(op.j==null?o.j:op.j)*(api.still?0:1);
+  const jx=(hash(p.id,f)-.5)*1.8*j,jy=(hash(p.id+7,f)-.5)*1.8*j,jr=(hash(p.id+13,f)-.5)*.024*j;
+  const vi=j?Math.floor(f/2+p.id)%3:0;s=s==null?1:s;const sx=s*(op.sx==null?1:op.sx),sy=s*(op.sy==null?1:op.sy),a=op.alpha==null?o.alpha:op.alpha;if(a<=0)return;
+  ctx.save();ctx.translate(x+jx,y+jy);ctx.rotate((r||0)+jr);ctx.scale(sx,sy);const path=p.paths[vi];ctx.globalAlpha=a;
+  const sh=op.shadow==null?o.shadow:op.shadow;
+  if(sh){ctx.shadowColor=`rgba(28,16,4,${.38*Math.min(1,sh)*a})`;ctx.shadowBlur=5*K*sh;ctx.shadowOffsetX=2*K*sh;ctx.shadowOffsetY=3.4*K*sh}
+  ctx.fillStyle=op.col||p.col;ctx.fill(path);ctx.shadowColor='transparent';ctx.shadowBlur=0;ctx.shadowOffsetX=ctx.shadowOffsetY=0;
+  if(o.grain){if(!GR)GR=ctx.createPattern(grain(),'repeat');ctx.globalAlpha=a*.55;ctx.globalCompositeOperation='multiply';ctx.fillStyle=GR;ctx.fill(path);ctx.globalCompositeOperation='source-over'}
+  if(op.after){ctx.globalAlpha=a;ctx.save();ctx.clip(path);op.after(ctx,path);ctx.restore()}
+  if(op.over){ctx.globalAlpha=a;op.over(ctx)}
+  if(o.edge){ctx.globalAlpha=a*.6;ctx.strokeStyle='rgba(255,251,238,.85)';ctx.lineWidth=1.2/Math.max(.3,Math.min(Math.abs(sx),Math.abs(sy)));ctx.stroke(path)}
+  ctx.restore()};
+
+/* a shape whose corners move: cut fresh each frame from a fixed seed, so the edge stays put as it moves */
+api.dyn=(key,pts,col,o)=>{o=Object.assign({amp:1.3,step:10,shadow:1,edge:1,grain:1,alpha:1},o||{});if(pts.length<3)return;const v=api.still?0:Math.floor(api.frame/2)%3;
+  const path=cut(pts,key*131+v*977+7,o.amp,o.step);ctx.save();ctx.globalAlpha=o.alpha;
+  if(o.shadow){ctx.shadowColor=`rgba(28,16,4,${.38*Math.min(1,o.shadow)*o.alpha})`;ctx.shadowBlur=5*K*o.shadow;ctx.shadowOffsetX=2*K*o.shadow;ctx.shadowOffsetY=3.4*K*o.shadow}
+  ctx.fillStyle=col;ctx.fill(path);ctx.shadowColor='transparent';
+  if(o.grain){if(!GR)GR=ctx.createPattern(grain(),'repeat');ctx.globalAlpha=o.alpha*.55;ctx.globalCompositeOperation='multiply';ctx.fillStyle=GR;ctx.fill(path);ctx.globalCompositeOperation='source-over'}
+  if(o.after){ctx.globalAlpha=o.alpha;ctx.save();ctx.clip(path);o.after(ctx);ctx.restore()}
+  if(o.edge){ctx.globalAlpha=o.alpha*.6;ctx.strokeStyle='rgba(255,251,238,.85)';ctx.lineWidth=1.2;ctx.stroke(path)}ctx.restore()};
+
+/* a paper tag with typed words on it */
+const LB=new Map();
+api.label=(str,x,y,o)=>{o=o||{};const size=o.size||17,font=o.font||`700 ${size}px "Courier New",Courier,monospace`,key=str+'|'+font+'|'+(o.bg||'');let L=LB.get(key);
+  if(!L){ctx.save();ctx.font=font;const w=ctx.measureText(str).width+size*1.1,h=size*1.6;ctx.restore();L={p:api.piece(api.rect(-w/2,-h/2,w,h),o.bg||'#f4ecd6',{amp:1.1,step:7,shadow:o.shadow==null?.8:o.shadow}),w,h};LB.set(key,L)}
+  api.draw(L.p,x,y,o.r||0,o.s||1,{j:o.j,alpha:o.alpha,over:c=>{c.font=font;c.fillStyle=o.col||'#2a2016';c.textAlign='center';c.textBaseline='middle';c.fillText(str,0,1.5)}});
+  if(o.tape)api.tape(x,y-L.h/2,(o.r||0)+.08);return L};
+/* bare words printed straight onto a piece of paper underneath */
+api.text=(str,x,y,o)=>{o=o||{};ctx.save();ctx.font=o.font||`700 ${o.size||16}px "Courier New",Courier,monospace`;ctx.fillStyle=o.col||'rgba(42,32,22,.55)';ctx.textAlign=o.align||'center';ctx.textBaseline='middle';
+  if(o.spacing&&'letterSpacing' in ctx)ctx.letterSpacing=o.spacing+'px';ctx.translate(x,y);if(o.r)ctx.rotate(o.r);ctx.fillText(str,0,0);ctx.restore()};
+const TP=[];api.tape=(x,y,r)=>{if(!TP.length)for(let i=0;i<3;i++)TP.push(api.piece(api.rect(-22,-8,44,16),'rgba(236,226,182,.62)',{amp:1.6,step:5,shadow:.25,grain:0,edge:0}));
+  api.draw(TP[(Math.abs(x*3+y)|0)%3],x,y,r||0,1)};
+
+/* line drawn in thread / chalk: a polyline re-wobbled each frame */
+api.thread=(pts,col,w,o)=>{o=o||{};const f=api.still?0:api.frame,r=rng(((pts[0][0]*31+pts[0][1]*17)|0)+f*13);ctx.save();ctx.strokeStyle=col;ctx.lineWidth=w||2;ctx.lineCap='round';ctx.lineJoin='round';
+  if(o.dash)ctx.setLineDash(o.dash);if(o.alpha!=null)ctx.globalAlpha=o.alpha;ctx.beginPath();pts.forEach((q,i)=>{const jx=(r()-.5)*(o.wob||1.2),jy=(r()-.5)*(o.wob||1.2);i?ctx.lineTo(q[0]+jx,q[1]+jy):ctx.moveTo(q[0]+jx,q[1]+jy)});ctx.stroke();ctx.restore()};
+
+/* ---------- running the scene ---------- */
+function resize(){const box=cv.parentElement.getBoundingClientRect(),w=Math.max(200,box.width),dpr=Math.min(2,window.devicePixelRatio||1);
+  cv.style.width=w+'px';cv.style.height=(w*H/W)+'px';K=w/W*dpr;cv.width=Math.round(W*K);cv.height=Math.round(H*K);ctx=cv.getContext('2d');bg=null;GR=null;render()}
+function render(){if(!scene)return;
+  if(!bg){bg=document.createElement('canvas');bg.width=cv.width;bg.height=cv.height;const old=ctx;ctx=bg.getContext('2d');ctx.setTransform(K,0,0,K,0,0);api.still=true;scene.backdrop(ctx);api.still=false;GR=null;ctx=old}
+  if(scene.under){ctx.setTransform(K,0,0,K,0,0);scene.under(ctx)}ctx.setTransform(1,0,0,1,0,0);ctx.drawImage(bg,0,0);ctx.setTransform(K,0,0,K,0,0);scene.draw(ctx)}
+function step(dt){api.t+=dt;scene.update&&scene.update(dt)}
+function loop(now){requestAnimationFrame(loop);if(paused)return;const f=Math.floor(now/1000*FPS);if(f===frame)return;const n=frame<0?0:Math.min(3,f-frame);frame=f;api.frame=f;
+  for(let i=0;i<n;i++)step(1/FPS);render()}
+const pt=e=>{const b=cv.getBoundingClientRect();return[(e.clientX-b.left)/b.width*W,(e.clientY-b.top)/b.height*H]};
+api.start=(sc,canvas)=>{scene=sc;cv=canvas;resize();addEventListener('resize',resize);
+  if(window.ResizeObserver)new ResizeObserver(()=>{const w=cv.parentElement.getBoundingClientRect().width;if(w>0&&Math.abs(w-parseFloat(cv.style.width))>1)resize()}).observe(cv.parentElement);
+  cv.addEventListener('pointerdown',e=>{if(scene.down&&scene.down(...pt(e))!==false){cv.setPointerCapture(e.pointerId);e.preventDefault()}});
+  cv.addEventListener('pointermove',e=>{scene.move&&scene.move(...pt(e),e.buttons||e.pointerType==='touch')});
+  cv.addEventListener('pointerup',e=>{scene.up&&scene.up(...pt(e))});cv.addEventListener('pointercancel',()=>{scene.up&&scene.up()});
+  requestAnimationFrame(loop)};
+/* swap to another scene on the same stage */
+api.use=sc=>{if(!cv)return;scene=sc;cv.style.touchAction=sc.touch||'pan-y';bg=null;render()};
+/* for tests: run the clock forward without waiting */
+api.advance=s=>{const n=Math.round(s*FPS);for(let i=0;i<n;i++){api.frame++;step(1/FPS)}render()};
+api.redraw=render;
+api.ctx=()=>ctx;
+return api})();
+
+</script>
+<script>
+/* figures shared by the three panels: robed people, a giant, a grasshopper */
+const FG=(()=>{const {piece,draw,ell,rect}=P;
+const C={ink:'#2a2016',paper:'#f3e8cc',sand:'#d8c196',ochre:'#c4923e',terra:'#a5532f',olive:'#6f7a3c',sage:'#93986a',stone:'#b8a27c',stone2:'#9a845f',red:'#8c2a20',blue:'#56708a',sky:'#d9ceb2'};
+const ROBES=['#a5532f','#6f7a3c','#56708a','#c4923e','#7a5a3a','#8c5a3a','#93986a','#b07a4a','#5e6b4a','#8a6a7a','#4f6a72','#b89a5a'];
+const head=piece(ell(0,-88,9,10,10),'#c48d5e',{amp:.5,step:4,shadow:.6});
+const cloth=piece([[-12,-95],[0,-103],[12,-95],[15,-74],[-15,-74]],'#e9dcc0',{amp:.5,step:4,shadow:.4});
+const band=piece(rect(-11,-98,22,4),'#7a5a3a',{amp:.3,step:4,shadow:.1});
+const robe=piece([[-10,-77],[10,-77],[17,0],[-17,0]],'#888',{amp:.8,step:6,shadow:.9});
+const sash=piece(rect(-12,-46,24,5),'#d9b45a',{amp:.4,step:4,shadow:.2});
+const arm=piece([[-3.5,0],[3.5,0],[3,34],[-3,34]],'#888',{amp:.4,step:4,shadow:.5});
+const hand=piece(ell(0,36,3.6,3.6,7),'#c48d5e',{amp:.3,step:4,shadow:.3});
+const beard=piece([[-6,-82],[6,-82],[3,-72],[-3,-72]],'#4a3424',{amp:.3,step:3,shadow:.1});
+/* a robed person, feet at x,y, about 100 tall at s=1 */
+function person(x,y,s,col,o){o=o||{};const w=o.walk?(P.frame%2?1:-1):0,bob=o.walk&&P.frame%2?-2*s:0,a=o.alpha;
+  const sw=w*.28,aL=(o.armL!=null?o.armL:.12)+sw,aR=(o.armR!=null?o.armR:-.12)-sw;
+  draw(arm,x-11*s,y-72*s+bob,aL,s,{col:shade(col),alpha:a});draw(hand,x-11*s,y-72*s+bob,aL,s,{alpha:a});
+  draw(robe,x,y+bob,0,s,{col,alpha:a});draw(sash,x,y+bob,0,s,{alpha:a});
+  draw(arm,x+11*s,y-72*s+bob,aR,s,{col:shade(col),alpha:a});draw(hand,x+11*s,y-72*s+bob,aR,s,{alpha:a});
+  draw(cloth,x,y+bob,0,s,{col:o.cloth||'#e9dcc0',alpha:a});draw(head,x,y+bob,0,s,{alpha:a,over:k=>{k.fillStyle='#2a1a10';k.beginPath();k.arc(-3.2,-89,1.1,0,7);k.arc(3.2,-89,1.1,0,7);k.fill()}});if(!o.young)draw(beard,x,y+bob,0,s,{alpha:a});draw(band,x,y+bob,0,s,{alpha:a})}
+function shade(h){const n=parseInt(h.slice(1),16),f=v=>Math.round(v*.82);return'#'+[n>>16,(n>>8)&255,n&255].map(v=>f(v).toString(16).padStart(2,'0')).join('')}
+/* the grasshopper */
+const gBody=piece(ell(0,0,17,6.5,12),'#7c8a3a',{amp:.5,step:4,shadow:.6}),gHead=piece(ell(17,-2,6,5.5,9),'#6b7830',{amp:.4,step:4,shadow:.4}),gWing=piece([[-14,-4],[10,-6],[2,0],[-16,1]],'#9aa654',{amp:.4,step:4,shadow:.3});
+function hopper(x,y,s,flip){const c=P.ctx(),sx=flip?-1:1,j=P.frame%2?1:0;
+  c.save();c.strokeStyle='#4f5a20';c.lineWidth=2*s;c.lineJoin='round';c.beginPath();c.moveTo(x+sx*-4*s,y);c.lineTo(x+sx*-12*s,y-16*s-j);c.lineTo(x+sx*-22*s,y+8*s);c.moveTo(x+sx*6*s,y+3*s);c.lineTo(x+sx*10*s,y+10*s);c.moveTo(x+sx*12*s,y+3*s);c.lineTo(x+sx*18*s,y+9*s);c.moveTo(x+sx*20*s,y-6*s);c.quadraticCurveTo(x+sx*28*s,y-22*s,x+sx*38*s,y-20*s);c.stroke();c.restore();
+  draw(gBody,x,y,0,s,{sx});draw(gWing,x,y-3*s,0,s,{sx});draw(gHead,x,y,0,s,{sx,over:k=>{k.fillStyle='#1d200c';k.beginPath();k.arc(19,-3,1.6,0,7);k.fill()}})}
+/* a slip of paper with one or two typed lines */
+const SL=new Map();
+function slip(lines,x,y,o){o=o||{};const size=o.size||14,font=`${o.italic?'italic ':''}700 ${size}px ${o.serif?'Georgia,serif':'"Courier New",Courier,monospace'}`,key=lines.join('|')+font+(o.bg||'')+(o.w||'');let L=SL.get(key);
+  if(!L){const c=P.ctx();c.save();c.font=font;const w=o.w||Math.max(...lines.map(l=>c.measureText(l).width))+size*1.4,h=lines.length*size*1.35+size*.9;c.restore();L={p:piece(rect(-w/2,-h/2,w,h),o.bg||'#f6efdc',{amp:1,step:7,shadow:o.shadow==null?.8:o.shadow}),w,h};SL.set(key,L)}
+  draw(L.p,x,y,o.r||0,o.s||1,{alpha:o.alpha,j:o.j,over:c=>{c.font=font;c.fillStyle=o.col||C.ink;c.textAlign='center';c.textBaseline='middle';lines.forEach((l,i)=>c.fillText(l,0,(i-(lines.length-1)/2)*size*1.35+1))}});return L}
+return{C,ROBES,person,hopper,slip,shade}})();
+
+</script>
+<script>
+(()=>{
+const {piece,draw,label,text,rect,ell,blob,star,tape,thread,dyn}=P,{C,person,slip,ROBES}=FG;
+const $=id=>document.getElementById(id);
+const lerp=(a,b,t)=>a+(b-a)*t,clamp=v=>Math.max(0,Math.min(1,v));
+const mixc=(a,b,t)=>{const p=h=>[1,3,5].map(i=>parseInt(h.slice(i,i+2),16)),A=p(a),B=p(b);return'#'+A.map((v,i)=>Math.round(v+(B[i]-v)*clamp(t)).toString(16).padStart(2,'0')).join('')};
+const TER=[{name:'the wilderness of Sin',g:'#d8c196',g2:'#ccb383',h:'#b89a68'},{name:'a gravel plain',g:'#bfae8c',g2:'#b0a07c',h:'#9a8a6a'},{name:'bare rock, high wilderness',g:'#a89878',g2:'#988868',h:'#7d6c56'}];
+const PER=30,JAR=[1080,640],POT=[280,628];
+/* ---------- pieces ---------- */
+const sun=piece(ell(0,0,30,30,16),'#f6d36a',{amp:.8,step:5,shadow:.3}),sunR=piece(star(0,0,52,36,12),'#f1e2a4',{amp:.8,step:6,shadow:0});
+const moon=piece(ell(0,0,20,20,14),'#f2ecd0',{amp:.6,step:5,shadow:.4});
+const tentBig=piece([[-90,40],[-60,-40],[0,-70],[60,-40],[90,40]],'#7a5a3a',{amp:1.2,step:8,shadow:1.1}),tentDoor=piece([[-16,40],[0,-6],[16,40]],'#3a2818',{amp:.6,step:5,shadow:.2});
+const tentS=[0,1,2].map(i=>piece([[-38,22],[0,-26],[38,22]],['#8a6a48','#7a5a3a','#6e5a40'][i],{amp:1,step:6,shadow:.8}));
+const flakeP=[0,1,2,3].map(i=>piece(blob(0,0,6,5,200+i,.45),'#fbfaf2',{amp:.5,step:3,shadow:.5}));
+const jarB=piece([[-46,0],[-56,-60],[-50,-140],[-36,-160],[36,-160],[50,-140],[56,-60],[46,0]],'#c4923e',{amp:1,step:7,shadow:1.1}),jarIn=piece([[-40,-6],[-48,-60],[-42,-138],[42,-138],[48,-60],[40,-6]],'#6b4a2c',{amp:.8,step:7,shadow:0,grain:0});
+const pot=piece([[-40,0],[-48,-40],[-34,-62],[34,-62],[48,-40],[40,0]],'#a5532f',{amp:.9,step:6,shadow:1}),lid=piece([[-38,-8],[38,-8],[30,4],[-30,4]],'#8a4428',{amp:.6,step:5,shadow:.7});
+const basket=piece([[-16,-10],[16,-10],[12,8],[-12,8]],'#b07a4a',{amp:.5,step:4,shadow:.6});
+const rocks=[];{const r=P.rng(4);for(let i=0;i<14;i++)rocks.push([r()*1200,420+r()*320,piece(blob(0,0,10+r()*30,6+r()*14,i+60,.35),['#8f8270','#9e917e','#7f7362'][i%3],{amp:1,step:6,shadow:.8})])}
+const TILE=piece(rect(-38,-34,76,68),'#efe2c2',{amp:.9,step:6,shadow:.8});
+/* ---------- state ---------- */
+const st={day:0,phase:'night',t:0,light:0,sunT:0,flakes:[],fly:[],got:0,level:0,meas:false,keep:false,kept:0,pot:null,ter:0,gx:470,tx:470,drag:false,log:[],seventh:false};
+const ration=d=>d===6?2:d===7?0:1;
+function spawn(n){st.flakes=[];const r=P.rng(st.day*97+st.ter*13+5);for(let i=0;i<n;i++){let x,y;do{x=330+r()*720;y=420+r()*310}while(Math.hypot(x-JAR[0],y-JAR[1]+60)<110||Math.hypot(x-POT[0],y-POT[1])<70);st.flakes.push({x,y,v:i%4,a:1,s:.8+r()*.6,melt:0})}}
+function main(){const p=st.phase;if(p==='dawn'||p==='hot'||p==='dusk'){st.t=9;update(0);return}
+  if(p==='night'){if(st.day>=7){st.day=0;st.log=[];st.kept=0}st.day++;st.phase='dawn';st.t=0;st.got=0;st.level=0;st.meas=false;
+    if(st.kept){st.pot={from:st.kept,res:st.kept===6?'sweet':'worms',t:0};st.log[st.kept-1].res=st.pot.res}else st.pot=null;st.kept=0;st.keep=false;
+    if(st.day!==7)spawn(st.day===6?96:84);else st.flakes=[];}
+  else if(p==='gather'){if(st.day===7){st.phase='evening';st.t=0}else{if(st.got<4){st.flakes.filter(f=>!f.got).slice(0,12).forEach(collect)}st.meas=true;st.phase='measured';st.t=0;st.log[st.day-1]={om:ration(st.day),res:null}}}
+  else if(p==='measured'){st.phase='hot';st.t=0}
+  else if(p==='evening'){if(st.keep&&st.day<7)st.kept=st.day;if(st.day===7)st.log[6]={om:0,res:null};st.phase='dusk';st.t=0}
+  ui()}
+function autoGather(){if(st.phase!=='gather')return;const need=ration(st.day)*PER+4;st.flakes.filter(f=>f.a>0&&!f.got).slice(0,need).forEach((f,i)=>setTimeout(()=>collect(f),i*25))}
+function collect(f){if(f.got)return;f.got=1;f.a=0;st.fly.push({x:f.x,y:f.y,t:0,v:f.v});st.got++}
+function update(dt){st.t+=dt;const p=st.phase;
+  if(p==='dawn'){st.light=Math.min(1,st.t/1.6);st.sunT=st.t/1.6*.12;if(st.pot)st.pot.t+=dt;if(st.t>2.2){st.phase='gather';st.t=0;ui()}}
+  else if(p==='gather'||p==='measured'){st.sunT=Math.min(.55,st.sunT+dt*.012);if(st.pot)st.pot.t+=dt}
+  else if(p==='hot'){st.sunT=Math.min(.75,st.sunT+dt*.1);st.flakes.forEach(f=>{f.melt=Math.min(1,f.melt+dt*.6)});if(st.t>2.4){st.phase='evening';st.t=0;ui()}}
+  else if(p==='dusk'){st.sunT=Math.min(1,st.sunT+dt*.25);st.light=Math.max(0,1-st.t/2);if(st.t>2.2){st.phase='night';st.t=0;st.flakes=[];ui()}}
+  if(st.meas)st.level+=(ration(st.day)-st.level)*Math.min(1,dt*3);else st.level=Math.min(2.3,st.got/PER);
+  st.fly.forEach(f=>f.t+=dt/.5);st.fly=st.fly.filter(f=>f.t<1);
+  st.gx+=(st.tx-st.gx)*Math.min(1,dt*5);
+  if(st.day===7&&p==='gather'){st.tx=640}
+  sayAuto()}
+let last='';function say(m){if(m!==last){last=m;$('read').innerHTML=m}}
+function sayAuto(){const d=st.day,p=st.phase;let m;
+  if(p==='night')m=d===0?'Night in the camp. Press <b>Next morning</b> to begin the week.':d===7?'The week is over. Press <b>Next morning</b> to start it again.':st.kept?`Night. You kept some from day ${st.kept} in the pot. What will it be like in the morning?`:'Night in the camp.';
+  else if(p==='dawn')m=d===7?'Morning of the seventh day…':'Morning. When the dew lifts, there it is: <b>small, round, white, fine as frost</b> on the ground.';
+  else if(p==='gather'){if(d===7)m='The <b>seventh day</b>. <b>Nothing on the ground.</b> Some went out to look anyway, and found none.'+(st.pot&&st.pot.res==='sweet'?' But the pot kept from day 6 is <b>still sweet</b>.':'');
+    else if(st.pot&&st.pot.t<5)m=st.pot.res==='worms'?`You kept some from day ${st.pot.from}. By morning it has <b>bred worms and stinks</b>.`:'The pot kept from day 6 is <b>sweet</b>: no worms, no smell.';
+    else m=(d===6?'Day 6: gather <b>twice as much</b>. Tomorrow is a rest. ':`Day ${d}: `)+`Press and <b>drag across the ground</b> to gather (${st.got} flakes so far), then <b>measure it</b>.`}
+  else if(p==='measured')m=`Measured: <b>exactly ${ration(d)} omer${ration(d)>1?'s':''}</b> each. “He that gathered much had nothing over, and he that gathered little had no lack.”`;
+  else if(p==='hot')m='The sun grows hot, and what is left on the ground <b>melts</b>.';
+  else if(p==='evening')m=d===7?'Evening of the rest day.':d===6?'Evening of day 6. Keep some for tomorrow?':'Evening. Will you <b>keep some</b> until morning? (They were told not to.)';
+  else m='Night falls.';
+  say(m)}
+function ui(){const p=st.phase,b=$('mMain');b.textContent=p==='night'?'Next morning':p==='gather'?(st.day===7?'Evening':'Measure it'):p==='measured'?'The sun grows hot':p==='evening'?'Night falls':'Skip ahead ▸';b.disabled=false;
+  $('mAuto').disabled=!(p==='gather'&&st.day!==7);$('mKeep').disabled=!(p==='evening'&&st.day<7);$('mKeep').textContent=st.keep?'✓ Keeping some overnight':'Keep some overnight';$('mKeep').classList.toggle('on',st.keep)}
+/* ---------- drawing ---------- */
+function under(){const c=P.ctx(),L=st.light,top=mixc('#141c30',st.phase==='dawn'?'#d9a07a':'#b9c4c8',L),bot=mixc('#24304a',st.phase==='dawn'?'#f2c99a':'#e6dcc0',L);const g=c.createLinearGradient(0,0,0,360);g.addColorStop(0,top);g.addColorStop(1,bot);c.fillStyle=g;c.fillRect(0,0,1200,360);
+  if(L<.6){c.save();c.globalAlpha=1-L/.6;c.fillStyle='#f2ecd0';const r=P.rng(3);for(let i=0;i<50;i++){c.beginPath();c.arc(r()*1200,r()*300,1+r()*1.4,0,7);c.fill()}c.restore();draw(moon,960,90,0,1,{alpha:1-L})}
+  if(L>0){const a=st.sunT*Math.PI,x=lerp(90,1110,st.sunT),y=330-Math.sin(a)*250;draw(sunR,x,y,P.frame*.03,1,{alpha:L});draw(sun,x,y,0,1,{alpha:L})}}
+function backdrop(){const T=TER[st.ter];dyn(1,[[0,360],[160,300],[340,330],[560,286],[780,320],[1000,280],[1200,310],[1200,380],[0,380]],T.h,{shadow:.6});
+  dyn(2,[[0,350],[1200,346],[1200,760],[0,760]],T.g,{shadow:1,amp:2});dyn(3,[[0,560],[400,548],[800,566],[1200,552],[1200,760],[0,760]],T.g2,{shadow:.5,amp:2});
+  if(st.ter>0)rocks.forEach(([x,y,p],i)=>{if(i<(st.ter===1?8:14))draw(p,x,y)});
+  [[480,372],[620,362],[760,376],[900,364],[1040,372]].forEach(([x,y],i)=>draw(tentS[(i+st.ter)%3],x+st.ter*30,y));
+  draw(tentBig,150,520);draw(tentDoor,150,520);text(T.name.toUpperCase(),380,404,{size:12,col:'rgba(42,32,22,.55)'})}
+function weekStrip(){for(let d=1;d<=7;d++){const x=600+(d-4)*90,y=60,L=st.log[d-1],cur=d===st.day;draw(TILE,x,y,0,cur?1.08:1,{over:k=>{k.font='700 11px "Courier New",monospace';k.fillStyle=cur?'#8c2a20':'#5c4b36';k.textAlign='center';k.fillText(d===7?'DAY 7':'DAY '+d,0,-20);
+      if(L){if(d===7){k.font='700 12px Georgia,serif';k.fillStyle='#8c2a20';k.fillText('none',0,4)}else for(let j=0;j<L.om;j++){k.fillStyle='#c4923e';const jx=(j-(L.om-1)/2)*20;k.beginPath();k.moveTo(jx-7,10);k.lineTo(jx-9,-6);k.lineTo(jx+9,-6);k.lineTo(jx+7,10);k.fill()}
+        if(L.res==='worms'){k.strokeStyle='#b0546a';k.lineWidth=2;k.beginPath();k.moveTo(-14,24);k.quadraticCurveTo(-8,18,-2,24);k.quadraticCurveTo(4,30,10,24);k.stroke()}else if(L.res==='sweet'){k.fillStyle='#3f7a4e';k.font='700 13px Georgia,serif';k.fillText('✓ sweet',0,28)}}}})}
+  text('THE GATHERING LOG',600,12,{size:11,col:'rgba(42,32,22,.55)'})}
+function scene(){const c=P.ctx(),p=st.phase;
+  weekStrip();
+  /* dew lifting at dawn */
+  if(p==='dawn'){c.save();c.globalAlpha=Math.max(0,.55-st.t*.3);c.fillStyle='#eef2f0';c.fillRect(0,350,1200,410);c.restore()}
+  st.flakes.forEach(f=>{if(f.a<=0)return;const s=f.s*(1-f.melt*.85);if(s<=.05)return;draw(flakeP[f.v],f.x,f.y,0,s,{alpha:(p==='dawn'?clamp(st.t-.6):1)*(1-f.melt*.7)})});
+  /* the pot kept overnight */
+  draw(pot,POT[0],POT[1]);const open=st.pot&&(p==='gather'||p==='measured'||p==='hot'||p==='evening');draw(lid,POT[0]+(open?-34:0),POT[1]-62+(open?-14:0),open?-.5:0);
+  if(open&&st.pot.res==='worms'){for(let i=0;i<5;i++){const x=POT[0]-24+i*12,y=POT[1]-64;thread([[x,y],[x+3,y-8-(P.frame+i)%3*2],[x-2,y-16],[x+2,y-22]],'#e8c8c0',3,{wob:2})}
+    for(let i=0;i<3;i++){const x=POT[0]-20+i*20,y=POT[1]-96-((P.frame*3+i*12)%30);thread([[x,y+20],[x+6,y+10],[x-4,y],[x+3,y-10]],'rgba(120,150,60,.75)',2.5,{wob:1.5})}label('worms! it stinks',POT[0],POT[1]-140,{size:12,bg:'#f2d7cc',col:'#6e1f16',r:-.04})}
+  if(open&&st.pot.res==='sweet'){for(let i=0;i<6;i++)draw(flakeP[i%4],POT[0]-20+i*8,POT[1]-64-(i%2)*4,0,1);label('kept sweet',POT[0],POT[1]-120,{size:12,bg:'#dfe5c8',col:'#3c4a1c',r:.04})}
+  if(st.keep&&p==='evening')label('some kept in the pot',POT[0],POT[1]+24,{size:11,bg:'#f6efdc'});
+  /* the omer jar and its level */
+  const [jx,jy]=JAR;draw(jarB,jx,jy);draw(jarIn,jx,jy);const lv=Math.min(2.3,st.level),h=lv*58;if(h>1)dyn(9,[[jx-42,jy-6],[jx+42,jy-6],[jx+46,jy-6-h],[jx-46,jy-6-h]],'#f6f2e2',{shadow:0,amp:1.5,step:6});
+  [1,2].forEach(n=>{const y=jy-6-n*58;c.save();c.strokeStyle='#2a2016';c.setLineDash([5,4]);c.lineWidth=1.5;c.beginPath();c.moveTo(jx-52,y);c.lineTo(jx+52,y);c.stroke();c.restore();text(n+' OMER'+(n>1?'S':''),jx+92,y,{size:11,col:'#2a2016'})});
+  label('omer measure',jx,jy+24,{size:12});if(st.meas&&p!=='night')label(`exactly ${ration(st.day)} omer${ration(st.day)>1?'s':''}`,jx,jy-210,{size:13,bg:'#dfe5c8',col:'#3c4a1c',r:-.04,tape:true});
+  st.fly.forEach(f=>{const k=Math.floor(f.t*5)/5;draw(flakeP[f.v],lerp(f.x,jx,k),lerp(f.y,jy-150,k)-Math.sin(k*Math.PI)*50,0,1)});
+  /* the gatherer */
+  const walking=Math.abs(st.tx-st.gx)>3;person(st.gx,690,1.25,ROBES[0],{walk:walking,armR:-.6});draw(basket,st.gx+22,640);
+  if(st.day===7&&p==='gather'){slip(['?'],st.gx,500,{size:30,w:60,bg:'#fbf6e8'});label('nothing on the ground',800,560,{size:14,bg:'#f2d7cc',col:'#6e1f16',r:-.03,tape:true})}
+  if(p==='gather'&&st.day!==7&&st.got===0)label('press and drag across the ground',640,470,{size:13,bg:'#fff6d8',r:-.02});
+  const nxt=p==='night'?'Next morning':p==='gather'?(st.day===7?'Evening':(st.got>0?'Measure it':'')):p==='measured'?'The sun grows hot':p==='evening'?'Night falls':'';
+  if(nxt&&!(p==='gather'&&st.got===0&&st.day!==7))label('next: press “'+nxt+'” ▸',600,738,{size:13,bg:'#fff6d8',col:'#8c2a20',r:-.01,s:P.frame%12<6?1:1.04})}
+function grab(x,y){st.tx=Math.max(330,Math.min(1000,x));st.flakes.forEach(f=>{if(!f.got&&f.melt<.3&&Math.hypot(f.x-x,f.y-y)<46)collect(f)})}
+const SC={touch:'none',under,backdrop,update,draw:scene,down(x,y){if(st.phase!=='gather'||y<380)return false;st.drag=true;grab(x,y)},move(x,y,b){if(st.drag&&b)grab(x,y)},up(){st.drag=false}};
+P.start(SC,$('cv'));
+$('mMain').onclick=main;$('mAuto').onclick=autoGather;$('mKeep').onclick=()=>{st.keep=!st.keep;ui()};
+$('mMove').onclick=()=>{st.ter=(st.ter+1)%3;P.use(SC);if(st.phase==='gather'&&st.day!==7&&!st.meas){spawn(st.day===6?96:84);st.got=0}say(`The camp moves on, to <b>${TER[st.ter].name}</b>. No trees here. Next morning it lies <b>round about the camp</b> again.`)};
+$('mReset').onclick=()=>{Object.assign(st,{day:0,phase:'night',t:0,light:0,sunT:0,flakes:[],fly:[],got:0,level:0,meas:false,keep:false,kept:0,pot:null,log:[]});ui()};
+ui();window.__test={st,main,autoGather,grab};
+})();
+
+</script>
+</body>
+</html>
