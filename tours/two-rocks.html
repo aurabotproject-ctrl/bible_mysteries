@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Two Rocks</title>
+<style>
+
+  :root{--parchment:#EDE4CE;--parchment-dark:#D8C9A3;--ink:#2A2016;--ink-soft:#5C4B36;--brass:#A9822E;--red:#8c2a20;--line:#bfae86;--board:#6e5236}
+  *{box-sizing:border-box}
+  html,body{margin:0;min-height:100%}
+  body{background:var(--board);color:var(--ink);font-family:Georgia,'Iowan Old Style','Palatino Linotype',serif;-webkit-text-size-adjust:100%;
+    background-image:radial-gradient(rgba(0,0,0,.10) 1px,transparent 1.4px),radial-gradient(rgba(255,240,210,.06) 1px,transparent 1.4px);background-size:7px 7px,11px 11px;background-position:0 0,3px 5px}
+  .wrap{display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:18px;padding:16px;max-width:1500px;margin:0 auto;align-items:start}
+  .stage{position:relative;border-radius:3px;box-shadow:0 10px 26px rgba(0,0,0,.45),0 0 0 6px #f2e9d3,0 0 0 7px rgba(0,0,0,.25);background:#f2e9d3}
+  .stage canvas{display:block;touch-action:__TOUCH__}
+  .stage .hint{position:absolute;left:12px;bottom:10px;font:700 12px/1.2 'Courier New',monospace;color:rgba(42,32,22,.7);background:rgba(244,236,214,.85);padding:4px 7px;border-radius:2px;pointer-events:none}
+  .tag{background:var(--parchment);border:1px solid var(--ink-soft);box-shadow:0 6px 16px rgba(0,0,0,.4);border-radius:2px;position:relative}
+  .tag::before{content:"";position:absolute;left:50%;top:-11px;width:84px;height:22px;transform:translateX(-50%) rotate(-3deg);background:rgba(236,226,182,.7);box-shadow:0 1px 3px rgba(0,0,0,.2)}
+  .k{font:700 10px/1.2 'Courier New',monospace;letter-spacing:.18em;text-transform:uppercase;color:var(--red)}
+  #panel{padding:16px 18px 14px;transform:rotate(.4deg)}
+  #panel h1{margin:4px 0 6px;font-size:21px;line-height:1.2}
+  #panel p{font-size:14px;line-height:1.5;margin:8px 0}
+  #panel .note{font-size:12.5px;color:var(--ink-soft);font-style:italic}
+  #panel .ref{font-size:12px;color:var(--ink-soft);border-top:1px solid var(--line);padding-top:7px;margin-top:12px}
+  .ctl{margin:12px 0 4px}
+  .ctl label{display:block;font:600 12.5px/1.3 system-ui,sans-serif;color:var(--ink-soft);margin-bottom:4px}
+  .ctl input[type=range]{width:100%;accent-color:#7a2a1c;height:28px}
+  .row{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+  .btn{font:600 14px/1.1 Georgia,serif;padding:10px 13px;border-radius:3px;cursor:pointer;color:var(--ink);background:#f6efdd;border:1px solid var(--ink-soft);box-shadow:0 2px 6px rgba(0,0,0,.25)}
+  .btn:hover:not(:disabled){background:var(--parchment-dark)} .btn:disabled{opacity:.45;cursor:default}
+  .btn.main{background:#7a2a1c;color:#f6ead2;border-color:#4a160e} .btn.main:hover:not(:disabled){background:#8f3424}
+  .btn.on{outline:2px solid #2f4a6e;outline-offset:1px}
+  .readout{font:13.5px/1.5 'Courier New',monospace;background:#f8f2e2;border:1px solid var(--line);padding:8px 10px;margin-top:10px;min-height:4.6em}
+  .readout b{color:var(--red)}
+  .legend{display:flex;gap:14px;font-size:12.5px;margin-top:8px;flex-wrap:wrap}
+  .legend i{display:inline-block;width:16px;height:5px;vertical-align:middle;margin-right:5px;border-radius:2px}
+  @media (max-width:900px){
+    .wrap{grid-template-columns:1fr;padding:10px;gap:22px}
+    #panel{transform:none}
+  }
+
+  :root{--board:#3a2c20}
+  .top{max-width:1500px;margin:0 auto;padding:14px 16px 0}
+  .top h1{margin:0;font-size:22px;color:#f4ecd6;text-shadow:0 2px 4px rgba(0,0,0,.5)} .top .k{color:#e8b48e}
+  #panel h2{margin:4px 0 6px;font-size:21px}
+  #next{width:100%;font-size:16px;padding:13px;margin-top:10px;animation:pulse 1.6s ease-in-out infinite}
+  @keyframes pulse{0%,100%{box-shadow:0 2px 6px rgba(0,0,0,.25)}50%{box-shadow:0 0 0 6px rgba(196,146,62,.55)}}
+  #choices{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}#choices .btn{font-size:16px;padding:14px 8px}
+  .dots{display:flex;gap:6px;margin:10px 0 0;flex-wrap:wrap}.stepdot{font:700 11px 'Courier New',monospace;padding:4px 7px;border:1px solid var(--line);border-radius:10px;color:var(--ink-soft)}.stepdot.on{background:#7a2a1c;color:#f6ead2;border-color:#4a160e}
+</style>
+</head>
+<body>
+<div class="top"><div class="k">Case JM-20 · Exodus 17 · Numbers 20</div><h1>Two Rocks</h1></div>
+<div class="wrap">
+  <div class="stage"><canvas id="cv"></canvas></div>
+  <div id="panel" class="tag">
+    <div class="k">You are holding the rod</div>
+    <h2>Strike, or speak?</h2>
+    <p>Two rocks, thirty-eight years apart. <b>Read the order on the scroll</b> each time. Press the <b>pulsing button</b> (or tap the picture) to move on.</p>
+    <button class="btn main" id="next">Begin ▸</button>
+    <div id="choices" style="display:none"><button class="btn" id="cSpeak">🗣 Speak to the rock</button><button class="btn" id="cStrike">🪵 Strike the rock</button></div>
+    <div class="dots"><span class="stepdot">Horeb</span><span class="stepdot">Kadesh: your choice</span><span class="stepdot">what was done</span><span class="stepdot">the one word</span></div>
+    <div class="readout" id="read"></div>
+    <div class="row"><button class="btn" id="reset">Start again</button></div>
+    <div class="ref">Exodus 17:1–7 · Numbers 20:1–13.</div>
+  </div>
+</div>
+<script>
+/* ---------- paper-cutout stop-motion kit (shared by the three exhibits) ----------
+   Every shape is cut from paper: a slightly ragged scissor edge, a pale cut rim,
+   fibre grain and a drop shadow. The scene is drawn "on twos" at 12 frames a second,
+   and each cut-out nudges a fraction between frames, the way a hand-moved puppet does. */
+const P = (()=>{
+const W=1200, H=760, FPS=12;
+const api={W,H,FPS,frame:0,still:false,t:0};
+let cv, ctx, K=1, bg=null, scene=null, frame=-1, GR=null, paused=false;
+const hash=(a,b)=>{let h=(Math.imul(a|0,374761393)+Math.imul(b|0,668265263))|0;h=Math.imul(h^(h>>>13),1274126177);return((h^(h>>>16))>>>0)/4294967296};
+const rng=seed=>{let s=(seed>>>0)||1;return()=>(s=(Math.imul(s,1664525)+1013904223)>>>0)/4294967296};
+api.hash=hash; api.rng=rng;
+
+/* shapes */
+api.rect=(x,y,w,h)=>[[x,y],[x+w,y],[x+w,y+h],[x,y+h]];
+api.ell=(cx,cy,rx,ry,n)=>{n=n||Math.max(10,Math.round((rx+ry)*Math.PI/9));const p=[];for(let i=0;i<n;i++){const a=2*Math.PI*i/n;p.push([cx+Math.cos(a)*rx,cy+Math.sin(a)*ry])}return p};
+api.blob=(cx,cy,rx,ry,seed,v)=>{const r=rng(seed),n=Math.max(9,Math.round((rx+ry)/7)),p=[];v=v==null?.18:v;for(let i=0;i<n;i++){const a=2*Math.PI*i/n,k=1-v/2+r()*v;p.push([cx+Math.cos(a)*rx*k,cy+Math.sin(a)*ry*k])}return p};
+api.star=(cx,cy,r1,r2,n)=>{const p=[];for(let i=0;i<2*n;i++){const a=Math.PI*i/n-Math.PI/2,r=i%2?r2:r1;p.push([cx+Math.cos(a)*r,cy+Math.sin(a)*r])}return p};
+
+/* the scissor cut: walk each edge in short steps, nudging every step in or out */
+function cut(pts,seed,amp,step){const r=rng(seed),out=[],n=pts.length;
+  for(let i=0;i<n;i++){const a=pts[i],b=pts[(i+1)%n],dx=b[0]-a[0],dy=b[1]-a[1],L=Math.hypot(dx,dy)||1,m=Math.max(1,Math.round(L/step)),nx=-dy/L,ny=dx/L;
+    for(let k=0;k<m;k++){const t=k/m,j=(r()-.5)*2*amp;out.push([a[0]+dx*t+nx*j,a[1]+dy*t+ny*j])}}
+  const P2=new Path2D();out.forEach((q,i)=>i?P2.lineTo(q[0],q[1]):P2.moveTo(q[0],q[1]));P2.closePath();return P2}
+let NID=1;
+/* a piece of paper: three slightly different cuts, swapped every other frame (replacement animation) */
+api.piece=(pts,col,o)=>{o=Object.assign({amp:1.3,step:9,shadow:1,edge:1,grain:1,alpha:1,j:1},o||{});const id=NID++;
+  return{id,col,o,paths:[0,1,2].map(k=>cut(pts,id*131+k*977+7,o.amp,o.step))}};
+
+function grain(){const c=document.createElement('canvas');c.width=c.height=180;const g=c.getContext('2d');g.fillStyle='#fff';g.fillRect(0,0,180,180);const r=rng(99);
+  for(let i=0;i<2600;i++){g.fillStyle=`rgba(90,70,40,${r()*.10})`;g.fillRect(r()*180,r()*180,1+r()*1.5,1+r()*1.5)}
+  g.lineWidth=.6;for(let i=0;i<90;i++){g.strokeStyle=`rgba(110,90,60,${.05+r()*.08})`;const x=r()*180,y=r()*180,a=r()*6.3,l=4+r()*14;g.beginPath();g.moveTo(x,y);g.quadraticCurveTo(x+Math.cos(a+.5)*l/2,y+Math.sin(a+.5)*l/2,x+Math.cos(a)*l,y+Math.sin(a)*l);g.stroke()}
+  for(let i=0;i<600;i++){g.fillStyle=`rgba(255,255,255,${r()*.5})`;g.fillRect(r()*180,r()*180,1,1)}
+  return c}
+
+/* draw a piece at x,y (rotation r, scale s). op: {sx,sy,alpha,col,j,after(ctx)} */
+api.draw=(p,x,y,r,s,op)=>{op=op||{};const o=p.o,f=api.frame,j=(op.j==null?o.j:op.j)*(api.still?0:1);
+  const jx=(hash(p.id,f)-.5)*1.8*j,jy=(hash(p.id+7,f)-.5)*1.8*j,jr=(hash(p.id+13,f)-.5)*.024*j;
+  const vi=j?Math.floor(f/2+p.id)%3:0;s=s==null?1:s;const sx=s*(op.sx==null?1:op.sx),sy=s*(op.sy==null?1:op.sy),a=op.alpha==null?o.alpha:op.alpha;if(a<=0)return;
+  ctx.save();ctx.translate(x+jx,y+jy);ctx.rotate((r||0)+jr);ctx.scale(sx,sy);const path=p.paths[vi];ctx.globalAlpha=a;
+  const sh=op.shadow==null?o.shadow:op.shadow;
+  if(sh){ctx.shadowColor=`rgba(28,16,4,${.38*Math.min(1,sh)*a})`;ctx.shadowBlur=5*K*sh;ctx.shadowOffsetX=2*K*sh;ctx.shadowOffsetY=3.4*K*sh}
+  ctx.fillStyle=op.col||p.col;ctx.fill(path);ctx.shadowColor='transparent';ctx.shadowBlur=0;ctx.shadowOffsetX=ctx.shadowOffsetY=0;
+  if(o.grain){if(!GR)GR=ctx.createPattern(grain(),'repeat');ctx.globalAlpha=a*.55;ctx.globalCompositeOperation='multiply';ctx.fillStyle=GR;ctx.fill(path);ctx.globalCompositeOperation='source-over'}
+  if(op.after){ctx.globalAlpha=a;ctx.save();ctx.clip(path);op.after(ctx,path);ctx.restore()}
+  if(op.over){ctx.globalAlpha=a;op.over(ctx)}
+  if(o.edge){ctx.globalAlpha=a*.6;ctx.strokeStyle='rgba(255,251,238,.85)';ctx.lineWidth=1.2/Math.max(.3,Math.min(Math.abs(sx),Math.abs(sy)));ctx.stroke(path)}
+  ctx.restore()};
+
+/* a shape whose corners move: cut fresh each frame from a fixed seed, so the edge stays put as it moves */
+api.dyn=(key,pts,col,o)=>{o=Object.assign({amp:1.3,step:10,shadow:1,edge:1,grain:1,alpha:1},o||{});if(pts.length<3)return;const v=api.still?0:Math.floor(api.frame/2)%3;
+  const path=cut(pts,key*131+v*977+7,o.amp,o.step);ctx.save();ctx.globalAlpha=o.alpha;
+  if(o.shadow){ctx.shadowColor=`rgba(28,16,4,${.38*Math.min(1,o.shadow)*o.alpha})`;ctx.shadowBlur=5*K*o.shadow;ctx.shadowOffsetX=2*K*o.shadow;ctx.shadowOffsetY=3.4*K*o.shadow}
+  ctx.fillStyle=col;ctx.fill(path);ctx.shadowColor='transparent';
+  if(o.grain){if(!GR)GR=ctx.createPattern(grain(),'repeat');ctx.globalAlpha=o.alpha*.55;ctx.globalCompositeOperation='multiply';ctx.fillStyle=GR;ctx.fill(path);ctx.globalCompositeOperation='source-over'}
+  if(o.after){ctx.globalAlpha=o.alpha;ctx.save();ctx.clip(path);o.after(ctx);ctx.restore()}
+  if(o.edge){ctx.globalAlpha=o.alpha*.6;ctx.strokeStyle='rgba(255,251,238,.85)';ctx.lineWidth=1.2;ctx.stroke(path)}ctx.restore()};
+
+/* a paper tag with typed words on it */
+const LB=new Map();
+api.label=(str,x,y,o)=>{o=o||{};const size=o.size||17,font=o.font||`700 ${size}px "Courier New",Courier,monospace`,key=str+'|'+font+'|'+(o.bg||'');let L=LB.get(key);
+  if(!L){ctx.save();ctx.font=font;const w=ctx.measureText(str).width+size*1.1,h=size*1.6;ctx.restore();L={p:api.piece(api.rect(-w/2,-h/2,w,h),o.bg||'#f4ecd6',{amp:1.1,step:7,shadow:o.shadow==null?.8:o.shadow}),w,h};LB.set(key,L)}
+  api.draw(L.p,x,y,o.r||0,o.s||1,{j:o.j,alpha:o.alpha,over:c=>{c.font=font;c.fillStyle=o.col||'#2a2016';c.textAlign='center';c.textBaseline='middle';c.fillText(str,0,1.5)}});
+  if(o.tape)api.tape(x,y-L.h/2,(o.r||0)+.08);return L};
+/* bare words printed straight onto a piece of paper underneath */
+api.text=(str,x,y,o)=>{o=o||{};ctx.save();ctx.font=o.font||`700 ${o.size||16}px "Courier New",Courier,monospace`;ctx.fillStyle=o.col||'rgba(42,32,22,.55)';ctx.textAlign=o.align||'center';ctx.textBaseline='middle';
+  if(o.spacing&&'letterSpacing' in ctx)ctx.letterSpacing=o.spacing+'px';ctx.translate(x,y);if(o.r)ctx.rotate(o.r);ctx.fillText(str,0,0);ctx.restore()};
+const TP=[];api.tape=(x,y,r)=>{if(!TP.length)for(let i=0;i<3;i++)TP.push(api.piece(api.rect(-22,-8,44,16),'rgba(236,226,182,.62)',{amp:1.6,step:5,shadow:.25,grain:0,edge:0}));
+  api.draw(TP[(Math.abs(x*3+y)|0)%3],x,y,r||0,1)};
+
+/* line drawn in thread / chalk: a polyline re-wobbled each frame */
+api.thread=(pts,col,w,o)=>{o=o||{};const f=api.still?0:api.frame,r=rng(((pts[0][0]*31+pts[0][1]*17)|0)+f*13);ctx.save();ctx.strokeStyle=col;ctx.lineWidth=w||2;ctx.lineCap='round';ctx.lineJoin='round';
+  if(o.dash)ctx.setLineDash(o.dash);if(o.alpha!=null)ctx.globalAlpha=o.alpha;ctx.beginPath();pts.forEach((q,i)=>{const jx=(r()-.5)*(o.wob||1.2),jy=(r()-.5)*(o.wob||1.2);i?ctx.lineTo(q[0]+jx,q[1]+jy):ctx.moveTo(q[0]+jx,q[1]+jy)});ctx.stroke();ctx.restore()};
+
+/* ---------- running the scene ---------- */
+function resize(){const box=cv.parentElement.getBoundingClientRect(),w=Math.max(200,box.width),dpr=Math.min(2,window.devicePixelRatio||1);
+  cv.style.width=w+'px';cv.style.height=(w*H/W)+'px';K=w/W*dpr;cv.width=Math.round(W*K);cv.height=Math.round(H*K);ctx=cv.getContext('2d');bg=null;GR=null;render()}
+function render(){if(!scene)return;
+  if(!bg){bg=document.createElement('canvas');bg.width=cv.width;bg.height=cv.height;const old=ctx;ctx=bg.getContext('2d');ctx.setTransform(K,0,0,K,0,0);api.still=true;scene.backdrop(ctx);api.still=false;GR=null;ctx=old}
+  if(scene.under){ctx.setTransform(K,0,0,K,0,0);scene.under(ctx)}ctx.setTransform(1,0,0,1,0,0);ctx.drawImage(bg,0,0);ctx.setTransform(K,0,0,K,0,0);scene.draw(ctx)}
+function step(dt){api.t+=dt;scene.update&&scene.update(dt)}
+function loop(now){requestAnimationFrame(loop);if(paused)return;const f=Math.floor(now/1000*FPS);if(f===frame)return;const n=frame<0?0:Math.min(3,f-frame);frame=f;api.frame=f;
+  for(let i=0;i<n;i++)step(1/FPS);render()}
+const pt=e=>{const b=cv.getBoundingClientRect();return[(e.clientX-b.left)/b.width*W,(e.clientY-b.top)/b.height*H]};
+api.start=(sc,canvas)=>{scene=sc;cv=canvas;resize();addEventListener('resize',resize);
+  if(window.ResizeObserver)new ResizeObserver(()=>{const w=cv.parentElement.getBoundingClientRect().width;if(w>0&&Math.abs(w-parseFloat(cv.style.width))>1)resize()}).observe(cv.parentElement);
+  cv.addEventListener('pointerdown',e=>{if(scene.down&&scene.down(...pt(e))!==false){cv.setPointerCapture(e.pointerId);e.preventDefault()}});
+  cv.addEventListener('pointermove',e=>{scene.move&&scene.move(...pt(e),e.buttons||e.pointerType==='touch')});
+  cv.addEventListener('pointerup',e=>{scene.up&&scene.up(...pt(e))});cv.addEventListener('pointercancel',()=>{scene.up&&scene.up()});
+  requestAnimationFrame(loop)};
+/* swap to another scene on the same stage */
+api.use=sc=>{if(!cv)return;scene=sc;cv.style.touchAction=sc.touch||'pan-y';bg=null;render()};
+/* for tests: run the clock forward without waiting */
+api.advance=s=>{const n=Math.round(s*FPS);for(let i=0;i<n;i++){api.frame++;step(1/FPS)}render()};
+api.redraw=render;
+api.ctx=()=>ctx;
+return api})();
+
+</script>
+<script>
+/* figures shared by the three panels: robed people, a giant, a grasshopper */
+const FG=(()=>{const {piece,draw,ell,rect}=P;
+const C={ink:'#2a2016',paper:'#f3e8cc',sand:'#d8c196',ochre:'#c4923e',terra:'#a5532f',olive:'#6f7a3c',sage:'#93986a',stone:'#b8a27c',stone2:'#9a845f',red:'#8c2a20',blue:'#56708a',sky:'#d9ceb2'};
+const ROBES=['#a5532f','#6f7a3c','#56708a','#c4923e','#7a5a3a','#8c5a3a','#93986a','#b07a4a','#5e6b4a','#8a6a7a','#4f6a72','#b89a5a'];
+const head=piece(ell(0,-88,9,10,10),'#c48d5e',{amp:.5,step:4,shadow:.6});
+const cloth=piece([[-12,-95],[0,-103],[12,-95],[15,-74],[-15,-74]],'#e9dcc0',{amp:.5,step:4,shadow:.4});
+const band=piece(rect(-11,-98,22,4),'#7a5a3a',{amp:.3,step:4,shadow:.1});
+const robe=piece([[-10,-77],[10,-77],[17,0],[-17,0]],'#888',{amp:.8,step:6,shadow:.9});
+const sash=piece(rect(-12,-46,24,5),'#d9b45a',{amp:.4,step:4,shadow:.2});
+const arm=piece([[-3.5,0],[3.5,0],[3,34],[-3,34]],'#888',{amp:.4,step:4,shadow:.5});
+const hand=piece(ell(0,36,3.6,3.6,7),'#c48d5e',{amp:.3,step:4,shadow:.3});
+const beard=piece([[-6,-82],[6,-82],[3,-72],[-3,-72]],'#4a3424',{amp:.3,step:3,shadow:.1});
+/* a robed person, feet at x,y, about 100 tall at s=1 */
+function person(x,y,s,col,o){o=o||{};const w=o.walk?(P.frame%2?1:-1):0,bob=o.walk&&P.frame%2?-2*s:0,a=o.alpha;
+  const sw=w*.28,aL=(o.armL!=null?o.armL:.12)+sw,aR=(o.armR!=null?o.armR:-.12)-sw;
+  draw(arm,x-11*s,y-72*s+bob,aL,s,{col:shade(col),alpha:a});draw(hand,x-11*s,y-72*s+bob,aL,s,{alpha:a});
+  draw(robe,x,y+bob,0,s,{col,alpha:a});draw(sash,x,y+bob,0,s,{alpha:a});
+  draw(arm,x+11*s,y-72*s+bob,aR,s,{col:shade(col),alpha:a});draw(hand,x+11*s,y-72*s+bob,aR,s,{alpha:a});
+  draw(cloth,x,y+bob,0,s,{col:o.cloth||'#e9dcc0',alpha:a});draw(head,x,y+bob,0,s,{alpha:a,over:k=>{k.fillStyle='#2a1a10';k.beginPath();k.arc(-3.2,-89,1.1,0,7);k.arc(3.2,-89,1.1,0,7);k.fill()}});if(!o.young)draw(beard,x,y+bob,0,s,{alpha:a});draw(band,x,y+bob,0,s,{alpha:a})}
+function shade(h){const n=parseInt(h.slice(1),16),f=v=>Math.round(v*.82);return'#'+[n>>16,(n>>8)&255,n&255].map(v=>f(v).toString(16).padStart(2,'0')).join('')}
+/* the grasshopper */
+const gBody=piece(ell(0,0,17,6.5,12),'#7c8a3a',{amp:.5,step:4,shadow:.6}),gHead=piece(ell(17,-2,6,5.5,9),'#6b7830',{amp:.4,step:4,shadow:.4}),gWing=piece([[-14,-4],[10,-6],[2,0],[-16,1]],'#9aa654',{amp:.4,step:4,shadow:.3});
+function hopper(x,y,s,flip){const c=P.ctx(),sx=flip?-1:1,j=P.frame%2?1:0;
+  c.save();c.strokeStyle='#4f5a20';c.lineWidth=2*s;c.lineJoin='round';c.beginPath();c.moveTo(x+sx*-4*s,y);c.lineTo(x+sx*-12*s,y-16*s-j);c.lineTo(x+sx*-22*s,y+8*s);c.moveTo(x+sx*6*s,y+3*s);c.lineTo(x+sx*10*s,y+10*s);c.moveTo(x+sx*12*s,y+3*s);c.lineTo(x+sx*18*s,y+9*s);c.moveTo(x+sx*20*s,y-6*s);c.quadraticCurveTo(x+sx*28*s,y-22*s,x+sx*38*s,y-20*s);c.stroke();c.restore();
+  draw(gBody,x,y,0,s,{sx});draw(gWing,x,y-3*s,0,s,{sx});draw(gHead,x,y,0,s,{sx,over:k=>{k.fillStyle='#1d200c';k.beginPath();k.arc(19,-3,1.6,0,7);k.fill()}})}
+/* a slip of paper with one or two typed lines */
+const SL=new Map();
+function slip(lines,x,y,o){o=o||{};const size=o.size||14,font=`${o.italic?'italic ':''}700 ${size}px ${o.serif?'Georgia,serif':'"Courier New",Courier,monospace'}`,key=lines.join('|')+font+(o.bg||'')+(o.w||'');let L=SL.get(key);
+  if(!L){const c=P.ctx();c.save();c.font=font;const w=o.w||Math.max(...lines.map(l=>c.measureText(l).width))+size*1.4,h=lines.length*size*1.35+size*.9;c.restore();L={p:piece(rect(-w/2,-h/2,w,h),o.bg||'#f6efdc',{amp:1,step:7,shadow:o.shadow==null?.8:o.shadow}),w,h};SL.set(key,L)}
+  draw(L.p,x,y,o.r||0,o.s||1,{alpha:o.alpha,j:o.j,over:c=>{c.font=font;c.fillStyle=o.col||C.ink;c.textAlign='center';c.textBaseline='middle';lines.forEach((l,i)=>c.fillText(l,0,(i-(lines.length-1)/2)*size*1.35+1))}});return L}
+return{C,ROBES,person,hopper,slip,shade}})();
+
+</script>
+<script>
+(()=>{
+const {piece,draw,label,text,rect,ell,blob,star,tape,thread,dyn}=P,{C,person,slip,ROBES}=FG;
+const $=id=>document.getElementById(id);
+const lerp=(a,b,t)=>a+(b-a)*t,clamp=v=>Math.max(0,Math.min(1,v)),ease=t=>t<.5?2*t*t:1-Math.pow(-2*t+2,2)/2;
+const mixc=(a,b,t)=>{const p=h=>[1,3,5].map(i=>parseInt(h.slice(i,i+2),16)),A=p(a),B=p(b);return'#'+A.map((v,i)=>Math.round(v+(B[i]-v)*clamp(t)).toString(16).padStart(2,'0')).join('')};
+/* ---------- fake-3D camera (same rig as Carmel) ---------- */
+const F=640,HY=318,EYE=1.6,cam={x:0,z:1,yaw:0,bob:0};
+function proj(X,Y,Z){const dx=X-cam.x,dz=Z-cam.z,c=Math.cos(cam.yaw),s=Math.sin(cam.yaw),x=dx*c-dz*s,z=dx*s+dz*c;if(z<.4)return null;const k=F/z;return{x:600+x*k,y:HY+(EYE+cam.bob-Y)*k,k,z}}
+const RK=[0,15];
+const ST={far:{x:0,z:1,yaw:0},near:{x:0,z:8.6,yaw:0},people:{x:0,z:8.6,yaw:-1.15},back:{x:0,z:3,yaw:0}};
+let camFrom=null,camTo=ST.far,camT=1;function moveTo(n,dur){camFrom={x:cam.x,z:cam.z,yaw:cam.yaw};camTo=ST[n];camT=0;camDur=dur||2.2}let camDur=2.2;
+/* ---------- two places ---------- */
+const SITE={horeb:{name:'HOREB · weeks out of Egypt',sky:['#9fb7c8','#ecdcbc'],ground:['#c9ad7c','#bfa272'],hill:'#a9845a',rock:['#8a6a52','#7a5c46','#9a7a60']},
+            kadesh:{name:'KADESH · thirty-eight years later',sky:['#b8a07a','#f0c88e'],ground:['#c8a36e','#bb9560'],hill:'#9a7650',rock:['#7d6450','#6e5644','#8e735c']}};
+/* ---------- pieces ---------- */
+const cloudP=[0,1,2,3].map(i=>piece(blob(0,0,90,30,10+i,.35),'#fbf8ef',{amp:1.4,step:9,shadow:.5}));
+const rockP=[0,1,2,3,4].map(i=>piece(blob(0,0,[150,110,90,120,70][i],[110,90,70,80,50][i],30+i,.28),'#888',{amp:1.6,step:9,shadow:1.1}));
+const crack=piece(star(0,0,40,10,7),'#f3e6b0',{amp:.6,step:5,shadow:.3,grain:0});
+const drop=[0,1].map(i=>piece(blob(0,0,9,15,150+i,.3),'#7fb2d0',{amp:.5,step:4,shadow:.3}));
+const sheepB=piece(blob(0,0,30,20,170,.3),'#f1ece0',{amp:.8,step:5,shadow:.8}),sheepH=piece(ell(0,0,9,11,10),'#3a2c22',{amp:.4,step:4,shadow:.5}),sleg=piece(rect(-2.5,0,5,18),'#3a2c22',{amp:.3,step:4,shadow:.3});
+const handR=piece([[-24,60],[-30,8],[-34,-30],[-26,-36],[-20,-6],[-16,-44],[-8,-48],[-6,-10],[0,-50],[8,-48],[8,-8],[14,-40],[22,-38],[22,0],[34,-14],[40,-8],[26,26],[24,60]],'#c48d5e',{amp:.8,step:5,shadow:1});
+const fist=piece(blob(0,0,34,28,190,.2),'#c48d5e',{amp:.8,step:5,shadow:1});
+const sleeve=piece([[-40,30],[40,30],[50,130],[-50,130]],'#6a4a3a',{amp:1,step:6,shadow:1});
+const rod=piece(rect(-7,-330,14,360),'#6b4a2c',{amp:.8,step:10,shadow:1}),rodTop=piece(ell(0,-332,12,10,10),'#5a3a20',{amp:.5,step:5,shadow:.6});
+const ring=piece((()=>{const p=[];for(let i=0;i<=16;i++){const a=-Math.PI*.8+i/16*Math.PI*.6;p.push([Math.cos(a)*60,Math.sin(a)*60])}for(let i=16;i>=0;i--){const a=-Math.PI*.8+i/16*Math.PI*.6;p.push([Math.cos(a)*50,Math.sin(a)*50])}return p})(),'#f6efdc',{amp:.6,step:5,shadow:.4});
+const scrollP=piece(rect(-230,-110,460,220),'#efe2c2',{amp:1.4,step:10,shadow:1.2}),rollP=piece(rect(-14,-124,28,248),'#c9b58a',{amp:.8,step:8,shadow:.8});
+/* the people, and the herds */
+const crowd=[];{const r=P.rng(7);for(let i=0;i<46;i++){const side=i%2?1:-1,x=side*(4.5+r()*16),z=2+r()*22;crowd.push({x,z,col:ROBES[(i*7)%12],side})}}
+const sheep=[];{const r=P.rng(3);for(let i=0;i<14;i++)sheep.push({x0:-14+r()*28,z0:20+r()*10,tx:-2+r()*4,tz:10.8-r()*3.6,t:0,d:.3+r()*1.5})}
+/* ---------- state ---------- */
+const st={site:'horeb',step:0,t:0,fade:0,swing:-1,strikes:0,flow:0,speakT:-1,choice:null,herd:0,verdict:0,cmp:0,cheer:0};
+const STEPS=['h0','h1','k0','k1','k2','k3','end'];
+function lab(){const s=STEPS[st.step];if(s==='h0')return'Walk up to the rock';if(s==='h1')return st.flow>0?'Thirty-eight years later…':'Strike the rock';if(s==='k0')return'Walk up to the rock';if(s==='k1')return st.choice?'See what was actually done':'Choose: speak or strike';if(s==='k2')return st.strikes<2?(st.speakT<0?'Speak… to the people':'Strike the rock'):'Hear the verdict';if(s==='k3')return st.cmp?'Start again':'Put the two orders side by side';return'Start again'}
+function next(){const s=STEPS[st.step];
+  if(s==='h0'){st.step=1;moveTo('near')}
+  else if(s==='h1'){if(st.flow<=0){if(st.swing<0)st.swing=0}else{st.step=2;st.fade=0.001}}
+  else if(s==='k0'){st.step=3;moveTo('near')}
+  else if(s==='k1'){if(st.choice){st.step=4;resetWater();st.choice=null;st.speakT=-1;moveTo('people',1.6)}}
+  else if(s==='k2'){if(st.speakT<0){st.speakT=0}else if(st.strikes<2&&st.swing<0&&camT>=1){st.swing=0}else if(st.strikes>=2&&st.flow>.5){st.step=5;moveTo('back',2.6);st.verdict=0}}
+  else if(s==='k3'){if(!st.cmp)st.cmp=1;else reset()}
+  else reset();ui()}
+function choose(c){if(STEPS[st.step]!=='k1'||st.choice||camT<1)return;st.choice=c;if(c==='strike')st.swing=0;else st.speakT=0;ui()}
+function resetWater(){st.flow=0;st.strikes=0;st.swing=-1;st.herd=0;sheep.forEach(s=>s.t=0)}
+function reset(){Object.assign(st,{site:'horeb',step:0,t:0,fade:0,swing:-1,strikes:0,flow:0,speakT:-1,choice:null,herd:0,verdict:0,cmp:0,cheer:0});cam.x=0;cam.z=1;cam.yaw=0;camT=1;camTo=ST.far;P.use(SC);ui()}
+function update(dt){st.t+=dt;
+  if(camT<1){camT=Math.min(1,camT+dt/camDur);const e=ease(camT);cam.x=lerp(camFrom.x,camTo.x,e);cam.z=lerp(camFrom.z,camTo.z,e);cam.yaw=lerp(camFrom.yaw,camTo.yaw,e);cam.bob=Math.abs(camFrom.z-camTo.z)>.5?Math.sin(camT*Math.PI*6)*.05:0}else cam.bob=0;
+  if(st.fade>0){st.fade+=dt/2.6;if(st.fade>=.5&&st.site==='horeb'){st.site='kadesh';resetWater();cam.x=0;cam.z=1;cam.yaw=0;camT=1;P.use(SC)}if(st.fade>=1){st.fade=0;ui()}}
+  if(st.swing>=0){const before=st.swing;st.swing+=dt/.7;if(before<.45&&st.swing>=.45){st.strikes++;if(st.flow<=0)st.flow=.001}if(st.swing>=1){st.swing=-1;ui()}}
+  if(st.speakT>=0){st.speakT+=dt;
+    if(STEPS[st.step]==='k1'&&st.speakT>1.4&&st.flow<=0)st.flow=.001;
+    if(STEPS[st.step]==='k2'&&st.speakT>3.6&&st.speakT-dt<=3.6){moveTo('near',1.4)}}
+  if(st.flow>0)st.flow=Math.min(1,st.flow+dt/2.2);
+  if(st.flow>.6)st.herd=Math.min(1,st.herd+dt/5);
+  if(STEPS[st.step]==='k3')st.verdict=Math.min(1,st.verdict+dt/2);
+  if(st.flow>0&&st.flow-dt/2.2<=.6)ui();
+  say()}
+let last='';function say(){const s=STEPS[st.step];let m;
+  if(st.fade>0)m='Thirty-eight years pass…';
+  else if(s==='h0')m='<b>Horeb</b>, weeks out of Egypt. No water. The order: “<b>You shall strike the rock</b>, and water will come out of it.” (Exodus 17:6)';
+  else if(s==='h1')m=st.flow>0?'He strikes the rock, as ordered, <b>once</b>, and the water comes. The elders see it.':'Close to the rock. You hold the rod. The order says <b>strike</b>.';
+  else if(s==='k0')m='<b>Kadesh</b>, thirty-eight years later. No water again. The whole assembly is angry: “Why have you brought us here to die?”';
+  else if(s==='k1')m=!st.choice?'Same rock, same rod, same crowd. <b>Read the new order</b> on the scroll, then choose below: <b>speak</b> or <b>strike</b>?':st.choice==='speak'?'You <b>spoke to the rock</b>, before their eyes. That is exactly what the order said — and the water would have come. But that is <b>not what happened</b>.':'You struck it. Water comes… but look at the scroll again. The order said <b>speak</b>. That is the mistake in the file.';
+  else if(s==='k2')m=st.speakT>=0&&st.speakT<3.6?'He speaks — <b>to the people, not to the rock</b>: “Hear now, you rebels; must <b>we</b> fetch you water out of this rock?”':st.strikes===0?'He lifts his hand…':st.strikes===1?'He strikes the rock… <b>once</b>.':st.flow<.6?'…and <b>twice</b>. Not a slip.':'And the water comes out <b>abundantly</b>. The congregation drinks, and their herds. The water did not fail.';
+  else if(s==='k3')m=!st.cmp?'Then the sentence: “<b>Because you did not believe me, to show me holy in the eyes of the people</b>, you shall not bring this assembly into the land.” (Numbers 20:12)':'Put the two orders side by side. Everything matches except <b>one word</b>: <b>strike</b> became <b>speak</b>. At Kadesh it was <b>struck twice</b>.';
+  if(m!==last){last=m;$('read').innerHTML=m}}
+function ui(){const b=$('next');b.textContent=lab()+' ▸';const s=STEPS[st.step];$('choices').style.display=s==='k1'&&!st.choice?'':'none';[...document.querySelectorAll('.stepdot')].forEach((d,i)=>d.classList.toggle('on',i<=[0,0,1,1,2,3,3][st.step]))}
+/* ---------- drawing ---------- */
+const S=()=>SITE[st.site];
+function under(){const c=P.ctx(),s=S(),dim=STEPS[st.step]==='k3'?st.verdict*.35:0,g=c.createLinearGradient(0,0,0,HY+10);g.addColorStop(0,mixc(s.sky[0],'#5a5060',dim));g.addColorStop(1,mixc(s.sky[1],'#8a7a70',dim));c.fillStyle=g;c.fillRect(0,0,1200,HY+10)}
+function backdrop(){}
+function horizon(){const off=-cam.yaw*F,s=S();for(let k=-2;k<=2;k++){const x0=600+k*1.4*F+off,x1=x0+1.4*F;if(x1<-60||x0>1260)continue;dyn(10+k+2,[[x0,HY+2],[x0,HY-30],[lerp(x0,x1,.3),HY-70-(k%2)*30],[lerp(x0,x1,.6),HY-40],[lerp(x0,x1,.85),HY-80+(k%2)*20],[x1,HY-30],[x1,HY+2]],s.hill,{shadow:.5,amp:2})}}
+function clouds(){const off=-cam.yaw*F;for(let i=0;i<6;i++){const x=((i*300+P.t*12*(1+i%3*.3)+off*.6)%1900+1900)%1900-350,y=50+(i%3)*44;draw(cloudP[i%4],x,y,0,.7+(i%3)*.25,{alpha:.9})}}
+function ground(){const c=P.ctx(),s=S();c.fillStyle=s.ground[0];c.fillRect(0,HY,1200,760-HY);
+  for(let k=0;k<26;k++){const z0=Math.ceil(cam.z/2.2)*2.2+k*2.2-cam.z,z1=z0+1.1;if(z0<.5)continue;const y0=HY+EYE*F/z1,y1=HY+EYE*F/z0;dyn(30+((Math.round((cam.z+z0)/2.2))%7+7)%7,[[-20,Math.min(780,y1)],[1220,Math.min(780,y1)],[1220,y0],[-20,y0]],s.ground[k%2],{shadow:0,amp:2.5,step:30,edge:0})}}
+function stream(){if(st.flow<=0)return;const f=st.flow,pts=[],rpts=[];const z1=lerp(RK[1]-.5,cam.z+.6,f);for(let i=0;i<=14;i++){const z=lerp(RK[1]-.6,z1,i/14),w=.5+(RK[1]-z)*.12;const a=proj(-w+Math.sin(z*1.3)*.4,0,z),b=proj(w+Math.sin(z*1.3)*.4,0,z);if(!a||!b)continue;pts.push([a.x,a.y]);rpts.unshift([b.x,b.y])}
+  if(pts.length>1){dyn(70,pts.concat(rpts),'#6fa3c2',{shadow:.2,amp:1.5,step:8});const c=P.ctx();c.save();c.strokeStyle='rgba(235,245,250,.7)';c.lineWidth=2;for(let i=0;i<10;i++){const z=lerp(RK[1]-.6,z1,((i/10)+P.t*.25)%1),p=proj(Math.sin(z*1.3)*.4,0,z);if(!p)continue;const w=p.k*.35;c.beginPath();c.moveTo(p.x-w,p.y);c.quadraticCurveTo(p.x,p.y-4,p.x+w,p.y);c.stroke()}c.restore()}
+  /* the pool at the rock */
+  const pp=[];for(let i=0;i<14;i++){const a=i/14*Math.PI*2,p=proj(Math.cos(a)*1.8*f,0,RK[1]-1.2+Math.sin(a)*.9*f);if(p)pp.push([p.x,p.y])}if(pp.length>8)dyn(71,pp,'#6fa3c2',{shadow:.2,amp:1.2,step:6})}
+function bill(list){list.sort((a,b)=>b.z-a.z).forEach(o=>o.d())}
+function scene(){const c=P.ctx(),s=S(),stp=STEPS[st.step];
+  clouds();horizon();ground();stream();
+  const B=[],add=(X,Z,fn)=>{const p=proj(X,0,Z);if(p)B.push({z:p.z,d:()=>fn(p)})};
+  /* the rock: a cliff face of layered paper */
+  add(RK[0],RK[1],p=>{const k=p.k/100;[[0,-180,0],[-160,-120,1],[150,-110,2],[-70,-60,3],[90,-40,4],[-180,-30,2],[190,-20,4]].forEach(([dx,dy,i],j)=>draw(rockP[i],p.x+dx*k,p.y+dy*k,0,k*1.3,{col:s.rock[j%3]}));
+    if(st.flow>0){const sx=p.x,sy=p.y-80*k;draw(crack,sx,sy,P.frame*.2,k*1.4);for(let i=0;i<12;i++){const u=((i/12+P.frame*.13)%1),x=sx+(i%2?1:-1)*u*60*k,y=sy+u*u*80*k;draw(drop[i%2],x,y,0,k*(1.4-u*.5))}}});
+  /* people: elders at Horeb, the whole assembly at Kadesh */
+  const n=st.site==='horeb'?14:crowd.length;crowd.slice(0,n).forEach((m,i)=>add(m.x*(st.site==='horeb'?.6:1),m.z,p=>{const sc=p.k*1.7/100;if(sc<.1||p.z>50)return;const drinking=st.flow>.7&&i%3===0;person(p.x,p.y,sc,m.col,{armL:drinking?2.3:.3,armR:drinking?-.6:-.3,cloth:st.site==='horeb'?'#e9dcc0':'#ddd0b4'})}));
+  /* Aaron beside you at Kadesh */
+  if(st.site==='kadesh')add(2.2,8.4,p=>{const sc=p.k*1.75/100;person(p.x,p.y,sc,'#2f4a7a',{cloth:'#efe6d2'});if(p.z<4)label('Aaron',p.x,p.y-120*sc,{size:12})});
+  /* the herds come to drink */
+  if(st.site==='kadesh'&&st.herd>0)sheep.forEach((sh,i)=>{const t=clamp(st.herd*1.4-sh.d*.4),x=lerp(sh.x0,sh.tx,t),z=lerp(sh.z0,sh.tz,t);add(x,z,p=>{const k=p.k/100,w=t<1&&P.frame%2;draw(sleg,p.x-14*k,p.y-18*k,w?.2:-.1,k);draw(sleg,p.x+14*k,p.y-18*k,w?-.2:.1,k);draw(sheepB,p.x,p.y-30*k,0,k);draw(sheepH,p.x+(x>0?-26:26)*k,p.y-(t>=1?16:34)*k,0,k)})});
+  bill(B);
+  /* words in the air */
+  if(st.site==='kadesh'&&(stp==='k0'||stp==='k1'&&!st.choice)){const L=['“Why have you brought us here to die?”','“There is no water to drink!”','“Would that we had died with our brothers!”'];const i=Math.floor(P.t/2.4)%3;slip([L[i]],i===1?860:320,150+(i%2)*40,{size:14,w:420,bg:'#f6efdc',italic:true,serif:true})}
+  if(stp==='h1'&&st.flow>.4)slip(['The elders see the water come.'],600,110,{size:14,w:340,bg:'#dfe5c8',col:'#3c4a1c'});
+  if(stp==='k2'&&st.speakT>=0&&st.speakT<3.8)slip(['“Hear now, you rebels;','must we fetch you water out of this rock?”'],600,150,{size:16,w:520,bg:'#f2d7cc',col:'#6e1f16',italic:true,serif:true});
+  if(stp==='k2'&&st.strikes>0)label(`strikes: ${st.strikes}`,1060,60,{size:18,bg:'#f2d7cc',col:'#8c2a20',tape:true});
+  if(stp==='k2'&&st.flow>.8)label('water came abundantly',600,90,{size:14,bg:'#dfe5c8',col:'#3c4a1c',r:-.03});
+  /* the order, pinned up */
+  if(['h0','h1'].includes(stp))orderScroll(1030,120,.62,'Exodus 17:6','“You shall','STRIKE','the rock, and water will come out.”');
+  if(['k0','k1'].includes(stp))orderScroll(1030,120,.62,'Numbers 20:8','“Take the rod… and','SPEAK','to the rock before their eyes.”');
+  if(stp==='k1'&&st.choice==='speak'){for(let i=0;i<4;i++){const u=((st.speakT*.9+i*.25)%1),p=proj(0,1.3,lerp(cam.z+1,RK[1],u));if(p)draw(ring,p.x,p.y,0,p.k/80*(.6+u))}}
+  if(stp==='k1'&&st.choice)label(st.choice==='speak'?'you spoke to the rock ✓ the order':'you struck it ✗ the order said SPEAK',600,96,{size:14,bg:st.choice==='speak'?'#dfe5c8':'#f2d7cc',col:st.choice==='speak'?'#3c4a1c':'#6e1f16',r:-.02,tape:true});
+  hands();
+  /* the verdict, and the two orders side by side */
+  if(stp==='k3'){const a=st.verdict;c.save();c.fillStyle=`rgba(20,12,6,${.45*a})`;c.fillRect(0,0,1200,760);c.restore();
+    if(!st.cmp){draw(scrollP,600,330,-.01,1.25,{alpha:a,over:k=>{k.textAlign='center';k.fillStyle='#2a2016';k.font='italic 700 19px Georgia,serif';['“Because you did not believe me,','to show me holy in the eyes of the people,','you shall not bring this assembly','into the land I have given them.”'].forEach((l,i)=>k.fillText(l,0,-58+i*32));k.font='700 13px "Courier New",monospace';k.fillStyle='#8c2a20';k.fillText('NUMBERS 20:12 · SPOKEN TO MOSES AND AARON',0,92)}});draw(rollP,600-290,330,0,1.25,{alpha:a});draw(rollP,600+290,330,0,1.25,{alpha:a})}
+    else{orderScroll(320,300,1,'HOREB · Exodus 17','“You shall','STRIKE','the rock.”');orderScroll(880,300,1,'KADESH · Numbers 20','“Speak to the rock','SPEAK','before their eyes.”');
+      slip(['What was done at Kadesh: “he struck the rock twice”'],600,520,{size:16,w:620,bg:'#f2d7cc',col:'#6e1f16'});label('one word different',600,180,{size:18,bg:'#fff6d8',col:'#8c2a20',tape:true,r:-.03})}}
+  if(st.fade>0){const a=st.fade<.5?st.fade*2:2-st.fade*2;c.save();c.fillStyle=`rgba(18,12,8,${Math.min(1,a*1.1)})`;c.fillRect(0,0,1200,760);c.restore();if(a>.6){text('THIRTY-EIGHT YEARS LATER',600,350,{size:30,col:'rgba(244,236,214,.95)'});text('Kadesh, in the wilderness of Zin',600,396,{font:'italic 22px Georgia,serif',col:'rgba(244,236,214,.8)'})}}
+  text(s.name,600,744,{size:13,col:'rgba(42,32,22,.6)'})}
+function orderScroll(x,y,sc,ref,l1,word,l2){draw(scrollP,x,y,.01,sc,{over:k=>{k.textAlign='center';k.fillStyle='#5c4b36';k.font='700 13px "Courier New",monospace';k.fillText('THE ORDER · '+ref,0,-70);k.fillStyle='#2a2016';k.font='italic 700 22px Georgia,serif';k.fillText(l1,0,-26);k.font='700 46px Georgia,serif';k.fillStyle='#8c2a20';k.fillText(word,0,28);k.font='italic 700 20px Georgia,serif';k.fillStyle='#2a2016';k.fillText(l2,0,70)}});draw(rollP,x-232*sc,y,0,sc);draw(rollP,x+232*sc,y,0,sc)}
+function hands(){const stp=STEPS[st.step],walk=camT<1&&Math.abs(camFrom.z-camTo.z)>.5,bob=walk?Math.sin(P.frame*1.6)*8:Math.sin(P.t*1.5)*3;
+  if(stp==='k3'||st.fade>.3)return;
+  /* the rod in the right hand, swung forward to strike */
+  const sw=st.swing<0?0:st.swing<.45?Math.floor(st.swing/.45*4)/4:Math.floor((1-st.swing)/.55*4)/4;
+  const rx=900-sw*180,ry=720+bob-sw*20,rr=-.18-sw*.9;draw(sleeve,rx+30,ry+50,-.3);draw(rod,rx,ry-20,rr);draw(rodTop,rx,ry-20,rr);draw(fist,rx,ry-30);
+  /* the left hand: open when speaking, resting otherwise */
+  const speaking=st.speakT>=0&&st.speakT<3.6||(stp==='k1'&&st.choice==='speak');draw(sleeve,200,730+bob,.35);draw(handR,speaking?300:220,(speaking?600:660)+bob,speaking?.15:.4,1,{sx:-1});
+  if(sw>=.9&&st.swing<.6){const p=proj(RK[0],1.4,RK[1]);if(p){draw(crack,p.x,p.y,0,2.2);label('CRACK',p.x+70,p.y-60,{size:18,bg:'#fff6d8',col:'#8c2a20',r:.1})}}}
+const SC={touch:'pan-y',under,backdrop,update,draw:scene,down(){if(STEPS[st.step]==='k1'&&!st.choice)return false;next();return false}};
+P.start(SC,$('cv'));
+$('next').onclick=next;$('cSpeak').onclick=()=>choose('speak');$('cStrike').onclick=()=>choose('strike');$('reset').onclick=reset;reset();window.__test={st,next,choose,cam};
+})();
+
+</script>
+</body>
+</html>

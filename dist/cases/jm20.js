@@ -42,6 +42,8 @@ const JM20_ITEMS = [
   sub:"Horeb and Kadesh, set side by side", thumb:"j20orders",
   prev:"Almost the same order, thirty-eight years apart. One verb is different.",
   x:52, y:22, rot:3, w:218,
+  tour:{href:"../tours/two-rocks.html", label:"\ud83e\udea8 Hold the rod",
+        note:"Strike at Horeb, choose at Kadesh, then see what was actually done and the one word that changed"},
   body:`
     <div class="plate">${SVG.j20orders}<div class="cap">Click the plate to enlarge it. The two orders as filed.</div></div>
     <table class="ledger">
