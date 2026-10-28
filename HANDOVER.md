@@ -431,6 +431,8 @@ certificate seal). The label wording is listed at the bottom of
 
 ## 11. Recent work, newest first
 
+- **How to play: `tours/how-to-play.html`**, opened by a brass "❓ How to play" button on the shelf (under Reading level, `[data-howto]` → `openTour(HOWTO)` in `part_engine.js`). An 8-step paper-cutout walkthrough of the real flow (choose a case, untie the file, read the letter, work the desk, two locks, five wrong answers, the Pinboard, the accusation) with a paper copy of the top bar lighting the button for each step. It is not on a card, so `build.py` inlines it via `GLOBAL_TOURS` into the standalone and every single file.
+
 - **JM-20 interactive: `tours/two-rocks.html`** on *The Two Orders*. Fake-3D first person (same rig as On Carmel) with Moses' rod in hand and the order pinned on a scroll: strike at Horeb; fade to Kadesh 38 years later; the student chooses Speak or Strike; then the replay ("Hear now, you rebels", struck twice, water abundantly, sheep drink); then Numbers 20:12 and STRIKE vs SPEAK side by side.
 
 - **JM-18 interactive: `tours/on-carmel.html`** on *The Altar and the Trench*. Fake-3D first person in the paper style: camera with zoom/walk and yaw, billboard figures that always face you, a ground plane of sliding paper bands, drifting paper clouds, paper hands at the bottom (holding a stone, then a jar). One pulsing button: the challenge, their altar (hours pass, no fire), 12 stones, 12 jars poured, the prayer and the fire (stones, wood, water consumed; the crowd bows), then seven looks toward the sea and the hand-shaped cloud and rain. The prophets cutting themselves is deliberately not shown.

@@ -341,6 +341,9 @@ def main():
     def tours_in(src):
         return sorted(set(TOUR_RE.findall(src)))
 
+    # pages the shelf itself opens (not a card), inlined into every offline file
+    GLOBAL_TOURS = ['../tours/how-to-play.html']
+
     def tour_tag(hrefs):
         out = {}
         for href in hrefs:
@@ -365,7 +368,7 @@ def main():
     inline = swap(assemble(case_tags), lambda n: b64[n])
 
     all_tours = sorted({h for _, cs in cases for h in tours_in(cs)}
-                       | {h for cs in easy.values() for h in tours_in(cs)})
+                       | {h for cs in easy.values() for h in tours_in(cs)} | set(GLOBAL_TOURS))
     os.makedirs(STANDALONE, exist_ok=True)
     with open(os.path.join(STANDALONE, 'index.html'), 'w', encoding='utf-8') as f:
         f.write(wrap(bible_tag + tour_tag(all_tours) + inline))
@@ -410,7 +413,7 @@ def main():
         body = swap(body, lambda n: b64[n] if n in need else BLANK_PIXEL)
         body = body.replace('<title>B.I.B. \u2014 The Bible Investigation Bureau</title>',
                             '<title>%s &mdash; %s</title>' % (stub['code'], stub['title']))
-        mine = tours_in(src) + tours_in(easy.get(stub['id'], ''))
+        mine = tours_in(src) + tours_in(easy.get(stub['id'], '')) + GLOBAL_TOURS
         path = os.path.join(SINGLE, stub['id'] + '.html')
         with open(path, 'w', encoding='utf-8') as f:
             f.write(wrap(bible_tag + tour_tag(sorted(set(mine))) + body))

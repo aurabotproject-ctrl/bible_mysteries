@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>How to Play</title>
+<style>
+  :root{--parchment:#EDE4CE;--ink:#2A2016;--ink-soft:#5C4B36;--red:#8c2a20;--line:#bfae86;--brass:#c9a14a}
+  *{box-sizing:border-box}html,body{margin:0}
+  body{background:#1c130c;color:var(--ink);font-family:Georgia,'Iowan Old Style','Palatino Linotype',serif;-webkit-text-size-adjust:100%;
+    background-image:radial-gradient(ellipse at 70% 0%,rgba(255,214,150,.12),transparent 60%)}
+  .top{max-width:1500px;margin:0 auto;padding:14px 16px 0}
+  .top h1{margin:0;font-size:24px;color:#f4ecd6;text-shadow:0 2px 4px rgba(0,0,0,.5)} .top .k{font:700 11px/1.2 'Courier New',monospace;letter-spacing:.18em;text-transform:uppercase;color:#e0b88e}
+  .wrap{display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:18px;padding:16px;max-width:1500px;margin:0 auto;align-items:start}
+  .stage{border-radius:3px;box-shadow:0 10px 26px rgba(0,0,0,.55),0 0 0 6px #e2cc9c,0 0 0 7px rgba(0,0,0,.35);background:#2a1c12}
+  .stage canvas{display:block;touch-action:pan-y;cursor:pointer}
+  .tag{background:var(--parchment);border:1px solid var(--ink-soft);box-shadow:0 6px 16px rgba(0,0,0,.45);border-radius:2px;position:relative;padding:16px 18px 14px}
+  .tag::before{content:"";position:absolute;left:50%;top:-11px;width:84px;height:22px;transform:translateX(-50%) rotate(-3deg);background:rgba(236,226,182,.7);box-shadow:0 1px 3px rgba(0,0,0,.2)}
+  .k2{font:700 11px/1.2 'Courier New',monospace;letter-spacing:.16em;text-transform:uppercase;color:var(--red)}
+  #ttl{margin:4px 0 8px;font-size:23px;line-height:1.2} #txt{font-size:15.5px;line-height:1.55;margin:6px 0} #tip{font-size:13px;color:var(--ink-soft);font-style:italic;border-top:1px solid var(--line);padding-top:8px;margin-top:10px}
+  .btn{font:600 14.5px/1.1 Georgia,serif;padding:11px 13px;border-radius:3px;cursor:pointer;color:var(--ink);background:#f6efdd;border:1px solid var(--ink-soft);box-shadow:0 2px 6px rgba(0,0,0,.25);min-height:44px}
+  .btn:disabled{opacity:.4;cursor:default} .btn.main{background:#7a2a1c;color:#f6ead2;border-color:#4a160e}
+  #next{animation:pulse 1.6s ease-in-out infinite}@keyframes pulse{0%,100%{box-shadow:0 2px 6px rgba(0,0,0,.25)}50%{box-shadow:0 0 0 6px rgba(201,161,74,.55)}}
+  .row{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px} .row .btn{flex:1}
+  #dots{display:flex;gap:6px;flex-wrap:wrap;margin-top:12px}.dot{width:36px;height:36px;border-radius:50%;border:1px solid var(--ink-soft);background:#f6efdd;font:700 13px Georgia,serif;cursor:pointer}.dot.done{background:#e2cc9c}.dot.on{background:#7a2a1c;color:#f6ead2;border-color:#4a160e}
+  @media (max-width:900px){.wrap{grid-template-columns:1fr;padding:10px;gap:20px}}
+</style>
+</head>
+<body>
+<div class="top"><div class="k">The Bible Investigation Bureau</div><h1>How to Play</h1></div>
+<div class="wrap">
+  <div class="stage"><canvas id="cv"></canvas></div>
+  <div id="panel" class="tag">
+    <div class="k2" id="num">Step 1 of 8</div>
+    <h2 id="ttl"></h2>
+    <p id="txt"></p>
+    <div class="row"><button class="btn" id="back">◂ Back</button><button class="btn main" id="next">Next step ▸</button></div>
+    <div class="row"><button class="btn" id="auto">▶ Play all</button></div>
+    <div id="dots"></div>
+    <p id="tip"></p>
+  </div>
+</div>
+<script>
+/* ---------- paper-cutout stop-motion kit (shared by the three exhibits) ----------
+   Every shape is cut from paper: a slightly ragged scissor edge, a pale cut rim,
+   fibre grain and a drop shadow. The scene is drawn "on twos" at 12 frames a second,
+   and each cut-out nudges a fraction between frames, the way a hand-moved puppet does. */
+const P = (()=>{
+const W=1200, H=760, FPS=12;
+const api={W,H,FPS,frame:0,still:false,t:0};
+let cv, ctx, K=1, bg=null, scene=null, frame=-1, GR=null, paused=false;
+const hash=(a,b)=>{let h=(Math.imul(a|0,374761393)+Math.imul(b|0,668265263))|0;h=Math.imul(h^(h>>>13),1274126177);return((h^(h>>>16))>>>0)/4294967296};
+const rng=seed=>{let s=(seed>>>0)||1;return()=>(s=(Math.imul(s,1664525)+1013904223)>>>0)/4294967296};
+api.hash=hash; api.rng=rng;
+
+/* shapes */
+api.rect=(x,y,w,h)=>[[x,y],[x+w,y],[x+w,y+h],[x,y+h]];
+api.ell=(cx,cy,rx,ry,n)=>{n=n||Math.max(10,Math.round((rx+ry)*Math.PI/9));const p=[];for(let i=0;i<n;i++){const a=2*Math.PI*i/n;p.push([cx+Math.cos(a)*rx,cy+Math.sin(a)*ry])}return p};
+api.blob=(cx,cy,rx,ry,seed,v)=>{const r=rng(seed),n=Math.max(9,Math.round((rx+ry)/7)),p=[];v=v==null?.18:v;for(let i=0;i<n;i++){const a=2*Math.PI*i/n,k=1-v/2+r()*v;p.push([cx+Math.cos(a)*rx*k,cy+Math.sin(a)*ry*k])}return p};
+api.star=(cx,cy,r1,r2,n)=>{const p=[];for(let i=0;i<2*n;i++){const a=Math.PI*i/n-Math.PI/2,r=i%2?r2:r1;p.push([cx+Math.cos(a)*r,cy+Math.sin(a)*r])}return p};
+
+/* the scissor cut: walk each edge in short steps, nudging every step in or out */
+function cut(pts,seed,amp,step){const r=rng(seed),out=[],n=pts.length;
+  for(let i=0;i<n;i++){const a=pts[i],b=pts[(i+1)%n],dx=b[0]-a[0],dy=b[1]-a[1],L=Math.hypot(dx,dy)||1,m=Math.max(1,Math.round(L/step)),nx=-dy/L,ny=dx/L;
+    for(let k=0;k<m;k++){const t=k/m,j=(r()-.5)*2*amp;out.push([a[0]+dx*t+nx*j,a[1]+dy*t+ny*j])}}
+  const P2=new Path2D();out.forEach((q,i)=>i?P2.lineTo(q[0],q[1]):P2.moveTo(q[0],q[1]));P2.closePath();return P2}
+let NID=1;
+/* a piece of paper: three slightly different cuts, swapped every other frame (replacement animation) */
+api.piece=(pts,col,o)=>{o=Object.assign({amp:1.3,step:9,shadow:1,edge:1,grain:1,alpha:1,j:1},o||{});const id=NID++;
+  return{id,col,o,paths:[0,1,2].map(k=>cut(pts,id*131+k*977+7,o.amp,o.step))}};
+
+function grain(){const c=document.createElement('canvas');c.width=c.height=180;const g=c.getContext('2d');g.fillStyle='#fff';g.fillRect(0,0,180,180);const r=rng(99);
+  for(let i=0;i<2600;i++){g.fillStyle=`rgba(90,70,40,${r()*.10})`;g.fillRect(r()*180,r()*180,1+r()*1.5,1+r()*1.5)}
+  g.lineWidth=.6;for(let i=0;i<90;i++){g.strokeStyle=`rgba(110,90,60,${.05+r()*.08})`;const x=r()*180,y=r()*180,a=r()*6.3,l=4+r()*14;g.beginPath();g.moveTo(x,y);g.quadraticCurveTo(x+Math.cos(a+.5)*l/2,y+Math.sin(a+.5)*l/2,x+Math.cos(a)*l,y+Math.sin(a)*l);g.stroke()}
+  for(let i=0;i<600;i++){g.fillStyle=`rgba(255,255,255,${r()*.5})`;g.fillRect(r()*180,r()*180,1,1)}
+  return c}
+
+/* draw a piece at x,y (rotation r, scale s). op: {sx,sy,alpha,col,j,after(ctx)} */
+api.draw=(p,x,y,r,s,op)=>{op=op||{};const o=p.o,f=api.frame,j=(op.j==null?o.j:op.j)*(api.still?0:1);
+  const jx=(hash(p.id,f)-.5)*1.8*j,jy=(hash(p.id+7,f)-.5)*1.8*j,jr=(hash(p.id+13,f)-.5)*.024*j;
+  const vi=j?Math.floor(f/2+p.id)%3:0;s=s==null?1:s;const sx=s*(op.sx==null?1:op.sx),sy=s*(op.sy==null?1:op.sy),a=op.alpha==null?o.alpha:op.alpha;if(a<=0)return;
+  ctx.save();ctx.translate(x+jx,y+jy);ctx.rotate((r||0)+jr);ctx.scale(sx,sy);const path=p.paths[vi];ctx.globalAlpha=a;
+  const sh=op.shadow==null?o.shadow:op.shadow;
+  if(sh){ctx.shadowColor=`rgba(28,16,4,${.38*Math.min(1,sh)*a})`;ctx.shadowBlur=5*K*sh;ctx.shadowOffsetX=2*K*sh;ctx.shadowOffsetY=3.4*K*sh}
+  ctx.fillStyle=op.col||p.col;ctx.fill(path);ctx.shadowColor='transparent';ctx.shadowBlur=0;ctx.shadowOffsetX=ctx.shadowOffsetY=0;
+  if(o.grain){if(!GR)GR=ctx.createPattern(grain(),'repeat');ctx.globalAlpha=a*.55;ctx.globalCompositeOperation='multiply';ctx.fillStyle=GR;ctx.fill(path);ctx.globalCompositeOperation='source-over'}
+  if(op.after){ctx.globalAlpha=a;ctx.save();ctx.clip(path);op.after(ctx,path);ctx.restore()}
+  if(op.over){ctx.globalAlpha=a;op.over(ctx)}
+  if(o.edge){ctx.globalAlpha=a*.6;ctx.strokeStyle='rgba(255,251,238,.85)';ctx.lineWidth=1.2/Math.max(.3,Math.min(Math.abs(sx),Math.abs(sy)));ctx.stroke(path)}
+  ctx.restore()};
+
+/* a shape whose corners move: cut fresh each frame from a fixed seed, so the edge stays put as it moves */
+api.dyn=(key,pts,col,o)=>{o=Object.assign({amp:1.3,step:10,shadow:1,edge:1,grain:1,alpha:1},o||{});if(pts.length<3)return;const v=api.still?0:Math.floor(api.frame/2)%3;
+  const path=cut(pts,key*131+v*977+7,o.amp,o.step);ctx.save();ctx.globalAlpha=o.alpha;
+  if(o.shadow){ctx.shadowColor=`rgba(28,16,4,${.38*Math.min(1,o.shadow)*o.alpha})`;ctx.shadowBlur=5*K*o.shadow;ctx.shadowOffsetX=2*K*o.shadow;ctx.shadowOffsetY=3.4*K*o.shadow}
+  ctx.fillStyle=col;ctx.fill(path);ctx.shadowColor='transparent';
+  if(o.grain){if(!GR)GR=ctx.createPattern(grain(),'repeat');ctx.globalAlpha=o.alpha*.55;ctx.globalCompositeOperation='multiply';ctx.fillStyle=GR;ctx.fill(path);ctx.globalCompositeOperation='source-over'}
+  if(o.after){ctx.globalAlpha=o.alpha;ctx.save();ctx.clip(path);o.after(ctx);ctx.restore()}
+  if(o.edge){ctx.globalAlpha=o.alpha*.6;ctx.strokeStyle='rgba(255,251,238,.85)';ctx.lineWidth=1.2;ctx.stroke(path)}ctx.restore()};
+
+/* a paper tag with typed words on it */
+const LB=new Map();
+api.label=(str,x,y,o)=>{o=o||{};const size=o.size||17,font=o.font||`700 ${size}px "Courier New",Courier,monospace`,key=str+'|'+font+'|'+(o.bg||'');let L=LB.get(key);
+  if(!L){ctx.save();ctx.font=font;const w=ctx.measureText(str).width+size*1.1,h=size*1.6;ctx.restore();L={p:api.piece(api.rect(-w/2,-h/2,w,h),o.bg||'#f4ecd6',{amp:1.1,step:7,shadow:o.shadow==null?.8:o.shadow}),w,h};LB.set(key,L)}
+  api.draw(L.p,x,y,o.r||0,o.s||1,{j:o.j,alpha:o.alpha,over:c=>{c.font=font;c.fillStyle=o.col||'#2a2016';c.textAlign='center';c.textBaseline='middle';c.fillText(str,0,1.5)}});
+  if(o.tape)api.tape(x,y-L.h/2,(o.r||0)+.08);return L};
+/* bare words printed straight onto a piece of paper underneath */
+api.text=(str,x,y,o)=>{o=o||{};ctx.save();ctx.font=o.font||`700 ${o.size||16}px "Courier New",Courier,monospace`;ctx.fillStyle=o.col||'rgba(42,32,22,.55)';ctx.textAlign=o.align||'center';ctx.textBaseline='middle';
+  if(o.spacing&&'letterSpacing' in ctx)ctx.letterSpacing=o.spacing+'px';ctx.translate(x,y);if(o.r)ctx.rotate(o.r);ctx.fillText(str,0,0);ctx.restore()};
+const TP=[];api.tape=(x,y,r)=>{if(!TP.length)for(let i=0;i<3;i++)TP.push(api.piece(api.rect(-22,-8,44,16),'rgba(236,226,182,.62)',{amp:1.6,step:5,shadow:.25,grain:0,edge:0}));
+  api.draw(TP[(Math.abs(x*3+y)|0)%3],x,y,r||0,1)};
+
+/* line drawn in thread / chalk: a polyline re-wobbled each frame */
+api.thread=(pts,col,w,o)=>{o=o||{};const f=api.still?0:api.frame,r=rng(((pts[0][0]*31+pts[0][1]*17)|0)+f*13);ctx.save();ctx.strokeStyle=col;ctx.lineWidth=w||2;ctx.lineCap='round';ctx.lineJoin='round';
+  if(o.dash)ctx.setLineDash(o.dash);if(o.alpha!=null)ctx.globalAlpha=o.alpha;ctx.beginPath();pts.forEach((q,i)=>{const jx=(r()-.5)*(o.wob||1.2),jy=(r()-.5)*(o.wob||1.2);i?ctx.lineTo(q[0]+jx,q[1]+jy):ctx.moveTo(q[0]+jx,q[1]+jy)});ctx.stroke();ctx.restore()};
+
+/* ---------- running the scene ---------- */
+function resize(){const box=cv.parentElement.getBoundingClientRect(),w=Math.max(200,box.width),dpr=Math.min(2,window.devicePixelRatio||1);
+  cv.style.width=w+'px';cv.style.height=(w*H/W)+'px';K=w/W*dpr;cv.width=Math.round(W*K);cv.height=Math.round(H*K);ctx=cv.getContext('2d');bg=null;GR=null;render()}
+function render(){if(!scene)return;
+  if(!bg){bg=document.createElement('canvas');bg.width=cv.width;bg.height=cv.height;const old=ctx;ctx=bg.getContext('2d');ctx.setTransform(K,0,0,K,0,0);api.still=true;scene.backdrop(ctx);api.still=false;GR=null;ctx=old}
+  if(scene.under){ctx.setTransform(K,0,0,K,0,0);scene.under(ctx)}ctx.setTransform(1,0,0,1,0,0);ctx.drawImage(bg,0,0);ctx.setTransform(K,0,0,K,0,0);scene.draw(ctx)}
+function step(dt){api.t+=dt;scene.update&&scene.update(dt)}
+function loop(now){requestAnimationFrame(loop);if(paused)return;const f=Math.floor(now/1000*FPS);if(f===frame)return;const n=frame<0?0:Math.min(3,f-frame);frame=f;api.frame=f;
+  for(let i=0;i<n;i++)step(1/FPS);render()}
+const pt=e=>{const b=cv.getBoundingClientRect();return[(e.clientX-b.left)/b.width*W,(e.clientY-b.top)/b.height*H]};
+api.start=(sc,canvas)=>{scene=sc;cv=canvas;resize();addEventListener('resize',resize);
+  if(window.ResizeObserver)new ResizeObserver(()=>{const w=cv.parentElement.getBoundingClientRect().width;if(w>0&&Math.abs(w-parseFloat(cv.style.width))>1)resize()}).observe(cv.parentElement);
+  cv.addEventListener('pointerdown',e=>{if(scene.down&&scene.down(...pt(e))!==false){cv.setPointerCapture(e.pointerId);e.preventDefault()}});
+  cv.addEventListener('pointermove',e=>{scene.move&&scene.move(...pt(e),e.buttons||e.pointerType==='touch')});
+  cv.addEventListener('pointerup',e=>{scene.up&&scene.up(...pt(e))});cv.addEventListener('pointercancel',()=>{scene.up&&scene.up()});
+  requestAnimationFrame(loop)};
+/* swap to another scene on the same stage */
+api.use=sc=>{if(!cv)return;scene=sc;cv.style.touchAction=sc.touch||'pan-y';bg=null;render()};
+/* for tests: run the clock forward without waiting */
+api.advance=s=>{const n=Math.round(s*FPS);for(let i=0;i<n;i++){api.frame++;step(1/FPS)}render()};
+api.redraw=render;
+api.ctx=()=>ctx;
+return api})();
+
+</script>
+<script>
+/* figures shared by the three panels: robed people, a giant, a grasshopper */
+const FG=(()=>{const {piece,draw,ell,rect}=P;
+const C={ink:'#2a2016',paper:'#f3e8cc',sand:'#d8c196',ochre:'#c4923e',terra:'#a5532f',olive:'#6f7a3c',sage:'#93986a',stone:'#b8a27c',stone2:'#9a845f',red:'#8c2a20',blue:'#56708a',sky:'#d9ceb2'};
+const ROBES=['#a5532f','#6f7a3c','#56708a','#c4923e','#7a5a3a','#8c5a3a','#93986a','#b07a4a','#5e6b4a','#8a6a7a','#4f6a72','#b89a5a'];
+const head=piece(ell(0,-88,9,10,10),'#c48d5e',{amp:.5,step:4,shadow:.6});
+const cloth=piece([[-12,-95],[0,-103],[12,-95],[15,-74],[-15,-74]],'#e9dcc0',{amp:.5,step:4,shadow:.4});
+const band=piece(rect(-11,-98,22,4),'#7a5a3a',{amp:.3,step:4,shadow:.1});
+const robe=piece([[-10,-77],[10,-77],[17,0],[-17,0]],'#888',{amp:.8,step:6,shadow:.9});
+const sash=piece(rect(-12,-46,24,5),'#d9b45a',{amp:.4,step:4,shadow:.2});
+const arm=piece([[-3.5,0],[3.5,0],[3,34],[-3,34]],'#888',{amp:.4,step:4,shadow:.5});
+const hand=piece(ell(0,36,3.6,3.6,7),'#c48d5e',{amp:.3,step:4,shadow:.3});
+const beard=piece([[-6,-82],[6,-82],[3,-72],[-3,-72]],'#4a3424',{amp:.3,step:3,shadow:.1});
+/* a robed person, feet at x,y, about 100 tall at s=1 */
+function person(x,y,s,col,o){o=o||{};const w=o.walk?(P.frame%2?1:-1):0,bob=o.walk&&P.frame%2?-2*s:0,a=o.alpha;
+  const sw=w*.28,aL=(o.armL!=null?o.armL:.12)+sw,aR=(o.armR!=null?o.armR:-.12)-sw;
+  draw(arm,x-11*s,y-72*s+bob,aL,s,{col:shade(col),alpha:a});draw(hand,x-11*s,y-72*s+bob,aL,s,{alpha:a});
+  draw(robe,x,y+bob,0,s,{col,alpha:a});draw(sash,x,y+bob,0,s,{alpha:a});
+  draw(arm,x+11*s,y-72*s+bob,aR,s,{col:shade(col),alpha:a});draw(hand,x+11*s,y-72*s+bob,aR,s,{alpha:a});
+  draw(cloth,x,y+bob,0,s,{col:o.cloth||'#e9dcc0',alpha:a});draw(head,x,y+bob,0,s,{alpha:a,over:k=>{k.fillStyle='#2a1a10';k.beginPath();k.arc(-3.2,-89,1.1,0,7);k.arc(3.2,-89,1.1,0,7);k.fill()}});if(!o.young)draw(beard,x,y+bob,0,s,{alpha:a});draw(band,x,y+bob,0,s,{alpha:a})}
+function shade(h){const n=parseInt(h.slice(1),16),f=v=>Math.round(v*.82);return'#'+[n>>16,(n>>8)&255,n&255].map(v=>f(v).toString(16).padStart(2,'0')).join('')}
+/* the grasshopper */
+const gBody=piece(ell(0,0,17,6.5,12),'#7c8a3a',{amp:.5,step:4,shadow:.6}),gHead=piece(ell(17,-2,6,5.5,9),'#6b7830',{amp:.4,step:4,shadow:.4}),gWing=piece([[-14,-4],[10,-6],[2,0],[-16,1]],'#9aa654',{amp:.4,step:4,shadow:.3});
+function hopper(x,y,s,flip){const c=P.ctx(),sx=flip?-1:1,j=P.frame%2?1:0;
+  c.save();c.strokeStyle='#4f5a20';c.lineWidth=2*s;c.lineJoin='round';c.beginPath();c.moveTo(x+sx*-4*s,y);c.lineTo(x+sx*-12*s,y-16*s-j);c.lineTo(x+sx*-22*s,y+8*s);c.moveTo(x+sx*6*s,y+3*s);c.lineTo(x+sx*10*s,y+10*s);c.moveTo(x+sx*12*s,y+3*s);c.lineTo(x+sx*18*s,y+9*s);c.moveTo(x+sx*20*s,y-6*s);c.quadraticCurveTo(x+sx*28*s,y-22*s,x+sx*38*s,y-20*s);c.stroke();c.restore();
+  draw(gBody,x,y,0,s,{sx});draw(gWing,x,y-3*s,0,s,{sx});draw(gHead,x,y,0,s,{sx,over:k=>{k.fillStyle='#1d200c';k.beginPath();k.arc(19,-3,1.6,0,7);k.fill()}})}
+/* a slip of paper with one or two typed lines */
+const SL=new Map();
+function slip(lines,x,y,o){o=o||{};const size=o.size||14,font=`${o.italic?'italic ':''}700 ${size}px ${o.serif?'Georgia,serif':'"Courier New",Courier,monospace'}`,key=lines.join('|')+font+(o.bg||'')+(o.w||'');let L=SL.get(key);
+  if(!L){const c=P.ctx();c.save();c.font=font;const w=o.w||Math.max(...lines.map(l=>c.measureText(l).width))+size*1.4,h=lines.length*size*1.35+size*.9;c.restore();L={p:piece(rect(-w/2,-h/2,w,h),o.bg||'#f6efdc',{amp:1,step:7,shadow:o.shadow==null?.8:o.shadow}),w,h};SL.set(key,L)}
+  draw(L.p,x,y,o.r||0,o.s||1,{alpha:o.alpha,j:o.j,over:c=>{c.font=font;c.fillStyle=o.col||C.ink;c.textAlign='center';c.textBaseline='middle';lines.forEach((l,i)=>c.fillText(l,0,(i-(lines.length-1)/2)*size*1.35+1))}});return L}
+return{C,ROBES,person,hopper,slip,shade}})();
+
+</script>
+<script>
+(()=>{
+const {piece,draw,label,text,rect,ell,blob,star,tape,thread,dyn}=P,{person,ROBES}=FG;
+const $=id=>document.getElementById(id);
+const lerp=(a,b,t)=>a+(b-a)*t,clamp=v=>Math.max(0,Math.min(1,v)),ease=t=>t<.5?2*t*t:1-Math.pow(-2*t+2,2)/2;
+const seg=(t,a,b)=>clamp((t-a)/(b-a)),step=(v,n)=>Math.floor(v*n)/n;
+/* ---------- the desk ---------- */
+const wood=piece(rect(0,0,1200,760),'#3a2618',{amp:0,shadow:0,edge:0});
+const planks=[];for(let i=0;i<9;i++)planks.push(piece(rect(0,70+i*78,1200,74),i%2?'#4a3020':'#43291b',{amp:1.2,step:20,shadow:.3,edge:0}));
+const lampGlow=()=>{const c=P.ctx(),g=c.createRadialGradient(980,140,20,980,140,700);g.addColorStop(0,'rgba(255,214,150,.22)');g.addColorStop(1,'rgba(255,214,150,0)');c.fillStyle=g;c.fillRect(0,0,1200,760)};
+/* ---------- cached paper shapes ---------- */
+const PC=new Map();function pp(w,h,col,o){const k=w+'x'+h+col+(o?JSON.stringify(o):'');if(!PC.has(k))PC.set(k,piece(rect(-w/2,-h/2,w,h),col,Object.assign({amp:1.2,step:9,shadow:1},o||{})));return PC.get(k)}
+const PARCH='#ead8b0',PARCH2='#e2cc9c',INK='#2a2016',RED='#8c2a20',BRASS='#c9a14a',GREEN='#3f6a3a';
+function card(x,y,w,h,o){o=o||{};draw(pp(w,h,o.col||PARCH),x,y,o.r||0,o.s||1,{alpha:o.alpha,over:k=>{k.textAlign='center';k.textBaseline='middle';
+    if(o.kind){k.font='700 10px "Courier New",monospace';k.fillStyle=RED;k.fillText(o.kind.toUpperCase(),0,-h/2+16)}
+    if(o.title){k.font='700 15px Georgia,serif';k.fillStyle=INK;(o.title.split('|')).forEach((l,i)=>k.fillText(l,0,-h/2+(o.kind?36:24)+i*18))}
+    if(o.pic){k.fillStyle=o.pic;k.fillRect(-w/2+14,-h/2+(o.title?62:20),w-28,h*.42);k.strokeStyle='rgba(42,32,22,.5)';k.strokeRect(-w/2+14,-h/2+(o.title?62:20),w-28,h*.42)}
+    if(o.lines){k.strokeStyle='rgba(42,32,22,.35)';k.lineWidth=1.4;for(let i=0;i<o.lines;i++){const yy=-h/2+(o.pic?h*.42+80:60)+i*13;if(yy>h/2-14)break;k.beginPath();k.moveTo(-w/2+16,yy);k.lineTo(w/2-16-(i%3)*14,yy);k.stroke()}}
+    if(o.read){k.font='700 10px "Courier New",monospace';k.fillStyle=RED;k.strokeStyle=RED;k.strokeRect(-36,h/2-24,72,14);k.fillText('CLICK TO READ',0,h/2-17)}
+    if(o.over)o.over(k)}})}
+/* the pointing hand and its tap */
+const finger=piece([[-6,-46],[-2,-50],[4,-48],[6,-12],[14,-16],[20,-12],[22,-4],[28,-6],[32,0],[30,30],[20,46],[-12,46],[-22,28],[-24,6],[-18,-2],[-8,4]],'#d9a374',{amp:.6,step:5,shadow:1});
+const cuff=piece(rect(-24,44,48,30),'#6a4a3a',{amp:.6,step:5,shadow:.8});
+function hand(x,y,tap){const s=tap?.9:1;draw(cuff,x+2,y+2,0,s);draw(finger,x,y,0,s);if(tap){const c=P.ctx();c.save();c.strokeStyle='rgba(255,236,190,.9)';c.lineWidth=3;c.beginPath();c.arc(x,y-48,14+(P.frame%4)*5,0,7);c.stroke();c.restore()}}
+/* follow key positions [t,x,y,tap] */
+function path(t,K){let i=0;while(i<K.length-1&&t>K[i+1][0])i++;const a=K[i],b=K[Math.min(i+1,K.length-1)],u=b[0]>a[0]?step(ease(seg(t,a[0],b[0])),6):1;return{x:lerp(a[1],b[1],u),y:lerp(a[2],b[2],u),tap:t>=b[0]-.05&&t<b[0]+.35&&b[3]}}
+const seal=piece(blob(0,0,60,58,5,.12),'#9a2a1e',{amp:1,step:6,shadow:1.1}),sealIn=piece(ell(0,0,40,40,18),'#7e2016',{amp:.6,step:5,shadow:0});
+function waxSeal(x,y,s,txt){draw(seal,x,y,0,s);draw(sealIn,x,y,0,s,{over:k=>{k.fillStyle='#f1d3ae';k.font='italic 700 20px Georgia,serif';k.textAlign='center';k.textBaseline='middle';k.fillText(txt||'B.I.B.',0,1)}})}
+const pin=piece(ell(0,0,8,8,10),'#b8261c',{amp:.3,step:4,shadow:.8});
+const padBody=piece([[-34,0],[34,0],[38,66],[-38,66]],BRASS,{amp:.6,step:6,shadow:1}),key=piece(ell(0,0,7,7,8),'#3a2a14',{amp:.3,step:4,shadow:0});
+function padlock(x,y,s,open){const c=P.ctx();c.save();c.strokeStyle='#8a8a80';c.lineWidth=9*s;c.lineCap='round';c.beginPath();c.arc(x,y-(open?22:0)*s,24*s,Math.PI,2*Math.PI);c.lineTo(x+24*s,y+(open?-22:4)*s);c.moveTo(x-24*s,y-(open?22:0)*s);c.lineTo(x-24*s,y+4*s);c.stroke();c.restore();draw(padBody,x,y,0,s,{over:k=>{k.fillStyle='#3a2a14';k.beginPath();k.arc(0,26,7,0,7);k.fill();k.fillRect(-3,28,6,16)}})}
+const stampBox=(x,y,txt,col,r,s)=>{const c=P.ctx();c.save();c.translate(x,y);c.rotate(r||-.18);c.scale(s||1,s||1);c.strokeStyle=col;c.fillStyle=col;c.lineWidth=4;c.globalAlpha=.85;c.font='700 26px "Courier New",monospace';const w=c.measureText(txt).width+26;c.strokeRect(-w/2,-22,w,44);c.textAlign='center';c.textBaseline='middle';c.fillText(txt,0,2);c.restore()};
+/* ---------- the app's own top bar, in paper ---------- */
+const BAR=[['cases','← Cases',70],['desk','🗂 Desk',170],['locks','🔒 Locks',268],['board','📌 Pinboard',384],['wrong','✖ Wrong',506],['bible','📖 Bible',612],['sheet','🖨 Sheet',708],['notes','📝 Notes',806]];
+const barStrip=piece(rect(0,0,1200,60),'#22170f',{amp:0,shadow:1,edge:0});
+function topbar(on,pips){draw(barStrip,0,0);BAR.forEach(([id,txt,x])=>{const lit=on.includes(id),w=id==='board'?112:id==='locks'||id==='wrong'?100:86;
+    draw(pp(w,40,lit?'#7a2a1c':'#3a2a1c',{shadow:.6}),x,30,0,lit?(P.frame%12<6?1.06:1.02):1,{over:k=>{k.font='700 14px Georgia,serif';k.fillStyle=lit?'#f6ead2':'#d9c9a8';k.textAlign='center';k.textBaseline='middle';const t2=txt+(id==='locks'?' '+(pips.locks||'0/2'):id==='wrong'?' '+(pips.wrong||'0/5'):'');k.fillText(t2,0,1)}})});
+  text('CASE JM-13 · The Twelve Reports',1040,30,{font:'700 14px Georgia,serif',col:'rgba(233,216,176,.75)'})}
+/* ---------- the eight chapters ---------- */
+const CH=[
+{t:'Choose a case',bar:['cases'],D:7.5,txt:'Pick your <b>reading level</b> (Easy or Medium), then tap a <b>case poster</b> on the shelf to take it down.',tip:'Each case is a real Bible story with a question to investigate.',
+ draw(t){draw(pp(1000,150,PARCH,{shadow:1.2}),600,150,-.01,1,{over:k=>{k.textAlign='center';k.fillStyle=INK;k.font='700 52px Georgia,serif';k.fillText('B.I.B.',0,-22);k.font='700 18px Georgia,serif';k.fillText('BIBLE INVESTIGATION BUREAU',0,22);k.font='italic 15px Georgia,serif';k.fillStyle='#5c4b36';k.fillText('Take down a case and work it.',0,50)}});tape(140,84,-.2);tape(1060,84,.2);
+  const lv=t>2.2?1:0;draw(pp(300,52,'#2a1c12',{shadow:.6}),600,272,0,1,{over:k=>{k.font='700 12px "Courier New",monospace';k.fillStyle='#bfae86';k.textAlign='center';k.textBaseline='middle';k.fillText('READING LEVEL',-84,1);[['Easy',40],['Medium',104]].forEach(([w,x],i)=>{k.fillStyle=(i===lv)?BRASS:'#3a2a1c';k.fillRect(x-30,-14,60,28);k.fillStyle=(i===lv)?'#2a1c12':'#d9c9a8';k.font='700 13px Georgia,serif';k.fillText(w,x,1)})}});
+  const P4=[['THE TWELVE|REPORTS','#6f7a3c'],['THE|CROSSING','#4f7592'],['THE ROCK AT|MERIBAH','#9a7650'],['THE CONTEST|ON CARMEL','#c4923e']];draw(pp(1100,24,'#5a3a22',{shadow:1.2}),600,610);
+  P4.forEach(([n,c],i)=>{const x=210+i*260,lift=i===0?ease(seg(t,4.6,5.6)):0;card(x,470-lift*60,190,250,{col:'#efe2c2',kind:'Case JM-'+['13','14','20','18'][i],title:n,pic:c,r:(i%2?.03:-.03)*(1-lift),s:1+lift*.12});draw(pin,x,352-lift*60)});
+  if(t>5.6)label('taken down ✓',210,640,{size:14,bg:'#dfe5c8',col:'#3c4a1c',tape:true});
+  const h=path(t,[[0,900,700,0],[1.8,704,302,1],[2.6,704,302,0],[4.2,214,520,0],[4.6,214,520,1],[7.5,214,520,0]]);hand(h.x,h.y,h.tap)}},
+{t:'Untie the file',bar:[],D:6.5,txt:'The case opens as a closed folder. <b>Tap it</b> to untie the string and spread the documents on your desk.',tip:'Everything on the desk is yours to read straight away.',
+ draw(t){const u=seg(t,1.6,3.0),o=seg(t,3.0,4.0);text('THE TWELVE REPORTS',600,120,{font:'700 40px Georgia,serif',col:'#f0e2c4'});text('CLICK THE FILE TO UNTIE IT',600,160,{size:14,col:'rgba(233,216,176,.6)'});
+  if(o>0){[[-330,40,-.15],[-160,-20,.08],[170,-10,-.06],[330,50,.12],[0,110,.02]].forEach(([dx,dy,r],i)=>{const k=step(seg(t,3.2+i*.15,4.2+i*.15),5);card(600+dx*k,440+dy*k,170,200,{kind:['Briefing','Reports','Evidence','Roster','Plan'][i],title:['The Letter','Two Reports','The Fruit','The Twelve','The Route'][i],lines:6,r:r*k,read:k>=1})})}
+  if(o<1){const c=P.ctx();draw(pp(300,380,'#c8a46a',{shadow:1.3}),600,440,-.02,1,{alpha:1-o,over:k=>{k.strokeStyle=RED;k.lineWidth=3;k.strokeRect(-110,90,180,40);k.fillStyle=RED;k.font='700 22px "Courier New",monospace';k.textAlign='center';k.fillText('CONFIDENTIAL',-20,118);k.fillStyle='#f1e6c8';k.fillRect(-120,-160,150,60);k.fillStyle=INK;k.font='700 15px Georgia,serif';k.fillText('The Twelve',-45,-128);k.fillText('Reports',-45,-110)}});
+    c.save();c.globalAlpha=1-o;c.strokeStyle='#9a2a1e';c.lineWidth=5;const turns=Math.round((1-u)*3);c.beginPath();c.moveTo(700,260);c.lineTo(700,620);c.stroke();for(let i=0;i<turns;i++){c.beginPath();c.ellipse(700,440,22+i*6,14+i*4,i,0,7);c.stroke()}if(u>0){c.beginPath();c.moveTo(700,440);c.quadraticCurveTo(760,480+u*80,780,560+u*90);c.stroke()}c.restore();draw(pp(30,30,'#5a2a14',{shadow:.6}),700,440,0,1,{alpha:1-o})}
+  const h=path(t,[[0,960,700,0],[1.4,712,480,1],[2,712,480,0],[6.5,960,700,0]]);hand(h.x,h.y,h.tap)}},
+{t:'Read the Supervisor’s letter',bar:['desk'],D:7,txt:'Start with the <b>Letter from the Case Supervisor</b>. It tells you the question, the <b>two locks</b>, and when to go to the <b>Pinboard</b>.',tip:'Look for “✒ Watch the briefing” on the letter for a 40-second version.',
+ draw(t){const u=step(ease(seg(t,.3,1.6)),6);draw(pp(620,560,PARCH,{shadow:1.4}),440,400,-.01,1,{sy:u,over:k=>{if(u<1)return;k.textAlign='left';k.fillStyle=RED;k.font='700 11px "Courier New",monospace';k.fillText('BRIEFING',-280,-240);k.fillStyle=INK;k.font='700 26px Georgia,serif';k.fillText('Letter from the Case Supervisor',-280,-206);
+    k.strokeStyle='rgba(42,32,22,.35)';k.lineWidth=1.5;for(let i=0;i<14;i++){const y=-170+i*26;if(i===4||i===9)continue;k.beginPath();k.moveTo(-280,y);k.lineTo(270-(i%4)*40,y);k.stroke()}
+    k.fillStyle='#5a6a3a';k.font='700 12px "Courier New",monospace';k.fillText('YOUR TASK',-280,-60);k.fillText('HOW THE FILE WORKS',-280,70);k.fillStyle=INK;k.font='italic 700 18px Georgia,serif';k.fillText('Mordecai ben Jair',60,250)}});
+  if(t>2)label('① the question you must answer',960,250,{size:14,bg:'#fff6d8',r:.03,tape:true});if(t>3)label('② two locked parts of the file',960,340,{size:14,bg:'#fff6d8',r:-.02,tape:true});if(t>4)label('③ then go to the Pinboard',960,430,{size:14,bg:'#fff6d8',r:.03,tape:true});
+  if(t>5)draw(pp(230,40,'#7a2a1c',{shadow:.8}),440,705,0,P.frame%12<6?1.05:1,{over:k=>{k.fillStyle='#f6ead2';k.font='700 15px Georgia,serif';k.textAlign='center';k.textBaseline='middle';k.fillText('✒ Watch the briefing',0,1)}});
+  const h=path(t,[[0,1000,720,0],[5.4,480,760,0],[5.9,480,760,1],[7,640,760,0]]);hand(h.x,h.y,h.tap)}},
+{t:'Work the desk',bar:['desk','notes'],D:8.5,txt:'<b>Tap a card to read it.</b> Drag cards around, and use <b>Add string</b> to tie related cards together. Jot clues in <b>📝 Notes</b>.',tip:'Reading is always free. Read everything, slowly.',
+ draw(t){const D=[[300,280,-.06,'Two Reports'],[560,240,.04,'The Fruit'],[840,280,-.03,'The Twelve'],[380,520,.05,'The Route'],[700,520,-.04,'Outcome']];const drag=ease(seg(t,4.2,5.4));
+  D.forEach(([x,y,r,n],i)=>{let X=x,Y=y;if(i===4){X=lerp(x,880,step(drag,6));Y=lerp(y,520,step(drag,6))}card(X,Y,190,220,{kind:'Evidence',title:n,lines:7,r,read:true})});
+  const sx=lerp(700,880,step(drag,6));if(t>5.8){thread([[300,180],[(300+sx)/2,250+Math.sin(P.t*2)*8],[sx,420]],'#b8261c',3,{wob:1});draw(pin,300,180);draw(pin,sx,420);label('string tied',600,215,{size:12,bg:'#fbf6e8',r:-.04})}
+  const op=seg(t,1.2,1.7)*(1-seg(t,3.4,3.8));if(op>0){const c=P.ctx();c.save();c.fillStyle=`rgba(10,6,2,${.5*op})`;c.fillRect(0,60,1200,700);c.restore();card(600,420,520,560,{kind:'Reports',title:'The Two Reports, Side by Side',lines:20,s:.4+.6*step(op,4),alpha:op})}
+  if(t>6.6){draw(pp(250,190,'#f6efd8',{shadow:1}),1040,610,.04,1,{over:k=>{k.fillStyle=INK;k.font='700 15px Georgia,serif';k.fillText('📝 Notes',-100,-70);k.strokeStyle='#2f4a7a';k.lineWidth=2;const n=Math.floor(seg(t,6.8,8.2)*4);for(let i=0;i<n;i++){k.beginPath();k.moveTo(-100,-40+i*30);for(let x=0;x<160;x+=8)k.lineTo(-100+x,-40+i*30+Math.sin(x*.4+i)*3);k.stroke()}}})}
+  const h=path(t,[[0,1000,720,0],[1,840,330,1],[3.6,840,330,0],[4.2,700,560,1],[5.4,880,560,0],[6.2,930,40,1],[8.5,930,90,0]]);hand(h.x,h.y,h.tap)}},
+{t:'Break the two locks',bar:['locks'],D:10,txt:'Open <b>🔒 Locks</b>. Each lock asks questions whose answers are <b>in your documents</b>. The first takes a number code; the second a keyword from a tool (a grid, a crossword…). Each lock opens <b>new documents</b>.',tip:'Field Chest B opens with the first code; Sealed Pouch C with the second.',
+ draw(t){draw(pp(900,520,'#1b1410',{shadow:1.3,grain:1}),600,420,0,1,{over:k=>{k.fillStyle='#f0e6d6';k.font='700 24px Georgia,serif';k.fillText('Locked parts of the file',-410,-215);k.font='12px Georgia,serif';k.fillStyle='#a08d6d';k.fillText('Every code is hidden in the documents you already have.',-410,-192)}});
+  const open1=t>4.6,open2=t>8;const digits=[2,1,2,0];
+  draw(pp(820,190,'#2a2018',{shadow:.6}),600,330,0,1,{over:k=>{k.fillStyle='#f0e6d6';k.font='700 18px Georgia,serif';k.fillText('Field Chest B — the survey papers',-300,-60);k.font='13px Georgia,serif';k.fillStyle='#cdbb98';['How many brought back a good report?','How many things did all twelve agree on?','How many of that generation entered the land?','How many facts differ?'].forEach((q,i)=>k.fillText((i+1)+'  '+q,-300,-30+i*20))}});
+  padlock(240,320,1,open1);digits.forEach((d,i)=>{const shown=t>1.4+i*.7;const roll=shown?d:Math.floor(P.frame/2+i*3)%10;draw(pp(46,60,'#0f0b08',{shadow:.4}),760+i*52,330,0,1,{over:k=>{k.fillStyle=shown?BRASS:'#6a5a40';k.font='700 34px "Courier New",monospace';k.textAlign='center';k.textBaseline='middle';k.fillText(String(roll),0,2)}})});
+  for(let i=0;i<4;i++){const a=seg(t,1.0+i*.7,1.4+i*.7);if(a>0&&a<1){const k=step(a,5);card(lerp(320+i*120,760+i*52,k),lerp(700,330,k),70,80,{lines:3,s:.8})}}
+  if(open1){stampBox(600,330,'OPEN',GREEN,-.12);const k=step(seg(t,4.8,5.8),5);[0,1,2].forEach(i=>card(150+i*80+k*0,lerp(680,640,k),100,120,{kind:'Chest B',lines:4,r:(i-1)*.1,alpha:k}))}
+  draw(pp(820,150,'#2a2018',{shadow:.6}),600,560,0,1,{over:k=>{k.fillStyle='#f0e6d6';k.font='700 18px Georgia,serif';k.fillText('Sealed Pouch C — what the grid proves',-300,-40);k.font='13px Georgia,serif';k.fillStyle='#cdbb98';k.fillText('Use the tool in the top bar, then type the keyword.',-300,-14)}});
+  padlock(240,560,1,open2);const W='LEVEL';for(let i=0;i<5;i++){const sh=t>6+i*.35;draw(pp(44,50,sh?'#efe2c2':'#3a2c20',{shadow:.4}),740+i*50,580,0,1,{over:k=>{if(!sh)return;k.fillStyle=INK;k.font='700 28px Georgia,serif';k.textAlign='center';k.textBaseline='middle';k.fillText(W[i],0,2)}})}
+  if(open2)stampBox(600,560,'OPEN',GREEN,.1);
+  const h=path(t,[[0,1050,740,0],[3.8,980,380,1],[4.4,980,380,0],[7.6,1010,620,1],[10,1050,740,0]]);hand(h.x,h.y,h.tap)}},
+{t:'Five wrong answers',bar:['wrong'],D:7,txt:'Watch <b>✖ Wrong</b>. A team may be wrong <b>5 times</b> on a case. A <b>wrong code</b> or a <b>wrong name</b> costs one.',tip:'Reading, notes, and checking the grid or the Pinboard are free. Only committing to an answer costs.',
+ draw(t){const bad=t>1.8;draw(pp(560,170,'#1b1410',{shadow:1.2}),600,240,0,1,{over:k=>{k.fillStyle='#f0e6d6';k.font='700 18px Georgia,serif';k.fillText('Enter code',-250,-50)}});[9,9,9,9].forEach((d,i)=>draw(pp(46,60,'#0f0b08',{shadow:.4}),470+i*56,250,0,1,{over:k=>{k.fillStyle=BRASS;k.font='700 34px "Courier New",monospace';k.textAlign='center';k.textBaseline='middle';k.fillText(t>.8+i*.2?'9':'·',0,2)}}));
+  if(bad){stampBox(740,250,'WRONG',RED,-.15,1+(t<2.1?.3:0));}
+  for(let i=0;i<5;i++){const used=bad&&i===0;draw(pp(70,70,used?'#f2d7cc':'#efe2c2',{shadow:.8}),360+i*120,470,0,1,{over:k=>{k.textAlign='center';k.textBaseline='middle';k.font='700 40px Georgia,serif';k.fillStyle=used?RED:'rgba(42,32,22,.2)';k.fillText('✖',0,2)}})}
+  text(bad?'1 used · 4 left':'0 used · 5 left',600,540,{font:'700 20px Georgia,serif',col:'#f0e2c4'});
+  if(t>3.2){draw(pp(400,120,'#f2d7cc',{shadow:.8}),360,660,-.02,1,{over:k=>{k.fillStyle=RED;k.font='700 15px "Courier New",monospace';k.fillText('COSTS ONE',-170,-30);k.fillStyle=INK;k.font='15px Georgia,serif';k.fillText('a wrong lock code',-170,0);k.fillText('a wrong name in an enquiry',-170,24)}});
+    draw(pp(400,120,'#dfe5c8',{shadow:.8}),840,660,.02,1,{over:k=>{k.fillStyle=GREEN;k.font='700 15px "Courier New",monospace';k.fillText('ALWAYS FREE',-170,-30);k.fillStyle=INK;k.font='15px Georgia,serif';k.fillText('reading, notes, the Bible',-170,0);k.fillText('checking a grid or the Pinboard',-170,24)}})}
+  const h=path(t,[[0,1050,740,0],[1.4,560,300,1],[2,560,300,0],[7,1050,740,0]]);hand(h.x,h.y,h.tap)}},
+{t:'The Pinboard',bar:['board'],D:10,txt:'On <b>📌 Pinboard</b> there are <b>five explanations</b>. For each one, <b>tap a piece of evidence</b>, then <b>tap the explanation it disproves</b>. Press <b>Test the board</b>.',tip:'Testing the board is free. Wrong pins just come back unlocked.',
+ draw(t){draw(pp(1120,640,'#8a5a32',{shadow:1.3,grain:1}),600,420,0,1,{over:k=>{k.fillStyle='rgba(60,30,10,.25)';for(let i=0;i<300;i++){k.fillRect(-560+((i*97)%1120),-320+((i*53)%640),3,3)}}});
+  const T=[[230,250],[450,250],[670,250],[890,250],[340,440]];const tested=t>7.6;
+  T.forEach(([x,y],i)=>{const filled=t>2.6+i*.9;card(x,y,200,150,{col:'#f1e6c8',title:['1. They lied','2. They exaggerated','3. Different regions','4. Under orders','5. Decided already'][i],r:(i%2?.03:-.02),over:k=>{k.strokeStyle='rgba(42,32,22,.4)';k.setLineDash([4,4]);k.strokeRect(-84,10,168,40);k.setLineDash([]);if(filled){k.fillStyle=tested?'#dfe5c8':'#fbf6e8';k.fillRect(-84,10,168,40);k.fillStyle=INK;k.font='700 12px Georgia,serif';k.textAlign='center';k.fillText(['The Grapes','Side by Side','The Route','The Orders','The Record'][i],0,32)}else{k.fillStyle='rgba(42,32,22,.5)';k.font='11px Georgia,serif';k.textAlign='center';k.fillText('pin the evidence',0,32)}}});draw(pin,x,y-70);
+    if(tested&&t>7.8+i*.3)stampBox(x,y-10,'CLOSED',GREEN,-.2,.8)});
+  for(let i=0;i<5;i++){const used=t>2.6+i*.9;if(!used)draw(pp(110,46,'#e9d9b2',{shadow:.8}),620+i*120,640,(i%2?.06:-.06),1,{over:k=>{k.fillStyle=INK;k.font='700 11px Georgia,serif';k.textAlign='center';k.textBaseline='middle';k.fillText(['The Grapes','Side by Side','The Route','The Orders','The Record'][i],0,1)}});if(!used)thread([[620+i*120-50,622],[620+i*120-62,600]],'#b8261c',2,{wob:.5})}
+  draw(pp(200,48,'#7a2a1c',{shadow:.8}),300,640,0,t>7&&t<7.8?1.06:1,{over:k=>{k.fillStyle='#f6ead2';k.font='700 16px Georgia,serif';k.textAlign='center';k.textBaseline='middle';k.fillText('Test the board',0,1)}});
+  const K=[[0,1050,740,0]];for(let i=0;i<5;i++){const b=2.0+i*.9;K.push([b,620+i*120,660,1],[b+.45,T[i][0],T[i][1]+30,1])}K.push([7.2,300,660,1],[10,1050,740,0]);const h=path(t,K);hand(h.x,h.y,h.tap)}},
+{t:'File your accusation',bar:['board'],D:8,txt:'When all five are closed, the <b>Accusation form</b> opens. Choose your conclusion and <b>write your reasoning</b>, naming at least <b>two pieces of evidence</b>. Then file it.',tip:'A closed case raises your rank on the shelf: Probationer → Junior Investigator → …',
+ draw(t){draw(pp(640,600,PARCH,{shadow:1.4}),600,410,.005,1,{over:k=>{k.fillStyle=RED;k.font='700 11px "Courier New",monospace';k.fillText('FINAL STEP',-290,-260);k.fillStyle=INK;k.font='700 26px Georgia,serif';k.fillText('Accusation Form — JM-13',-290,-226);
+    ['Somebody lied about the land','They saw different places','They shared every fact, but measured them differently'].forEach((c2,i)=>{const sel=t>1.6&&i===2;k.fillStyle=sel?'#e6d3a0':'#f6efdc';k.fillRect(-290,-190+i*52,580,42);k.strokeStyle=sel?RED:'rgba(42,32,22,.35)';k.lineWidth=sel?3:1;k.strokeRect(-290,-190+i*52,580,42);k.fillStyle=INK;k.font='15px Georgia,serif';k.fillText(c2,-276,-164+i*52)});
+    k.fillStyle='#5a6a3a';k.font='700 12px "Courier New",monospace';k.fillText('GIVE YOUR REASONING · NAME AT LEAST TWO PIECES OF EVIDENCE',-290,0);k.strokeStyle='rgba(42,32,22,.3)';for(let i=0;i<5;i++){k.beginPath();k.moveTo(-290,30+i*30);k.lineTo(290,30+i*30);k.stroke()}
+    const n=seg(t,2.4,4.6);k.strokeStyle='#2f4a7a';k.lineWidth=2;for(let i=0;i<4;i++){const w=clamp(n*4-i)*560;if(w<=0)continue;k.beginPath();k.moveTo(-286,24+i*30);for(let x=0;x<w;x+=7)k.lineTo(-286+x,24+i*30+Math.sin(x*.35+i)*3);k.stroke()}
+    k.fillStyle='#3f6a3a';k.fillRect(-90,200,180,44);k.fillStyle='#f6ead2';k.font='700 16px Georgia,serif';k.textAlign='center';k.fillText('File the conclusion',0,228)}});
+  if(t>5.6){const k=step(seg(t,5.6,6.1),4);waxSeal(820,600,2.2-k*1.0,'B.I.B.');if(k>=1)stampBox(600,560,'CASE CLOSED',RED,-.12,1.3)}
+  if(t>6.6){draw(pp(360,70,'#2a1c12',{shadow:1}),600,700,0,1,{over:k=>{k.fillStyle=BRASS;k.font='700 18px Georgia,serif';k.textAlign='center';k.textBaseline='middle';k.fillText('Rank: Junior Investigator ▲',0,1)}})}
+  const h=path(t,[[0,1050,740,0],[1.4,840,300,1],[2,840,300,0],[5.2,600,660,1],[8,1050,740,0]]);hand(h.x,h.y,h.tap)}}
+];
+/* ---------- running it ---------- */
+const st={ch:0,t:0,auto:false};
+function backdrop(){draw(wood,0,0);planks.forEach((p,i)=>draw(p,0,0));lampGlow()}
+function update(dt){st.t+=dt;const c=CH[st.ch];if(st.t>c.D+1.2){if(st.auto&&st.ch<CH.length-1){go(st.ch+1)}else st.t=st.auto&&st.ch===CH.length-1?c.D:0}}
+function scene(){const c=CH[st.ch],t=Math.min(st.t,c.D);c.draw(t);topbar(c.bar,{locks:st.ch===4?(t>8?'2/2':t>4.6?'1/2':'0/2'):st.ch>4?'2/2':'0/2',wrong:st.ch===5&&t>1.8?'1/5':'0/5'});
+  label(`STEP ${st.ch+1} OF ${CH.length}`,90,104,{size:13,bg:'#fff6d8',col:RED,r:-.04,tape:true})}
+function go(n){st.ch=Math.max(0,Math.min(CH.length-1,n));st.t=0;ui()}
+function ui(){const c=CH[st.ch];$('num').textContent=`Step ${st.ch+1} of ${CH.length}`;$('ttl').textContent=c.t;$('txt').innerHTML=c.txt;$('tip').innerHTML=c.tip;
+  $('back').disabled=st.ch===0;$('next').textContent=st.ch===CH.length-1?'Watch again ↺':'Next step ▸';$('auto').textContent=st.auto?'❚❚ Stop playing':'▶ Play all';
+  $('dots').innerHTML=CH.map((c2,i)=>`<button class="dot${i===st.ch?' on':''}${i<st.ch?' done':''}" data-i="${i}" title="${c2.t}">${i+1}</button>`).join('');$('dots').querySelectorAll('button').forEach(b=>b.onclick=()=>go(+b.dataset.i))}
+P.start({touch:'pan-y',backdrop,update,draw:scene,down(){go(st.ch<CH.length-1?st.ch+1:0);return false}},$('cv'));
+$('next').onclick=()=>go(st.ch<CH.length-1?st.ch+1:0);$('back').onclick=()=>go(st.ch-1);$('auto').onclick=()=>{st.auto=!st.auto;if(st.auto&&st.ch===CH.length-1)go(0);ui()};
+ui();window.__test={st,go};
+})();
+
+</script>
+</body>
+</html>

@@ -944,6 +944,8 @@ tr.ppmxf td{background:#efe9dc}
   box-shadow:inset 0 1px 0 rgba(255,255,255,.35), 0 1px 3px rgba(0,0,0,.35);
 }
 .shelf-lvl{justify-content:center;margin:14px auto 0}
+.howto-b{display:block;margin:12px auto 0;min-height:44px;padding:10px 22px;font:700 16px Georgia,serif;color:#2a1c12;background:linear-gradient(#e2c06a,#c9a14a);border:1px solid #6b4e1e;border-radius:4px;box-shadow:0 3px 10px rgba(0,0,0,.45);cursor:pointer}
+.howto-b:hover{filter:brightness(1.06)}
 @media (max-width:760px){
   .lvl-cap{display:none}
   .lvl-b{padding:5px 9px}
@@ -2069,7 +2071,7 @@ button.tourbtn{cursor:pointer;font-family:var(--ui-font)}
 </div>
 
 <div id="shelf"></div>
-<div id="buildTag" title="Which build of the app this is. If a new feature is missing, reload the page and check this changes.">build 20261020-0913</div>
+<div id="buildTag" title="Which build of the app this is. If a new feature is missing, reload the page and check this changes.">build 20261028-0238</div>
 
 <script>
 const SVG = {};
@@ -3305,6 +3307,7 @@ function renderShelf(){
         <button class="lvl-b" data-lvl="easy">Easy</button>
         <button class="lvl-b" data-lvl="medium">Medium</button>
       </div>
+      <button class="howto-b" data-howto>\u2753 How to play</button>
     </div>
     <div class="shelfwrap">
     <div class="bureau">
@@ -4033,6 +4036,15 @@ function tourLink(item, where){
   return `<div class="tourbar${after?" anim":""}">${btn}
     <span class="tournote">${item.tour.note || ""}</span></div>`;
 }
+/* the "How to play" walkthrough on the shelf: not a card, but opened the same way */
+const HOWTO = {id:"howto", title:"From the shelf to the accusation, step by step",
+  tour:{href:"../tours/how-to-play.html", label:"\u2753 How to play"}};
+document.addEventListener("click", e=>{
+  const b = e.target.closest("[data-howto]");
+  if(!b) return;
+  e.preventDefault();
+  openTour(HOWTO);
+});
 function openTour(item){
   if(!item || !item.tour) return;
   const o = el("div","overlay tourview", `

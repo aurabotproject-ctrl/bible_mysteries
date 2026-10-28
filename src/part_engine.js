@@ -177,6 +177,7 @@ function renderShelf(){
         <button class="lvl-b" data-lvl="easy">Easy</button>
         <button class="lvl-b" data-lvl="medium">Medium</button>
       </div>
+      <button class="howto-b" data-howto>\u2753 How to play</button>
     </div>
     <div class="shelfwrap">
     <div class="bureau">
@@ -905,6 +906,15 @@ function tourLink(item, where){
   return `<div class="tourbar${after?" anim":""}">${btn}
     <span class="tournote">${item.tour.note || ""}</span></div>`;
 }
+/* the "How to play" walkthrough on the shelf: not a card, but opened the same way */
+const HOWTO = {id:"howto", title:"From the shelf to the accusation, step by step",
+  tour:{href:"../tours/how-to-play.html", label:"\u2753 How to play"}};
+document.addEventListener("click", e=>{
+  const b = e.target.closest("[data-howto]");
+  if(!b) return;
+  e.preventDefault();
+  openTour(HOWTO);
+});
 function openTour(item){
   if(!item || !item.tour) return;
   const o = el("div","overlay tourview", `
